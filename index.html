@@ -16,6 +16,42 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
+<!-- Firebase SDK (module) -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import {
+  getFirestore, collection, getDocs, onSnapshot
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+/* ═══════════════════════════════════════════════════════════
+   🔧 PASTE YOUR FIREBASE CONFIG HERE
+   Replace everything between { } with the config object from
+   Firebase Console → Project Settings → Your apps → SDK setup
+   ═══════════════════════════════════════════════════════════ */
+const firebaseConfig = {
+  apiKey: "PASTE_YOUR_API_KEY_HERE",
+  authDomain: "PASTE_YOUR_AUTH_DOMAIN_HERE",
+  projectId: "PASTE_YOUR_PROJECT_ID_HERE",
+  storageBucket: "PASTE_YOUR_STORAGE_BUCKET_HERE",
+  messagingSenderId: "PASTE_YOUR_SENDER_ID_HERE",
+  appId: "PASTE_YOUR_APP_ID_HERE"
+};
+/* ═══════════════════════════════════════════════════════════
+   END CONFIG
+   ═══════════════════════════════════════════════════════════ */
+
+let fbApp, db;
+const configMissing = firebaseConfig.apiKey.startsWith('PASTE_');
+if(!configMissing){
+  try {
+    fbApp = initializeApp(firebaseConfig);
+    db = getFirestore(fbApp);
+  } catch(e){ console.error('Firebase init failed', e); }
+}
+
+window.hgFb = { db, collection, getDocs, onSnapshot, configMissing };
+</script>
+
 <style>
   :root{
     --ink:#1A140F;
@@ -31,7 +67,6 @@
     --plum:#3E2530;
     --line:rgba(26,20,15,0.14);
     --line-soft:rgba(26,20,15,0.08);
-    --line-light:rgba(245,239,226,0.16);
     --max:1280px;
   }
 
@@ -47,6 +82,7 @@
     overflow-x:hidden;
   }
   body.loading{overflow:hidden; height:100vh;}
+  body.no-scroll{overflow:hidden;}
   img{max-width:100%; display:block;}
   a{color:inherit; text-decoration:none;}
   button{font-family:inherit; cursor:pointer; border:none; background:none; color:inherit;}
@@ -74,7 +110,7 @@
     background:var(--rust);
   }
 
-  /* ---------- Custom cursor ---------- */
+  /* ==================== CUSTOM CURSOR ==================== */
   .cursor-dot, .cursor-ring{
     position:fixed;
     top:0; left:0;
@@ -105,12 +141,10 @@
     .cursor-dot, .cursor-ring{display:none;}
   }
 
-  /* ---------- Grain overlay ---------- */
+  /* ==================== GRAIN OVERLAY ==================== */
   .grain{
-    position:fixed;
-    inset:0;
-    z-index:9998;
-    pointer-events:none;
+    position:fixed; inset:0;
+    z-index:9998; pointer-events:none;
     opacity:.06;
     background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
     animation:grain 6s steps(6) infinite;
@@ -123,7 +157,7 @@
     80%{transform:translate(1%,2%);}
   }
 
-  /* ---------- Intro loader ---------- */
+  /* ==================== INTRO LOADER ==================== */
   .intro{
     position:fixed; inset:0;
     z-index:10000;
@@ -163,7 +197,7 @@
   .curtain .left{transform-origin:left center;}
   .curtain .right{transform-origin:right center;}
 
-  /* ---------- Header ---------- */
+  /* ==================== HEADER ==================== */
   header{
     position:fixed; top:0; left:0; right:0;
     z-index:100;
@@ -182,7 +216,6 @@
     display:flex; align-items:center; justify-content:space-between;
     gap:32px;
   }
-  .brand{display:flex; align-items:center; gap:12px;}
   .brand-mark{
     font-family:'Fraunces', serif;
     font-size:26px;
@@ -232,14 +265,12 @@
     display:none;
     width:44px; height:44px;
     position:relative;
-    border-radius:50%;
-    transition:background .3s ease;
   }
   .menu-toggle span{
     position:absolute; left:12px;
     width:20px; height:1.5px;
     background:var(--ink);
-    transition:transform .3s ease, opacity .3s ease, top .3s ease, background .3s ease;
+    transition:transform .3s ease, top .3s ease, background .3s ease;
   }
   header.on-hero .menu-toggle span{background:var(--paper);}
   .menu-toggle span:nth-child(1){top:18px;}
@@ -247,7 +278,7 @@
   .menu-toggle.open span:nth-child(1){top:21px; transform:rotate(45deg);}
   .menu-toggle.open span:nth-child(2){top:21px; transform:rotate(-45deg);}
 
-  /* ---------- HERO ---------- */
+  /* ==================== HERO ==================== */
   .hero{
     position:relative;
     height:100vh;
@@ -291,7 +322,7 @@
     display:flex; flex-direction:column; justify-content:flex-end;
     color:var(--paper);
   }
-  .hero-eyebrow{ color:var(--gold-light); }
+  .hero-eyebrow{color:var(--gold-light);}
   .hero-eyebrow::before{background:var(--gold-light);}
   .hero-headline{
     font-size:clamp(48px, 9vw, 136px);
@@ -302,19 +333,15 @@
     margin:28px 0 0;
     max-width:14ch;
   }
-  .hero-headline .line{ display:block; overflow:hidden; }
+  .hero-headline .line{display:block; overflow:hidden;}
   .hero-headline .word-mask{
     display:inline-block;
     overflow:hidden;
     padding:0 0.04em 0.08em 0;
     vertical-align:bottom;
   }
-  .hero-headline .word{ display:inline-block; will-change:transform; }
-  .hero-headline em{
-    font-style:italic;
-    font-weight:340;
-    color:var(--gold-light);
-  }
+  .hero-headline .word{display:inline-block; will-change:transform;}
+  .hero-headline em{font-style:italic; font-weight:340; color:var(--gold-light);}
   .hero-sub{
     font-size:clamp(16px, 1.4vw, 19px);
     color:rgba(245,239,226,0.82);
@@ -327,7 +354,7 @@
     flex-wrap:wrap;
   }
   .btn{
-    display:inline-flex; align-items:center; gap:12px;
+    display:inline-flex; align-items:center; justify-content:center; gap:12px;
     padding:18px 32px;
     font-size:14.5px;
     font-weight:600;
@@ -404,7 +431,7 @@
     100%{top:100%;}
   }
 
-  /* ---------- Sections ---------- */
+  /* ==================== SECTIONS ==================== */
   section{position:relative;}
   .section-head{max-width:720px; margin-bottom:72px;}
   .section-head h2{
@@ -427,7 +454,7 @@
   .reveal-mask{overflow:hidden; display:block;}
   .reveal-mask > *{display:block; will-change:transform;}
 
-  /* ---------- Top Picks carousel ---------- */
+  /* ==================== TOP PICKS ==================== */
   .picks{
     background:var(--ink);
     color:var(--paper);
@@ -482,10 +509,7 @@
     width:100%; height:100%; object-fit:cover;
     transition:transform 1.2s cubic-bezier(.2,.7,.2,1), opacity .6s ease;
   }
-  .pick-media img.second{
-    position:absolute; inset:0;
-    opacity:0;
-  }
+  .pick-media img.second{position:absolute; inset:0; opacity:0;}
   .pick-card:hover .pick-media img.first{opacity:0;}
   .pick-card:hover .pick-media img.second{opacity:1;}
   .pick-tag{
@@ -558,21 +582,42 @@
     margin-top:40px;
     text-align:center;
   }
-  .picks-footer-cta .btn{
-    padding:20px 44px;
-    font-size:15px;
-  }
+  .picks-footer-cta .btn{padding:20px 44px; font-size:15px;}
   .picks-footer-cta p{
     font-size:13.5px;
     letter-spacing:0.04em;
     color:rgba(245,239,226,0.55);
   }
-  .picks-footer-cta p strong{
-    color:var(--gold-light);
-    font-weight:600;
+  .picks-footer-cta p strong{color:var(--gold-light); font-weight:600;}
+
+  /* Skeleton pick card */
+  .pick-skeleton{
+    background:#231B14;
+    border:1px solid rgba(245,239,226,0.08);
+    border-radius:4px;
+    overflow:hidden;
+  }
+  .pick-skeleton .sk-media{
+    aspect-ratio:4/5;
+    background:linear-gradient(90deg, #231B14 0%, #2E2419 50%, #231B14 100%);
+    background-size:200% 100%;
+    animation:shimmer 1.5s infinite;
+  }
+  .pick-skeleton .sk-line{
+    height:14px;
+    margin:20px 26px;
+    border-radius:3px;
+    background:linear-gradient(90deg, #2E2419 0%, #3A2E1E 50%, #2E2419 100%);
+    background-size:200% 100%;
+    animation:shimmer 1.5s infinite;
+  }
+  .pick-skeleton .sk-line.short{width:50%;}
+  @keyframes shimmer{
+    0%{background-position:200% 0;}
+    100%{background-position:-200% 0;}
   }
 
-  /* ---------- Shop by Room ---------- */
+  /* ==================== SHOP BY ROOM ==================== */
   .rooms{
     background:var(--ink);
     padding:0 0 140px;
@@ -641,7 +686,7 @@
     .rooms-grid .room{grid-column:span 12 !important; grid-row:span 1 !important;}
   }
 
-  /* ---------- About Section ---------- */
+  /* ==================== ABOUT SECTION ==================== */
   .about-section{
     display:grid;
     grid-template-columns:1fr 1fr;
@@ -767,7 +812,7 @@
     .about-stats{grid-template-columns:1fr;}
   }
 
-  /* ---------- Value Props ---------- */
+  /* ==================== VALUES ==================== */
   .values{
     position:relative;
     padding:160px 0;
@@ -808,7 +853,6 @@
     padding:56px 44px;
     background:rgba(26,20,15,0.55);
     backdrop-filter:blur(4px);
-    position:relative;
     transition:background .4s ease;
   }
   .value:hover{background:rgba(176,129,46,0.18);}
@@ -838,7 +882,7 @@
     .value{padding:40px 28px;}
   }
 
-  /* ---------- Services Teaser ---------- */
+  /* ==================== SERVICES ==================== */
   .services-teaser{
     position:relative;
     padding:160px 0;
@@ -903,7 +947,7 @@
     .services-grid{grid-template-columns:1fr;}
   }
 
-  /* ---------- Testimonials ---------- */
+  /* ==================== TESTIMONIALS ==================== */
   .testimonials{
     position:relative;
     padding:160px 0;
@@ -959,10 +1003,7 @@
     color:rgba(245,239,226,0.55);
     margin-top:4px;
   }
-  .testi-nav{
-    display:flex; gap:12px;
-    margin-top:56px;
-  }
+  .testi-nav{display:flex; gap:12px; margin-top:56px;}
   .testi-nav button{
     width:52px; height:52px;
     border-radius:50%;
@@ -989,7 +1030,7 @@
     width:64px;
   }
 
-  /* ---------- Trust Bar ---------- */
+  /* ==================== TRUST ==================== */
   .trust{
     background:var(--gold);
     padding:88px 0;
@@ -1054,12 +1095,11 @@
     .trust-grid{grid-template-columns:repeat(2, 1fr); gap:32px;}
   }
 
-  /* ---------- Footer ---------- */
+  /* ==================== FOOTER ==================== */
   footer{
     background:var(--plum);
     color:var(--paper);
     padding:96px 0 40px;
-    position:relative;
   }
   .footer-top{
     display:grid;
@@ -1125,7 +1165,7 @@
     .footer-top{grid-template-columns:1fr;}
   }
 
-  /* ---------- Floating WhatsApp ---------- */
+  /* ==================== FLOATING WHATSAPP ==================== */
   .wa-float{
     position:fixed;
     bottom:28px; right:28px;
@@ -1151,13 +1191,13 @@
     100%{transform:scale(1.35); opacity:0;}
   }
 
-  /* ---------- Reduced motion ---------- */
+  /* ==================== REDUCED MOTION ==================== */
   @media (prefers-reduced-motion: reduce){
     *{animation:none !important; transition:none !important;}
     .grain, .hero-scroll-line::after, .wa-float::before{display:none;}
   }
 
-  /* ---------- Mobile menu ---------- */
+  /* ==================== MOBILE MENU ==================== */
   @media (max-width:900px){
     .header-cta{display:none;}
     .menu-toggle{display:block;}
@@ -1182,10 +1222,14 @@
 </head>
 <body class="loading">
 
+<!-- Custom cursor -->
 <div class="cursor-dot"></div>
 <div class="cursor-ring"></div>
+
+<!-- Grain overlay -->
 <div class="grain"></div>
 
+<!-- Intro loader -->
 <div class="intro" id="intro">
   <div class="intro-scan" id="introScan"></div>
   <div class="intro-mark" id="introMark">
@@ -1197,13 +1241,12 @@
   <div class="right"></div>
 </div>
 
+<!-- ==================== HEADER ==================== -->
 <header id="header" class="on-hero">
   <div class="header-inner">
-    <a href="#" class="brand">
-      <span class="brand-mark">Handy<em>·</em>Gidi</span>
-    </a>
+    <a href="index.html" class="brand-mark">Handy<em>·</em>Gidi</a>
     <nav id="nav">
-      <a href="#shop" class="nav-link">Shop</a>
+      <a href="shop.html" class="nav-link">Shop</a>
       <a href="#about" class="nav-link">About</a>
       <a href="#rooms" class="nav-link">Rooms</a>
       <a href="#services" class="nav-link">Services</a>
@@ -1211,7 +1254,7 @@
       <a href="#contact" class="nav-link">Contact</a>
     </nav>
     <div style="display:flex; align-items:center; gap:16px;">
-      <a href="#shop" class="header-cta">
+      <a href="shop.html" class="header-cta">
         Shop the Collection
         <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M1 11L11 1M11 1H3M11 1V9" stroke="currentColor" stroke-width="1.5"/></svg>
       </a>
@@ -1222,6 +1265,7 @@
   </div>
 </header>
 
+<!-- ==================== HERO ==================== -->
 <section class="hero" id="hero">
   <video class="hero-video" autoplay muted loop playsinline poster="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=2400&q=85">
     <source src="https://cdn.coverr.co/videos/coverr-a-modern-office-1584/1080p.mp4" type="video/mp4">
@@ -1237,7 +1281,7 @@
     </h1>
     <p class="hero-sub" id="heroSub">Modern, affordable furniture crafted with precision and delivered ready to use. Executive offices, family homes, hotels, and everything in between.</p>
     <div class="hero-actions" id="heroActions">
-      <a href="#shop" class="btn btn-primary" data-magnetic>
+      <a href="shop.html" class="btn btn-primary" data-magnetic>
         <span>Explore the Collection</span>
         <svg width="14" height="14" viewBox="0 0 12 12" fill="none"><path d="M1 11L11 1M11 1H3M11 1V9" stroke="currentColor" stroke-width="1.5"/></svg>
       </a>
@@ -1256,7 +1300,7 @@
   </div>
 </section>
 
-<!-- ========= TOP PICKS ========= -->
+<!-- ==================== TOP PICKS ==================== -->
 <section class="picks" id="shop">
   <div class="wrap">
     <div class="picks-head">
@@ -1278,125 +1322,27 @@
 
   <div class="wrap">
     <div class="swiper picks-swiper" id="picksSwiper">
-      <div class="swiper-wrapper">
+      <div class="swiper-wrapper" id="picksWrapper">
+        <!-- Skeletons render on load, replaced by Firestore data -->
         <div class="swiper-slide">
-          <div class="pick-card" data-tilt>
-            <div class="pick-media">
-              <span class="pick-tag">Office</span>
-              <img class="first" src="https://images.unsplash.com/photo-1544984243-ec57ea16fe25?auto=format&fit=crop&w=1200&q=85" alt="Executive Office Table">
-              <img class="second" src="https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=1200&q=85" alt="">
-            </div>
-            <div class="pick-body">
-              <div class="pick-name">Executive Office Table</div>
-              <div class="pick-variant">Wood-grain &amp; Dark Grey · DT-001</div>
-              <div class="pick-price-row">
-                <div class="pick-price">₦750,000</div>
-                <a href="shop.html?product=DT-001" class="pick-buy">
-                  Purchase
-                  <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M1 11L11 1M11 1H3M11 1V9" stroke="currentColor" stroke-width="1.5"/></svg>
-                </a>
-              </div>
-            </div>
+          <div class="pick-skeleton">
+            <div class="sk-media"></div>
+            <div class="sk-line"></div>
+            <div class="sk-line short"></div>
           </div>
         </div>
         <div class="swiper-slide">
-          <div class="pick-card" data-tilt>
-            <div class="pick-media">
-              <span class="pick-tag">Living Room</span>
-              <img class="first" src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=1200&q=85" alt="Milano 3-Seater Sofa">
-              <img class="second" src="https://images.unsplash.com/photo-1567016432779-094069958ea5?auto=format&fit=crop&w=1200&q=85" alt="">
-            </div>
-            <div class="pick-body">
-              <div class="pick-name">Milano 3-Seater Sofa</div>
-              <div class="pick-variant">Charcoal &amp; Walnut · LR-001</div>
-              <div class="pick-price-row">
-                <div class="pick-price">₦850,000</div>
-                <a href="shop.html?product=LR-001" class="pick-buy">
-                  Purchase
-                  <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M1 11L11 1M11 1H3M11 1V9" stroke="currentColor" stroke-width="1.5"/></svg>
-                </a>
-              </div>
-            </div>
+          <div class="pick-skeleton">
+            <div class="sk-media"></div>
+            <div class="sk-line"></div>
+            <div class="sk-line short"></div>
           </div>
         </div>
         <div class="swiper-slide">
-          <div class="pick-card" data-tilt>
-            <div class="pick-media">
-              <span class="pick-tag">Dining</span>
-              <img class="first" src="https://images.unsplash.com/photo-1617806118233-18e1de247200?auto=format&fit=crop&w=1200&q=85" alt="Oval Dining Set">
-              <img class="second" src="https://images.unsplash.com/photo-1595514535415-dae8580c416c?auto=format&fit=crop&w=1200&q=85" alt="">
-            </div>
-            <div class="pick-body">
-              <div class="pick-name">Oval 6-Seater Dining Set</div>
-              <div class="pick-variant">Wenge &amp; Cream · DN-001</div>
-              <div class="pick-price-row">
-                <div class="pick-price">₦1,150,000</div>
-                <a href="shop.html?product=DN-001" class="pick-buy">
-                  Purchase
-                  <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M1 11L11 1M11 1H3M11 1V9" stroke="currentColor" stroke-width="1.5"/></svg>
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="swiper-slide">
-          <div class="pick-card" data-tilt>
-            <div class="pick-media">
-              <span class="pick-tag">Bedroom</span>
-              <img class="first" src="https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=1200&q=85" alt="Serene King Bed">
-              <img class="second" src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=1200&q=85" alt="">
-            </div>
-            <div class="pick-body">
-              <div class="pick-name">Serene King Bed Frame</div>
-              <div class="pick-variant">Wenge &amp; Grey Fabric · BR-001</div>
-              <div class="pick-price-row">
-                <div class="pick-price">₦680,000</div>
-                <a href="shop.html?product=BR-001" class="pick-buy">
-                  Purchase
-                  <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M1 11L11 1M11 1H3M11 1V9" stroke="currentColor" stroke-width="1.5"/></svg>
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="swiper-slide">
-          <div class="pick-card" data-tilt>
-            <div class="pick-media">
-              <span class="pick-tag">Outdoor</span>
-              <img class="first" src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=85" alt="Garden Lounge Set">
-              <img class="second" src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1200&q=85" alt="">
-            </div>
-            <div class="pick-body">
-              <div class="pick-name">Garden Lounge Set</div>
-              <div class="pick-variant">Teak &amp; Cream · OD-001</div>
-              <div class="pick-price-row">
-                <div class="pick-price">₦920,000</div>
-                <a href="shop.html?product=OD-001" class="pick-buy">
-                  Purchase
-                  <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M1 11L11 1M11 1H3M11 1V9" stroke="currentColor" stroke-width="1.5"/></svg>
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="swiper-slide">
-          <div class="pick-card" data-tilt>
-            <div class="pick-media">
-              <span class="pick-tag">Living Room</span>
-              <img class="first" src="https://images.unsplash.com/photo-1538688525198-9b88f6f53126?auto=format&fit=crop&w=1200&q=85" alt="Sable TV Console">
-              <img class="second" src="https://images.unsplash.com/photo-1594026112284-02bb6f3352fe?auto=format&fit=crop&w=1200&q=85" alt="">
-            </div>
-            <div class="pick-body">
-              <div class="pick-name">Sable TV Console</div>
-              <div class="pick-variant">Oak &amp; Matte Black · LR-003</div>
-              <div class="pick-price-row">
-                <div class="pick-price">₦480,000</div>
-                <a href="shop.html?product=LR-003" class="pick-buy">
-                  Purchase
-                  <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M1 11L11 1M11 1H3M11 1V9" stroke="currentColor" stroke-width="1.5"/></svg>
-                </a>
-              </div>
-            </div>
+          <div class="pick-skeleton">
+            <div class="sk-media"></div>
+            <div class="sk-line"></div>
+            <div class="sk-line short"></div>
           </div>
         </div>
       </div>
@@ -1407,12 +1353,12 @@
         <span>Explore the Full Shop</span>
         <svg width="14" height="14" viewBox="0 0 12 12" fill="none"><path d="M1 11L11 1M11 1H3M11 1V9" stroke="currentColor" stroke-width="1.5"/></svg>
       </a>
-      <p><strong>18 pieces</strong> across <strong>5 categories</strong>, ready to ship.</p>
+      <p><strong id="picksCount">—</strong> across <strong>5 categories</strong>, ready to ship.</p>
     </div>
   </div>
 </section>
 
-<!-- ========= ABOUT SECTION ========= -->
+<!-- ==================== ABOUT ==================== -->
 <section class="about-section" id="about">
   <div class="about-media">
     <img src="https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=1600&q=85" alt="Handy-Gidi workshop" id="aboutImg">
@@ -1455,7 +1401,7 @@
   </div>
 </section>
 
-<!-- ========= SHOP BY ROOM ========= -->
+<!-- ==================== SHOP BY ROOM ==================== -->
 <section class="rooms" id="rooms">
   <div class="wrap">
     <div class="rooms-head">
@@ -1517,7 +1463,7 @@
   </div>
 </section>
 
-<!-- ========= VALUES ========= -->
+<!-- ==================== VALUES ==================== -->
 <section class="values" id="why">
   <div class="values-bg" id="valuesBg"></div>
   <div class="values-veil"></div>
@@ -1552,7 +1498,7 @@
   </div>
 </section>
 
-<!-- ========= SERVICES ========= -->
+<!-- ==================== SERVICES ==================== -->
 <section class="services-teaser" id="services">
   <div class="services-bg" id="servicesBg"></div>
   <div class="services-veil"></div>
@@ -1587,7 +1533,7 @@
   </div>
 </section>
 
-<!-- ========= TESTIMONIALS ========= -->
+<!-- ==================== TESTIMONIALS ==================== -->
 <section class="testimonials" id="reviews">
   <div class="testimonials-bg" id="testimonialsBg"></div>
   <div class="testimonials-veil"></div>
@@ -1656,7 +1602,7 @@
   </div>
 </section>
 
-<!-- ========= TRUST ========= -->
+<!-- ==================== TRUST BAR ==================== -->
 <section class="trust">
   <div class="wrap trust-inner">
     <div class="trust-grid">
@@ -1687,6 +1633,7 @@
   </div>
 </section>
 
+<!-- ==================== FOOTER ==================== -->
 <footer id="contact">
   <div class="wrap">
     <div class="footer-top">
@@ -1734,10 +1681,12 @@
   </div>
 </footer>
 
+<!-- Floating WhatsApp -->
 <a href="https://wa.me/2347051094001" class="wa-float" aria-label="Chat on WhatsApp">
   <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M17.6 6.32A8 8 0 0 0 4.2 14.1L3 19.6l5.6-1.2A8 8 0 0 0 17.6 6.32zM12 18.5a6.5 6.5 0 0 1-3.3-.9l-.24-.14-3.32.71.7-3.24-.15-.25a6.5 6.5 0 1 1 6.31 3.82zM15.9 13.9c-.22-.11-1.3-.64-1.5-.71s-.34-.11-.49.11-.56.71-.69.86-.26.16-.48.05a5.3 5.3 0 0 1-1.56-.96 5.9 5.9 0 0 1-1.09-1.36c-.11-.19 0-.29.08-.39s.22-.26.33-.39a1.5 1.5 0 0 0 .22-.37.4.4 0 0 0 0-.37c-.05-.11-.49-1.18-.67-1.61s-.36-.36-.49-.36h-.42a.8.8 0 0 0-.58.27 2.43 2.43 0 0 0-.76 1.81 4.22 4.22 0 0 0 .88 2.23 9.65 9.65 0 0 0 3.7 3.27c.52.22.92.35 1.24.45a3 3 0 0 0 1.37.09 2.22 2.22 0 0 0 1.46-1 1.85 1.85 0 0 0 .13-1c-.05-.09-.2-.15-.42-.26z"/></svg>
 </a>
 
+<!-- ==================== MAIN SCRIPT ==================== -->
 <script>
 /* ============================================================
    Handy-Gidi Home Page Motion System
@@ -1747,7 +1696,7 @@ const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').mat
 const isDesktop = window.matchMedia('(min-width: 901px)').matches;
 const hasGSAP = typeof gsap !== 'undefined';
 
-/* ---------- Failsafe ---------- */
+/* ---------- Failsafe intro hide ---------- */
 let introCompleted = false;
 function forceHideIntro(){
   const intro = document.getElementById('intro');
@@ -1846,10 +1795,9 @@ if(isDesktop && !prefersReduced){
 }
 
 /* ---------- Lenis ---------- */
-let lenis = null;
 if(!prefersReduced && typeof Lenis !== 'undefined'){
   try {
-    lenis = new Lenis({
+    const lenis = new Lenis({
       duration:1.15,
       easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smoothWheel:true,
@@ -1863,8 +1811,8 @@ if(!prefersReduced && typeof Lenis !== 'undefined'){
 /* ---------- Header ---------- */
 const header = document.getElementById('header');
 const updateHeader = () => {
-  const scrollY = window.scrollY;
-  if(scrollY > window.innerHeight * 0.8){
+  const y = window.scrollY;
+  if(y > window.innerHeight * 0.8){
     header.classList.add('scrolled');
     header.classList.remove('on-hero');
   } else {
@@ -1896,9 +1844,7 @@ function heroReveal(){
     const tl = gsap.timeline();
     tl.to('#heroBg', { scale:1, duration:2.2, ease:'expo.out' }, 0)
       .to('#heroEyebrow', { opacity:1, y:0, duration:.8, ease:'power3.out' }, 0.1)
-      .from(words, {
-        yPercent:120, opacity:0, duration:.9, stagger:0.06, ease:'power4.out'
-      }, 0.2)
+      .from(words, { yPercent:120, opacity:0, duration:.9, stagger:0.06, ease:'power4.out' }, 0.2)
       .to('#heroSub', { opacity:1, y:0, duration:.8, ease:'power3.out' }, 0.9)
       .to('#heroActions', { opacity:1, y:0, duration:.8, ease:'power3.out' }, 1.05)
       .to('#heroMicro', { opacity:1, y:0, duration:.8, ease:'power3.out' }, 1.2)
@@ -1909,7 +1855,7 @@ function heroReveal(){
   }
 }
 
-/* ---------- Intro ---------- */
+/* ---------- Intro sequence ---------- */
 (function runIntro(){
   if(prefersReduced || !hasGSAP){
     forceHideIntro();
@@ -1942,7 +1888,6 @@ function heroReveal(){
       .to(mark, { opacity:0, y:-30, duration:.5, ease:'power2.in' }, '+=.15')
       .to(curtainLeft, { scaleX:0, duration:1.1, ease:'expo.inOut' }, '-=.2')
       .to(curtainRight, { scaleX:0, duration:1.1, ease:'expo.inOut' }, '<');
-
   } catch(e){
     console.error('Intro error', e);
     forceHideIntro();
@@ -1951,7 +1896,7 @@ function heroReveal(){
   }
 })();
 
-/* ---------- Scroll-triggered ---------- */
+/* ---------- Scroll-triggered animations ---------- */
 if(!prefersReduced && hasGSAP && typeof ScrollTrigger !== 'undefined'){
   try {
     gsap.registerPlugin(ScrollTrigger);
@@ -2035,23 +1980,145 @@ if(!prefersReduced && hasGSAP && typeof ScrollTrigger !== 'undefined'){
   }
 }
 
-/* ---------- Swiper ---------- */
+/* ============================================================
+   TOP PICKS — Loaded from Firestore
+   ============================================================ */
+let homePicksSwiper = null;
+
+function bindPickTilt(){
+  if(!isDesktop) return;
+  document.querySelectorAll('#picksWrapper [data-tilt]').forEach(card => {
+    card.addEventListener('mousemove', e => {
+      const rect = card.getBoundingClientRect();
+      const x = (e.clientX - rect.left) / rect.width - 0.5;
+      const y = (e.clientY - rect.top) / rect.height - 0.5;
+      card.style.transform = `perspective(1000px) rotateY(${x*8}deg) rotateX(${-y*6}deg) translateZ(0)`;
+    });
+    card.addEventListener('mouseleave', () => {
+      card.style.transition = 'transform .8s cubic-bezier(.2,.7,.2,1)';
+      card.style.transform = 'perspective(1000px) rotateY(0) rotateX(0)';
+    });
+    card.addEventListener('mouseenter', () => {
+      card.style.transition = 'transform .3s ease';
+    });
+  });
+}
+
+function initPicksSwiper(){
+  if(typeof Swiper === 'undefined') return;
+  if(homePicksSwiper) homePicksSwiper.destroy(true, false);
+  homePicksSwiper = new Swiper('#picksSwiper', {
+    slidesPerView: 1.15,
+    spaceBetween: 24,
+    speed: 800,
+    grabCursor: true,
+    breakpoints: {
+      640: { slidesPerView: 1.8, spaceBetween: 24 },
+      900: { slidesPerView: 2.4, spaceBetween: 28 },
+      1200: { slidesPerView: 3, spaceBetween: 32 }
+    }
+  });
+}
+
+function formatNaira(n){
+  return '₦' + Number(n || 0).toLocaleString('en-NG');
+}
+
+function renderPicksFromProducts(products){
+  const wrapper = document.getElementById('picksWrapper');
+  const countEl = document.getElementById('picksCount');
+  if(!wrapper) return;
+
+  // Take first 6 for the carousel
+  const top = products.slice(0, 6);
+
+  if(countEl){
+    countEl.textContent = products.length + (products.length === 1 ? ' piece' : ' pieces');
+  }
+
+  if(top.length === 0){
+    wrapper.innerHTML = `
+      <div class="swiper-slide">
+        <div style="padding:60px 20px; text-align:center; color:rgba(245,239,226,0.55); font-size:15px;">
+          New pieces are being added to the collection. Check back soon.
+        </div>
+      </div>`;
+    initPicksSwiper();
+    return;
+  }
+
+  wrapper.innerHTML = top.map(p => `
+    <div class="swiper-slide">
+      <div class="pick-card" data-tilt>
+        <div class="pick-media">
+          <span class="pick-tag">${p.categoryLabel || p.category || ''}</span>
+          <img class="first" src="${p.img || ''}" alt="${p.name || ''}">
+          <img class="second" src="${p.img2 || p.img || ''}" alt="">
+        </div>
+        <div class="pick-body">
+          <div class="pick-name">${p.name || ''}</div>
+          <div class="pick-variant">${(p.colours && p.colours[0]) || 'Standard'} · ${p.code}</div>
+          <div class="pick-price-row">
+            <div class="pick-price">${formatNaira(p.price)}</div>
+            <a href="shop.html?product=${p.code}" class="pick-buy">
+              Purchase
+              <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M1 11L11 1M11 1H3M11 1V9" stroke="currentColor" stroke-width="1.5"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  `).join('');
+
+  initPicksSwiper();
+  bindPickTilt();
+}
+
+async function loadHomePicks(){
+  // If Firebase is not configured, show empty state gracefully
+  if(!window.hgFb || window.hgFb.configMissing || !window.hgFb.db){
+    renderPicksFromProducts([]);
+    return;
+  }
+
+  const { db, collection, onSnapshot } = window.hgFb;
+
+  try {
+    // Real-time listener: any admin change updates the home carousel
+    onSnapshot(collection(db, 'products'), (snap) => {
+      const products = snap.docs.map(d => ({ code: d.id, ...d.data() }));
+      products.sort((a, b) => (a.code || '').localeCompare(b.code || ''));
+      renderPicksFromProducts(products);
+    }, (err) => {
+      console.error('Firestore listener error', err);
+      renderPicksFromProducts([]);
+    });
+  } catch(e){
+    console.error('Home picks error', e);
+    renderPicksFromProducts([]);
+  }
+}
+
+/* ---------- Picks nav buttons ---------- */
+document.getElementById('picksPrev').addEventListener('click', () => {
+  if(homePicksSwiper) homePicksSwiper.slidePrev();
+});
+document.getElementById('picksNext').addEventListener('click', () => {
+  if(homePicksSwiper) homePicksSwiper.slideNext();
+});
+
+/* Kick off after DOM ready */
+if(document.readyState === 'loading'){
+  document.addEventListener('DOMContentLoaded', loadHomePicks);
+} else {
+  loadHomePicks();
+}
+
+/* ============================================================
+   TESTIMONIALS Swiper
+   ============================================================ */
 try {
   if(typeof Swiper !== 'undefined'){
-    const picksSwiper = new Swiper('#picksSwiper', {
-      slidesPerView: 1.15,
-      spaceBetween: 24,
-      speed: 800,
-      grabCursor: true,
-      breakpoints: {
-        640: { slidesPerView: 1.8, spaceBetween: 24 },
-        900: { slidesPerView: 2.4, spaceBetween: 28 },
-        1200: { slidesPerView: 3, spaceBetween: 32 }
-      }
-    });
-    document.getElementById('picksPrev').addEventListener('click', () => picksSwiper.slidePrev());
-    document.getElementById('picksNext').addEventListener('click', () => picksSwiper.slideNext());
-
     const testiSwiper = new Swiper('#testiSwiper', {
       slidesPerView: 1,
       spaceBetween: 40,
