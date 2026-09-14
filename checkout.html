@@ -1,0 +1,1236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Checkout | Handy-Gidi</title>
+<meta name="description" content="Complete your Handy-Gidi order. Secure payment via Paystack, or pay on delivery within Abuja Metropolis." />
+<meta name="robots" content="noindex" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,340;0,9..144,460;0,9..144,560;0,9..144,650;0,9..144,750&family=Public+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- Paystack Inline -->
+<script src="https://js.paystack.co/v1/inline.js"></script>
+
+<style>
+  :root{
+    --ink:#1A140F;
+    --ink-soft:#3A2E24;
+    --paper:#F5EFE2;
+    --paper-2:#ECE2CC;
+    --paper-3:#FBF8F0;
+    --gold:#B0812E;
+    --gold-deep:#8C6321;
+    --gold-light:#E4C77E;
+    --rust:#A0492A;
+    --rust-deep:#7C371F;
+    --plum:#3E2530;
+    --line:rgba(26,20,15,0.14);
+    --line-soft:rgba(26,20,15,0.08);
+    --success:#2D6A4F;
+    --danger:#A4161A;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Public Sans', sans-serif;
+    font-size:16px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  img{max-width:100%; display:block;}
+  a{color:inherit; text-decoration:none;}
+  button{font-family:inherit; cursor:pointer; border:none; background:none; color:inherit;}
+  input, select, textarea{font-family:inherit; font-size:15px;}
+  h1,h2,h3,h4{
+    font-family:'Fraunces', serif;
+    font-weight:560;
+    letter-spacing:-0.02em;
+    line-height:1.15;
+  }
+  .wrap{max-width:1280px; margin:0 auto; padding:0 32px;}
+
+  /* ---------- Header ---------- */
+  .checkout-header{
+    padding:24px 0;
+    border-bottom:1px solid var(--line);
+    background:var(--paper-3);
+  }
+  .checkout-header .wrap{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:24px;
+  }
+  .brand-mark{
+    font-family:'Fraunces', serif;
+    font-size:24px;
+    font-weight:650;
+    letter-spacing:-0.03em;
+    color:var(--ink);
+  }
+  .brand-mark em{font-style:italic; font-weight:460; color:var(--gold-deep);}
+  .secure-badge{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-size:12px;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    font-weight:600;
+    color:var(--ink-soft);
+  }
+  .secure-badge svg{color:var(--success);}
+
+  /* ---------- Layout ---------- */
+  .checkout-main{
+    padding:56px 0 120px;
+  }
+  .checkout-grid{
+    display:grid;
+    grid-template-columns:1.3fr 0.9fr;
+    gap:64px;
+    align-items:start;
+  }
+  @media (max-width:900px){
+    .checkout-grid{grid-template-columns:1fr; gap:40px;}
+  }
+
+  /* ---------- Left column: form ---------- */
+  .form-section{
+    margin-bottom:48px;
+  }
+  .form-section:last-child{margin-bottom:0;}
+  .form-section-head{
+    display:flex;
+    align-items:baseline;
+    gap:14px;
+    margin-bottom:24px;
+    padding-bottom:16px;
+    border-bottom:1px solid var(--line);
+  }
+  .step-num{
+    width:28px; height:28px;
+    border-radius:50%;
+    background:var(--ink);
+    color:var(--paper);
+    display:flex; align-items:center; justify-content:center;
+    font-size:12px;
+    font-weight:700;
+    flex-shrink:0;
+  }
+  .form-section-head h3{
+    font-size:22px;
+    letter-spacing:-0.02em;
+  }
+
+  .form-row{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:18px;
+    margin-bottom:18px;
+  }
+  .form-row.full{grid-template-columns:1fr;}
+  @media (max-width:640px){
+    .form-row{grid-template-columns:1fr;}
+  }
+  .field{display:flex; flex-direction:column;}
+  .field label{
+    font-size:11.5px;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    font-weight:600;
+    color:var(--ink-soft);
+    margin-bottom:8px;
+  }
+  .field label .req{color:var(--danger); margin-left:3px;}
+  .field input,
+  .field select,
+  .field textarea{
+    padding:14px 16px;
+    border:1px solid var(--line);
+    background:var(--paper-3);
+    border-radius:3px;
+    color:var(--ink);
+    transition:border-color .2s, background .2s;
+    outline:none;
+    width:100%;
+  }
+  .field input:focus,
+  .field select:focus,
+  .field textarea:focus{
+    border-color:var(--gold-deep);
+    background:var(--paper);
+  }
+  .field textarea{resize:vertical; min-height:88px; font-family:inherit;}
+  .field .err{
+    font-size:12px;
+    color:var(--danger);
+    margin-top:6px;
+    display:none;
+  }
+  .field.invalid input,
+  .field.invalid select,
+  .field.invalid textarea{border-color:var(--danger);}
+  .field.invalid .err{display:block;}
+
+  /* Zone chips */
+  .zone-grid{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    margin-top:4px;
+  }
+  .zone-chip{
+    padding:10px 16px;
+    border:1px solid var(--line);
+    background:var(--paper-3);
+    border-radius:3px;
+    font-size:13px;
+    font-weight:500;
+    color:var(--ink-soft);
+    cursor:pointer;
+    transition:all .2s ease;
+    user-select:none;
+  }
+  .zone-chip:hover{
+    border-color:var(--ink);
+    color:var(--ink);
+  }
+  .zone-chip.selected{
+    border-color:var(--gold-deep);
+    background:var(--paper-2);
+    color:var(--gold-deep);
+    font-weight:600;
+  }
+  .zone-hint{
+    font-size:12.5px;
+    color:var(--ink-soft);
+    margin-top:12px;
+    line-height:1.6;
+  }
+  .zone-hint strong{color:var(--ink);}
+
+  /* Payment options */
+  .payment-options{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:14px;
+  }
+  @media (max-width:640px){
+    .payment-options{grid-template-columns:1fr;}
+  }
+  .payment-option{
+    position:relative;
+    border:1.5px solid var(--line);
+    background:var(--paper-3);
+    padding:20px 22px;
+    border-radius:4px;
+    cursor:pointer;
+    transition:all .25s ease;
+  }
+  .payment-option:hover{border-color:var(--ink);}
+  .payment-option.selected{
+    border-color:var(--gold-deep);
+    background:var(--paper-2);
+    box-shadow:0 0 0 3px rgba(176,129,46,0.12);
+  }
+  .payment-option.disabled{
+    opacity:0.5;
+    cursor:not-allowed;
+    pointer-events:none;
+  }
+  .payment-option .po-head{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:8px;
+  }
+  .po-radio{
+    width:18px; height:18px;
+    border:1.5px solid var(--line);
+    border-radius:50%;
+    flex-shrink:0;
+    position:relative;
+    transition:border-color .2s;
+  }
+  .payment-option.selected .po-radio{
+    border-color:var(--gold-deep);
+    border-width:5px;
+  }
+  .po-title{
+    font-weight:600;
+    font-size:15px;
+    color:var(--ink);
+  }
+  .payment-option p{
+    font-size:13px;
+    color:var(--ink-soft);
+    line-height:1.6;
+  }
+
+  /* ---------- Right column: order summary ---------- */
+  .summary-panel{
+    background:var(--paper-3);
+    border:1px solid var(--line);
+    border-radius:4px;
+    padding:32px 28px;
+    position:sticky;
+    top:24px;
+  }
+  .summary-panel h3{
+    font-size:20px;
+    letter-spacing:-0.02em;
+    margin-bottom:24px;
+    padding-bottom:18px;
+    border-bottom:1px solid var(--line);
+  }
+  .summary-items{
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+    margin-bottom:24px;
+    max-height:340px;
+    overflow-y:auto;
+    padding-right:6px;
+  }
+  .summary-item{
+    display:grid;
+    grid-template-columns:64px 1fr auto;
+    gap:14px;
+    align-items:center;
+  }
+  .summary-item-img{
+    width:64px;
+    aspect-ratio:1;
+    background:var(--paper-2);
+    border-radius:3px;
+    overflow:hidden;
+  }
+  .summary-item-img img{width:100%; height:100%; object-fit:cover;}
+  .summary-item-info h4{
+    font-family:'Public Sans', sans-serif;
+    font-size:13.5px;
+    font-weight:600;
+    line-height:1.3;
+    color:var(--ink);
+    margin-bottom:3px;
+  }
+  .summary-item-info p{
+    font-size:11px;
+    letter-spacing:0.05em;
+    color:var(--ink-soft);
+    text-transform:uppercase;
+  }
+  .summary-item-price{
+    font-family:'Fraunces', serif;
+    font-size:15px;
+    font-weight:650;
+    color:var(--gold-deep);
+    text-align:right;
+    white-space:nowrap;
+  }
+
+  .summary-totals{
+    padding-top:20px;
+    border-top:1px solid var(--line);
+  }
+  .summary-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    margin-bottom:12px;
+    font-size:14px;
+  }
+  .summary-row span:first-child{color:var(--ink-soft);}
+  .summary-row span:last-child{font-weight:600;}
+  .summary-row.total{
+    margin-top:16px;
+    padding-top:16px;
+    border-top:1px solid var(--line);
+    font-size:18px;
+  }
+  .summary-row.total span:first-child{
+    font-family:'Fraunces', serif;
+    font-size:18px;
+    color:var(--ink);
+  }
+  .summary-row.total span:last-child{
+    font-family:'Fraunces', serif;
+    font-size:26px;
+    font-weight:650;
+    color:var(--ink);
+  }
+  .free-tag{
+    color:var(--success);
+    font-weight:600;
+    font-size:12px;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+  }
+
+  .place-order-btn{
+    width:100%;
+    padding:20px 24px;
+    background:var(--gold);
+    color:var(--ink);
+    font-size:15px;
+    font-weight:600;
+    letter-spacing:0.02em;
+    border-radius:3px;
+    margin-top:24px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+    transition:all .25s ease;
+    position:relative;
+    overflow:hidden;
+  }
+  .place-order-btn::before{
+    content:'';
+    position:absolute; inset:0;
+    background:var(--rust-deep);
+    transform:scaleY(0);
+    transform-origin:bottom;
+    transition:transform .4s cubic-bezier(.77,0,.18,1);
+  }
+  .place-order-btn:hover::before{transform:scaleY(1);}
+  .place-order-btn:hover{color:var(--paper);}
+  .place-order-btn > *{position:relative; z-index:1;}
+  .place-order-btn:disabled{
+    opacity:0.6;
+    cursor:not-allowed;
+  }
+  .place-order-btn:disabled::before{transform:scaleY(0);}
+
+  .summary-note{
+    font-size:12px;
+    color:var(--ink-soft);
+    text-align:center;
+    margin-top:14px;
+    line-height:1.6;
+  }
+
+  /* Empty cart state */
+  .empty-cart{
+    text-align:center;
+    padding:80px 20px;
+  }
+  .empty-cart-icon{
+    width:72px; height:72px;
+    margin:0 auto 24px;
+    border-radius:50%;
+    border:1px solid var(--line);
+    display:flex; align-items:center; justify-content:center;
+    color:var(--ink-soft);
+  }
+  .empty-cart h2{
+    font-size:32px;
+    margin-bottom:12px;
+  }
+  .empty-cart p{
+    color:var(--ink-soft);
+    margin-bottom:28px;
+    max-width:40ch;
+    margin-left:auto;
+    margin-right:auto;
+  }
+  .empty-cart .btn{
+    display:inline-flex; align-items:center; gap:10px;
+    padding:16px 32px;
+    background:var(--ink);
+    color:var(--paper);
+    font-size:14px;
+    font-weight:600;
+    border-radius:3px;
+    transition:background .25s ease;
+  }
+  .empty-cart .btn:hover{background:var(--gold-deep);}
+
+  /* ---------- Success overlay ---------- */
+  .success-overlay{
+    position:fixed; inset:0;
+    background:var(--ink);
+    z-index:2000;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:32px;
+    overflow-y:auto;
+  }
+  .success-overlay.show{display:flex;}
+  .success-card{
+    background:var(--paper);
+    max-width:560px;
+    width:100%;
+    padding:56px 48px;
+    border-radius:6px;
+    text-align:center;
+    animation:successIn .6s cubic-bezier(.2,.7,.2,1);
+  }
+  @keyframes successIn{
+    from{opacity:0; transform:translateY(24px);}
+    to{opacity:1; transform:translateY(0);}
+  }
+  .success-icon{
+    width:80px; height:80px;
+    margin:0 auto 28px;
+    border-radius:50%;
+    background:var(--success);
+    color:white;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .success-card h2{
+    font-size:34px;
+    letter-spacing:-0.03em;
+    margin-bottom:14px;
+  }
+  .success-card > p{
+    color:var(--ink-soft);
+    font-size:15.5px;
+    line-height:1.7;
+    margin-bottom:32px;
+  }
+  .order-ref-box{
+    background:var(--paper-2);
+    border-radius:4px;
+    padding:20px 22px;
+    margin-bottom:32px;
+    text-align:left;
+  }
+  .order-ref-box .ref-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    padding:8px 0;
+    font-size:13.5px;
+  }
+  .order-ref-box .ref-row:not(:last-child){
+    border-bottom:1px solid rgba(26,20,15,0.08);
+  }
+  .order-ref-box .ref-row span:first-child{color:var(--ink-soft);}
+  .order-ref-box .ref-row span:last-child{
+    font-weight:600;
+    font-family:'Fraunces', serif;
+    color:var(--ink);
+  }
+  .success-actions{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+  }
+  .btn-wa-confirm{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:12px;
+    padding:18px 28px;
+    background:var(--gold);
+    color:var(--ink);
+    font-size:14.5px;
+    font-weight:600;
+    border-radius:3px;
+    transition:background .25s ease;
+  }
+  .btn-wa-confirm:hover{background:var(--gold-deep); color:var(--paper);}
+  .btn-ghost-link{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    padding:14px;
+    color:var(--ink-soft);
+    font-size:13.5px;
+    font-weight:500;
+    transition:color .2s ease;
+  }
+  .btn-ghost-link:hover{color:var(--ink);}
+
+  /* Loading spinner inside button */
+  .spinner-inline{
+    width:16px; height:16px;
+    border:2px solid rgba(26,20,15,0.25);
+    border-top-color:var(--ink);
+    border-radius:50%;
+    animation:spin .7s linear infinite;
+    display:inline-block;
+  }
+  @keyframes spin{to{transform:rotate(360deg);}}
+
+  /* Toast */
+  .toast{
+    position:fixed;
+    top:24px; right:24px;
+    background:var(--ink);
+    color:var(--paper);
+    padding:14px 20px;
+    border-radius:3px;
+    font-size:13.5px;
+    display:flex; align-items:center; gap:10px;
+    box-shadow:0 12px 32px rgba(0,0,0,0.3);
+    transform:translateX(120%);
+    transition:transform .4s cubic-bezier(.2,.7,.2,1);
+    z-index:3000;
+  }
+  .toast.show{transform:translateX(0);}
+  .toast.error{background:var(--danger);}
+  .toast .check{
+    width:20px; height:20px;
+    border-radius:50%;
+    background:var(--gold);
+    color:var(--ink);
+    display:flex; align-items:center; justify-content:center;
+    font-size:11px;
+    font-weight:700;
+    flex-shrink:0;
+  }
+  .toast.error .check{background:white; color:var(--danger);}
+
+  /* Footer */
+  .checkout-footer{
+    padding:32px 0;
+    border-top:1px solid var(--line);
+    background:var(--paper-3);
+    text-align:center;
+    font-size:12.5px;
+    color:var(--ink-soft);
+  }
+  .checkout-footer a{
+    color:var(--gold-deep);
+    font-weight:600;
+  }
+
+  @media (max-width:600px){
+    .wrap{padding:0 20px;}
+    .checkout-main{padding:32px 0 80px;}
+    .summary-panel{padding:24px 20px; position:relative; top:auto;}
+    .success-card{padding:40px 24px;}
+  }
+</style>
+</head>
+<body>
+
+<header class="checkout-header">
+  <div class="wrap">
+    <a href="index.html" class="brand-mark">Handy<em>·</em>Gidi</a>
+    <div class="secure-badge">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 11V7C5 4 7 2 12 2C17 2 19 4 19 7V11M5 11H19V20C19 21 18 22 17 22H7C6 22 5 21 5 20V11Z" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="16" r="2" fill="currentColor"/></svg>
+      Secure Checkout
+    </div>
+  </div>
+</header>
+
+<main class="checkout-main">
+  <div class="wrap">
+
+    <!-- Empty state (shown if cart is empty) -->
+    <div class="empty-cart" id="emptyCart" style="display:none;">
+      <div class="empty-cart-icon">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M3 6H5L7 18H19L21 9H6" stroke="currentColor" stroke-width="1.6"/><circle cx="9" cy="21" r="1.4" fill="currentColor"/><circle cx="18" cy="21" r="1.4" fill="currentColor"/></svg>
+      </div>
+      <h2>Your cart is empty</h2>
+      <p>Browse the collection and add a few pieces before checking out.</p>
+      <a href="shop.html" class="btn">Browse the Collection</a>
+    </div>
+
+    <!-- Checkout grid -->
+    <div class="checkout-grid" id="checkoutGrid">
+
+      <!-- LEFT: form -->
+      <div class="checkout-form">
+
+        <!-- Step 1: Contact -->
+        <section class="form-section">
+          <div class="form-section-head">
+            <span class="step-num">1</span>
+            <h3>Contact details</h3>
+          </div>
+          <div class="form-row">
+            <div class="field" id="field-name">
+              <label for="fullName">Full name <span class="req">*</span></label>
+              <input type="text" id="fullName" autocomplete="name" placeholder="e.g. Adeola Johnson" />
+              <span class="err">Please enter your full name.</span>
+            </div>
+            <div class="field" id="field-phone">
+              <label for="phone">Phone number <span class="req">*</span></label>
+              <input type="tel" id="phone" autocomplete="tel" placeholder="e.g. 0805 123 4567" />
+              <span class="err">Please enter a valid phone number.</span>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="field" id="field-email">
+              <label for="email">Email address <span class="req">*</span></label>
+              <input type="email" id="email" autocomplete="email" placeholder="e.g. you@example.com" />
+              <span class="err">Please enter a valid email address.</span>
+            </div>
+            <div class="field">
+              <label for="altPhone">Alternative phone <span style="color:var(--ink-soft); font-weight:400;">(optional)</span></label>
+              <input type="tel" id="altPhone" autocomplete="tel" placeholder="e.g. 0807 777 8415" />
+            </div>
+          </div>
+        </section>
+
+        <!-- Step 2: Delivery -->
+        <section class="form-section">
+          <div class="form-section-head">
+            <span class="step-num">2</span>
+            <h3>Delivery</h3>
+          </div>
+          <div class="form-row full">
+            <div class="field" id="field-address">
+              <label for="address">Delivery address <span class="req">*</span></label>
+              <input type="text" id="address" autocomplete="street-address" placeholder="Street, building, apartment number" />
+              <span class="err">Please enter your delivery address.</span>
+            </div>
+          </div>
+          <div class="form-row full">
+            <div class="field" id="field-zone">
+              <label>Delivery zone <span class="req">*</span></label>
+              <div class="zone-grid" id="zoneGrid">
+                <!-- Populated by JS -->
+              </div>
+              <p class="zone-hint">
+                <strong>Free delivery and installation within Abuja Metropolis.</strong>
+                Outside Abuja, we deliver nationwide and delivery cost is confirmed on WhatsApp before dispatch.
+              </p>
+              <span class="err">Please select a delivery zone.</span>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="field">
+              <label for="deliveryTime">Preferred delivery time <span style="color:var(--ink-soft); font-weight:400;">(optional)</span></label>
+              <input type="text" id="deliveryTime" placeholder="e.g. weekday afternoon" />
+            </div>
+            <div class="field">
+              <label for="notes">Order notes <span style="color:var(--ink-soft); font-weight:400;">(optional)</span></label>
+              <input type="text" id="notes" placeholder="Any special instructions" />
+            </div>
+          </div>
+        </section>
+
+        <!-- Step 3: Payment -->
+        <section class="form-section">
+          <div class="form-section-head">
+            <span class="step-num">3</span>
+            <h3>Payment method</h3>
+          </div>
+          <div class="payment-options" id="paymentOptions">
+            <div class="payment-option" data-method="paystack" id="optPaystack">
+              <div class="po-head">
+                <span class="po-radio"></span>
+                <span class="po-title">Pay Online</span>
+              </div>
+              <p>Secure payment with Paystack. Card, bank transfer or USSD. Order is dispatched immediately after payment confirms.</p>
+            </div>
+            <div class="payment-option" data-method="delivery" id="optDelivery">
+              <div class="po-head">
+                <span class="po-radio"></span>
+                <span class="po-title">Pay on Delivery</span>
+              </div>
+              <p>Available within Abuja Metropolis only. Pay our team in cash, transfer or POS when your furniture arrives and is installed.</p>
+            </div>
+          </div>
+        </section>
+
+      </div>
+
+      <!-- RIGHT: order summary -->
+      <aside class="summary-panel">
+        <h3>Order Summary</h3>
+        <div class="summary-items" id="summaryItems"></div>
+
+        <div class="summary-totals">
+          <div class="summary-row">
+            <span>Subtotal</span>
+            <span id="sumSubtotal">₦0</span>
+          </div>
+          <div class="summary-row">
+            <span>Delivery &amp; installation</span>
+            <span id="sumDelivery"><span class="free-tag">Free (Abuja)</span></span>
+          </div>
+          <div class="summary-row total">
+            <span>Total</span>
+            <span id="sumTotal">₦0</span>
+          </div>
+        </div>
+
+        <button class="place-order-btn" id="placeOrderBtn">
+          <span id="placeOrderLabel">Place Order</span>
+          <svg width="14" height="14" viewBox="0 0 12 12" fill="none"><path d="M1 11L11 1M11 1H3M11 1V9" stroke="currentColor" stroke-width="1.5"/></svg>
+        </button>
+        <p class="summary-note">
+          By placing your order you agree to our <a href="#" style="color:var(--gold-deep); font-weight:600;">Terms &amp; Conditions</a>.
+        </p>
+      </aside>
+
+    </div>
+  </div>
+</main>
+
+<footer class="checkout-footer">
+  <div class="wrap">
+    Need help? Chat on <a href="https://wa.me/2347051094001" target="_blank" rel="noopener">WhatsApp</a> or call 0705 109 4001.
+  </div>
+</footer>
+
+<!-- Success overlay -->
+<div class="success-overlay" id="successOverlay">
+  <div class="success-card">
+    <div class="success-icon">
+      <svg width="40" height="40" viewBox="0 0 24 24" fill="none"><path d="M5 12L10 17L20 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <h2>Order confirmed</h2>
+    <p id="successMessage">Your order has been received. Our team will reach out within the hour to confirm delivery details.</p>
+    <div class="order-ref-box">
+      <div class="ref-row"><span>Order reference</span><span id="refOrder">—</span></div>
+      <div class="ref-row"><span>Total</span><span id="refTotal">—</span></div>
+      <div class="ref-row"><span>Payment</span><span id="refPayment">—</span></div>
+    </div>
+    <div class="success-actions">
+      <a href="#" id="waConfirmBtn" class="btn-wa-confirm" target="_blank" rel="noopener">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.6 6.32A8 8 0 0 0 4.2 14.1L3 19.6l5.6-1.2A8 8 0 0 0 17.6 6.32zM12 18.5a6.5 6.5 0 0 1-3.3-.9l-.24-.14-3.32.71.7-3.24-.15-.25a6.5 6.5 0 1 1 6.31 3.82z"/></svg>
+        Send Order Details on WhatsApp
+      </a>
+      <a href="shop.html" class="btn-ghost-link">Continue shopping</a>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast">
+  <span class="check">✓</span>
+  <span id="toastText">Message</span>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import {
+  getFirestore, collection, doc, getDoc, addDoc,
+  serverTimestamp, onSnapshot
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+/* ═══════════════════════════════════════════════════════════
+   🔧 PASTE YOUR FIREBASE CONFIG HERE (same as admin + shop)
+   ═══════════════════════════════════════════════════════════ */
+const firebaseConfig = {
+  apiKey: "PASTE_YOUR_API_KEY_HERE",
+  authDomain: "PASTE_YOUR_AUTH_DOMAIN_HERE",
+  projectId: "PASTE_YOUR_PROJECT_ID_HERE",
+  storageBucket: "PASTE_YOUR_STORAGE_BUCKET_HERE",
+  messagingSenderId: "PASTE_YOUR_SENDER_ID_HERE",
+  appId: "PASTE_YOUR_APP_ID_HERE"
+};
+
+/* ═══════════════════════════════════════════════════════════
+   PAYSTACK PUBLIC KEY
+   Get this from your Paystack dashboard → Settings → API Keys
+   ═══════════════════════════════════════════════════════════ */
+const PAYSTACK_PUBLIC_KEY = "PASTE_YOUR_PAYSTACK_PUBLIC_KEY_HERE";
+/* ═══════════════════════════════════════════════════════════ */
+
+const configMissing = firebaseConfig.apiKey.startsWith('PASTE_');
+let fbApp, db;
+if(!configMissing){
+  try {
+    fbApp = initializeApp(firebaseConfig);
+    db = getFirestore(fbApp);
+  } catch(e){
+    console.error('Firebase init failed', e);
+  }
+}
+
+/* ==================== STATE ==================== */
+const ABUJA_ZONES = [
+  'Asokoro', 'CBD', 'Maitama', 'Garki', 'Wuse', 'Wuye',
+  'Utako', 'Jabi', 'Apo', 'Katampe', 'Guzape', 'Durumi',
+  'Mabushi', 'Jahi', 'Kaura'
+];
+
+let cart = [];
+let PRODUCTS = {};
+let selectedZone = null;
+let selectedPayment = 'paystack'; // default
+let orderSubmitting = false;
+
+/* ==================== UTILS ==================== */
+function formatNaira(n){
+  return '₦' + Number(n || 0).toLocaleString('en-NG');
+}
+
+let toastTimer;
+function showToast(msg, isError = false){
+  const t = document.getElementById('toast');
+  document.getElementById('toastText').textContent = msg;
+  t.classList.toggle('error', isError);
+  t.querySelector('.check').textContent = isError ? '!' : '✓';
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 3500);
+}
+
+/* ==================== BUILD ZONE GRID ==================== */
+function buildZoneGrid(){
+  const grid = document.getElementById('zoneGrid');
+  grid.innerHTML = ABUJA_ZONES.map(z => `
+    <button type="button" class="zone-chip" data-zone="${z}">${z}</button>
+  `).join('');
+  grid.querySelectorAll('.zone-chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      grid.querySelectorAll('.zone-chip').forEach(c => c.classList.remove('selected'));
+      chip.classList.add('selected');
+      selectedZone = chip.dataset.zone;
+      document.getElementById('field-zone').classList.remove('invalid');
+      updatePlaceOrderBtn();
+    });
+  });
+}
+buildZoneGrid();
+
+/* ==================== PAYMENT SELECTION ==================== */
+function updatePaymentUI(){
+  document.querySelectorAll('.payment-option').forEach(opt => {
+    opt.classList.toggle('selected', opt.dataset.method === selectedPayment);
+  });
+  // If outside Abuja, disable pay on delivery
+  const zoneIsAbuja = selectedZone && ABUJA_ZONES.includes(selectedZone);
+  const delOpt = document.getElementById('optDelivery');
+  if(!zoneIsAbuja && selectedZone){
+    delOpt.classList.add('disabled');
+    if(selectedPayment === 'delivery'){
+      selectedPayment = 'paystack';
+      document.querySelectorAll('.payment-option').forEach(opt => {
+        opt.classList.toggle('selected', opt.dataset.method === 'paystack');
+      });
+    }
+  } else {
+    delOpt.classList.remove('disabled');
+  }
+}
+
+document.querySelectorAll('.payment-option').forEach(opt => {
+  opt.addEventListener('click', () => {
+    if(opt.classList.contains('disabled')) return;
+    selectedPayment = opt.dataset.method;
+    updatePaymentUI();
+    updatePlaceOrderBtn();
+  });
+});
+
+/* ==================== LOAD CART + PRODUCTS ==================== */
+async function loadCartAndProducts(){
+  try {
+    const stored = localStorage.getItem('hg_cart');
+    cart = stored ? JSON.parse(stored) : [];
+  } catch(e){ cart = []; }
+
+  if(cart.length === 0){
+    document.getElementById('emptyCart').style.display = 'block';
+    document.getElementById('checkoutGrid').style.display = 'none';
+    return;
+  }
+
+  // Fetch product details from Firestore
+  if(configMissing || !db){
+    // Fallback: cart items carry their own name/price if admin was offline
+    // (not expected, but we handle gracefully)
+    showToast('Products could not load. Please refresh.', true);
+    return;
+  }
+
+  try {
+    const codes = [...new Set(cart.map(i => i.code))];
+    for(const code of codes){
+      const snap = await getDoc(doc(db, 'products', code));
+      if(snap.exists()){
+        PRODUCTS[code] = { code, ...snap.data() };
+      }
+    }
+
+    // Remove cart items whose product no longer exists
+    const validCart = cart.filter(i => PRODUCTS[i.code]);
+    if(validCart.length !== cart.length){
+      cart = validCart;
+      localStorage.setItem('hg_cart', JSON.stringify(cart));
+    }
+
+    if(cart.length === 0){
+      document.getElementById('emptyCart').style.display = 'block';
+      document.getElementById('checkoutGrid').style.display = 'none';
+      return;
+    }
+
+    renderSummary();
+
+    // Real-time updates (if admin changes prices mid-checkout)
+    onSnapshot(collection(db, 'products'), (s) => {
+      s.forEach(d => { PRODUCTS[d.id] = { code: d.id, ...d.data() }; });
+      renderSummary();
+    });
+
+  } catch(e){
+    console.error('Load error', e);
+    showToast('Failed to load products. Please refresh.', true);
+  }
+}
+
+/* ==================== SUMMARY ==================== */
+function renderSummary(){
+  const wrap = document.getElementById('summaryItems');
+  wrap.innerHTML = cart.map(item => {
+    const p = PRODUCTS[item.code];
+    if(!p) return '';
+    return `
+      <div class="summary-item">
+        <div class="summary-item-img"><img src="${p.img || ''}" alt="${p.name || ''}"></div>
+        <div class="summary-item-info">
+          <h4>${p.name || ''}</h4>
+          <p>${item.colour || ''} · Qty ${item.qty}</p>
+        </div>
+        <div class="summary-item-price">${formatNaira((p.price || 0) * item.qty)}</div>
+      </div>
+    `;
+  }).join('');
+
+  const subtotal = cart.reduce((s, i) => s + ((PRODUCTS[i.code]?.price || 0) * i.qty), 0);
+  document.getElementById('sumSubtotal').textContent = formatNaira(subtotal);
+
+  const zoneIsAbuja = selectedZone && ABUJA_ZONES.includes(selectedZone);
+  const deliveryEl = document.getElementById('sumDelivery');
+  if(!selectedZone){
+    deliveryEl.innerHTML = '<span style="color:var(--ink-soft); font-size:12px;">Select a zone</span>';
+  } else if(zoneIsAbuja){
+    deliveryEl.innerHTML = '<span class="free-tag">Free (Abuja)</span>';
+  } else {
+    deliveryEl.innerHTML = '<span style="color:var(--ink-soft); font-size:12px;">Confirmed on WhatsApp</span>';
+  }
+
+  const deliveryFee = zoneIsAbuja ? 0 : 0; // Outside Abuja confirmed later
+  document.getElementById('sumTotal').textContent = formatNaira(subtotal + deliveryFee);
+
+  updatePaymentUI();
+  updatePlaceOrderBtn();
+}
+
+/* ==================== PLACE ORDER BUTTON STATE ==================== */
+function updatePlaceOrderBtn(){
+  const btn = document.getElementById('placeOrderBtn');
+  const subtotal = cart.reduce((s, i) => s + ((PRODUCTS[i.code]?.price || 0) * i.qty), 0);
+  const label = document.getElementById('placeOrderLabel');
+
+  if(selectedPayment === 'paystack'){
+    label.textContent = `Pay ${formatNaira(subtotal)} Securely`;
+  } else {
+    label.textContent = `Place Order · Pay ${formatNaira(subtotal)} on Delivery`;
+  }
+  btn.disabled = orderSubmitting;
+}
+
+/* ==================== FORM VALIDATION ==================== */
+function validateForm(){
+  let valid = true;
+  const check = (id, condition) => {
+    const field = document.getElementById('field-' + id);
+    if(!condition){
+      field.classList.add('invalid');
+      valid = false;
+    } else {
+      field.classList.remove('invalid');
+    }
+  };
+
+  const name = document.getElementById('fullName').value.trim();
+  const phone = document.getElementById('phone').value.trim();
+  const email = document.getElementById('email').value.trim();
+  const address = document.getElementById('address').value.trim();
+
+  check('name', name.length >= 2);
+  check('phone', phone.length >= 7);
+  check('email', /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email));
+  check('address', address.length >= 5);
+  check('zone', !!selectedZone);
+
+  return valid;
+}
+
+/* ==================== GENERATE ORDER ID ==================== */
+function generateOrderId(){
+  const ts = Date.now().toString(36).toUpperCase();
+  const rand = Math.random().toString(36).substring(2, 6).toUpperCase();
+  return 'HG-' + ts + '-' + rand;
+}
+
+/* ==================== SUBMIT ORDER ==================== */
+async function submitOrder(paymentReference = ''){
+  const orderId = generateOrderId();
+  const subtotal = cart.reduce((s, i) => s + ((PRODUCTS[i.code]?.price || 0) * i.qty), 0);
+
+  const order = {
+    orderId,
+    customer: {
+      fullName: document.getElementById('fullName').value.trim(),
+      phone: document.getElementById('phone').value.trim(),
+      email: document.getElementById('email').value.trim(),
+      altPhone: document.getElementById('altPhone').value.trim()
+    },
+    delivery: {
+      address: document.getElementById('address').value.trim(),
+      zone: selectedZone,
+      preferredTime: document.getElementById('deliveryTime').value.trim(),
+      notes: document.getElementById('notes').value.trim()
+    },
+    items: cart.map(i => {
+      const p = PRODUCTS[i.code];
+      return {
+        code: i.code,
+        name: p.name,
+        colour: i.colour,
+        price: p.price,
+        qty: i.qty
+      };
+    }),
+    subtotal,
+    deliveryFee: 0,
+    total: subtotal,
+    payment: {
+      method: selectedPayment,
+      status: selectedPayment === 'paystack' ? 'paid' : 'pending',
+      reference: paymentReference || ''
+    },
+    status: 'pending',
+    createdAt: serverTimestamp()
+  };
+
+  // Write to Firestore
+  if(!configMissing && db){
+    const ref = await addDoc(collection(db, 'orders'), order);
+    return { ...order, id: ref.id };
+  }
+  return order;
+}
+
+/* ==================== PAYSTACK ==================== */
+function launchPaystack(onSuccess, onCancel){
+  const subtotal = cart.reduce((s, i) => s + ((PRODUCTS[i.code]?.price || 0) * i.qty), 0);
+  const email = document.getElementById('email').value.trim();
+  const name = document.getElementById('fullName').value.trim();
+
+  if(PAYSTACK_PUBLIC_KEY.startsWith('PASTE_')){
+    showToast('Paystack key not configured. Please use Pay on Delivery or contact us on WhatsApp.', true);
+    return;
+  }
+
+  const handler = PaystackPop.setup({
+    key: PAYSTACK_PUBLIC_KEY,
+    email: email,
+    amount: subtotal * 100, // kobo
+    currency: 'NGN',
+    ref: generateOrderId(),
+    metadata: {
+      custom_fields: [
+        { display_name: 'Customer', variable_name: 'customer_name', value: name }
+      ]
+    },
+    callback: function(response){
+      onSuccess(response.reference);
+    },
+    onClose: function(){
+      onCancel();
+    }
+  });
+  handler.openIframe();
+}
+
+/* ==================== PLACE ORDER HANDLER ==================== */
+document.getElementById('placeOrderBtn').addEventListener('click', async () => {
+  if(orderSubmitting) return;
+  if(!validateForm()){
+    showToast('Please fill all required fields.', true);
+    // Scroll to first invalid
+    const invalid = document.querySelector('.field.invalid');
+    if(invalid) invalid.scrollIntoView({ behavior:'smooth', block:'center' });
+    return;
+  }
+
+  if(selectedPayment === 'paystack'){
+    // Launch Paystack
+    launchPaystack(
+      async (reference) => {
+        await completeOrder(reference);
+      },
+      () => {
+        showToast('Payment cancelled.', true);
+      }
+    );
+  } else {
+    // Pay on delivery
+    await completeOrder('');
+  }
+});
+
+/* ==================== COMPLETE ORDER ==================== */
+async function completeOrder(reference = ''){
+  if(orderSubmitting) return;
+  orderSubmitting = true;
+  const btn = document.getElementById('placeOrderBtn');
+  const label = document.getElementById('placeOrderLabel');
+  label.innerHTML = '<span class="spinner-inline"></span> Placing order…';
+  btn.disabled = true;
+
+  try {
+    const order = await submitOrder(reference);
+
+    // Clear cart
+    localStorage.removeItem('hg_cart');
+
+    // Show success
+    const subtotal = order.total;
+    document.getElementById('refOrder').textContent = order.orderId;
+    document.getElementById('refTotal').textContent = formatNaira(subtotal);
+    document.getElementById('refPayment').textContent =
+      selectedPayment === 'paystack' ? 'Paid online' : 'Pay on delivery';
+
+    document.getElementById('successMessage').textContent =
+      selectedPayment === 'paystack'
+        ? 'Your payment was successful. Our team will reach out within the hour to confirm delivery details.'
+        : 'Your order is received. Our team will reach out to confirm delivery and payment details.';
+
+    // Build WhatsApp deep link with the order
+    const waLines = [
+      `New Order — Handy-Gidi`,
+      `Order: ${order.orderId}`,
+      `Name: ${order.customer.fullName}`,
+      `Phone: ${order.customer.phone}`,
+      `Delivery zone: ${order.delivery.zone}`,
+      `Address: ${order.delivery.address}`,
+      '',
+      'Items:',
+      ...order.items.map(i => `• ${i.name} (${i.colour}) × ${i.qty} — ${formatNaira(i.price * i.qty)}`),
+      '',
+      `Total: ${formatNaira(order.total)}`,
+      `Payment: ${selectedPayment === 'paystack' ? 'Paid online' : 'Pay on delivery'}`
+    ];
+    const waMsg = encodeURIComponent(waLines.join('\n'));
+    document.getElementById('waConfirmBtn').href = `https://wa.me/2347051094001?text=${waMsg}`;
+
+    document.getElementById('successOverlay').classList.add('show');
+    document.body.style.overflow = 'hidden';
+
+  } catch(e){
+    console.error('Order error', e);
+    showToast('Could not place order. Please try again.', true);
+    label.textContent = 'Try Again';
+    btn.disabled = false;
+    orderSubmitting = false;
+  }
+}
+
+/* ==================== INIT ==================== */
+loadCartAndProducts();
+updatePlaceOrderBtn();
+</script>
+</body>
+</html>
