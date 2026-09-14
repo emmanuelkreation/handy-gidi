@@ -29,7 +29,6 @@
     --plum:#3E2530;
     --line:rgba(26,20,15,0.14);
     --line-soft:rgba(26,20,15,0.08);
-    --line-light:rgba(245,239,226,0.16);
     --max:1280px;
   }
 
@@ -72,7 +71,6 @@
     background:var(--rust);
   }
 
-  /* ---------- Grain ---------- */
   .grain{
     position:fixed; inset:0;
     z-index:9998; pointer-events:none;
@@ -98,10 +96,7 @@
     border-bottom:1px solid var(--line);
     transition:padding .3s ease, box-shadow .3s ease;
   }
-  header.scrolled{
-    padding:12px 0;
-    box-shadow:0 1px 0 var(--line);
-  }
+  header.scrolled{padding:12px 0; box-shadow:0 1px 0 var(--line);}
   .header-inner{
     max-width:var(--max); margin:0 auto;
     padding:0 32px;
@@ -252,7 +247,7 @@
   .shop-hero-breadcrumb a:hover{color:var(--gold-light);}
   .shop-hero-breadcrumb span::before{content:'/'; margin-right:10px;}
 
-  /* ---------- Filter Bar (sticky) ---------- */
+  /* ---------- Filter Bar ---------- */
   .filter-bar{
     position:sticky;
     top:68px;
@@ -290,10 +285,7 @@
     transition:all .3s ease;
   }
   .filter-tab:hover{color:var(--ink); background:rgba(176,129,46,0.08);}
-  .filter-tab.active{
-    background:var(--ink);
-    color:var(--paper);
-  }
+  .filter-tab.active{background:var(--ink); color:var(--paper);}
   .filter-meta{
     display:flex; align-items:center; gap:16px;
     flex-shrink:0;
@@ -341,6 +333,7 @@
     padding:64px 0 120px;
     background:var(--paper);
     position:relative;
+    min-height:400px;
   }
   .product-grid{
     display:grid;
@@ -465,22 +458,59 @@
   .product-buy svg{transition:transform .3s ease;}
   .product-buy:hover svg{transform:translate(3px,-3px);}
 
+  /* Loading skeletons */
+  .skeleton-card{
+    display:flex; flex-direction:column; gap:14px;
+  }
+  .skeleton-media{
+    aspect-ratio:4/5;
+    background:linear-gradient(90deg, #EDE4D2 0%, #F5EFE2 50%, #EDE4D2 100%);
+    background-size:200% 100%;
+    border-radius:3px;
+    animation:shimmer 1.5s infinite;
+  }
+  .skeleton-line{
+    height:16px;
+    background:linear-gradient(90deg, #EDE4D2 0%, #F5EFE2 50%, #EDE4D2 100%);
+    background-size:200% 100%;
+    border-radius:3px;
+    animation:shimmer 1.5s infinite;
+  }
+  .skeleton-line.short{width:60%;}
+  @keyframes shimmer{
+    0%{background-position:200% 0;}
+    100%{background-position:-200% 0;}
+  }
+
   /* Empty state */
   .empty-state{
     grid-column:1 / -1;
-    padding:80px 20px;
+    padding:100px 20px;
     text-align:center;
   }
-  .empty-state h3{
-    font-size:32px;
-    margin-bottom:14px;
-  }
-  .empty-state p{
+  .empty-state-icon{
+    width:64px; height:64px;
+    margin:0 auto 24px;
+    border-radius:50%;
+    border:1px solid var(--line);
+    display:flex; align-items:center; justify-content:center;
     color:var(--ink-soft);
-    margin-bottom:28px;
   }
+  .empty-state h3{font-size:28px; margin-bottom:12px;}
+  .empty-state p{color:var(--ink-soft); margin-bottom:28px; max-width:44ch; margin-left:auto; margin-right:auto;}
+  .empty-state .btn{
+    display:inline-flex; align-items:center; gap:10px;
+    padding:14px 28px;
+    background:var(--ink);
+    color:var(--paper);
+    font-size:13.5px;
+    font-weight:600;
+    border-radius:2px;
+    transition:background .3s ease;
+  }
+  .empty-state .btn:hover{background:var(--gold-deep);}
 
-  /* ---------- Support section (background image) ---------- */
+  /* ---------- Support ---------- */
   .support{
     position:relative;
     padding:140px 0;
@@ -543,7 +573,7 @@
   }
   @media (max-width:900px){ .support-grid{grid-template-columns:1fr;} }
 
-  /* ---------- CTA section (background image) ---------- */
+  /* ---------- CTA ---------- */
   .cta-section{
     position:relative;
     padding:160px 0;
@@ -687,7 +717,6 @@
     .footer-top{grid-template-columns:1fr;}
   }
 
-  /* ---------- Floating WhatsApp ---------- */
   .wa-float{
     position:fixed;
     bottom:28px; right:28px;
@@ -702,7 +731,7 @@
   }
   .wa-float:hover{transform:scale(1.08);}
 
-  /* ---------- PRODUCT MODAL ---------- */
+  /* ---------- MODAL ---------- */
   .modal-backdrop{
     position:fixed; inset:0;
     background:rgba(26,20,15,0.7);
@@ -931,7 +960,7 @@
     .modal-close{top:14px; right:14px;}
   }
 
-  /* ---------- CART DRAWER ---------- */
+  /* ---------- CART ---------- */
   .cart-backdrop{
     position:fixed; inset:0;
     background:rgba(26,20,15,0.6);
@@ -959,10 +988,7 @@
     border-bottom:1px solid var(--line);
     display:flex; align-items:center; justify-content:space-between;
   }
-  .cart-head h3{
-    font-size:22px;
-    letter-spacing:-0.02em;
-  }
+  .cart-head h3{font-size:22px; letter-spacing:-0.02em;}
   .cart-head h3 span{
     font-size:13px;
     color:var(--ink-soft);
@@ -1027,14 +1053,8 @@
     padding:80px 20px;
     text-align:center;
   }
-  .cart-empty h4{
-    font-size:22px;
-    margin-bottom:10px;
-  }
-  .cart-empty p{
-    color:var(--ink-soft);
-    margin-bottom:24px;
-  }
+  .cart-empty h4{font-size:22px; margin-bottom:10px;}
+  .cart-empty p{color:var(--ink-soft); margin-bottom:24px;}
   .cart-foot{
     padding:24px 28px 32px;
     border-top:1px solid var(--line);
@@ -1059,7 +1079,7 @@
   .cart-actions{display:flex; flex-direction:column; gap:10px;}
   .cart-actions .btn{width:100%; justify-content:center;}
 
-  /* ---------- Toast ---------- */
+  /* ---------- TOAST ---------- */
   .toast{
     position:fixed;
     top:24px; right:24px;
@@ -1083,16 +1103,34 @@
     display:flex; align-items:center; justify-content:center;
     font-size:12px;
     font-weight:700;
+    flex-shrink:0;
+  }
+
+  /* ---------- Firebase warning banner ---------- */
+  .fb-warning{
+    display:none;
+    background:var(--rust);
+    color:var(--paper);
+    padding:12px 24px;
+    text-align:center;
+    font-size:13px;
+    font-weight:500;
+    letter-spacing:0.02em;
+  }
+  .fb-warning.show{display:block;}
+  .fb-warning code{
+    background:rgba(255,255,255,0.15);
+    padding:2px 8px;
+    border-radius:2px;
+    font-family:monospace;
   }
 
   /* ---------- Reduced motion ---------- */
   @media (prefers-reduced-motion: reduce){
     *{animation:none !important; transition:none !important;}
     .grain{display:none;}
-    .shop-hero-sub, .shop-hero-breadcrumb{opacity:1 !important;}
   }
 
-  /* ---------- Mobile nav ---------- */
   @media (max-width:900px){
     .header-inner{padding:0 20px;}
     .menu-toggle{display:block;}
@@ -1123,6 +1161,11 @@
 <body>
 
 <div class="grain"></div>
+
+<!-- Firebase config warning -->
+<div class="fb-warning" id="fbWarning">
+  ⚠️ Firebase not configured. Paste your config in <code>shop.html</code> to load products from the admin panel.
+</div>
 
 <header id="header">
   <div class="header-inner">
@@ -1176,7 +1219,7 @@
       <button class="filter-tab" data-category="outdoor">Outdoor</button>
     </div>
     <div class="filter-meta">
-      <span class="filter-count"><b id="visibleCount">18</b> pieces</span>
+      <span class="filter-count"><b id="visibleCount">0</b> pieces</span>
       <div class="sort-select">
         <select id="sortSelect">
           <option value="featured">Featured</option>
@@ -1193,7 +1236,9 @@
 <!-- PRODUCT GRID -->
 <section class="shop-section">
   <div class="wrap">
-    <div class="product-grid" id="productGrid"></div>
+    <div class="product-grid" id="productGrid">
+      <!-- Skeletons render initially, replaced by real products -->
+    </div>
   </div>
 </section>
 
@@ -1349,7 +1394,7 @@
   </div>
 </div>
 
-<!-- CART DRAWER -->
+<!-- CART -->
 <div class="cart-backdrop" id="cartBackdrop"></div>
 <aside class="cart-drawer" id="cartDrawer">
   <div class="cart-head">
@@ -1380,284 +1425,54 @@
   <span id="toastText">Added to cart</span>
 </div>
 
-<script>
-/* ============================================================
-   Handy-Gidi Shop — Data + Logic
-   ============================================================ */
+<!-- ═══════════════════════════════════════════════════════════
+     MAIN SCRIPT — Firebase loads products, everything else runs here
+     ═══════════════════════════════════════════════════════════ -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import {
+  getFirestore, collection, getDocs, onSnapshot
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-const PRODUCTS = {
-  'LR-001': {
-    name: 'Milano 3-Seater Sofa', category: 'living-room', categoryLabel: 'Living Room',
-    price: 850000, reviews: '4.9 · 18 reviews',
-    img: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=1200&q=85',
-    img2: 'https://images.unsplash.com/photo-1567016432779-094069958ea5?auto=format&fit=crop&w=1200&q=85',
-    colours: ['Charcoal Grey / Walnut'],
-    specs: [
-      ['Overall dimensions', '2200 × 950 × 850 mm'],
-      ['Frame', 'Kiln-dried hardwood'],
-      ['Upholstery', 'High-density foam, removable covers'],
-      ['Build', 'Fully assembled on delivery'],
-      ['Installation', '5 to 10 minutes'],
-      ['Recommended for', 'Family living rooms, executive lounges, hotel lobbies']
-    ]
-  },
-  'LR-002': {
-    name: 'Aria Centre Table', category: 'living-room', categoryLabel: 'Living Room',
-    price: 320000, reviews: '4.7 · 11 reviews',
-    img: 'https://images.unsplash.com/photo-1538688525198-9b88f6f53126?auto=format&fit=crop&w=1200&q=85',
-    img2: 'https://images.unsplash.com/photo-1594026112284-02bb6f3352fe?auto=format&fit=crop&w=1200&q=85',
-    colours: ['Walnut / Black Glass'],
-    specs: [
-      ['Overall dimensions', '1200 × 600 × 450 mm'],
-      ['Top', '10 mm tempered glass'],
-      ['Base', 'Solid walnut'],
-      ['Feature', 'Concealed drawer storage'],
-      ['Installation', '5 to 10 minutes'],
-      ['Recommended for', 'Modern living rooms, reception areas']
-    ]
-  },
-  'LR-003': {
-    name: 'Sable TV Console', category: 'living-room', categoryLabel: 'Living Room',
-    price: 480000, reviews: '4.8 · 15 reviews',
-    img: 'https://images.unsplash.com/photo-1594026112284-02bb6f3352fe?auto=format&fit=crop&w=1200&q=85',
-    img2: 'https://images.unsplash.com/photo-1538688525198-9b88f6f53126?auto=format&fit=crop&w=1200&q=85',
-    colours: ['Oak / Matte Black'],
-    specs: [
-      ['Overall dimensions', '1800 × 450 × 550 mm'],
-      ['Storage', '2 drawers, 2 open shelves'],
-      ['Feature', 'Rear cable management'],
-      ['Build', 'Fully assembled on delivery'],
-      ['Installation', '5 to 10 minutes'],
-      ['Recommended for', 'Media rooms, family living rooms']
-    ]
-  },
-  'LR-004': {
-    name: 'Cove Accent Chair', category: 'living-room', categoryLabel: 'Living Room',
-    price: 295000, reviews: '4.9 · 8 reviews',
-    img: 'https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?auto=format&fit=crop&w=1200&q=85',
-    img2: 'https://images.unsplash.com/photo-1567016432779-094069958ea5?auto=format&fit=crop&w=1200&q=85',
-    colours: ['Cream Boucle / Gold'],
-    specs: [
-      ['Overall dimensions', '750 × 780 × 820 mm'],
-      ['Upholstery', 'Premium boucle fabric'],
-      ['Legs', 'Gold-tone stainless steel'],
-      ['Build', 'Fully assembled on delivery'],
-      ['Installation', '5 minutes'],
-      ['Recommended for', 'Reading corners, bedrooms, executive offices']
-    ]
-  },
-  'BR-001': {
-    name: 'Serene King Bed Frame', category: 'bedroom', categoryLabel: 'Bedroom',
-    price: 680000, reviews: '5.0 · 22 reviews',
-    img: 'https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=1200&q=85',
-    img2: 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=1200&q=85',
-    colours: ['Wenge / Grey Fabric'],
-    specs: [
-      ['Overall dimensions', '2000 × 1800 × 1100 mm'],
-      ['Frame', 'Solid hardwood'],
-      ['Headboard', 'Upholstered, premium grey fabric'],
-      ['Base', 'Slatted support, no box spring needed'],
-      ['Installation', '10 to 15 minutes'],
-      ['Recommended for', 'Master bedrooms, executive suites, guest rooms']
-    ]
-  },
-  'BR-002': {
-    name: 'Luna 2-Door Wardrobe', category: 'bedroom', categoryLabel: 'Bedroom',
-    price: 550000, reviews: '4.6 · 9 reviews',
-    img: 'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=1200&q=85',
-    img2: 'https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=1200&q=85',
-    colours: ['Off-white / Oak'],
-    specs: [
-      ['Overall dimensions', '1200 × 600 × 2100 mm'],
-      ['Interior', 'Hanging rail plus 4 shelves'],
-      ['Doors', 'Soft-close, 2-door'],
-      ['Build', 'Modular, quick coupling'],
-      ['Installation', '10 to 15 minutes'],
-      ['Recommended for', 'Master bedrooms, guest rooms, boutique hotels']
-    ]
-  },
-  'BR-003': {
-    name: 'Nova Bedside Table', category: 'bedroom', categoryLabel: 'Bedroom',
-    price: 145000, reviews: '4.8 · 14 reviews',
-    img: 'https://images.unsplash.com/photo-1567016432779-094069958ea5?auto=format&fit=crop&w=1200&q=85',
-    img2: 'https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=1200&q=85',
-    colours: ['Walnut'],
-    specs: [
-      ['Overall dimensions', '500 × 450 × 550 mm'],
-      ['Storage', '2 drawers'],
-      ['Feature', 'Integrated cable port for charging'],
-      ['Build', 'Fully assembled on delivery'],
-      ['Installation', '5 minutes'],
-      ['Recommended for', 'Master bedrooms, hotel rooms']
-    ]
-  },
-  'DN-001': {
-    name: 'Oval 6-Seater Dining Set', category: 'dining', categoryLabel: 'Dining',
-    price: 1150000, reviews: '5.0 · 16 reviews',
-    img: 'https://images.unsplash.com/photo-1617806118233-18e1de247200?auto=format&fit=crop&w=1200&q=85',
-    img2: 'https://images.unsplash.com/photo-1595514535415-dae8580c416c?auto=format&fit=crop&w=1200&q=85',
-    colours: ['Wenge / Cream'],
-    specs: [
-      ['Overall dimensions', '1800 × 1000 × 750 mm'],
-      ['Top', 'Solid wood, oval cut'],
-      ['Seating', '6 upholstered chairs included'],
-      ['Build', 'Modular, quick coupling'],
-      ['Installation', '15 to 20 minutes'],
-      ['Recommended for', 'Family dining rooms, executive dining, hotels']
-    ]
-  },
-  'DN-002': {
-    name: 'Marble Top 4-Seater', category: 'dining', categoryLabel: 'Dining',
-    price: 780000, reviews: '4.9 · 12 reviews',
-    img: 'https://images.unsplash.com/photo-1595514535415-dae8580c416c?auto=format&fit=crop&w=1200&q=85',
-    img2: 'https://images.unsplash.com/photo-1617806118233-18e1de247200?auto=format&fit=crop&w=1200&q=85',
-    colours: ['White Marble / Gold'],
-    specs: [
-      ['Overall dimensions', '1400 × 800 × 750 mm'],
-      ['Top', 'Natural marble'],
-      ['Base', 'Brass-finished steel'],
-      ['Seating', '4 (chairs sold separately)'],
-      ['Installation', '10 minutes'],
-      ['Recommended for', 'Modern apartments, executive dining']
-    ]
-  },
-  'DN-003': {
-    name: 'Nordic Dining Bench', category: 'dining', categoryLabel: 'Dining',
-    price: 220000, reviews: '4.7 · 7 reviews',
-    img: 'https://images.unsplash.com/photo-1615066390971-03e4e1c36ddf?auto=format&fit=crop&w=1200&q=85',
-    img2: 'https://images.unsplash.com/photo-1617806118233-18e1de247200?auto=format&fit=crop&w=1200&q=85',
-    colours: ['Natural Oak'],
-    specs: [
-      ['Overall dimensions', '1500 × 400 × 450 mm'],
-      ['Material', 'Solid oak'],
-      ['Build', 'Fully assembled on delivery'],
-      ['Installation', '5 minutes'],
-      ['Recommended for', 'Pairing with DN-001, casual dining spaces']
-    ]
-  },
-  'DT-001': {
-    name: 'Executive Office Table', category: 'office', categoryLabel: 'Office',
-    price: 750000, reviews: '4.9 · 24 reviews',
-    img: 'https://images.unsplash.com/photo-1544984243-ec57ea16fe25?auto=format&fit=crop&w=1200&q=85',
-    img2: 'https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=1200&q=85',
-    colours: ['Wood-grain & Dark Grey'],
-    specs: [
-      ['Product code', 'DT-001'],
-      ['Overall dimensions', '1800 × 750 × 800 mm'],
-      ['Extension', '1300 × 750 × 500 mm'],
-      ['Features', 'Drawers, Smart sockets, USB ducts'],
-      ['Side cabinet', 'With duct cover'],
-      ['Installation', '5 to 10 minutes'],
-      ['Recommended for', 'CEOs, Executives, Managers, Business owners, hotel managers, VIPs and celebrities']
-    ]
-  },
-  'DT-002': {
-    name: 'Executive Office Table', category: 'office', categoryLabel: 'Office',
-    price: 550000, reviews: '4.8 · 17 reviews',
-    img: 'https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=1200&q=85',
-    img2: 'https://images.unsplash.com/photo-1544984243-ec57ea16fe25?auto=format&fit=crop&w=1200&q=85',
-    colours: ['Wenge Brown'],
-    specs: [
-      ['Product code', 'DT-002'],
-      ['Overall dimensions', '1500 × 750 × 800 mm'],
-      ['Features', 'Drawers, Smart sockets, USB ducts'],
-      ['Build', 'Modular, quick coupling'],
-      ['Installation', '5 to 10 minutes'],
-      ['Recommended for', 'CEOs, Executives, Managers, Business owners, hotel managers, VIPs and celebrities']
-    ]
-  },
-  'DT-003': {
-    name: 'Executive Office Table', category: 'office', categoryLabel: 'Office',
-    price: 750000, reviews: '4.9 · 21 reviews',
-    img: 'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1200&q=85',
-    img2: 'https://images.unsplash.com/photo-1544984243-ec57ea16fe25?auto=format&fit=crop&w=1200&q=85',
-    colours: ['Offwhite & Dark Grey'],
-    specs: [
-      ['Product code', 'DT-003'],
-      ['Overall dimensions', '1800 × 750 × 800 mm'],
-      ['Extension', '1300 × 750 × 500 mm'],
-      ['Features', 'Drawers, Smart sockets, USB ducts'],
-      ['Side cabinet', 'With duct cover'],
-      ['Installation', '5 to 10 minutes'],
-      ['Recommended for', 'CEOs, Executives, Managers, Business owners, hotel managers, VIPs and celebrities']
-    ]
-  },
-  'DT-004': {
-    name: 'Executive Office Table', category: 'office', categoryLabel: 'Office',
-    price: 750000, reviews: '4.8 · 19 reviews',
-    img: 'https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=1200&q=85',
-    img2: 'https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=1200&q=85',
-    colours: ['Wenge & Dark Grey'],
-    specs: [
-      ['Product code', 'DT-004'],
-      ['Overall dimensions', '1800 × 750 × 800 mm'],
-      ['Extension', '1300 × 750 × 500 mm'],
-      ['Features', 'Drawers, Smart sockets, USB ducts'],
-      ['Side cabinet', 'With duct cover'],
-      ['Installation', '5 to 10 minutes'],
-      ['Recommended for', 'CEOs, Executives, Managers, Business owners, hotel managers, VIPs and celebrities']
-    ]
-  },
-  'OF-005': {
-    name: 'Executive Office Chair', category: 'office', categoryLabel: 'Office',
-    price: 380000, reviews: '4.9 · 28 reviews',
-    img: 'https://images.unsplash.com/photo-1580480055273-228ff5388ef8?auto=format&fit=crop&w=1200&q=85',
-    img2: 'https://images.unsplash.com/photo-1544984243-ec57ea16fe25?auto=format&fit=crop&w=1200&q=85',
-    colours: ['Black Leather / Chrome'],
-    specs: [
-      ['Overall dimensions', '650 × 650 × 1200 mm'],
-      ['Upholstery', 'Premium black leather'],
-      ['Base', 'Chrome 5-point swivel'],
-      ['Adjustability', 'Height, tilt, lumbar support'],
-      ['Installation', '5 minutes'],
-      ['Recommended for', 'Executive offices, conference rooms, home offices']
-    ]
-  },
-  'OD-001': {
-    name: 'Garden Lounge Set', category: 'outdoor', categoryLabel: 'Outdoor',
-    price: 920000, reviews: '4.8 · 10 reviews',
-    img: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=85',
-    img2: 'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1200&q=85',
-    colours: ['Teak / Cream'],
-    specs: [
-      ['Configuration', '4-piece set (sofa, 2 chairs, coffee table)'],
-      ['Material', 'Weather-resistant teak'],
-      ['Cushions', 'Included, quick-dry foam'],
-      ['Build', 'Assembled on delivery'],
-      ['Installation', '15 minutes'],
-      ['Recommended for', 'Gardens, patios, poolside lounges, boutique hotels']
-    ]
-  },
-  'OD-002': {
-    name: 'Patio Dining Set', category: 'outdoor', categoryLabel: 'Outdoor',
-    price: 620000, reviews: '4.7 · 9 reviews',
-    img: 'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1200&q=85',
-    img2: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=85',
-    colours: ['Black Rattan / Glass'],
-    specs: [
-      ['Configuration', '4-seater set (table plus 4 chairs)'],
-      ['Material', 'UV-resistant rattan'],
-      ['Top', 'Tempered glass'],
-      ['Installation', '10 minutes'],
-      ['Recommended for', 'Patios, balconies, outdoor dining areas']
-    ]
-  },
-  'OD-003': {
-    name: 'Outdoor Swing Chair', category: 'outdoor', categoryLabel: 'Outdoor',
-    price: 385000, reviews: '4.9 · 13 reviews',
-    img: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=85',
-    img2: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=85',
-    colours: ['Grey Rattan'],
-    specs: [
-      ['Overall dimensions', '1100 × 900 × 1950 mm'],
-      ['Frame', 'Powder-coated steel'],
-      ['Material', 'UV-resistant rattan'],
-      ['Cushion', 'Included'],
-      ['Installation', '15 minutes'],
-      ['Recommended for', 'Gardens, patios, poolside']
-    ]
-  }
+/* ═══════════════════════════════════════════════════════════
+   🔧 PASTE YOUR FIREBASE CONFIG HERE
+   Replace everything between { } with your config object from
+   Firebase Console → Project Settings → Your apps → SDK setup
+   ═══════════════════════════════════════════════════════════ */
+const firebaseConfig = {
+  apiKey: "PASTE_YOUR_API_KEY_HERE",
+  authDomain: "PASTE_YOUR_AUTH_DOMAIN_HERE",
+  projectId: "PASTE_YOUR_PROJECT_ID_HERE",
+  storageBucket: "PASTE_YOUR_STORAGE_BUCKET_HERE",
+  messagingSenderId: "PASTE_YOUR_SENDER_ID_HERE",
+  appId: "PASTE_YOUR_APP_ID_HERE"
 };
+/* ═══════════════════════════════════════════════════════════
+   END CONFIG
+   ═══════════════════════════════════════════════════════════ */
+
+const configMissing = firebaseConfig.apiKey.startsWith('PASTE_');
+if(configMissing){
+  document.getElementById('fbWarning').classList.add('show');
+}
+
+let fbApp, db;
+if(!configMissing){
+  try {
+    fbApp = initializeApp(firebaseConfig);
+    db = getFirestore(fbApp);
+  } catch(e){
+    console.error('Firebase init failed', e);
+  }
+}
+
+/* ==================== UTILITIES ==================== */
+const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const hasGSAP = typeof gsap !== 'undefined';
+
+function formatNaira(n){
+  return '₦' + Number(n || 0).toLocaleString('en-NG');
+}
 
 const CATEGORY_LABELS = {
   all: 'Shop',
@@ -1668,16 +1483,15 @@ const CATEGORY_LABELS = {
   'outdoor': 'Outdoor'
 };
 
-const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-const hasGSAP = typeof gsap !== 'undefined';
+/* ==================== STATE ==================== */
+let PRODUCTS = {};           // code -> product data (loaded from Firestore)
+let currentCategory = 'all';
+let currentSort = 'featured';
+let activeCode = null;
+let activeColour = null;
+let activeQty = 1;
 
-function formatNaira(n){
-  return '₦' + n.toLocaleString('en-NG');
-}
-
-/* ============================================================
-   Lenis smooth scroll
-   ============================================================ */
+/* ==================== LENIS ==================== */
 if(!prefersReduced && typeof Lenis !== 'undefined'){
   try {
     const lenis = new Lenis({
@@ -1686,26 +1500,22 @@ if(!prefersReduced && typeof Lenis !== 'undefined'){
       smoothWheel:true,
       smoothTouch:false
     });
-    function raf(time){ lenis.raf(time); requestAnimationFrame(raf); }
+    function raf(t){ lenis.raf(t); requestAnimationFrame(raf); }
     requestAnimationFrame(raf);
   } catch(e){}
 }
 
-/* ============================================================
-   Header scroll state
-   ============================================================ */
+/* ==================== HEADER ==================== */
 const header = document.getElementById('header');
 const filterBar = document.getElementById('filterBar');
-const updateHeader = () => {
+function updateHeader(){
   const y = window.scrollY;
-  if(y > 40) header.classList.add('scrolled');
-  else header.classList.remove('scrolled');
+  header.classList.toggle('scrolled', y > 40);
   filterBar.style.top = header.classList.contains('scrolled') ? '60px' : '68px';
-};
+}
 window.addEventListener('scroll', updateHeader, { passive:true });
 updateHeader();
 
-/* Mobile menu */
 const menuToggle = document.getElementById('menuToggle');
 const navEl = document.getElementById('nav');
 menuToggle.addEventListener('click', () => {
@@ -1714,9 +1524,7 @@ menuToggle.addEventListener('click', () => {
   document.body.classList.toggle('no-scroll', open);
 });
 
-/* ============================================================
-   Hero intro animation
-   ============================================================ */
+/* ==================== HERO INTRO ==================== */
 function splitWords(root){
   const nodes = [];
   const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null);
@@ -1750,7 +1558,7 @@ if(!prefersReduced && hasGSAP){
   try {
     const headline = document.getElementById('shopHeroHeadline');
     const words = splitWords(headline);
-    const tl = gsap.timeline({ delay: 0.3 });
+    const tl = gsap.timeline({ delay: 0.25 });
     tl.from(words, { yPercent:120, opacity:0, duration:.9, stagger:0.05, ease:'power4.out' })
       .from('.shop-hero-eyebrow', { y:16, opacity:0, duration:.7, ease:'power3.out' }, '-=.6')
       .from('.shop-hero-breadcrumb', { y:16, opacity:0, duration:.7, ease:'power3.out' }, '-=.7')
@@ -1758,9 +1566,7 @@ if(!prefersReduced && hasGSAP){
   } catch(e){}
 }
 
-/* ============================================================
-   Cart state
-   ============================================================ */
+/* ==================== CART ==================== */
 let cart = [];
 try {
   const stored = localStorage.getItem('hg_cart');
@@ -1769,8 +1575,15 @@ try {
 
 function saveCart(){ try{ localStorage.setItem('hg_cart', JSON.stringify(cart)); }catch(e){} }
 
+function cartTotal(){
+  return cart.reduce((sum, item) => {
+    const p = PRODUCTS[item.code];
+    return sum + (p ? p.price * item.qty : 0);
+  }, 0);
+}
+
 function updateCartUI(){
-  const count = cart.reduce((sum, item) => sum + item.qty, 0);
+  const count = cart.reduce((s, i) => s + i.qty, 0);
   const cartCount = document.getElementById('cartCount');
   const cartHeadCount = document.getElementById('cartHeadCount');
   cartCount.textContent = count;
@@ -1780,12 +1593,19 @@ function updateCartUI(){
   const body = document.getElementById('cartBody');
   const foot = document.getElementById('cartFoot');
 
+  // Clean out items whose product no longer exists (deleted from admin)
+  const validCart = cart.filter(item => PRODUCTS[item.code]);
+  if(validCart.length !== cart.length){
+    cart = validCart;
+    saveCart();
+  }
+
   if(cart.length === 0){
     body.innerHTML = `
       <div class="cart-empty">
         <h4>Your cart is empty</h4>
         <p>Let's fix that.</p>
-        <button class="btn btn-primary" onclick="closeCart()" style="padding:14px 24px;"><span>Continue Shopping</span></button>
+        <button class="btn btn-primary" onclick="window.hgCloseCart()" style="padding:14px 24px;"><span>Continue Shopping</span></button>
       </div>
     `;
     foot.style.display = 'none';
@@ -1793,15 +1613,15 @@ function updateCartUI(){
   }
 
   foot.style.display = 'block';
-  body.innerHTML = cart.map((item, i) => {
+  body.innerHTML = cart.map(item => {
     const p = PRODUCTS[item.code];
     if(!p) return '';
     return `
       <div class="cart-item">
-        <div class="cart-item-img"><img src="${p.img}" alt="${p.name}"></div>
+        <div class="cart-item-img"><img src="${p.img || ''}" alt="${p.name || ''}"></div>
         <div class="cart-item-info">
-          <h4>${p.name}</h4>
-          <p>${item.colour}</p>
+          <h4>${p.name || ''}</h4>
+          <p>${item.colour || ''}</p>
           <div>
             <span class="cart-item-price">${formatNaira(p.price * item.qty)}</span>
             <span class="cart-item-qty">× ${item.qty}</span>
@@ -1811,22 +1631,20 @@ function updateCartUI(){
     `;
   }).join('');
 
-  const total = cart.reduce((sum, item) => sum + (PRODUCTS[item.code]?.price || 0) * item.qty, 0);
-  document.getElementById('cartSubtotal').textContent = formatNaira(total);
+  document.getElementById('cartSubtotal').textContent = formatNaira(cartTotal());
 }
 
 function addToCart(code, colour, qty = 1){
-  const existing = cart.find(item => item.code === code && item.colour === colour);
-  if(existing){ existing.qty += qty; }
-  else { cart.push({ code, colour, qty }); }
+  if(!PRODUCTS[code]) return;
+  const existing = cart.find(i => i.code === code && i.colour === colour);
+  if(existing) existing.qty += qty;
+  else cart.push({ code, colour, qty });
   saveCart();
   updateCartUI();
   showToast(`${PRODUCTS[code].name} added to cart`);
 }
 
-/* ============================================================
-   Toast
-   ============================================================ */
+/* ==================== TOAST ==================== */
 const toast = document.getElementById('toast');
 let toastTimer;
 function showToast(msg){
@@ -1836,9 +1654,7 @@ function showToast(msg){
   toastTimer = setTimeout(() => toast.classList.remove('show'), 3000);
 }
 
-/* ============================================================
-   Cart drawer
-   ============================================================ */
+/* ==================== CART DRAWER ==================== */
 const cartDrawer = document.getElementById('cartDrawer');
 const cartBackdrop = document.getElementById('cartBackdrop');
 function openCart(){
@@ -1851,18 +1667,15 @@ function closeCart(){
   cartBackdrop.classList.remove('open');
   document.body.classList.remove('no-scroll');
 }
+window.hgCloseCart = closeCart;
 document.getElementById('cartBtn').addEventListener('click', openCart);
 document.getElementById('cartClose').addEventListener('click', closeCart);
 cartBackdrop.addEventListener('click', closeCart);
 document.getElementById('cartContinue').addEventListener('click', closeCart);
 
-/* ============================================================
-   Product grid rendering
-   ============================================================ */
+/* ==================== PRODUCT GRID ==================== */
 const grid = document.getElementById('productGrid');
 const visibleCount = document.getElementById('visibleCount');
-let currentCategory = 'all';
-let currentSort = 'featured';
 
 function getFilteredProducts(){
   let list = Object.entries(PRODUCTS).map(([code, p]) => ({ code, ...p }));
@@ -1870,10 +1683,10 @@ function getFilteredProducts(){
     list = list.filter(p => p.category === currentCategory);
   }
   switch(currentSort){
-    case 'price-low': list.sort((a,b) => a.price - b.price); break;
-    case 'price-high': list.sort((a,b) => b.price - a.price); break;
-    case 'name': list.sort((a,b) => a.name.localeCompare(b.name)); break;
-    default: break;
+    case 'price-low': list.sort((a,b) => (a.price || 0) - (b.price || 0)); break;
+    case 'price-high': list.sort((a,b) => (b.price || 0) - (a.price || 0)); break;
+    case 'name': list.sort((a,b) => (a.name || '').localeCompare(b.name || '')); break;
+    default: list.sort((a, b) => (a.code || '').localeCompare(b.code || '')); break;
   }
   return list;
 }
@@ -1885,9 +1698,16 @@ function renderGrid(){
   if(list.length === 0){
     grid.innerHTML = `
       <div class="empty-state">
+        <div class="empty-state-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M3 9L12 3L21 9V21H3V9Z" stroke="currentColor" stroke-width="1.5"/><path d="M9 21V13H15V21" stroke="currentColor" stroke-width="1.5"/></svg>
+        </div>
         <h3>Nothing here yet</h3>
-        <p>Try a different filter, or browse all furniture.</p>
-        <button class="btn btn-primary" id="clearFilterBtn" style="padding:14px 28px;"><span>Show All Products</span></button>
+        <p>${currentCategory === 'all'
+          ? 'New pieces are being added to the collection. Check back soon.'
+          : 'Try a different filter, or browse the full collection.'}</p>
+        ${currentCategory !== 'all'
+          ? `<button class="btn" id="clearFilterBtn">Show All Products</button>`
+          : ''}
       </div>
     `;
     const btn = document.getElementById('clearFilterBtn');
@@ -1898,14 +1718,14 @@ function renderGrid(){
   grid.innerHTML = list.map((p, i) => `
     <div class="product-card" data-code="${p.code}" style="transition-delay:${Math.min(i * 40, 400)}ms">
       <div class="product-media">
-        <span class="product-tag">${p.categoryLabel}</span>
-        <img class="first" src="${p.img}" alt="${p.name}" loading="lazy">
-        <img class="second" src="${p.img2}" alt="" loading="lazy">
+        <span class="product-tag">${p.categoryLabel || p.category || ''}</span>
+        <img class="first" src="${p.img || ''}" alt="${p.name || ''}" loading="lazy">
+        <img class="second" src="${p.img2 || p.img || ''}" alt="" loading="lazy">
         <span class="product-quickview">View Details</span>
       </div>
       <div class="product-body">
-        <div class="product-name">${p.name}</div>
-        <div class="product-variant">${p.colours[0]} · ${p.code}</div>
+        <div class="product-name">${p.name || ''}</div>
+        <div class="product-variant">${(p.colours && p.colours[0]) || 'Standard'} · ${p.code}</div>
         <div class="product-price-row">
           <div class="product-price">${formatNaira(p.price)}</div>
           <button class="product-buy" data-code="${p.code}">
@@ -1917,28 +1737,25 @@ function renderGrid(){
     </div>
   `).join('');
 
-  // Card click opens modal
   grid.querySelectorAll('.product-card').forEach(card => {
     card.addEventListener('click', (e) => {
       if(e.target.closest('.product-buy')){
         e.stopPropagation();
         const code = e.target.closest('.product-buy').dataset.code;
-        addToCart(code, PRODUCTS[code].colours[0], 1);
-        openCart();
+        const p = PRODUCTS[code];
+        if(p) {
+          addToCart(code, (p.colours && p.colours[0]) || 'Standard', 1);
+          openCart();
+        }
         return;
       }
       openModal(card.dataset.code);
     });
   });
 
-  // Staggered reveal
-  if(!prefersReduced && hasGSAP){
-    requestAnimationFrame(() => {
-      grid.querySelectorAll('.product-card').forEach(card => card.classList.add('revealed'));
-    });
-  } else {
+  requestAnimationFrame(() => {
     grid.querySelectorAll('.product-card').forEach(card => card.classList.add('revealed'));
-  }
+  });
 }
 
 function setCategory(cat){
@@ -1947,7 +1764,6 @@ function setCategory(cat){
     t.classList.toggle('active', t.dataset.category === cat);
   });
   document.getElementById('crumbCategory').textContent = CATEGORY_LABELS[cat] || 'Shop';
-  // Update URL without reload
   const url = new URL(window.location);
   if(cat === 'all') url.searchParams.delete('category');
   else url.searchParams.set('category', cat);
@@ -1964,65 +1780,125 @@ document.getElementById('sortSelect').addEventListener('change', (e) => {
   renderGrid();
 });
 
-/* ============================================================
-   Product modal
-   ============================================================ */
+/* ==================== SKELETON LOADING ==================== */
+function renderSkeletons(){
+  grid.innerHTML = Array.from({ length: 6 }).map(() => `
+    <div class="skeleton-card">
+      <div class="skeleton-media"></div>
+      <div class="skeleton-line"></div>
+      <div class="skeleton-line short"></div>
+    </div>
+  `).join('');
+}
+
+/* ==================== FIREBASE LOAD ==================== */
+async function loadProductsFromFirebase(){
+  renderSkeletons();
+
+  if(configMissing || !db){
+    PRODUCTS = {};
+    renderGrid();
+    updateCartUI();
+    return;
+  }
+
+  try {
+    // Real-time listener: any change in admin updates the shop instantly
+    onSnapshot(collection(db, 'products'), (snap) => {
+      PRODUCTS = {};
+      snap.forEach(doc => {
+        PRODUCTS[doc.id] = doc.data();
+      });
+      renderGrid();
+      updateCartUI();
+
+      // If a product modal is open, refresh its data too
+      if(activeCode && PRODUCTS[activeCode]){
+        refreshOpenModal(activeCode);
+      } else if(activeCode && !PRODUCTS[activeCode]){
+        // Product was deleted while modal open
+        closeModal();
+      }
+    }, (err) => {
+      console.error('Firestore listener error', err);
+      grid.innerHTML = `
+        <div class="empty-state">
+          <h3>Couldn't load products</h3>
+          <p>${err.message || 'Please refresh and try again.'}</p>
+        </div>`;
+    });
+  } catch(e){
+    console.error(e);
+    grid.innerHTML = `
+      <div class="empty-state">
+        <h3>Couldn't load products</h3>
+        <p>${e.message}</p>
+      </div>`;
+  }
+}
+
+/* ==================== MODAL ==================== */
 const modal = document.getElementById('productModal');
 const modalBackdrop = document.getElementById('modalBackdrop');
-let activeCode = null;
-let activeColour = null;
-let activeQty = 1;
 
 function openModal(code){
   const p = PRODUCTS[code];
   if(!p) return;
   activeCode = code;
-  activeColour = p.colours[0];
+  activeColour = (p.colours && p.colours[0]) || 'Standard';
   activeQty = 1;
+  fillModal(p, code);
+  modal.classList.add('open');
+  modalBackdrop.classList.add('open');
+  document.body.classList.add('no-scroll');
 
-  document.getElementById('modalImg').src = p.img;
-  document.getElementById('modalImg').alt = p.name;
-  document.getElementById('modalTag').textContent = p.categoryLabel;
-  document.getElementById('modalName').textContent = p.name;
-  document.getElementById('modalCode').textContent = `${p.code} · ${p.colours[0]}`;
-  document.getElementById('modalReviews').textContent = p.reviews;
+  const url = new URL(window.location);
+  url.searchParams.set('product', code);
+  window.history.replaceState({}, '', url);
+}
+
+function refreshOpenModal(code){
+  const p = PRODUCTS[code];
+  if(!p) return;
+  fillModal(p, code);
+}
+
+function fillModal(p, code){
+  document.getElementById('modalImg').src = p.img || '';
+  document.getElementById('modalImg').alt = p.name || '';
+  document.getElementById('modalTag').textContent = p.categoryLabel || p.category || '';
+  document.getElementById('modalName').textContent = p.name || '';
+  document.getElementById('modalCode').textContent = `${code} · ${activeColour}`;
+  document.getElementById('modalReviews').textContent = p.reviews || '5.0 · New';
   document.getElementById('modalPrice').textContent = formatNaira(p.price);
-  document.getElementById('modalQty').textContent = '1';
+  document.getElementById('modalQty').textContent = activeQty;
 
-  // Colours
+  const colours = (p.colours && p.colours.length) ? p.colours : ['Standard'];
   const colourWrap = document.getElementById('modalColours');
-  colourWrap.innerHTML = p.colours.map(c => `
-    <button class="colour-option active" data-colour="${c}">${c}</button>
+  colourWrap.innerHTML = colours.map(c => `
+    <button class="colour-option ${c === activeColour ? 'active' : ''}" data-colour="${c}">${c}</button>
   `).join('');
   colourWrap.querySelectorAll('.colour-option').forEach(btn => {
     btn.addEventListener('click', () => {
       colourWrap.querySelectorAll('.colour-option').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       activeColour = btn.dataset.colour;
-      document.getElementById('modalCode').textContent = `${p.code} · ${activeColour}`;
+      document.getElementById('modalCode').textContent = `${code} · ${activeColour}`;
     });
   });
 
-  // Specs
-  document.getElementById('modalSpecs').innerHTML = p.specs.map(([k, v]) => `
-    <div class="modal-spec-row">
-      <dt>${k}</dt>
-      <dd>${v}</dd>
-    </div>
-  `).join('');
+  const specs = p.specs || [];
+  document.getElementById('modalSpecs').innerHTML = specs.length
+    ? specs.map(([k, v]) => `
+      <div class="modal-spec-row">
+        <dt>${k}</dt>
+        <dd>${v}</dd>
+      </div>
+    `).join('')
+    : `<div class="modal-spec-row"><dt>Details</dt><dd>Contact us on WhatsApp</dd></div>`;
 
-  // WhatsApp deep link
-  const waMsg = encodeURIComponent(`Hi Handy-Gidi, I'd like to ask about ${p.name} (${p.code}).`);
+  const waMsg = encodeURIComponent(`Hi Handy-Gidi, I'd like to ask about ${p.name} (${code}).`);
   document.getElementById('modalWa').href = `https://wa.me/2347051094001?text=${waMsg}`;
-
-  modal.classList.add('open');
-  modalBackdrop.classList.add('open');
-  document.body.classList.add('no-scroll');
-
-  // Deep link
-  const url = new URL(window.location);
-  url.searchParams.set('product', code);
-  window.history.replaceState({}, '', url);
 }
 
 function closeModal(){
@@ -2030,7 +1906,6 @@ function closeModal(){
   modalBackdrop.classList.remove('open');
   document.body.classList.remove('no-scroll');
   activeCode = null;
-
   const url = new URL(window.location);
   url.searchParams.delete('product');
   window.history.replaceState({}, '', url);
@@ -2067,9 +1942,7 @@ document.getElementById('modalBuyNow').addEventListener('click', () => {
   window.location.href = 'checkout.html';
 });
 
-/* ============================================================
-   Support + CTA section parallax
-   ============================================================ */
+/* ==================== PARALLAX ==================== */
 if(!prefersReduced && hasGSAP && typeof ScrollTrigger !== 'undefined'){
   try {
     gsap.registerPlugin(ScrollTrigger);
@@ -2088,10 +1961,8 @@ if(!prefersReduced && hasGSAP && typeof ScrollTrigger !== 'undefined'){
   } catch(e){}
 }
 
-/* ============================================================
-   Initialise from URL params
-   ============================================================ */
-(function init(){
+/* ==================== INIT ==================== */
+(async function init(){
   const params = new URLSearchParams(window.location.search);
   const cat = params.get('category');
   const prod = params.get('product');
@@ -2103,13 +1974,24 @@ if(!prefersReduced && hasGSAP && typeof ScrollTrigger !== 'undefined'){
     });
     document.getElementById('crumbCategory').textContent = CATEGORY_LABELS[cat];
   }
-  renderGrid();
-  updateCartUI();
 
-  if(prod && PRODUCTS[prod]){
-    setTimeout(() => openModal(prod), 300);
+  await loadProductsFromFirebase();
+
+  if(prod){
+    // Wait briefly for Firestore data
+    let tries = 0;
+    const waitForProduct = setInterval(() => {
+      tries++;
+      if(PRODUCTS[prod]){
+        clearInterval(waitForProduct);
+        openModal(prod);
+      } else if(tries > 30){
+        clearInterval(waitForProduct);
+      }
+    }, 100);
   }
 })();
+
 </script>
 </body>
 </html>
