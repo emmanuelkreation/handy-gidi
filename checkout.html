@@ -812,9 +812,12 @@ import {
   getFirestore, collection, doc, getDoc, addDoc,
   serverTimestamp, onSnapshot
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import {
+  getAuth, onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
 /* ═══════════════════════════════════════════════════════════
-   🔧 PASTE YOUR FIREBASE CONFIG HERE (same as admin + shop)
+   🔧 PASTE YOUR FIREBASE CONFIG HERE (same as other files)
    ═══════════════════════════════════════════════════════════ */
 const firebaseConfig = {
   apiKey: "AIzaSyA7khlO19sabspXwUhRRd4Bx_80IoJWcDc",
@@ -827,17 +830,17 @@ const firebaseConfig = {
 
 /* ═══════════════════════════════════════════════════════════
    PAYSTACK PUBLIC KEY
-   Get this from your Paystack dashboard → Settings → API Keys
    ═══════════════════════════════════════════════════════════ */
-const PAYSTACK_PUBLIC_KEY = "pk_live_a7515ef50624d01dccef7efae8697a4a70d02bc8";
+const PAYSTACK_PUBLIC_KEY = "PASTE_YOUR_PAYSTACK_PUBLIC_KEY_HERE";
 /* ═══════════════════════════════════════════════════════════ */
 
 const configMissing = firebaseConfig.apiKey.startsWith('PASTE_');
-let fbApp, db;
+let fbApp, db, auth;
 if(!configMissing){
   try {
     fbApp = initializeApp(firebaseConfig);
     db = getFirestore(fbApp);
+    auth = getAuth(fbApp);
   } catch(e){
     console.error('Firebase init failed', e);
   }
@@ -853,8 +856,9 @@ const ABUJA_ZONES = [
 let cart = [];
 let PRODUCTS = {};
 let selectedZone = null;
-let selectedPayment = 'paystack'; // default
+let selectedPayment = 'paystack';
 let orderSubmitting = false;
+let currentUser = null;
 
 /* ==================== UTILS ==================== */
 function formatNaira(n){
@@ -884,18 +888,17 @@ function buildZoneGrid(){
       chip.classList.add('selected');
       selectedZone = chip.dataset.zone;
       document.getElementById('field-zone').classList.remove('invalid');
+      updatePaymentUI();
       updatePlaceOrderBtn();
     });
   });
 }
-buildZoneGrid();
 
-/* ==================== PAYMENT SELECTION ==================== */
+/* ==================== PAYMENT UI ==================== */
 function updatePaymentUI(){
   document.querySelectorAll('.payment-option').forEach(opt => {
     opt.classList.toggle('selected', opt.dataset.method === selectedPayment);
   });
-  // If outside Abuja, disable pay on delivery
   const zoneIsAbuja = selectedZone && ABUJA_ZONES.includes(selectedZone);
   const delOpt = document.getElementById('optDelivery');
   if(!zoneIsAbuja && selectedZone){
@@ -920,6 +923,40 @@ document.querySelectorAll('.payment-option').forEach(opt => {
   });
 });
 
+/* ==================== AUTH GATE ==================== */
+function redirectToLogin(){
+  const returnTo = encodeURIComponent('checkout.html');
+  window.location.href = `login.html?redirect=${returnTo}`;
+}
+
+function prefillUserData(user, profile){
+  const emailField = document.getElementById('email');
+  const nameField = document.getElementById('fullName');
+  const phoneField = document.getElementById('phone');
+
+  if(emailField && !emailField.value && user.email){
+    emailField.value = user.email;
+  }
+  if(nameField && !nameField.value){
+    if(profile?.name) nameField.value = profile.name;
+    else if(user.displayName) nameField.value = user.displayName;
+  }
+  if(phoneField && !phoneField.value && profile?.phone){
+    phoneField.value = profile.phone;
+  }
+}
+
+async function fetchUserProfile(uid){
+  if(!db) return null;
+  try {
+    const snap = await getDoc(doc(db, 'customers', uid));
+    return snap.exists() ? snap.data() : null;
+  } catch(e){
+    console.error('Profile fetch failed', e);
+    return null;
+  }
+}
+
 /* ==================== LOAD CART + PRODUCTS ==================== */
 async function loadCartAndProducts(){
   try {
@@ -933,10 +970,7 @@ async function loadCartAndProducts(){
     return;
   }
 
-  // Fetch product details from Firestore
   if(configMissing || !db){
-    // Fallback: cart items carry their own name/price if admin was offline
-    // (not expected, but we handle gracefully)
     showToast('Products could not load. Please refresh.', true);
     return;
   }
@@ -950,7 +984,6 @@ async function loadCartAndProducts(){
       }
     }
 
-    // Remove cart items whose product no longer exists
     const validCart = cart.filter(i => PRODUCTS[i.code]);
     if(validCart.length !== cart.length){
       cart = validCart;
@@ -965,7 +998,6 @@ async function loadCartAndProducts(){
 
     renderSummary();
 
-    // Real-time updates (if admin changes prices mid-checkout)
     onSnapshot(collection(db, 'products'), (s) => {
       s.forEach(d => { PRODUCTS[d.id] = { code: d.id, ...d.data() }; });
       renderSummary();
@@ -1008,18 +1040,17 @@ function renderSummary(){
     deliveryEl.innerHTML = '<span style="color:var(--ink-soft); font-size:12px;">Confirmed on WhatsApp</span>';
   }
 
-  const deliveryFee = zoneIsAbuja ? 0 : 0; // Outside Abuja confirmed later
-  document.getElementById('sumTotal').textContent = formatNaira(subtotal + deliveryFee);
-
+  document.getElementById('sumTotal').textContent = formatNaira(subtotal);
   updatePaymentUI();
   updatePlaceOrderBtn();
 }
 
-/* ==================== PLACE ORDER BUTTON STATE ==================== */
+/* ==================== PLACE ORDER BUTTON ==================== */
 function updatePlaceOrderBtn(){
   const btn = document.getElementById('placeOrderBtn');
   const subtotal = cart.reduce((s, i) => s + ((PRODUCTS[i.code]?.price || 0) * i.qty), 0);
   const label = document.getElementById('placeOrderLabel');
+  if(!label) return;
 
   if(selectedPayment === 'paystack'){
     label.textContent = `Pay ${formatNaira(subtotal)} Securely`;
@@ -1029,11 +1060,12 @@ function updatePlaceOrderBtn(){
   btn.disabled = orderSubmitting;
 }
 
-/* ==================== FORM VALIDATION ==================== */
+/* ==================== VALIDATION ==================== */
 function validateForm(){
   let valid = true;
   const check = (id, condition) => {
     const field = document.getElementById('field-' + id);
+    if(!field) return;
     if(!condition){
       field.classList.add('invalid');
       valid = false;
@@ -1070,6 +1102,7 @@ async function submitOrder(paymentReference = ''){
 
   const order = {
     orderId,
+    userId: currentUser ? currentUser.uid : null,
     customer: {
       fullName: document.getElementById('fullName').value.trim(),
       phone: document.getElementById('phone').value.trim(),
@@ -1104,7 +1137,6 @@ async function submitOrder(paymentReference = ''){
     createdAt: serverTimestamp()
   };
 
-  // Write to Firestore
   if(!configMissing && db){
     const ref = await addDoc(collection(db, 'orders'), order);
     return { ...order, id: ref.id };
@@ -1126,7 +1158,7 @@ function launchPaystack(onSuccess, onCancel){
   const handler = PaystackPop.setup({
     key: PAYSTACK_PUBLIC_KEY,
     email: email,
-    amount: subtotal * 100, // kobo
+    amount: subtotal * 100,
     currency: 'NGN',
     ref: generateOrderId(),
     metadata: {
@@ -1149,24 +1181,17 @@ document.getElementById('placeOrderBtn').addEventListener('click', async () => {
   if(orderSubmitting) return;
   if(!validateForm()){
     showToast('Please fill all required fields.', true);
-    // Scroll to first invalid
     const invalid = document.querySelector('.field.invalid');
     if(invalid) invalid.scrollIntoView({ behavior:'smooth', block:'center' });
     return;
   }
 
   if(selectedPayment === 'paystack'){
-    // Launch Paystack
     launchPaystack(
-      async (reference) => {
-        await completeOrder(reference);
-      },
-      () => {
-        showToast('Payment cancelled.', true);
-      }
+      async (reference) => { await completeOrder(reference); },
+      () => { showToast('Payment cancelled.', true); }
     );
   } else {
-    // Pay on delivery
     await completeOrder('');
   }
 });
@@ -1182,14 +1207,10 @@ async function completeOrder(reference = ''){
 
   try {
     const order = await submitOrder(reference);
-
-    // Clear cart
     localStorage.removeItem('hg_cart');
 
-    // Show success
-    const subtotal = order.total;
     document.getElementById('refOrder').textContent = order.orderId;
-    document.getElementById('refTotal').textContent = formatNaira(subtotal);
+    document.getElementById('refTotal').textContent = formatNaira(order.total);
     document.getElementById('refPayment').textContent =
       selectedPayment === 'paystack' ? 'Paid online' : 'Pay on delivery';
 
@@ -1198,7 +1219,6 @@ async function completeOrder(reference = ''){
         ? 'Your payment was successful. Our team will reach out within the hour to confirm delivery details.'
         : 'Your order is received. Our team will reach out to confirm delivery and payment details.';
 
-    // Build WhatsApp deep link with the order
     const waLines = [
       `New Order — Handy-Gidi`,
       `Order: ${order.orderId}`,
@@ -1228,9 +1248,33 @@ async function completeOrder(reference = ''){
   }
 }
 
-/* ==================== INIT ==================== */
-loadCartAndProducts();
-updatePlaceOrderBtn();
+/* ==================== INIT WITH AUTH GATE ==================== */
+async function bootstrap(){
+  buildZoneGrid();
+
+  if(configMissing || !auth){
+    showToast('Firebase not configured. Contact support.', true);
+    return;
+  }
+
+  onAuthStateChanged(auth, async (user) => {
+    if(!user){
+      // Not signed in → redirect to login, then come back
+      redirectToLogin();
+      return;
+    }
+    currentUser = user;
+
+    // Pre-fill form from user + Firestore profile
+    const profile = await fetchUserProfile(user.uid);
+    prefillUserData(user, profile);
+
+    // Now safe to load cart
+    loadCartAndProducts();
+  });
+}
+
+bootstrap();
 </script>
 </body>
 </html>

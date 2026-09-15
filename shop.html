@@ -1032,7 +1032,6 @@
     padding:20px 28px;
   }
 
-  /* Enhanced cart item with quantity controls */
   .cart-item{
     display:grid;
     grid-template-columns:80px 1fr;
@@ -1183,7 +1182,6 @@
     flex-shrink:0;
   }
 
-  /* ---------- Firebase warning banner ---------- */
   .fb-warning{
     display:none;
     background:var(--rust);
@@ -1240,7 +1238,7 @@
 <div class="grain"></div>
 
 <div class="fb-warning" id="fbWarning">
-  ⚠️ Firebase not configured. Paste your config in <code>shop.html</code> to load products from the admin panel.
+  ⚠️ Firebase not configured. Paste your config in <code>shop.html</code> to load products.
 </div>
 
 <header id="header">
@@ -1413,7 +1411,6 @@
   <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M17.6 6.32A8 8 0 0 0 4.2 14.1L3 19.6l5.6-1.2A8 8 0 0 0 17.6 6.32zM12 18.5a6.5 6.5 0 0 1-3.3-.9l-.24-.14-3.32.71.7-3.24-.15-.25a6.5 6.5 0 1 1 6.31 3.82zM15.9 13.9c-.22-.11-1.3-.64-1.5-.71s-.34-.11-.49.11-.56.71-.69.86-.26.16-.48.05a5.3 5.3 0 0 1-1.56-.96 5.9 5.9 0 0 1-1.09-1.36c-.11-.19 0-.29.08-.39s.22-.26.33-.39a1.5 1.5 0 0 0 .22-.37.4.4 0 0 0 0-.37c-.05-.11-.49-1.18-.67-1.61s-.36-.36-.49-.36h-.42a.8.8 0 0 0-.58.27 2.43 2.43 0 0 0-.76 1.81 4.22 4.22 0 0 0 .88 2.23 9.65 9.65 0 0 0 3.7 3.27c.52.22.92.35 1.24.45a3 3 0 0 0 1.37.09 2.22 2.22 0 0 0 1.46-1 1.85 1.85 0 0 0 .13-1c-.05-.09-.2-.15-.42-.26z"/></svg>
 </a>
 
-<!-- MODAL -->
 <div class="modal-backdrop" id="modalBackdrop"></div>
 <div class="product-modal" id="productModal">
   <button class="modal-close" id="modalClose" aria-label="Close">
@@ -1463,7 +1460,6 @@
   </div>
 </div>
 
-<!-- CART -->
 <div class="cart-backdrop" id="cartBackdrop"></div>
 <aside class="cart-drawer" id="cartDrawer">
   <div class="cart-head">
@@ -1485,7 +1481,7 @@
       <b id="cartSubtotal">₦0</b>
     </div>
     <div class="cart-actions">
-      <a href="checkout.html" class="btn btn-primary">
+      <a href="#" class="btn btn-primary" id="checkoutBtn">
         <span>Proceed to Checkout</span>
         <svg width="14" height="14" viewBox="0 0 12 12" fill="none"><path d="M1 11L11 1M11 1H3M11 1V9" stroke="currentColor" stroke-width="1.5"/></svg>
       </a>
@@ -1494,7 +1490,6 @@
   </div>
 </aside>
 
-<!-- TOAST -->
 <div class="toast" id="toast">
   <span class="check">✓</span>
   <span id="toastText">Added to cart</span>
@@ -1505,6 +1500,9 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/fireba
 import {
   getFirestore, collection, getDocs, onSnapshot
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import {
+  getAuth, onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
 /* ═══════════════════════════════════════════════════════════
    🔧 PASTE YOUR FIREBASE CONFIG HERE
@@ -1524,11 +1522,12 @@ if(configMissing){
   document.getElementById('fbWarning').classList.add('show');
 }
 
-let fbApp, db;
+let fbApp, db, auth;
 if(!configMissing){
   try {
     fbApp = initializeApp(firebaseConfig);
     db = getFirestore(fbApp);
+    auth = getAuth(fbApp);
   } catch(e){
     console.error('Firebase init failed', e);
   }
@@ -1558,6 +1557,7 @@ let currentSort = 'featured';
 let activeCode = null;
 let activeColour = null;
 let activeQty = 1;
+let currentUser = null;
 
 /* ==================== LENIS ==================== */
 if(!prefersReduced && typeof Lenis !== 'undefined'){
@@ -1591,6 +1591,13 @@ menuToggle.addEventListener('click', () => {
   menuToggle.classList.toggle('open', open);
   document.body.classList.toggle('no-scroll', open);
 });
+
+/* ==================== AUTH STATE ==================== */
+if(auth){
+  onAuthStateChanged(auth, (user) => {
+    currentUser = user;
+  });
+}
 
 /* ==================== HERO INTRO ==================== */
 function splitWords(root){
@@ -1656,19 +1663,10 @@ function cartTotal(){
   }, 0);
 }
 
-/* ----- CART ITEM ACTIONS ----- */
 function changeQty(code, colour, delta){
   const item = cart.find(i => i.code === code && i.colour === colour);
   if(!item) return;
   item.qty = Math.max(1, item.qty + delta);
-  saveCart();
-  updateCartUI();
-}
-
-function setQty(code, colour, qty){
-  const item = cart.find(i => i.code === code && i.colour === colour);
-  if(!item) return;
-  item.qty = Math.max(1, parseInt(qty) || 1);
   saveCart();
   updateCartUI();
 }
@@ -1689,7 +1687,6 @@ function clearCart(){
   showToast('Cart cleared');
 }
 
-/* ----- CART UI ----- */
 function updateCartUI(){
   const count = cartCount();
   const cartCountEl = document.getElementById('cartCount');
@@ -1751,7 +1748,6 @@ function updateCartUI(){
     `;
   }).join('');
 
-  // Attach handlers to cart buttons (event delegation)
   body.querySelectorAll('[data-action]').forEach(btn => {
     btn.addEventListener('click', (e) => {
       e.stopPropagation();
@@ -1806,6 +1802,53 @@ document.getElementById('cartClose').addEventListener('click', closeCart);
 cartBackdrop.addEventListener('click', closeCart);
 document.getElementById('cartContinue').addEventListener('click', closeCart);
 document.getElementById('cartClearBtn').addEventListener('click', clearCart);
+
+/* ==================== AUTH-AWARE CHECKOUT ==================== */
+document.getElementById('checkoutBtn').addEventListener('click', (e) => {
+  e.preventDefault();
+
+  const goToCheckout = () => { window.location.href = 'checkout.html'; };
+
+  // If Firebase auth isn't available, just go (checkout will handle the gate)
+  if(!auth){
+    goToCheckout();
+    return;
+  }
+
+  // If we already have a known user (from the persistent listener), go straight
+  if(currentUser){
+    goToCheckout();
+    return;
+  }
+
+  // Otherwise, do a one-shot check in case the listener hasn't fired yet
+  let resolved = false;
+  const unsubscribe = onAuthStateChanged(auth, (user) => {
+    if(resolved) return;
+    resolved = true;
+    unsubscribe();
+    if(user){
+      currentUser = user;
+      goToCheckout();
+    } else {
+      // Save intention and redirect to login → will return to checkout
+      window.location.href = 'login.html?redirect=' + encodeURIComponent('checkout.html');
+    }
+  });
+
+  // Failsafe: if auth state never resolves in 2s, redirect to login
+  setTimeout(() => {
+    if(!resolved){
+      resolved = true;
+      unsubscribe();
+      if(currentUser){
+        goToCheckout();
+      } else {
+        window.location.href = 'login.html?redirect=' + encodeURIComponent('checkout.html');
+      }
+    }
+  }, 2000);
+});
 
 /* ==================== PRODUCT GRID ==================== */
 const grid = document.getElementById('productGrid');
@@ -1914,7 +1957,7 @@ document.getElementById('sortSelect').addEventListener('change', (e) => {
   renderGrid();
 });
 
-/* ==================== SKELETON LOADING ==================== */
+/* ==================== SKELETON ==================== */
 function renderSkeletons(){
   grid.innerHTML = Array.from({ length: 6 }).map(() => `
     <div class="skeleton-card">
@@ -2069,7 +2112,13 @@ document.getElementById('modalAddToCart').addEventListener('click', () => {
 document.getElementById('modalBuyNow').addEventListener('click', () => {
   if(!activeCode) return;
   addToCart(activeCode, activeColour, activeQty);
-  window.location.href = 'checkout.html';
+  // Buy Now also respects auth via the checkout button flow
+  const goToCheckout = () => { window.location.href = 'checkout.html'; };
+  if(!auth || currentUser){
+    goToCheckout();
+  } else {
+    window.location.href = 'login.html?redirect=' + encodeURIComponent('checkout.html');
+  }
 });
 
 /* ==================== PARALLAX ==================== */
