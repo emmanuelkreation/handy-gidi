@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>About Us | Handy-Gidi</title>
-<meta name="description" content="Handy-Gidi International Ltd. Nigerian furniture manufacturers, designers and installers. Built in Abuja, delivered nationwide." />
+<meta name="description" content="Meet the people behind Handy-Gidi International Ltd. Nigerian furniture manufacturers, designers and installers. Built in Abuja, delivered nationwide." />
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -77,7 +77,6 @@
   .breadcrumb a:hover{color:var(--gold-light);}
   .breadcrumb span::before{content:'/'; margin-right:10px;}
 
-  /* Sections */
   section{position:relative;}
   .section-pad{padding:140px 0;}
   .section-head{max-width:720px; margin-bottom:72px;}
@@ -91,7 +90,7 @@
   .reveal-mask{overflow:hidden; display:block;}
   .reveal-mask > *{display:block; will-change:transform;}
 
-  /* Split image + text */
+  /* Split */
   .split-section{display:grid; grid-template-columns:1fr 1fr; min-height:80vh; background:var(--paper-2);}
   .split-media{position:relative; overflow:hidden; background:#111;}
   .split-media img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; will-change:transform;}
@@ -102,6 +101,193 @@
   .split-flip{direction:rtl;}
   .split-flip > *{direction:ltr;}
   @media (max-width:900px){ .split-section{grid-template-columns:1fr;} .split-media{aspect-ratio:4/5; min-height:auto; position:relative;} .split-copy{padding:80px 32px;} .split-flip{direction:ltr;} }
+
+  /* ==================== CEO SECTION ==================== */
+  .ceo-section{
+    background:var(--paper);
+    padding:140px 0;
+    position:relative;
+    overflow:hidden;
+  }
+  .ceo-grid{
+    display:grid;
+    grid-template-columns:0.9fr 1.1fr;
+    gap:80px;
+    align-items:center;
+  }
+  @media (max-width:900px){
+    .ceo-grid{grid-template-columns:1fr; gap:48px;}
+  }
+
+  .ceo-portrait{
+    position:relative;
+    aspect-ratio:4/5;
+    overflow:hidden;
+    border-radius:4px;
+    background:#EDE4D2;
+  }
+  .ceo-portrait img{
+    width:100%; height:100%;
+    object-fit:cover;
+    transition:transform 1.2s cubic-bezier(.2,.7,.2,1);
+  }
+  .ceo-portrait:hover img{transform:scale(1.04);}
+  .ceo-portrait::after{
+    content:'';
+    position:absolute; inset:0;
+    background:linear-gradient(180deg, transparent 55%, rgba(26,20,15,0.5) 100%);
+    pointer-events:none;
+  }
+  .ceo-badge{
+    position:absolute;
+    left:24px; bottom:24px;
+    z-index:2;
+    padding:10px 18px;
+    background:var(--gold);
+    color:var(--ink);
+    font-size:11.5px;
+    font-weight:700;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    border-radius:2px;
+  }
+
+  .ceo-copy .ceo-quote{
+    font-family:'Fraunces', serif;
+    font-size:clamp(22px, 2.4vw, 32px);
+    line-height:1.35;
+    font-weight:460;
+    letter-spacing:-0.01em;
+    color:var(--ink);
+    margin:24px 0 32px;
+    position:relative;
+  }
+  .ceo-copy .ceo-quote::before{
+    content:'"';
+    font-family:'Fraunces', serif;
+    position:absolute;
+    top:-40px; left:-10px;
+    font-size:100px;
+    color:var(--gold-light);
+    opacity:0.4;
+    line-height:1;
+  }
+  .ceo-copy p.bio{
+    color:var(--ink-soft);
+    font-size:16px;
+    line-height:1.8;
+    max-width:56ch;
+    margin-bottom:18px;
+  }
+  .ceo-signature{
+    margin-top:32px;
+    padding-top:28px;
+    border-top:1px solid var(--line);
+    display:flex;
+    align-items:center;
+    gap:16px;
+  }
+  .ceo-signature-name{
+    font-family:'Fraunces', serif;
+    font-size:22px;
+    font-weight:560;
+    letter-spacing:-0.01em;
+    color:var(--ink);
+  }
+  .ceo-signature-role{
+    font-size:12.5px;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:var(--gold-deep);
+    font-weight:600;
+    margin-top:4px;
+  }
+
+  /* ==================== TEAM SECTION ==================== */
+  .team-section{
+    background:var(--paper-2);
+    padding:140px 0;
+    position:relative;
+  }
+  .team-grid{
+    display:grid;
+    grid-template-columns:repeat(4, 1fr);
+    gap:32px;
+    margin-top:64px;
+  }
+  @media (max-width:1024px){ .team-grid{grid-template-columns:repeat(2, 1fr);} }
+  @media (max-width:520px){ .team-grid{grid-template-columns:1fr;} }
+
+  .team-card{
+    background:var(--paper-3);
+    border:1px solid var(--line);
+    border-radius:4px;
+    overflow:hidden;
+    transition:transform .4s ease, box-shadow .4s ease, border-color .4s ease;
+    cursor:default;
+  }
+  .team-card:hover{
+    transform:translateY(-6px);
+    box-shadow:0 20px 44px rgba(26,20,15,0.1);
+    border-color:rgba(176,129,46,0.3);
+  }
+  .team-media{
+    position:relative;
+    aspect-ratio:4/5;
+    overflow:hidden;
+    background:#EDE4D2;
+  }
+  .team-media img{
+    width:100%; height:100%;
+    object-fit:cover;
+    transition:transform 1.2s cubic-bezier(.2,.7,.2,1);
+  }
+  .team-card:hover .team-media img{transform:scale(1.06);}
+  .team-body{
+    padding:24px 22px 26px;
+  }
+  .team-name{
+    font-family:'Fraunces', serif;
+    font-size:19px;
+    font-weight:560;
+    letter-spacing:-0.01em;
+    color:var(--ink);
+    line-height:1.2;
+  }
+  .team-role{
+    font-size:11.5px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--gold-deep);
+    font-weight:700;
+    margin-top:8px;
+    margin-bottom:14px;
+  }
+  .team-bio{
+    font-size:13.5px;
+    line-height:1.65;
+    color:var(--ink-soft);
+  }
+  .team-socials{
+    display:flex;
+    gap:8px;
+    margin-top:16px;
+    padding-top:16px;
+    border-top:1px solid var(--line-soft);
+  }
+  .team-socials a{
+    width:34px; height:34px;
+    border-radius:50%;
+    border:1px solid var(--line);
+    display:flex; align-items:center; justify-content:center;
+    color:var(--ink-soft);
+    transition:all .3s ease;
+  }
+  .team-socials a:hover{
+    background:var(--gold);
+    color:var(--ink);
+    border-color:var(--gold);
+  }
 
   /* Values */
   .values-section{position:relative; padding:160px 0; overflow:hidden; color:var(--paper);}
@@ -116,7 +302,7 @@
   .value p{color:rgba(245,239,226,0.7); font-size:15.5px; line-height:1.65; max-width:44ch;}
   @media (max-width:900px){.values-grid{grid-template-columns:1fr;} .value{padding:40px 28px;}}
 
-  /* Process timeline */
+  /* Process */
   .process{padding:140px 0; background:var(--paper);}
   .process-timeline{display:grid; grid-template-columns:repeat(4, 1fr); gap:24px; margin-top:64px; position:relative;}
   .process-timeline::before{content:''; position:absolute; top:36px; left:5%; right:5%; height:1px; background:var(--line);}
@@ -126,7 +312,7 @@
   .process-step p{font-size:14px; color:var(--ink-soft); line-height:1.65;}
   @media (max-width:900px){.process-timeline{grid-template-columns:1fr; gap:40px;} .process-timeline::before{display:none;}}
 
-  /* Stats bar */
+  /* Stats */
   .stats-bar{background:var(--gold); padding:80px 0; position:relative; overflow:hidden;}
   .stats-bar::before{content:''; position:absolute; inset:0; background:linear-gradient(120deg, transparent 0%, rgba(26,20,15,0.12) 100%);}
   .stats-grid{position:relative; z-index:1; display:grid; grid-template-columns:repeat(4, 1fr); gap:40px; align-items:center;}
@@ -182,6 +368,7 @@
     nav.open a{font-size:32px; font-family:'Fraunces', serif; color:var(--paper); padding:8px 0; border-bottom:1px solid rgba(245,239,226,0.1);}
     .wrap{padding:0 20px;}
     .section-pad{padding:80px 0;}
+    .ceo-section, .team-section{padding:80px 0;}
   }
 </style>
 </head>
@@ -206,6 +393,7 @@
   </div>
 </header>
 
+<!-- HERO -->
 <section class="page-hero">
   <div class="page-hero-bg" id="heroBg"></div>
   <div class="page-hero-veil"></div>
@@ -217,6 +405,7 @@
   </div>
 </section>
 
+<!-- ORIGIN STORY -->
 <section class="split-section">
   <div class="split-media"><img src="https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=1600&q=85" alt="Workshop" id="img1"></div>
   <div class="split-copy">
@@ -227,6 +416,7 @@
   </div>
 </section>
 
+<!-- WHAT WE DO -->
 <section class="split-section split-flip">
   <div class="split-copy">
     <p class="eyebrow reveal-mask"><span>What we do</span></p>
@@ -237,6 +427,119 @@
   <div class="split-media"><img src="https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=1600&q=85" alt="Workshop detail" id="img2"></div>
 </section>
 
+<!-- ═══════════════════════════════════════════════════════════
+     CEO SECTION
+     ═══════════════════════════════════════════════════════════ -->
+<section class="ceo-section">
+  <div class="wrap">
+    <div class="section-head" style="max-width:640px;">
+      <p class="eyebrow reveal-mask"><span>From the founder</span></p>
+      <h2 class="reveal-mask" style="font-size:clamp(28px,3.4vw,44px); margin-top:20px; line-height:1.1;">The person behind the <em style="font-style:italic; font-weight:340; color:var(--gold-deep);">workshop.</em></h2>
+    </div>
+
+    <div class="ceo-grid">
+      <div class="ceo-portrait">
+        <span class="ceo-badge">Founder &amp; CEO</span>
+        <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=1200&q=85" alt="CEO portrait — replace with real photo">
+      </div>
+
+      <div class="ceo-copy">
+        <p class="eyebrow reveal-mask"><span>A note from the founder</span></p>
+        <p class="ceo-quote">I started Handy-Gidi because I was tired of watching Nigerians spend a fortune on imported furniture that arrived late, looked nothing like the pictures, and fell apart within two years. We knew we could do better. We knew we could build it here.</p>
+        <p class="bio">What began as a two-man operation in a small Abuja workshop is now a fully integrated furniture and interior design studio serving homes, offices, and hotels across Nigeria. Every piece we ship is a promise kept — to our customers, and to the next generation of Nigerian craftspeople.</p>
+        <div class="ceo-signature">
+          <div>
+            <div class="ceo-signature-name">Godwin Isiaka</div>
+            <div class="ceo-signature-role">Founder &amp; Chief Executive Officer</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     TEAM SECTION
+     ═══════════════════════════════════════════════════════════ -->
+<section class="team-section">
+  <div class="wrap">
+    <div class="section-head" style="max-width:720px;">
+      <p class="eyebrow reveal-mask"><span>The team</span></p>
+      <h2 class="reveal-mask" style="font-size:clamp(28px,3.4vw,44px); margin-top:20px; line-height:1.1;">The people who make it <em style="font-style:italic; font-weight:340; color:var(--gold-deep);">happen.</em></h2>
+      <p style="margin-top:18px; color:var(--ink-soft); font-size:16px;">Designers, builders, installers and problem-solvers. Small enough to care about every order, big enough to deliver at scale.</p>
+    </div>
+
+    <div class="team-grid">
+
+      <!-- Team member 1 -->
+      <div class="team-card">
+        <div class="team-media">
+          <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=900&q=85" alt="Team member">
+        </div>
+        <div class="team-body">
+          <div class="team-name">Amina Bello</div>
+          <div class="team-role">Head of Design</div>
+          <p class="team-bio">Leads every brief from first sketch to final render. 12 years in interiors, three continents, one obsession with detail.</p>
+          <div class="team-socials">
+            <a href="#" aria-label="LinkedIn"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.22 8h4.56v14H.22V8zm7.7 0h4.37v1.92h.06c.61-1.15 2.1-2.36 4.32-2.36 4.62 0 5.47 3.04 5.47 6.99V22h-4.56v-6.51c0-1.55-.03-3.55-2.16-3.55-2.17 0-2.5 1.69-2.5 3.44V22H8.42V8z"/></svg></a>
+            <a href="#" aria-label="Instagram"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg></a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Team member 2 -->
+      <div class="team-card">
+        <div class="team-media">
+          <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=900&q=85" alt="Team member">
+        </div>
+        <div class="team-body">
+          <div class="team-name">Chidi Okafor</div>
+          <div class="team-role">Production Manager</div>
+          <p class="team-bio">Runs the workshop floor. Every cut, joint and finish passes through his hands before it leaves the building.</p>
+          <div class="team-socials">
+            <a href="#" aria-label="LinkedIn"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.22 8h4.56v14H.22V8zm7.7 0h4.37v1.92h.06c.61-1.15 2.1-2.36 4.32-2.36 4.62 0 5.47 3.04 5.47 6.99V22h-4.56v-6.51c0-1.55-.03-3.55-2.16-3.55-2.17 0-2.5 1.69-2.5 3.44V22H8.42V8z"/></svg></a>
+            <a href="#" aria-label="Instagram"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg></a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Team member 3 -->
+      <div class="team-card">
+        <div class="team-media">
+          <img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&w=900&q=85" alt="Team member">
+        </div>
+        <div class="team-body">
+          <div class="team-name">Fatima Yusuf</div>
+          <div class="team-role">Client Experience Lead</div>
+          <p class="team-bio">The first person you'll speak to, and the last person to check you're happy. Runs our WhatsApp, calls and after-sales care.</p>
+          <div class="team-socials">
+            <a href="#" aria-label="LinkedIn"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.22 8h4.56v14H.22V8zm7.7 0h4.37v1.92h.06c.61-1.15 2.1-2.36 4.32-2.36 4.62 0 5.47 3.04 5.47 6.99V22h-4.56v-6.51c0-1.55-.03-3.55-2.16-3.55-2.17 0-2.5 1.69-2.5 3.44V22H8.42V8z"/></svg></a>
+            <a href="#" aria-label="Instagram"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg></a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Team member 4 -->
+      <div class="team-card">
+        <div class="team-media">
+          <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=900&q=85" alt="Team member">
+        </div>
+        <div class="team-body">
+          <div class="team-name">Emeka Nwosu</div>
+          <div class="team-role">Head of Delivery &amp; Installation</div>
+          <p class="team-bio">Coordinates every dispatch across Abuja and nationwide. If it arrives on time and looks perfect, that's Emeka's team.</p>
+          <div class="team-socials">
+            <a href="#" aria-label="LinkedIn"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.22 8h4.56v14H.22V8zm7.7 0h4.37v1.92h.06c.61-1.15 2.1-2.36 4.32-2.36 4.62 0 5.47 3.04 5.47 6.99V22h-4.56v-6.51c0-1.55-.03-3.55-2.16-3.55-2.17 0-2.5 1.69-2.5 3.44V22H8.42V8z"/></svg></a>
+            <a href="#" aria-label="Instagram"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg></a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- VALUES -->
 <section class="values-section">
   <div class="values-bg" id="valuesBg"></div>
   <div class="values-veil"></div>
@@ -254,6 +557,7 @@
   </div>
 </section>
 
+<!-- PROCESS -->
 <section class="process">
   <div class="wrap">
     <div class="section-head">
@@ -269,6 +573,7 @@
   </div>
 </section>
 
+<!-- STATS -->
 <section class="stats-bar">
   <div class="wrap stats-grid">
     <div class="stat"><div class="stat-num" data-count="10" data-suffix="+">0</div><div class="stat-label">Years crafting</div></div>
@@ -278,6 +583,7 @@
   </div>
 </section>
 
+<!-- CTA -->
 <section class="cta-section">
   <div class="cta-bg" id="ctaBg"></div>
   <div class="cta-veil"></div>
@@ -330,7 +636,6 @@ if(!prefersReduced && hasGSAP){
 
     gsap.registerPlugin(ScrollTrigger);
 
-    // Hero headline
     const headline = document.getElementById('heroHeadline');
     const words = headline.textContent.split(' ');
     headline.innerHTML = words.map(w => `<span style="display:inline-block; overflow:hidden; padding:0 .04em .1em 0;"><span style="display:inline-block;" class="h-word">${w}</span></span>`).join(' ');
@@ -339,19 +644,32 @@ if(!prefersReduced && hasGSAP){
     gsap.from('.page-hero-sub', { opacity:0, y:16, duration:.7, delay:.4 });
     gsap.from('.breadcrumb', { opacity:0, y:16, duration:.7, delay:.05 });
 
-    // Hero parallax
     gsap.to('#heroBg', { yPercent:18, ease:'none', scrollTrigger:{ trigger:'.page-hero', start:'top top', end:'bottom top', scrub:.8 } });
 
-    // Section parallax
     [['#valuesBg', '.values-section'], ['#ctaBg', '.cta-section']].forEach(([el, trig]) => {
       gsap.fromTo(el, { yPercent:-14 }, { yPercent:14, ease:'none', scrollTrigger:{ trigger:trig, start:'top bottom', end:'bottom top', scrub:.7 } });
     });
     gsap.fromTo('#img1', { yPercent:-10 }, { yPercent:10, ease:'none', scrollTrigger:{ trigger:'#img1', start:'top bottom', end:'bottom top', scrub:.7 } });
     gsap.fromTo('#img2', { yPercent:-10 }, { yPercent:10, ease:'none', scrollTrigger:{ trigger:'#img2', start:'top bottom', end:'bottom top', scrub:.7 } });
 
-    // Reveal masks
     document.querySelectorAll('.reveal-mask > *').forEach(el => {
       gsap.from(el, { yPercent:120, duration:1, ease:'power4.out', scrollTrigger:{ trigger:el, start:'top 88%', toggleActions:'play none none none' } });
+    });
+
+    // CEO section reveal
+    gsap.from('.ceo-portrait', {
+      opacity:0, x:-40, duration:1, ease:'power3.out',
+      scrollTrigger:{ trigger:'.ceo-section', start:'top 70%', toggleActions:'play none none none' }
+    });
+    gsap.from('.ceo-copy', {
+      opacity:0, x:40, duration:1, ease:'power3.out', delay:.15,
+      scrollTrigger:{ trigger:'.ceo-section', start:'top 70%', toggleActions:'play none none none' }
+    });
+
+    // Team grid stagger
+    gsap.from('.team-card', {
+      opacity:0, y:40, duration:.9, stagger:.12, ease:'power3.out',
+      scrollTrigger:{ trigger:'.team-grid', start:'top 80%', toggleActions:'play none none none' }
     });
 
     // Counters
