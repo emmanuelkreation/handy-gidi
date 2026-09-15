@@ -862,6 +862,91 @@
   .btn-delete{background:transparent; color:var(--danger); border-color:var(--line);}
   .btn-delete:hover{background:var(--danger); color:white; border-color:var(--danger);}
 
+  /* ========== IMAGE URL INPUTS ========== */
+  .image-url-group{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:16px;
+  }
+  @media (max-width:640px){ .image-url-group{grid-template-columns:1fr;} }
+  .image-url-field{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+  }
+  .image-url-label{
+    font-size:11.5px;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    font-weight:600;
+    color:var(--ink-soft);
+  }
+  .image-url-input{
+    width:100%;
+    padding:12px 14px;
+    border:1px solid var(--line);
+    background:var(--paper-3);
+    border-radius:3px;
+    color:var(--ink);
+    font-family:monospace;
+    font-size:12.5px;
+    transition:border-color .2s;
+    outline:none;
+  }
+  .image-url-input:focus{border-color:var(--gold-deep); background:var(--paper);}
+  .image-preview-box{
+    position:relative;
+    aspect-ratio:4/5;
+    background:var(--paper-2);
+    border:2px dashed var(--line);
+    border-radius:4px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    overflow:hidden;
+    transition:border-color .2s;
+  }
+  .image-preview-box.has-image{border-style:solid; border-color:transparent;}
+  .image-preview-box img{
+    position:absolute; inset:0;
+    width:100%; height:100%;
+    object-fit:cover;
+    display:none;
+  }
+  .image-preview-box.has-image img{display:block;}
+  .image-preview-placeholder{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:8px;
+    color:var(--ink-soft);
+  }
+  .image-preview-box.has-image .image-preview-placeholder{display:none;}
+  .image-preview-placeholder span{
+    font-size:11.5px;
+    font-weight:500;
+    text-align:center;
+    padding:0 12px;
+  }
+  .image-hint{
+    font-size:11.5px;
+    color:var(--ink-soft);
+    line-height:1.6;
+    padding:10px 14px;
+    background:rgba(176,129,46,0.08);
+    border-left:2px solid var(--gold);
+    border-radius:3px;
+  }
+  .image-hint a{
+    color:var(--gold-deep);
+    font-weight:600;
+    text-decoration:underline;
+    text-decoration-color:rgba(176,129,46,0.4);
+    text-underline-offset:2px;
+  }
+
   /* ========== TOAST ========== */
   .toast{
     position:fixed;
@@ -913,7 +998,6 @@
     border-radius:50%;
     animation:spin .9s linear infinite;
   }
-  .spinner.small{width:20px; height:20px; border-width:2px;}
   @keyframes spin{to{transform:rotate(360deg);}}
 
   /* ========== RESPONSIVE ========== */
@@ -1039,7 +1123,6 @@
         </div>
       </div>
 
-      <!-- Recent orders preview -->
       <div style="margin-top:40px;">
         <h3 style="font-size:22px; margin-bottom:20px; letter-spacing:-0.02em;">Recent Orders</h3>
         <div class="products-table-wrap" id="recentOrdersWrap">
@@ -1050,7 +1133,6 @@
         </div>
       </div>
 
-      <!-- Recent reviews preview -->
       <div style="margin-top:40px;">
         <h3 style="font-size:22px; margin-bottom:20px; letter-spacing:-0.02em;">Recent Reviews</h3>
         <div id="recentReviewsWrap">
@@ -1221,20 +1303,33 @@
           </div>
 
           <div class="field" style="grid-column:1 / -1;">
-            <label>Product Images (First: main · Second: hover)</label>
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
-              <label style="position:relative; aspect-ratio:4/5; background:var(--paper-2); border:2px dashed var(--line); border-radius:4px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; cursor:pointer; overflow:hidden;" id="imgSlot1">
-                <input type="file" id="imgFile1" accept="image/*" style="display:none;" />
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" style="color:var(--ink-soft);"><path d="M12 5V19M5 12H19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-                <span style="font-size:12px; color:var(--ink-soft); font-weight:500;">Upload main image</span>
-                <img id="imgPreview1" style="display:none; position:absolute; inset:0; width:100%; height:100%; object-fit:cover;" />
-              </label>
-              <label style="position:relative; aspect-ratio:4/5; background:var(--paper-2); border:2px dashed var(--line); border-radius:4px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; cursor:pointer; overflow:hidden;" id="imgSlot2">
-                <input type="file" id="imgFile2" accept="image/*" style="display:none;" />
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" style="color:var(--ink-soft);"><path d="M12 5V19M5 12H19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-                <span style="font-size:12px; color:var(--ink-soft); font-weight:500;">Upload hover image</span>
-                <img id="imgPreview2" style="display:none; position:absolute; inset:0; width:100%; height:100%; object-fit:cover;" />
-              </label>
+            <label>Product Images</label>
+            <div class="image-url-group">
+              <div class="image-url-field">
+                <div class="image-url-label">Main image URL *</div>
+                <input type="url" id="pImg" class="image-url-input" placeholder="https://res.cloudinary.com/..." required />
+                <div class="image-preview-box" id="previewBox1">
+                  <div class="image-preview-placeholder">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="1.5"/><circle cx="8.5" cy="8.5" r="1.5" stroke="currentColor" stroke-width="1.5"/><path d="M3 17L9 11L13 15L17 11L21 15" stroke="currentColor" stroke-width="1.5"/></svg>
+                    <span>Paste a URL above to preview</span>
+                  </div>
+                  <img id="previewImg1" alt="" />
+                </div>
+              </div>
+              <div class="image-url-field">
+                <div class="image-url-label">Hover image URL (optional)</div>
+                <input type="url" id="pImg2" class="image-url-input" placeholder="https://res.cloudinary.com/..." />
+                <div class="image-preview-box" id="previewBox2">
+                  <div class="image-preview-placeholder">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="1.5"/><circle cx="8.5" cy="8.5" r="1.5" stroke="currentColor" stroke-width="1.5"/><path d="M3 17L9 11L13 15L17 11L21 15" stroke="currentColor" stroke-width="1.5"/></svg>
+                    <span>Optional — shows when customers hover</span>
+                  </div>
+                  <img id="previewImg2" alt="" />
+                </div>
+              </div>
+            </div>
+            <div class="image-hint" style="margin-top:14px;">
+              <strong style="color:var(--ink);">Where to host images:</strong> Use <a href="https://cloudinary.com" target="_blank" rel="noopener">Cloudinary</a> (free 25GB), <a href="https://imgur.com" target="_blank" rel="noopener">Imgur</a>, or any public image URL. Upload there first, then paste the direct link here.
             </div>
           </div>
 
@@ -1282,23 +1377,6 @@
   </div>
 </div>
 
-<!-- ========== REVIEW DETAIL MODAL ========== -->
-<div class="modal-overlay" id="reviewModal">
-  <div class="modal-panel">
-    <div class="modal-header">
-      <div>
-        <h3 id="reviewModalTitle">Review Details</h3>
-        <div class="modal-sub" id="reviewModalRef">—</div>
-      </div>
-      <button class="modal-close" id="reviewModalClose">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M5 5L19 19M19 5L5 19" stroke="currentColor" stroke-width="1.6"/></svg>
-      </button>
-    </div>
-    <div class="modal-body" id="reviewModalBody"></div>
-    <div class="modal-footer" id="reviewModalFooter"></div>
-  </div>
-</div>
-
 <!-- ========== LOADING ========== -->
 <div class="loading-overlay" id="loadingOverlay">
   <div class="spinner"></div>
@@ -1322,20 +1400,17 @@ import {
 import {
   getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-import {
-  getStorage, ref as storageRef, uploadBytes, getDownloadURL, deleteObject
-} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
 
 /* ═══════════════════════════════════════════════════════════
    🔧 PASTE YOUR FIREBASE CONFIG HERE
    ═══════════════════════════════════════════════════════════ */
 const firebaseConfig = {
-  apiKey: "AIzaSyA7khlO19sabspXwUhRRd4Bx_80IoJWcDc",
-  authDomain: "handy-gidi.firebaseapp.com",
-  projectId: "handy-gidi",
-  storageBucket: "handy-gidi.firebasestorage.app",
-  messagingSenderId: "841844135657",
-  appId: "1:841844135657:web:f55704c164ec935ef9c278"
+  apiKey: "PASTE_YOUR_API_KEY_HERE",
+  authDomain: "PASTE_YOUR_AUTH_DOMAIN_HERE",
+  projectId: "PASTE_YOUR_PROJECT_ID_HERE",
+  storageBucket: "PASTE_YOUR_STORAGE_BUCKET_HERE",
+  messagingSenderId: "PASTE_YOUR_SENDER_ID_HERE",
+  appId: "PASTE_YOUR_APP_ID_HERE"
 };
 /* ═══════════════════════════════════════════════════════════ */
 
@@ -1343,12 +1418,11 @@ if(firebaseConfig.apiKey.startsWith('PASTE_')){
   document.getElementById('configWarning').classList.add('show');
 }
 
-let app, db, auth, storage;
+let app, db, auth;
 try {
   app = initializeApp(firebaseConfig);
   db = getFirestore(app);
   auth = getAuth(app);
-  storage = getStorage(app);
 } catch(e){ console.error('Firebase init failed', e); }
 
 /* ==================== STATE ==================== */
@@ -1358,10 +1432,6 @@ let allReviews = [];
 let orderFilter = 'all';
 let reviewFilter = 'all';
 let editingCode = null;
-let uploadedImg1 = null;
-let uploadedImg2 = null;
-let existingImg1 = '';
-let existingImg2 = '';
 let unsubscribeOrders = null;
 let unsubscribeReviews = null;
 
@@ -1571,37 +1641,12 @@ function openProductModal(product = null){
   document.getElementById('pCategory').value = product?.category || '';
   document.getElementById('pPrice').value = product?.price || '';
   document.getElementById('pReviews').value = product?.reviews || '';
+  document.getElementById('pImg').value = product?.img || '';
+  document.getElementById('pImg2').value = product?.img2 || '';
 
-  existingImg1 = product?.img || '';
-  existingImg2 = product?.img2 || '';
-  uploadedImg1 = null;
-  uploadedImg2 = null;
-
-  const prev1 = document.getElementById('imgPreview1');
-  const prev2 = document.getElementById('imgPreview2');
-  const slot1 = document.getElementById('imgSlot1');
-  const slot2 = document.getElementById('imgSlot2');
-
-  if(existingImg1){
-    prev1.src = existingImg1;
-    prev1.style.display = 'block';
-    slot1.style.borderStyle = 'solid';
-    slot1.style.borderColor = 'transparent';
-  } else {
-    prev1.style.display = 'none';
-    slot1.style.borderStyle = 'dashed';
-    slot1.style.borderColor = 'var(--line)';
-  }
-  if(existingImg2){
-    prev2.src = existingImg2;
-    prev2.style.display = 'block';
-    slot2.style.borderStyle = 'solid';
-    slot2.style.borderColor = 'transparent';
-  } else {
-    prev2.style.display = 'none';
-    slot2.style.borderStyle = 'dashed';
-    slot2.style.borderColor = 'var(--line)';
-  }
+  // Update previews
+  updatePreview(1, product?.img || '');
+  updatePreview(2, product?.img2 || '');
 
   renderColours(product?.colours || ['']);
   renderSpecs(product?.specs || [['', '']]);
@@ -1614,9 +1659,30 @@ function closeProductModal(){
   productModal.classList.remove('show');
   document.body.style.overflow = '';
   editingCode = null;
-  uploadedImg1 = null;
-  uploadedImg2 = null;
 }
+
+/* Image URL previews */
+function updatePreview(slotNum, url){
+  const box = document.getElementById('previewBox' + slotNum);
+  const img = document.getElementById('previewImg' + slotNum);
+  if(!box || !img) return;
+
+  if(url && url.trim().length > 4){
+    img.src = url.trim();
+    img.onload = () => box.classList.add('has-image');
+    img.onerror = () => box.classList.remove('has-image');
+  } else {
+    img.removeAttribute('src');
+    box.classList.remove('has-image');
+  }
+}
+
+document.getElementById('pImg').addEventListener('input', (e) => {
+  updatePreview(1, e.target.value);
+});
+document.getElementById('pImg2').addEventListener('input', (e) => {
+  updatePreview(2, e.target.value);
+});
 
 /* Colours */
 function renderColours(list){
@@ -1669,30 +1735,6 @@ document.getElementById('addSpecBtn').addEventListener('click', () => {
   renderSpecs(specs);
 });
 
-/* Image uploads */
-document.getElementById('imgFile1').addEventListener('change', (e) => {
-  const file = e.target.files[0];
-  if(!file) return;
-  uploadedImg1 = file;
-  const prev = document.getElementById('imgPreview1');
-  prev.src = URL.createObjectURL(file);
-  prev.style.display = 'block';
-  const slot = document.getElementById('imgSlot1');
-  slot.style.borderStyle = 'solid';
-  slot.style.borderColor = 'transparent';
-});
-document.getElementById('imgFile2').addEventListener('change', (e) => {
-  const file = e.target.files[0];
-  if(!file) return;
-  uploadedImg2 = file;
-  const prev = document.getElementById('imgPreview2');
-  prev.src = URL.createObjectURL(file);
-  prev.style.display = 'block';
-  const slot = document.getElementById('imgSlot2');
-  slot.style.borderStyle = 'solid';
-  slot.style.borderColor = 'transparent';
-});
-
 /* Save product */
 document.getElementById('modalSave').addEventListener('click', async () => {
   const code = document.getElementById('pCode').value.trim().toUpperCase();
@@ -1700,9 +1742,21 @@ document.getElementById('modalSave').addEventListener('click', async () => {
   const category = document.getElementById('pCategory').value;
   const price = Number(document.getElementById('pPrice').value);
   const reviews = document.getElementById('pReviews').value.trim();
+  const img = document.getElementById('pImg').value.trim();
+  const img2 = document.getElementById('pImg2').value.trim();
 
   if(!code || !name || !category || !price){
     showToast('Please fill in all required fields.', 'error');
+    return;
+  }
+
+  if(!img){
+    showToast('Please paste a main image URL.', 'error');
+    return;
+  }
+
+  if(!/^https?:\/\//.test(img)){
+    showToast('Main image URL must start with http:// or https://', 'error');
     return;
   }
 
@@ -1725,32 +1779,15 @@ document.getElementById('modalSave').addEventListener('click', async () => {
   const saveBtn = document.getElementById('modalSave');
   saveBtn.disabled = true;
   saveBtn.textContent = 'Saving…';
-  showLoading(true);
 
   try {
-    let imgUrl = existingImg1;
-    let img2Url = existingImg2;
-
-    if(uploadedImg1){
-      const ext = uploadedImg1.name.split('.').pop();
-      const r = storageRef(storage, `products/${code}/image-1.${ext}`);
-      await uploadBytes(r, uploadedImg1);
-      imgUrl = await getDownloadURL(r);
-    }
-    if(uploadedImg2){
-      const ext = uploadedImg2.name.split('.').pop();
-      const r = storageRef(storage, `products/${code}/image-2.${ext}`);
-      await uploadBytes(r, uploadedImg2);
-      img2Url = await getDownloadURL(r);
-    }
-
     const payload = {
       name, category,
       categoryLabel: categoryLabels[category] || category,
       price,
       reviews: reviews || '5.0 · New arrival',
-      img: imgUrl || '',
-      img2: img2Url || imgUrl || '',
+      img: img,
+      img2: img2 || img,
       colours, specs,
       updatedAt: serverTimestamp()
     };
@@ -1766,7 +1803,6 @@ document.getElementById('modalSave').addEventListener('click', async () => {
   } finally {
     saveBtn.disabled = false;
     saveBtn.textContent = 'Save Product';
-    showLoading(false);
   }
 });
 
@@ -1785,10 +1821,6 @@ window.deleteProduct = async (code) => {
   showLoading(true);
   try {
     await deleteDoc(doc(db, 'products', code));
-    try {
-      await deleteObject(storageRef(storage, `products/${code}/image-1.jpg`)).catch(()=>{});
-      await deleteObject(storageRef(storage, `products/${code}/image-2.jpg`)).catch(()=>{});
-    } catch(_){}
     showToast('Product deleted', 'success');
     await loadProducts();
   } catch(e){
@@ -2123,7 +2155,6 @@ function subscribeToReviews(){
       });
       allReviews.sort((a, b) => (b._ts || 0) - (a._ts || 0));
       updateReviewsUI();
-      updateOverviewFromReviews();
       updateRecentReviewsPreview();
     }, (err) => {
       console.error('Reviews listener error', err);
@@ -2297,10 +2328,6 @@ function updateOverviewFromOrders(){
   document.getElementById('statRevenue').textContent = formatNaira(revenue);
   document.getElementById('statRevenueSub').textContent =
     `${formatNaira(paidRevenue)} paid · ${totalOrders} order${totalOrders === 1 ? '' : 's'}`;
-}
-
-function updateOverviewFromReviews(){
-  // Could add a reviews stat card later; nothing needed for now
 }
 
 function updateRecentOrdersPreview(){
