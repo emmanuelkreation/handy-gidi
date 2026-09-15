@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>My Account | Handy-Gidi</title>
+<meta name="robots" content="noindex" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,340;0,9..144,460;0,9..144,560;0,9..144,650&family=Public+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  :root{--ink:#1A140F;--ink-soft:#3A2E24;--paper:#F5EFE2;--paper-2:#ECE2CC;--paper-3:#FBF8F0;--gold:#B0812E;--gold-deep:#8C6321;--gold-light:#E4C77E;--rust:#A0492A;--rust-deep:#7C371F;--plum:#3E2530;--success:#2D6A4F;--success-light:#D8F3DC;--warning:#B0812E;--warning-light:#F5E6C8;--danger:#A4161A;--danger-light:#FADCD9;--info:#1E6091;--info-light:#D6E8F5;--line:rgba(26,20,15,0.14);--line-soft:rgba(26,20,15,0.08);}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--paper);color:var(--ink);font-family:'Public Sans',sans-serif;font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;}
+  a{color:inherit;text-decoration:none;}
+  button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit;}
+  h1,h2,h3,h4{font-family:'Fraunces',serif;font-weight:560;letter-spacing:-0.02em;line-height:1.1;}
+  .wrap{max-width:1280px;margin:0 auto;padding:0 32px;}
+  .eyebrow{font-size:12px;letter-spacing:0.2em;text-transform:uppercase;font-weight:600;color:var(--rust);display:inline-flex;align-items:center;gap:10px;}
+  .eyebrow::before{content:'';width:24px;height:1px;background:var(--rust);}
+  .grain{position:fixed;inset:0;z-index:9998;pointer-events:none;opacity:.05;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");}
+
+  header{position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 0;background:rgba(245,239,226,0.94);backdrop-filter:blur(14px);border-bottom:1px solid var(--line);}
+  .header-inner{max-width:1280px;margin:0 auto;padding:0 32px;display:flex;align-items:center;justify-content:space-between;gap:32px;}
+  .brand-mark{font-family:'Fraunces',serif;font-size:24px;font-weight:650;letter-spacing:-0.03em;}
+  .brand-mark em{font-style:italic;font-weight:460;color:var(--gold-deep);}
+  .header-right{display:flex;align-items:center;gap:20px;}
+  .header-right a{font-size:14px;font-weight:500;color:var(--ink-soft);transition:color .2s;}
+  .header-right a:hover{color:var(--gold-deep);}
+  .header-user{display:flex;align-items:center;gap:10px;font-size:13.5px;color:var(--ink);font-weight:600;}
+  .header-user .avatar{width:32px;height:32px;border-radius:50%;background:var(--gold);color:var(--ink);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;letter-spacing:0.05em;}
+  .menu-toggle{display:none;width:40px;height:40px;position:relative;}
+  .menu-toggle span{position:absolute;left:10px;width:20px;height:1.5px;background:var(--ink);transition:all .3s;}
+  .menu-toggle span:nth-child(1){top:16px;}
+  .menu-toggle span:nth-child(2){top:22px;}
+
+  .account-wrap{padding:120px 0 80px;min-height:100vh;}
+
+  .account-head{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:48px;padding-bottom:28px;border-bottom:1px solid var(--line);flex-wrap:wrap;}
+  .account-head h1{font-size:clamp(32px,4vw,48px);letter-spacing:-0.03em;}
+  .account-head p{color:var(--ink-soft);font-size:15.5px;margin-top:8px;}
+
+  .account-layout{display:grid;grid-template-columns:260px 1fr;gap:48px;align-items:start;}
+  @media (max-width:900px){.account-layout{grid-template-columns:1fr;gap:32px;}}
+
+  /* Sidebar */
+  .account-sidebar{position:sticky;top:96px;background:var(--paper-3);border:1px solid var(--line);border-radius:4px;padding:16px;display:flex;flex-direction:column;gap:2px;}
+  @media (max-width:900px){.account-sidebar{position:relative;top:0;}}
+  .side-item{display:flex;align-items:center;gap:12px;padding:12px 16px;border-radius:3px;font-size:14px;font-weight:500;color:var(--ink-soft);transition:all .2s;text-align:left;width:100%;}
+  .side-item:hover{background:var(--paper-2);color:var(--ink);}
+  .side-item.active{background:var(--ink);color:var(--paper);font-weight:600;}
+  .side-item svg{flex-shrink:0;}
+  .side-item.signout{color:var(--danger);margin-top:8px;border-top:1px solid var(--line-soft);padding-top:16px;border-radius:0;}
+  .side-item.signout:hover{background:rgba(164,22,26,0.08);}
+
+  .account-content{min-height:400px;}
+  .tab-panel{display:none;}
+  .tab-panel.active{display:block;}
+
+  /* Overview cards */
+  .overview-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-bottom:44px;}
+  @media (max-width:900px){.overview-grid{grid-template-columns:1fr 1fr;}}
+  @media (max-width:600px){.overview-grid{grid-template-columns:1fr;}}
+  .ov-card{background:var(--paper-3);border:1px solid var(--line);border-radius:4px;padding:24px;position:relative;overflow:hidden;}
+  .ov-card::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:var(--gold);}
+  .ov-card.info::before{background:var(--info);}
+  .ov-card.success::before{background:var(--success);}
+  .ov-card .ov-label{font-size:11px;letter-spacing:0.14em;text-transform:uppercase;font-weight:600;color:var(--ink-soft);margin-bottom:10px;}
+  .ov-card .ov-value{font-family:'Fraunces',serif;font-size:30px;font-weight:560;letter-spacing:-0.02em;color:var(--ink);line-height:1;}
+
+  .account-section{margin-bottom:44px;}
+  .account-section:last-child{margin-bottom:0;}
+  .account-section h2{font-size:24px;letter-spacing:-0.02em;margin-bottom:20px;}
+  .account-section p.intro{color:var(--ink-soft);font-size:15px;margin-bottom:24px;max-width:64ch;}
+
+  /* Orders list */
+  .orders-table-wrap{background:var(--paper-3);border:1px solid var(--line);border-radius:4px;overflow:hidden;}
+  .order-row{display:grid;grid-template-columns:1.3fr 1.5fr 1fr 1fr auto;gap:20px;align-items:center;padding:20px 24px;border-bottom:1px solid var(--line-soft);transition:background .2s;cursor:pointer;}
+  .order-row:last-child{border-bottom:none;}
+  .order-row:hover{background:var(--paper-2);}
+  @media (max-width:900px){.order-row{grid-template-columns:1fr 1fr;gap:12px;}}
+  .order-row .o-ref{font-family:monospace;font-size:13px;font-weight:600;color:var(--ink);}
+  .order-row .o-date{font-size:12px;color:var(--ink-soft);margin-top:3px;}
+  .order-row .o-cust{font-size:13.5px;font-weight:500;}
+  .order-row .o-total{font-family:'Fraunces',serif;font-size:17px;font-weight:650;color:var(--gold-deep);}
+  .status-pill{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:20px;font-size:10.5px;letter-spacing:0.1em;text-transform:uppercase;font-weight:700;white-space:nowrap;}
+  .status-pill::before{content:'';width:6px;height:6px;border-radius:50%;background:currentColor;}
+  .status-pill.pending{background:var(--warning-light);color:var(--warning);}
+  .status-pill.confirmed{background:var(--info-light);color:var(--info);}
+  .status-pill.delivered{background:var(--success-light);color:var(--success);}
+  .status-pill.cancelled{background:var(--danger-light);color:var(--danger);}
+
+  .empty-state{padding:80px 24px;text-align:center;background:var(--paper-3);border:1px solid var(--line);border-radius:4px;}
+  .empty-state h3{font-size:22px;margin-bottom:12px;}
+  .empty-state p{color:var(--ink-soft);margin-bottom:24px;max-width:44ch;margin-left:auto;margin-right:auto;}
+  .empty-state .btn{display:inline-flex;align-items:center;gap:10px;padding:14px 28px;background:var(--ink);color:var(--paper);font-size:14px;font-weight:600;border-radius:3px;transition:background .25s;}
+  .empty-state .btn:hover{background:var(--gold-deep);}
+
+  /* Profile form */
+  .profile-form{background:var(--paper-3);border:1px solid var(--line);border-radius:4px;padding:36px 32px;max-width:640px;}
+  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:18px;}
+  .form-row.full{grid-template-columns:1fr;}
+  @media (max-width:600px){.form-row{grid-template-columns:1fr;}}
+  .field label{display:block;font-size:11.5px;letter-spacing:0.12em;text-transform:uppercase;font-weight:600;color:var(--ink-soft);margin-bottom:8px;}
+  .field input{width:100%;padding:13px 15px;border:1px solid var(--line);background:var(--paper);border-radius:3px;color:var(--ink);transition:border-color .2s;outline:none;font-family:inherit;font-size:15px;}
+  .field input:focus{border-color:var(--gold-deep);}
+  .field input:disabled{background:var(--paper-2);color:var(--ink-soft);cursor:not-allowed;}
+  .save-btn{padding:14px 28px;background:var(--ink);color:var(--paper);font-size:14px;font-weight:600;border-radius:3px;margin-top:8px;transition:background .25s;}
+  .save-btn:hover{background:var(--gold-deep);}
+
+  /* Addresses */
+  .address-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px;}
+  .address-card{background:var(--paper-3);border:1px solid var(--line);border-radius:4px;padding:24px;position:relative;}
+  .address-card .add-label{font-size:10.5px;letter-spacing:0.14em;text-transform:uppercase;font-weight:700;color:var(--gold-deep);margin-bottom:12px;}
+  .address-card p{font-size:14.5px;line-height:1.65;color:var(--ink);margin-bottom:4px;}
+  .address-card .remove-btn{position:absolute;top:16px;right:16px;font-size:12px;color:var(--danger);font-weight:600;padding:4px 8px;border-radius:3px;transition:background .2s;}
+  .address-card .remove-btn:hover{background:rgba(164,22,26,0.08);}
+
+  .signout-btn{display:inline-flex;align-items:center;gap:10px;padding:14px 24px;background:transparent;color:var(--danger);border:1px solid var(--danger);font-size:14px;font-weight:600;border-radius:3px;transition:all .25s;}
+  .signout-btn:hover{background:var(--danger);color:white;}
+
+  .toast{position:fixed;top:24px;right:24px;background:var(--ink);color:var(--paper);padding:14px 20px;border-radius:3px;font-size:13.5px;display:flex;align-items:center;gap:10px;box-shadow:0 12px 32px rgba(0,0,0,0.3);transform:translateX(120%);transition:transform .4s cubic-bezier(.2,.7,.2,1);z-index:2000;}
+  .toast.show{transform:translateX(0);}
+  .toast .check{width:20px;height:20px;border-radius:50%;background:var(--gold);color:var(--ink);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;}
+
+  .loading{display:flex;align-items:center;justify-content:center;padding:80px 20px;color:var(--ink-soft);font-size:14px;}
+  .spinner{width:32px;height:32px;border:3px solid var(--line);border-top-color:var(--gold);border-radius:50%;animation:spin .9s linear infinite;margin-right:14px;}
+  @keyframes spin{to{transform:rotate(360deg);}}
+
+  @media (max-width:900px){
+    .header-inner{padding:0 20px;}
+    .wrap{padding:0 20px;}
+    .menu-toggle{display:block;}
+    .header-right a.nav-link{display:none;}
+    .header-right .header-user span.name{display:none;}
+  }
+</style>
+</head>
+<body>
+
+<div class="grain"></div>
+
+<header>
+  <div class="header-inner">
+    <a href="index.html" class="brand-mark">Handy<em>·</em>Gidi</a>
+    <div class="header-right">
+      <a href="shop.html" class="nav-link">Shop</a>
+      <div class="header-user">
+        <div class="avatar" id="headerAvatar">·</div>
+        <span class="name" id="headerName">Loading…</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="account-wrap">
+  <div class="wrap">
+
+    <div class="account-head">
+      <div>
+        <p class="eyebrow">My Account</p>
+        <h1 id="welcomeHeadline">Welcome back.</h1>
+        <p id="welcomeSub">Manage your orders, addresses and profile.</p>
+      </div>
+    </div>
+
+    <div class="account-layout">
+
+      <aside class="account-sidebar">
+        <button class="side-item active" data-tab="overview">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="7" height="9" stroke="currentColor" stroke-width="1.5"/><rect x="14" y="3" width="7" height="5" stroke="currentColor" stroke-width="1.5"/><rect x="14" y="12" width="7" height="9" stroke="currentColor" stroke-width="1.5"/><rect x="3" y="16" width="7" height="5" stroke="currentColor" stroke-width="1.5"/></svg>
+          Overview
+        </button>
+        <button class="side-item" data-tab="orders">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M3 6H5L7 18H19L21 9H6" stroke="currentColor" stroke-width="1.5"/><circle cx="9" cy="21" r="1.4" fill="currentColor"/><circle cx="18" cy="21" r="1.4" fill="currentColor"/></svg>
+          My Orders
+        </button>
+        <button class="side-item" data-tab="addresses">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 22C12 22 20 16 20 10C20 5.58 16.42 2 12 2C7.58 2 4 5.58 4 10C4 16 12 22 12 22Z" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="10" r="3" stroke="currentColor" stroke-width="1.5"/></svg>
+          Addresses
+        </button>
+        <button class="side-item" data-tab="profile">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.5"/><path d="M4 21C4 17 7.5 14 12 14C16.5 14 20 17 20 21" stroke="currentColor" stroke-width="1.5"/></svg>
+          Profile
+        </button>
+        <button class="side-item signout" id="signOutBtn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M9 21H5C4 21 3 20 3 19V5C3 4 4 3 5 3H9M16 17L21 12L16 7M21 12H9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Sign Out
+        </button>
+      </aside>
+
+      <div class="account-content">
+
+        <!-- OVERVIEW -->
+        <div class="tab-panel active" id="panel-overview">
+          <div class="overview-grid">
+            <div class="ov-card">
+              <div class="ov-label">Total Orders</div>
+              <div class="ov-value" id="ovOrders">—</div>
+            </div>
+            <div class="ov-card info">
+              <div class="ov-label">In Progress</div>
+              <div class="ov-value" id="ovInProgress">—</div>
+            </div>
+            <div class="ov-card success">
+              <div class="ov-label">Delivered</div>
+              <div class="ov-value" id="ovDelivered">—</div>
+            </div>
+          </div>
+          <div class="account-section">
+            <h2>Recent orders</h2>
+            <div id="recentOrdersWrap">
+              <div class="loading"><div class="spinner"></div> Loading your orders…</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ORDERS -->
+        <div class="tab-panel" id="panel-orders">
+          <div class="account-section">
+            <h2>All your orders</h2>
+            <p class="intro">Every order you've placed with Handy-Gidi, most recent first.</p>
+            <div id="allOrdersWrap">
+              <div class="loading"><div class="spinner"></div> Loading your orders…</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ADDRESSES -->
+        <div class="tab-panel" id="panel-addresses">
+          <div class="account-section">
+            <h2>Saved addresses</h2>
+            <p class="intro">Your saved delivery addresses. New addresses get added automatically when you complete an order.</p>
+            <div class="address-list" id="addressList">
+              <div class="loading"><div class="spinner"></div> Loading…</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- PROFILE -->
+        <div class="tab-panel" id="panel-profile">
+          <div class="account-section">
+            <h2>Your profile</h2>
+            <p class="intro">Keep your details up to date so we can reach you about orders and deliveries.</p>
+            <form class="profile-form" id="profileForm">
+              <div class="form-row">
+                <div class="field">
+                  <label for="pName">Full name</label>
+                  <input type="text" id="pName" autocomplete="name" />
+                </div>
+                <div class="field">
+                  <label for="pPhone">Phone</label>
+                  <input type="tel" id="pPhone" autocomplete="tel" />
+                </div>
+              </div>
+              <div class="form-row full">
+                <div class="field">
+                  <label for="pEmail">Email (read only)</label>
+                  <input type="email" id="pEmail" disabled />
+                </div>
+              </div>
+              <button type="submit" class="save-btn" id="saveBtn">Save Changes</button>
+            </form>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<div class="toast" id="toast">
+  <span class="check">✓</span>
+  <span id="toastText">Saved</span>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getAuth, onAuthStateChanged, signOut, updateProfile } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { getFirestore, collection, query, where, getDocs, doc, getDoc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+/* 🔧 PASTE YOUR FIREBASE CONFIG HERE */
+const firebaseConfig = {
+  apiKey: "PASTE_YOUR_API_KEY_HERE",
+  authDomain: "PASTE_YOUR_AUTH_DOMAIN_HERE",
+  projectId: "PASTE_YOUR_PROJECT_ID_HERE",
+  storageBucket: "PASTE_YOUR_STORAGE_BUCKET_HERE",
+  messagingSenderId: "PASTE_YOUR_SENDER_ID_HERE",
+  appId: "PASTE_YOUR_APP_ID_HERE"
+};
+
+let auth, db;
+const configMissing = firebaseConfig.apiKey.startsWith('PASTE_');
+if(!configMissing){
+  try {
+    const app = initializeApp(firebaseConfig);
+    auth = getAuth(app);
+    db = getFirestore(app);
+  } catch(e){ console.error(e); }
+}
+
+let currentUser = null;
+let currentProfile = null;
+let userOrders = [];
+
+function fmtN(n){ return '₦' + Number(n || 0).toLocaleString('en-NG'); }
+function fmtDate(ts){
+  if(!ts) return '—';
+  try {
+    const d = ts.toDate ? ts.toDate() : new Date(ts.seconds ? ts.seconds * 1000 : ts);
+    return d.toLocaleDateString('en-NG', { day:'numeric', month:'short', year:'numeric' });
+  } catch(e){ return '—'; }
+}
+
+let toastTimer;
+function toast(msg){
+  document.getElementById('toastText').textContent = msg;
+  const t = document.getElementById('toast');
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+// Redirect if not signed in
+if(configMissing || !auth){
+  // Firebase not configured — show a hint
+  document.getElementById('welcomeHeadline').textContent = 'Firebase not configured';
+  document.getElementById('welcomeSub').textContent = 'Add your Firebase config to enable the account dashboard.';
+} else {
+  onAuthStateChanged(auth, async (user) => {
+    if(!user){
+      window.location.href = 'login.html';
+      return;
+    }
+    currentUser = user;
+    const initials = (user.displayName || user.email || '?').split(' ').map(s => s[0]).join('').substring(0, 2).toUpperCase();
+    document.getElementById('headerAvatar').textContent = initials;
+    document.getElementById('headerName').textContent = user.displayName || user.email;
+
+    // Load profile doc
+    try {
+      const snap = await getDoc(doc(db, 'customers', user.uid));
+      currentProfile = snap.exists() ? snap.data() : {};
+    } catch(e){ currentProfile = {}; }
+
+    const displayName = (currentProfile?.name || user.displayName || '').split(' ')[0] || 'there';
+    document.getElementById('welcomeHeadline').textContent = `Welcome back, ${displayName}.`;
+
+    document.getElementById('pName').value = currentProfile?.name || user.displayName || '';
+    document.getElementById('pPhone').value = currentProfile?.phone || '';
+    document.getElementById('pEmail').value = user.email || '';
+
+    loadOrders(user.email);
+  });
+}
+
+async function loadOrders(email){
+  try {
+    const q = query(collection(db, 'orders'), where('customer.email', '==', email));
+    const snap = await getDocs(q);
+    userOrders = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    userOrders.sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
+    renderOverview();
+    renderOrders();
+    renderAddresses();
+  } catch(e){
+    console.error('Load orders error', e);
+    document.getElementById('recentOrdersWrap').innerHTML = `<div class="empty-state"><h3>Couldn't load orders</h3><p>${e.message}</p></div>`;
+    document.getElementById('allOrdersWrap').innerHTML = `<div class="empty-state"><h3>Couldn't load orders</h3><p>${e.message}</p></div>`;
+  }
+}
+
+function statusPill(status){
+  const s = (status || 'pending').toLowerCase();
+  return `<span class="status-pill ${s}">${s}</span>`;
+}
+
+function renderOverview(){
+  const total = userOrders.length;
+  const inProgress = userOrders.filter(o => ['pending','confirmed'].includes((o.status||'pending').toLowerCase())).length;
+  const delivered = userOrders.filter(o => (o.status||'').toLowerCase() === 'delivered').length;
+  document.getElementById('ovOrders').textContent = total;
+  document.getElementById('ovInProgress').textContent = inProgress;
+  document.getElementById('ovDelivered').textContent = delivered;
+
+  const recent = userOrders.slice(0, 3);
+  const wrap = document.getElementById('recentOrdersWrap');
+  if(recent.length === 0){
+    wrap.innerHTML = `<div class="empty-state"><h3>No orders yet</h3><p>Browse the collection and place your first order.</p><a href="shop.html" class="btn">Browse the Collection</a></div>`;
+    return;
+  }
+  wrap.innerHTML = `<div class="orders-table-wrap">${recent.map(orderRowHtml).join('')}</div>`;
+  bindRowClicks();
+}
+
+function renderOrders(){
+  const wrap = document.getElementById('allOrdersWrap');
+  if(userOrders.length === 0){
+    wrap.innerHTML = `<div class="empty-state"><h3>No orders yet</h3><p>Your orders will appear here once you place one.</p><a href="shop.html" class="btn">Browse the Collection</a></div>`;
+    return;
+  }
+  wrap.innerHTML = `<div class="orders-table-wrap">${userOrders.map(orderRowHtml).join('')}</div>`;
+  bindRowClicks();
+}
+
+function orderRowHtml(o){
+  const items = (o.items || []).reduce((s, i) => s + (i.qty || 0), 0);
+  return `
+    <div class="order-row" data-id="${o.id}">
+      <div>
+        <div class="o-ref">${o.orderId || o.id}</div>
+        <div class="o-date">${fmtDate(o.createdAt)}</div>
+      </div>
+      <div class="o-cust">${items} item${items === 1 ? '' : 's'}</div>
+      <div>${statusPill(o.status)}</div>
+      <div class="o-total">${fmtN(o.total)}</div>
+      <div style="text-align:right;"><svg width="14" height="14" viewBox="0 0 12 12" fill="none"><path d="M1 6H11M11 6L6 1M11 6L6 11" stroke="currentColor" stroke-width="1.5"/></svg></div>
+    </div>
+  `;
+}
+
+function bindRowClicks(){
+  document.querySelectorAll('.order-row').forEach(row => {
+    row.addEventListener('click', () => {
+      const id = row.dataset.id;
+      const o = userOrders.find(x => x.id === id);
+      if(!o) return;
+      alert(`Order ${o.orderId || o.id}\n\nItems: ${(o.items||[]).map(i => `${i.name} × ${i.qty}`).join(', ')}\n\nTotal: ${fmtN(o.total)}\nStatus: ${o.status || 'pending'}\n\nDelivery to: ${o.delivery?.address || ''}, ${o.delivery?.zone || ''}`);
+    });
+  });
+}
+
+function renderAddresses(){
+  const wrap = document.getElementById('addressList');
+  const addresses = [];
+  userOrders.forEach(o => {
+    if(o.delivery?.address){
+      const key = `${o.delivery.address}|${o.delivery.zone}`;
+      if(!addresses.find(a => a.key === key)){
+        addresses.push({ key, ...o.delivery });
+      }
+    }
+  });
+
+  if(addresses.length === 0){
+    wrap.innerHTML = `<div class="empty-state" style="grid-column:1/-1;"><h3>No saved addresses</h3><p>Addresses are saved automatically the first time you place an order to them.</p><a href="shop.html" class="btn">Browse the Collection</a></div>`;
+    return;
+  }
+
+  wrap.innerHTML = addresses.map((a, i) => `
+    <div class="address-card">
+      <div class="add-label">Address ${i + 1}</div>
+      <p>${a.address}</p>
+      <p style="color:var(--ink-soft);">${a.zone || ''}</p>
+    </div>
+  `).join('');
+}
+
+// Profile save
+document.getElementById('profileForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  if(!currentUser) return;
+  const name = document.getElementById('pName').value.trim();
+  const phone = document.getElementById('pPhone').value.trim();
+  const btn = document.getElementById('saveBtn');
+  btn.disabled = true;
+  btn.textContent = 'Saving…';
+  try {
+    await setDoc(doc(db, 'customers', currentUser.uid), { name, phone, updatedAt: serverTimestamp() }, { merge: true });
+    await updateProfile(currentUser, { displayName: name });
+    document.getElementById('headerName').textContent = name;
+    toast('Profile updated');
+  } catch(e){
+    console.error(e);
+    toast('Save failed');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Save Changes';
+  }
+});
+
+// Sign out
+document.getElementById('signOutBtn').addEventListener('click', async () => {
+  if(auth) await signOut(auth);
+  window.location.href = 'login.html';
+});
+
+// Tab switching
+document.querySelectorAll('.side-item[data-tab]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.side-item[data-tab]').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    document.getElementById('panel-' + btn.dataset.tab).classList.add('active');
+  });
+});
+</script>
+</body>
+</html>
