@@ -34,13 +34,10 @@
   .wrap{max-width:var(--max); margin:0 auto; padding:0 32px;}
   .eyebrow{font-size:12px; letter-spacing:0.2em; text-transform:uppercase; font-weight:600; color:var(--rust); display:inline-flex; align-items:center; gap:10px;}
   .eyebrow::before{content:''; width:24px; height:1px; background:var(--rust);}
-
   .grain{position:fixed; inset:0; z-index:9998; pointer-events:none; opacity:.06;
     background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
     animation:grain 6s steps(6) infinite;}
   @keyframes grain{0%,100%{transform:translate(0,0);}20%{transform:translate(-2%,2%);}40%{transform:translate(2%,-1%);}60%{transform:translate(-1%,-2%);}80%{transform:translate(1%,2%);}}
-
-  /* Header */
   header{position:fixed; top:0; left:0; right:0; z-index:100; padding:20px 0;
     background:rgba(245,239,226,0.94); backdrop-filter:blur(14px); border-bottom:1px solid var(--line);
     transition:padding .3s ease;}
@@ -61,8 +58,6 @@
   .menu-toggle span:nth-child(2){top:24px;}
   .menu-toggle.open span:nth-child(1){top:21px; transform:rotate(45deg);}
   .menu-toggle.open span:nth-child(2){top:21px; transform:rotate(-45deg);}
-
-  /* Hero */
   .page-hero{position:relative; height:70vh; min-height:560px; overflow:hidden; isolation:isolate; padding-top:80px;}
   .page-hero-bg{position:absolute; inset:-8%; background-image:url('https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=2400&q=85'); background-size:cover; background-position:center; z-index:0; will-change:transform;}
   .page-hero-veil{position:absolute; inset:0; z-index:1; background:linear-gradient(180deg, rgba(26,20,15,0.7) 0%, rgba(26,20,15,0.45) 40%, rgba(26,20,15,0.88) 100%);}
@@ -76,9 +71,7 @@
   .breadcrumb a{transition:color .3s;}
   .breadcrumb a:hover{color:var(--gold-light);}
   .breadcrumb span::before{content:'/'; margin-right:10px;}
-
   section{position:relative;}
-  .section-pad{padding:140px 0;}
   .section-head{max-width:720px; margin-bottom:72px;}
   .section-head h2{font-size:clamp(36px, 5vw, 68px); line-height:1.02; margin:20px 0 0; letter-spacing:-0.03em;}
   .section-head p{font-size:17px; color:var(--ink-soft); max-width:56ch; margin:22px 0 0;}
@@ -86,11 +79,9 @@
   .section-head-light p{color:rgba(245,239,226,0.72);}
   .section-head-light .eyebrow{color:var(--gold-light);}
   .section-head-light .eyebrow::before{background:var(--gold-light);}
-
   .reveal-mask{overflow:hidden; display:block;}
   .reveal-mask > *{display:block; will-change:transform;}
 
-  /* Split */
   .split-section{display:grid; grid-template-columns:1fr 1fr; min-height:80vh; background:var(--paper-2);}
   .split-media{position:relative; overflow:hidden; background:#111;}
   .split-media img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; will-change:transform;}
@@ -102,194 +93,38 @@
   .split-flip > *{direction:ltr;}
   @media (max-width:900px){ .split-section{grid-template-columns:1fr;} .split-media{aspect-ratio:4/5; min-height:auto; position:relative;} .split-copy{padding:80px 32px;} .split-flip{direction:ltr;} }
 
-  /* ==================== CEO SECTION ==================== */
-  .ceo-section{
-    background:var(--paper);
-    padding:140px 0;
-    position:relative;
-    overflow:hidden;
-  }
-  .ceo-grid{
-    display:grid;
-    grid-template-columns:0.9fr 1.1fr;
-    gap:80px;
-    align-items:center;
-  }
-  @media (max-width:900px){
-    .ceo-grid{grid-template-columns:1fr; gap:48px;}
-  }
-
-  .ceo-portrait{
-    position:relative;
-    aspect-ratio:4/5;
-    overflow:hidden;
-    border-radius:4px;
-    background:#EDE4D2;
-  }
-  .ceo-portrait img{
-    width:100%; height:100%;
-    object-fit:cover;
-    transition:transform 1.2s cubic-bezier(.2,.7,.2,1);
-  }
+  /* ==================== LEADERSHIP ==================== */
+  .ceo-section{background:var(--paper); padding:140px 0; position:relative; overflow:hidden;}
+  .ceo-grid{display:grid; grid-template-columns:0.9fr 1.1fr; gap:80px; align-items:center;}
+  @media (max-width:900px){ .ceo-grid{grid-template-columns:1fr; gap:48px;} }
+  .ceo-portrait{position:relative; aspect-ratio:4/5; overflow:hidden; border-radius:4px; background:#EDE4D2;}
+  .ceo-portrait img{width:100%; height:100%; object-fit:cover; transition:transform 1.2s cubic-bezier(.2,.7,.2,1);}
   .ceo-portrait:hover img{transform:scale(1.04);}
-  .ceo-portrait::after{
-    content:'';
-    position:absolute; inset:0;
-    background:linear-gradient(180deg, transparent 55%, rgba(26,20,15,0.5) 100%);
-    pointer-events:none;
-  }
-  .ceo-badge{
-    position:absolute;
-    left:24px; bottom:24px;
-    z-index:2;
-    padding:10px 18px;
-    background:var(--gold);
-    color:var(--ink);
-    font-size:11.5px;
-    font-weight:700;
-    letter-spacing:0.14em;
-    text-transform:uppercase;
-    border-radius:2px;
-  }
+  .ceo-portrait::after{content:''; position:absolute; inset:0; background:linear-gradient(180deg, transparent 55%, rgba(26,20,15,0.5) 100%); pointer-events:none;}
+  .ceo-badge{position:absolute; left:24px; bottom:24px; z-index:2; padding:10px 18px; background:var(--gold); color:var(--ink); font-size:11.5px; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; border-radius:2px;}
+  .ceo-copy .ceo-quote{font-family:'Fraunces', serif; font-size:clamp(22px, 2.4vw, 32px); line-height:1.35; font-weight:460; letter-spacing:-0.01em; color:var(--ink); margin:24px 0 32px; position:relative;}
+  .ceo-copy .ceo-quote::before{content:'"'; font-family:'Fraunces', serif; position:absolute; top:-40px; left:-10px; font-size:100px; color:var(--gold-light); opacity:0.4; line-height:1;}
+  .ceo-copy p.bio{color:var(--ink-soft); font-size:16px; line-height:1.8; max-width:56ch; margin-bottom:18px;}
+  .ceo-signature{margin-top:32px; padding-top:28px; border-top:1px solid var(--line);}
+  .ceo-signature-name{font-family:'Fraunces', serif; font-size:22px; font-weight:560; letter-spacing:-0.01em; color:var(--ink);}
+  .ceo-signature-role{font-size:12.5px; letter-spacing:0.1em; text-transform:uppercase; color:var(--gold-deep); font-weight:600; margin-top:6px;}
 
-  .ceo-copy .ceo-quote{
-    font-family:'Fraunces', serif;
-    font-size:clamp(22px, 2.4vw, 32px);
-    line-height:1.35;
-    font-weight:460;
-    letter-spacing:-0.01em;
-    color:var(--ink);
-    margin:24px 0 32px;
-    position:relative;
-  }
-  .ceo-copy .ceo-quote::before{
-    content:'"';
-    font-family:'Fraunces', serif;
-    position:absolute;
-    top:-40px; left:-10px;
-    font-size:100px;
-    color:var(--gold-light);
-    opacity:0.4;
-    line-height:1;
-  }
-  .ceo-copy p.bio{
-    color:var(--ink-soft);
-    font-size:16px;
-    line-height:1.8;
-    max-width:56ch;
-    margin-bottom:18px;
-  }
-  .ceo-signature{
-    margin-top:32px;
-    padding-top:28px;
-    border-top:1px solid var(--line);
-    display:flex;
-    align-items:center;
-    gap:16px;
-  }
-  .ceo-signature-name{
-    font-family:'Fraunces', serif;
-    font-size:22px;
-    font-weight:560;
-    letter-spacing:-0.01em;
-    color:var(--ink);
-  }
-  .ceo-signature-role{
-    font-size:12.5px;
-    letter-spacing:0.1em;
-    text-transform:uppercase;
-    color:var(--gold-deep);
-    font-weight:600;
-    margin-top:4px;
-  }
-
-  /* ==================== TEAM SECTION ==================== */
-  .team-section{
-    background:var(--paper-2);
-    padding:140px 0;
-    position:relative;
-  }
-  .team-grid{
-    display:grid;
-    grid-template-columns:repeat(4, 1fr);
-    gap:32px;
-    margin-top:64px;
-  }
-  @media (max-width:1024px){ .team-grid{grid-template-columns:repeat(2, 1fr);} }
+  /* ==================== TEAM ==================== */
+  .team-section{background:var(--paper-2); padding:140px 0; position:relative;}
+  .team-grid{display:grid; grid-template-columns:repeat(3, 1fr); gap:32px; margin-top:64px;}
+  @media (max-width:900px){ .team-grid{grid-template-columns:repeat(2, 1fr);} }
   @media (max-width:520px){ .team-grid{grid-template-columns:1fr;} }
-
-  .team-card{
-    background:var(--paper-3);
-    border:1px solid var(--line);
-    border-radius:4px;
-    overflow:hidden;
-    transition:transform .4s ease, box-shadow .4s ease, border-color .4s ease;
-    cursor:default;
-  }
-  .team-card:hover{
-    transform:translateY(-6px);
-    box-shadow:0 20px 44px rgba(26,20,15,0.1);
-    border-color:rgba(176,129,46,0.3);
-  }
-  .team-media{
-    position:relative;
-    aspect-ratio:4/5;
-    overflow:hidden;
-    background:#EDE4D2;
-  }
-  .team-media img{
-    width:100%; height:100%;
-    object-fit:cover;
-    transition:transform 1.2s cubic-bezier(.2,.7,.2,1);
-  }
+  .team-card{background:var(--paper-3); border:1px solid var(--line); border-radius:4px; overflow:hidden; transition:transform .4s ease, box-shadow .4s ease, border-color .4s ease;}
+  .team-card:hover{transform:translateY(-6px); box-shadow:0 20px 44px rgba(26,20,15,0.1); border-color:rgba(176,129,46,0.3);}
+  .team-media{position:relative; aspect-ratio:4/5; overflow:hidden; background:#EDE4D2;}
+  .team-media img{width:100%; height:100%; object-fit:cover; transition:transform 1.2s cubic-bezier(.2,.7,.2,1);}
   .team-card:hover .team-media img{transform:scale(1.06);}
-  .team-body{
-    padding:24px 22px 26px;
-  }
-  .team-name{
-    font-family:'Fraunces', serif;
-    font-size:19px;
-    font-weight:560;
-    letter-spacing:-0.01em;
-    color:var(--ink);
-    line-height:1.2;
-  }
-  .team-role{
-    font-size:11.5px;
-    letter-spacing:0.14em;
-    text-transform:uppercase;
-    color:var(--gold-deep);
-    font-weight:700;
-    margin-top:8px;
-    margin-bottom:14px;
-  }
-  .team-bio{
-    font-size:13.5px;
-    line-height:1.65;
-    color:var(--ink-soft);
-  }
-  .team-socials{
-    display:flex;
-    gap:8px;
-    margin-top:16px;
-    padding-top:16px;
-    border-top:1px solid var(--line-soft);
-  }
-  .team-socials a{
-    width:34px; height:34px;
-    border-radius:50%;
-    border:1px solid var(--line);
-    display:flex; align-items:center; justify-content:center;
-    color:var(--ink-soft);
-    transition:all .3s ease;
-  }
-  .team-socials a:hover{
-    background:var(--gold);
-    color:var(--ink);
-    border-color:var(--gold);
-  }
+  .team-body{padding:26px 24px 28px;}
+  .team-name{font-family:'Fraunces', serif; font-size:19px; font-weight:560; letter-spacing:-0.01em; color:var(--ink); line-height:1.25;}
+  .team-role{font-size:11.5px; letter-spacing:0.14em; text-transform:uppercase; color:var(--gold-deep); font-weight:700; margin-top:10px; margin-bottom:16px; line-height:1.5;}
+  .team-bio{font-size:13.5px; line-height:1.7; color:var(--ink-soft);}
 
-  /* Values */
+  /* ==================== VALUES ==================== */
   .values-section{position:relative; padding:160px 0; overflow:hidden; color:var(--paper);}
   .values-bg{position:absolute; inset:-10%; background-image:url('https://images.unsplash.com/photo-1581092160562-40aa08e78837?auto=format&fit=crop&w=2400&q=85'); background-size:cover; background-position:center; z-index:0; will-change:transform; filter:brightness(0.42);}
   .values-veil{position:absolute; inset:0; background:linear-gradient(180deg, rgba(26,20,15,0.65) 0%, rgba(26,20,15,0.88) 100%); z-index:1;}
@@ -302,7 +137,7 @@
   .value p{color:rgba(245,239,226,0.7); font-size:15.5px; line-height:1.65; max-width:44ch;}
   @media (max-width:900px){.values-grid{grid-template-columns:1fr;} .value{padding:40px 28px;}}
 
-  /* Process */
+  /* ==================== PROCESS ==================== */
   .process{padding:140px 0; background:var(--paper);}
   .process-timeline{display:grid; grid-template-columns:repeat(4, 1fr); gap:24px; margin-top:64px; position:relative;}
   .process-timeline::before{content:''; position:absolute; top:36px; left:5%; right:5%; height:1px; background:var(--line);}
@@ -312,7 +147,7 @@
   .process-step p{font-size:14px; color:var(--ink-soft); line-height:1.65;}
   @media (max-width:900px){.process-timeline{grid-template-columns:1fr; gap:40px;} .process-timeline::before{display:none;}}
 
-  /* Stats */
+  /* ==================== STATS ==================== */
   .stats-bar{background:var(--gold); padding:80px 0; position:relative; overflow:hidden;}
   .stats-bar::before{content:''; position:absolute; inset:0; background:linear-gradient(120deg, transparent 0%, rgba(26,20,15,0.12) 100%);}
   .stats-grid{position:relative; z-index:1; display:grid; grid-template-columns:repeat(4, 1fr); gap:40px; align-items:center;}
@@ -321,7 +156,7 @@
   .stat-label{font-size:12.5px; letter-spacing:0.1em; text-transform:uppercase; color:rgba(26,20,15,0.75); margin-top:14px;}
   @media (max-width:900px){.stats-grid{grid-template-columns:repeat(2, 1fr); gap:32px;}}
 
-  /* CTA */
+  /* ==================== CTA ==================== */
   .cta-section{position:relative; padding:160px 0; overflow:hidden; color:var(--paper); text-align:center;}
   .cta-bg{position:absolute; inset:-10%; background-image:url('https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=2400&q=85'); background-size:cover; background-position:center; z-index:0; will-change:transform; filter:brightness(0.35);}
   .cta-veil{position:absolute; inset:0; background:linear-gradient(180deg, rgba(26,20,15,0.75) 0%, rgba(26,20,15,0.9) 100%); z-index:1;}
@@ -339,7 +174,6 @@
   .btn-ghost{background:transparent; color:var(--paper); border:1px solid rgba(245,239,226,0.4);}
   .btn-ghost:hover{border-color:var(--paper);}
 
-  /* Footer */
   footer{background:var(--plum); color:var(--paper); padding:96px 0 40px;}
   .footer-top{display:grid; grid-template-columns:1.6fr 1fr 1fr 1fr; gap:56px; padding-bottom:72px; border-bottom:1px solid rgba(245,239,226,0.14);}
   .footer-brand h3{font-family:'Fraunces', serif; font-size:32px; font-weight:650; letter-spacing:-0.02em; margin-bottom:16px;}
@@ -367,7 +201,6 @@
     nav.open{display:flex; flex-direction:column; position:fixed; inset:0; background:var(--ink); padding:120px 32px 40px; gap:24px; z-index:150;}
     nav.open a{font-size:32px; font-family:'Fraunces', serif; color:var(--paper); padding:8px 0; border-bottom:1px solid rgba(245,239,226,0.1);}
     .wrap{padding:0 20px;}
-    .section-pad{padding:80px 0;}
     .ceo-section, .team-section{padding:80px 0;}
   }
 </style>
@@ -427,40 +260,34 @@
   <div class="split-media"><img src="https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=1600&q=85" alt="Workshop detail" id="img2"></div>
 </section>
 
-<!-- ═══════════════════════════════════════════════════════════
-     CEO SECTION
-     ═══════════════════════════════════════════════════════════ -->
+<!-- LEADERSHIP -->
 <section class="ceo-section">
   <div class="wrap">
     <div class="section-head" style="max-width:640px;">
-      <p class="eyebrow reveal-mask"><span>From the founder</span></p>
-      <h2 class="reveal-mask" style="font-size:clamp(28px,3.4vw,44px); margin-top:20px; line-height:1.1;">The person behind the <em style="font-style:italic; font-weight:340; color:var(--gold-deep);">workshop.</em></h2>
+      <p class="eyebrow reveal-mask"><span>Leadership</span></p>
+      <h2 class="reveal-mask" style="font-size:clamp(28px,3.4vw,44px); margin-top:20px; line-height:1.1;">The person steering the <em style="font-style:italic; font-weight:340; color:var(--gold-deep);">vision.</em></h2>
     </div>
 
     <div class="ceo-grid">
       <div class="ceo-portrait">
-        <span class="ceo-badge">Founder &amp; CEO</span>
-        <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=1200&q=85" alt="CEO portrait — replace with real photo">
+        <span class="ceo-badge">Co-founder &amp; Executive Director</span>
+        <img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&w=1200&q=85" alt="Osasere Diana Ehanah">
       </div>
 
       <div class="ceo-copy">
-        <p class="eyebrow reveal-mask"><span>A note from the founder</span></p>
-        <p class="ceo-quote">I started Handy-Gidi because I was tired of watching Nigerians spend a fortune on imported furniture that arrived late, looked nothing like the pictures, and fell apart within two years. We knew we could do better. We knew we could build it here.</p>
-        <p class="bio">What began as a two-man operation in a small Abuja workshop is now a fully integrated furniture and interior design studio serving homes, offices, and hotels across Nigeria. Every piece we ship is a promise kept — to our customers, and to the next generation of Nigerian craftspeople.</p>
+        <p class="eyebrow reveal-mask"><span>A note from leadership</span></p>
+        <p class="ceo-quote">We built Handy-Gidi on two beliefs: that Nigerians deserve furniture made to last, and that the next generation of craftspeople deserves a place to learn the trade.</p>
+        <p class="bio">Osasere leads strategy and operations across Handy-Gidi's furniture manufacturing arm and the Handy-Gidi Training Centre. One of the co-founders of the business, she's spent the last decade turning a small Abuja workshop into a full-service furniture, interior design and turn-key execution brand.</p>
         <div class="ceo-signature">
-          <div>
-            <div class="ceo-signature-name">Godwin Isiaka</div>
-            <div class="ceo-signature-role">Founder &amp; Chief Executive Officer</div>
-          </div>
+          <div class="ceo-signature-name">Osasere Diana Ehanah</div>
+          <div class="ceo-signature-role">Co-founder &amp; Executive Director</div>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ═══════════════════════════════════════════════════════════
-     TEAM SECTION
-     ═══════════════════════════════════════════════════════════ -->
+<!-- TEAM -->
 <section class="team-section">
   <div class="wrap">
     <div class="section-head" style="max-width:720px;">
@@ -471,67 +298,75 @@
 
     <div class="team-grid">
 
-      <!-- Team member 1 -->
+      <!-- Jonathan Idu Adu -->
       <div class="team-card">
         <div class="team-media">
-          <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=900&q=85" alt="Team member">
+          <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=900&q=85" alt="Jonathan Idu Adu">
         </div>
         <div class="team-body">
-          <div class="team-name">Amina Bello</div>
-          <div class="team-role">Head of Design</div>
-          <p class="team-bio">Leads every brief from first sketch to final render. 12 years in interiors, three continents, one obsession with detail.</p>
-          <div class="team-socials">
-            <a href="#" aria-label="LinkedIn"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.22 8h4.56v14H.22V8zm7.7 0h4.37v1.92h.06c.61-1.15 2.1-2.36 4.32-2.36 4.62 0 5.47 3.04 5.47 6.99V22h-4.56v-6.51c0-1.55-.03-3.55-2.16-3.55-2.17 0-2.5 1.69-2.5 3.44V22H8.42V8z"/></svg></a>
-            <a href="#" aria-label="Instagram"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg></a>
-          </div>
+          <div class="team-name">Mr Jonathan Idu Adu</div>
+          <div class="team-role">Head, Edgeband Operator · Head, Factory Logistics</div>
+          <p class="team-bio">Runs our edgeband line and coordinates factory logistics. Every finished panel that leaves the workshop passes through his team.</p>
         </div>
       </div>
 
-      <!-- Team member 2 -->
+      <!-- Victoria Ubong Thompson -->
       <div class="team-card">
         <div class="team-media">
-          <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=900&q=85" alt="Team member">
+          <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=900&q=85" alt="Victoria Ubong Thompson">
         </div>
         <div class="team-body">
-          <div class="team-name">Chidi Okafor</div>
-          <div class="team-role">Production Manager</div>
-          <p class="team-bio">Runs the workshop floor. Every cut, joint and finish passes through his hands before it leaves the building.</p>
-          <div class="team-socials">
-            <a href="#" aria-label="LinkedIn"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.22 8h4.56v14H.22V8zm7.7 0h4.37v1.92h.06c.61-1.15 2.1-2.36 4.32-2.36 4.62 0 5.47 3.04 5.47 6.99V22h-4.56v-6.51c0-1.55-.03-3.55-2.16-3.55-2.17 0-2.5 1.69-2.5 3.44V22H8.42V8z"/></svg></a>
-            <a href="#" aria-label="Instagram"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg></a>
-          </div>
+          <div class="team-name">Miss Victoria Ubong Thompson</div>
+          <div class="team-role">Procurement Officer</div>
+          <p class="team-bio">Sources the raw materials, hardware and finishes that go into every piece. Keeps production stocked and quality consistent.</p>
         </div>
       </div>
 
-      <!-- Team member 3 -->
+      <!-- Ndubisi Ezekiel Oha -->
       <div class="team-card">
         <div class="team-media">
-          <img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&w=900&q=85" alt="Team member">
+          <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=900&q=85" alt="Ndubisi Ezekiel Oha">
         </div>
         <div class="team-body">
-          <div class="team-name">Fatima Yusuf</div>
-          <div class="team-role">Client Experience Lead</div>
-          <p class="team-bio">The first person you'll speak to, and the last person to check you're happy. Runs our WhatsApp, calls and after-sales care.</p>
-          <div class="team-socials">
-            <a href="#" aria-label="LinkedIn"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.22 8h4.56v14H.22V8zm7.7 0h4.37v1.92h.06c.61-1.15 2.1-2.36 4.32-2.36 4.62 0 5.47 3.04 5.47 6.99V22h-4.56v-6.51c0-1.55-.03-3.55-2.16-3.55-2.17 0-2.5 1.69-2.5 3.44V22H8.42V8z"/></svg></a>
-            <a href="#" aria-label="Instagram"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg></a>
-          </div>
+          <div class="team-name">Ndubisi Ezekiel Oha</div>
+          <div class="team-role">Technical Fabricator (Carpentry)</div>
+          <p class="team-bio">Shapes, cuts and joins the timber that becomes every table, bed and wardrobe we build. One of our senior carpenters.</p>
         </div>
       </div>
 
-      <!-- Team member 4 -->
+      <!-- Shedrach Solomon Kambai -->
       <div class="team-card">
         <div class="team-media">
-          <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=900&q=85" alt="Team member">
+          <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=900&q=85" alt="Shedrach Solomon Kambai">
         </div>
         <div class="team-body">
-          <div class="team-name">Emeka Nwosu</div>
-          <div class="team-role">Head of Delivery &amp; Installation</div>
-          <p class="team-bio">Coordinates every dispatch across Abuja and nationwide. If it arrives on time and looks perfect, that's Emeka's team.</p>
-          <div class="team-socials">
-            <a href="#" aria-label="LinkedIn"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.22 8h4.56v14H.22V8zm7.7 0h4.37v1.92h.06c.61-1.15 2.1-2.36 4.32-2.36 4.62 0 5.47 3.04 5.47 6.99V22h-4.56v-6.51c0-1.55-.03-3.55-2.16-3.55-2.17 0-2.5 1.69-2.5 3.44V22H8.42V8z"/></svg></a>
-            <a href="#" aria-label="Instagram"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg></a>
-          </div>
+          <div class="team-name">Shedrach Solomon Kambai</div>
+          <div class="team-role">Technical Assistant</div>
+          <p class="team-bio">Supports the fabrication team across every stage of production — from material prep to final assembly and finishing.</p>
+        </div>
+      </div>
+
+      <!-- Ogar Confidence Ochuole -->
+      <div class="team-card">
+        <div class="team-media">
+          <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=900&q=85" alt="Ogar Confidence Ochuole">
+        </div>
+        <div class="team-body">
+          <div class="team-name">Ogar Confidence Ochuole</div>
+          <div class="team-role">Factory Inventory Officer</div>
+          <p class="team-bio">Tracks every component and finished piece moving in and out of the workshop. Keeps stock accurate and orders on schedule.</p>
+        </div>
+      </div>
+
+      <!-- Francis Osunkwo -->
+      <div class="team-card">
+        <div class="team-media">
+          <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=900&q=85" alt="Francis Osunkwo">
+        </div>
+        <div class="team-body">
+          <div class="team-name">Francis Osunkwo</div>
+          <div class="team-role">Technical Fabricator (Carpentry)</div>
+          <p class="team-bio">Builds the frames, drawers and detailing that carry the Handy-Gidi signature. Another of our senior carpenters on the floor.</p>
         </div>
       </div>
 
@@ -602,7 +437,7 @@
     <div class="footer-top">
       <div class="footer-brand"><h3>Handy<em>·</em>Gidi</h3><p>Modern furniture, made smarter. Your space. Your style. Your way.</p><p style="margin-top:20px; font-size:13px; letter-spacing:0.08em; text-transform:uppercase; color:rgba(245,239,226,0.45);">Handy-Gidi International Ltd</p></div>
       <div class="footer-col"><h4>Shop</h4><a href="shop.html">All Furniture</a><a href="shop.html?category=living-room">Living Room</a><a href="shop.html?category=bedroom">Bedroom</a><a href="shop.html?category=dining">Dining</a><a href="shop.html?category=office">Office</a><a href="shop.html?category=outdoor">Outdoor</a></div>
-      <div class="footer-col"><h4>Our Company</h4><a href="about.html">About Us</a><a href="services.html">Services</a><a href="reviews.html">Reviews</a><a href="contact.html">Contact</a></div>
+      <div class="footer-col"><h4>Our Company</h4><a href="about.html">About Us</a><a href="services.html">Services</a><a href="projects.html">Projects</a><a href="reviews.html">Reviews</a><a href="contact.html">Contact</a></div>
       <div class="footer-col"><h4>Connect With Us</h4><a href="#">Instagram @Handygidi</a><a href="#">Facebook Handy-GiDi</a><a href="https://wa.me/2347051094001">WhatsApp 0705 109 4001</a><a href="https://wa.me/2348077778415">WhatsApp 0807 777 8415</a><p style="margin-top:22px;">Suite 7 &amp; 8, Okanga Plaza,<br>Wuye, Abuja</p></div>
     </div>
     <div class="footer-bottom">
@@ -656,7 +491,6 @@ if(!prefersReduced && hasGSAP){
       gsap.from(el, { yPercent:120, duration:1, ease:'power4.out', scrollTrigger:{ trigger:el, start:'top 88%', toggleActions:'play none none none' } });
     });
 
-    // CEO section reveal
     gsap.from('.ceo-portrait', {
       opacity:0, x:-40, duration:1, ease:'power3.out',
       scrollTrigger:{ trigger:'.ceo-section', start:'top 70%', toggleActions:'play none none none' }
@@ -666,13 +500,11 @@ if(!prefersReduced && hasGSAP){
       scrollTrigger:{ trigger:'.ceo-section', start:'top 70%', toggleActions:'play none none none' }
     });
 
-    // Team grid stagger
     gsap.from('.team-card', {
-      opacity:0, y:40, duration:.9, stagger:.12, ease:'power3.out',
+      opacity:0, y:40, duration:.9, stagger:.1, ease:'power3.out',
       scrollTrigger:{ trigger:'.team-grid', start:'top 80%', toggleActions:'play none none none' }
     });
 
-    // Counters
     document.querySelectorAll('[data-count]').forEach(el => {
       const target = parseFloat(el.dataset.count);
       const suffix = el.dataset.suffix || '';
