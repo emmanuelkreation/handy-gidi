@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Client Reviews | Handy-Gidi</title>
-<meta name="description" content="Read reviews from Handy-Gidi customers. Real testimonials from homes, offices and hotels across Nigeria." />
+<meta name="description" content="Real reviews from Handy-Gidi customers. Read our wall or share your own experience." />
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,19 +16,21 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
-<!-- Firebase -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getFirestore, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import {
+  getFirestore, collection, query, where, onSnapshot,
+  addDoc, serverTimestamp
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 /* 🔧 PASTE YOUR FIREBASE CONFIG HERE */
 const firebaseConfig = {
-  apiKey: "AIzaSyA7khlO19sabspXwUhRRd4Bx_80IoJWcDc",
-  authDomain: "handy-gidi.firebaseapp.com",
-  projectId: "handy-gidi",
-  storageBucket: "handy-gidi.firebasestorage.app",
-  messagingSenderId: "841844135657",
-  appId: "1:841844135657:web:f55704c164ec935ef9c278"
+  apiKey: "PASTE_YOUR_API_KEY_HERE",
+  authDomain: "PASTE_YOUR_AUTH_DOMAIN_HERE",
+  projectId: "PASTE_YOUR_PROJECT_ID_HERE",
+  storageBucket: "PASTE_YOUR_STORAGE_BUCKET_HERE",
+  messagingSenderId: "PASTE_YOUR_SENDER_ID_HERE",
+  appId: "PASTE_YOUR_APP_ID_HERE"
 };
 
 let db;
@@ -39,17 +41,18 @@ if(!configMissing){
     db = getFirestore(app);
   } catch(e){ console.error(e); }
 }
-window.hgFb = { db, collection, onSnapshot, configMissing };
+window.hgFb = { db, collection, query, where, onSnapshot, addDoc, serverTimestamp, configMissing };
 </script>
 
 <style>
-  :root{--ink:#1A140F;--ink-soft:#3A2E24;--paper:#F5EFE2;--paper-2:#ECE2CC;--paper-3:#FBF8F0;--gold:#B0812E;--gold-deep:#8C6321;--gold-light:#E4C77E;--rust:#A0492A;--rust-deep:#7C371F;--plum:#3E2530;--line:rgba(26,20,15,0.14);--line-soft:rgba(26,20,15,0.08);--max:1280px;}
+  :root{--ink:#1A140F;--ink-soft:#3A2E24;--paper:#F5EFE2;--paper-2:#ECE2CC;--paper-3:#FBF8F0;--gold:#B0812E;--gold-deep:#8C6321;--gold-light:#E4C77E;--rust:#A0492A;--rust-deep:#7C371F;--plum:#3E2530;--success:#2D6A4F;--danger:#A4161A;--line:rgba(26,20,15,0.14);--line-soft:rgba(26,20,15,0.08);--max:1280px;}
   *{box-sizing:border-box;margin:0;padding:0;}
   body{background:var(--paper);color:var(--ink);font-family:'Public Sans',sans-serif;font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
   body.no-scroll{overflow:hidden;}
   img{max-width:100%;display:block;}
   a{color:inherit;text-decoration:none;}
   button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit;}
+  input,textarea,select{font-family:inherit;font-size:15px;}
   h1,h2,h3,h4{font-family:'Fraunces',serif;font-weight:560;letter-spacing:-0.02em;line-height:1.05;}
   .wrap{max-width:var(--max);margin:0 auto;padding:0 32px;}
   .eyebrow{font-size:12px;letter-spacing:0.2em;text-transform:uppercase;font-weight:600;color:var(--rust);display:inline-flex;align-items:center;gap:10px;}
@@ -83,6 +86,15 @@ window.hgFb = { db, collection, onSnapshot, configMissing };
   .page-hero-headline{font-size:clamp(42px,7vw,96px);line-height:0.96;font-weight:460;letter-spacing:-0.035em;color:var(--paper);margin:22px 0 0;max-width:16ch;}
   .page-hero-headline em{font-style:italic;font-weight:340;color:var(--gold-light);}
   .page-hero-sub{font-size:17px;color:rgba(245,239,226,0.82);max-width:52ch;margin:24px 0 0;}
+  .page-hero-actions{margin-top:36px;display:flex;gap:14px;flex-wrap:wrap;}
+  .btn{display:inline-flex;align-items:center;gap:12px;padding:18px 32px;font-size:14.5px;font-weight:600;border-radius:2px;position:relative;overflow:hidden;transition:transform .3s;cursor:pointer;}
+  .btn-primary{background:var(--gold);color:var(--ink);}
+  .btn-primary::before{content:'';position:absolute;inset:0;background:var(--rust-deep);transform:scaleY(0);transform-origin:bottom;transition:transform .45s cubic-bezier(.77,0,.18,1);z-index:0;}
+  .btn-primary:hover::before{transform:scaleY(1);}
+  .btn-primary:hover{color:var(--paper);}
+  .btn-primary > *{position:relative;z-index:1;}
+  .btn-ghost{background:transparent;color:var(--paper);border:1px solid rgba(245,239,226,0.4);}
+  .btn-ghost:hover{border-color:var(--paper);}
   .breadcrumb{display:flex;gap:10px;font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(245,239,226,0.6);margin-bottom:20px;}
   .breadcrumb a:hover{color:var(--gold-light);}
   .breadcrumb span::before{content:'/';margin-right:10px;}
@@ -97,7 +109,6 @@ window.hgFb = { db, collection, onSnapshot, configMissing };
   .reveal-mask{overflow:hidden;display:block;}
   .reveal-mask > *{display:block;will-change:transform;}
 
-  /* Featured testimonial */
   .featured-testimonial{position:relative;padding:160px 0;overflow:hidden;color:var(--paper);}
   .featured-bg{position:absolute;inset:-10%;background-image:url('https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=2400&q=85');background-size:cover;background-position:center;z-index:0;will-change:transform;filter:brightness(0.35);}
   .featured-veil{position:absolute;inset:0;background:linear-gradient(180deg,rgba(26,20,15,0.75) 0%,rgba(26,20,15,0.9) 100%);z-index:1;}
@@ -117,7 +128,6 @@ window.hgFb = { db, collection, onSnapshot, configMissing };
   .featured-pagination .swiper-pagination-bullet{width:36px;height:2px;background:rgba(245,239,226,0.25);border-radius:0;opacity:1;margin:0 !important;transition:all .3s;}
   .featured-pagination .swiper-pagination-bullet-active{background:var(--gold-light);width:64px;}
 
-  /* Rating breakdown */
   .breakdown{padding:140px 0;background:var(--paper);}
   .breakdown-grid{display:grid;grid-template-columns:1fr 1.4fr;gap:64px;align-items:center;}
   .breakdown-score{text-align:center;}
@@ -130,12 +140,14 @@ window.hgFb = { db, collection, onSnapshot, configMissing };
   .bar-fill{height:100%;background:var(--gold);border-radius:2px;width:0;transition:width 1.5s cubic-bezier(.2,.7,.2,1);}
   @media (max-width:900px){.breakdown-grid{grid-template-columns:1fr;gap:40px;}}
 
-  /* Reviews wall */
   .wall-section{padding:140px 0;background:var(--paper-2);}
-  .wall-filters{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:40px;}
+  .wall-head-row{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;margin-bottom:40px;flex-wrap:wrap;}
+  .wall-filters{display:flex;gap:6px;flex-wrap:wrap;}
   .wall-filter{padding:10px 20px;font-size:12.5px;letter-spacing:0.04em;font-weight:500;color:var(--ink-soft);border:1px solid var(--line);background:var(--paper-3);border-radius:2px;transition:all .2s;}
   .wall-filter:hover{border-color:var(--ink);color:var(--ink);}
   .wall-filter.active{background:var(--ink);color:var(--paper);border-color:var(--ink);}
+  .write-btn{display:inline-flex;align-items:center;gap:10px;padding:12px 24px;background:var(--ink);color:var(--paper);font-size:13.5px;font-weight:600;border-radius:2px;transition:all .25s;cursor:pointer;}
+  .write-btn:hover{background:var(--gold-deep);}
   .wall{column-count:3;column-gap:24px;}
   @media (max-width:900px){.wall{column-count:2;}}
   @media (max-width:600px){.wall{column-count:1;}}
@@ -147,11 +159,10 @@ window.hgFb = { db, collection, onSnapshot, configMissing };
   .review-card .author{padding-top:16px;border-top:1px solid var(--line-soft);}
   .review-card .author b{display:block;font-size:14px;font-weight:600;color:var(--ink);}
   .review-card .author span{font-size:11.5px;letter-spacing:0.06em;text-transform:uppercase;color:var(--ink-soft);margin-top:3px;display:block;}
-  .review-card .screenshot{margin-top:16px;border-radius:3px;overflow:hidden;border:1px solid var(--line-soft);}
-  .review-card .screenshot img{width:100%;display:block;}
-
+  .review-card .cat-tag{position:absolute;top:20px;right:20px;font-size:10px;letter-spacing:0.14em;text-transform:uppercase;font-weight:700;color:var(--gold-deep);padding:4px 8px;background:rgba(176,129,46,0.12);border-radius:2px;}
   .empty-wall{padding:80px 20px;text-align:center;color:var(--ink-soft);}
   .empty-wall h3{font-size:24px;margin-bottom:10px;color:var(--ink);}
+  .empty-wall .btn{margin-top:20px;}
 
   .cta-section{position:relative;padding:160px 0;overflow:hidden;color:var(--paper);text-align:center;}
   .cta-bg{position:absolute;inset:-10%;background-image:url('https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=2400&q=85');background-size:cover;background-position:center;z-index:0;will-change:transform;filter:brightness(0.35);}
@@ -161,14 +172,59 @@ window.hgFb = { db, collection, onSnapshot, configMissing };
   .cta-inner h2 em{font-style:italic;color:var(--gold-light);font-weight:340;}
   .cta-inner p{color:rgba(245,239,226,0.75);font-size:17px;max-width:52ch;margin:0 auto 44px;}
   .cta-actions{display:flex;justify-content:center;gap:16px;flex-wrap:wrap;}
-  .btn{display:inline-flex;align-items:center;gap:12px;padding:18px 32px;font-size:14.5px;font-weight:600;border-radius:2px;position:relative;overflow:hidden;transition:transform .3s;}
-  .btn-primary{background:var(--gold);color:var(--ink);}
-  .btn-primary::before{content:'';position:absolute;inset:0;background:var(--rust-deep);transform:scaleY(0);transform-origin:bottom;transition:transform .45s cubic-bezier(.77,0,.18,1);z-index:0;}
-  .btn-primary:hover::before{transform:scaleY(1);}
-  .btn-primary:hover{color:var(--paper);}
-  .btn-primary > *{position:relative;z-index:1;}
-  .btn-ghost{background:transparent;color:var(--paper);border:1px solid rgba(245,239,226,0.4);}
-  .btn-ghost:hover{border-color:var(--paper);}
+
+  /* MODAL — write a review */
+  .modal-overlay{position:fixed;inset:0;background:rgba(26,20,15,0.78);backdrop-filter:blur(6px);z-index:500;display:none;align-items:center;justify-content:center;padding:24px;overflow-y:auto;}
+  .modal-overlay.show{display:flex;}
+  .modal-panel{background:var(--paper);width:100%;max-width:600px;border-radius:6px;max-height:92vh;overflow-y:auto;box-shadow:0 40px 80px rgba(0,0,0,0.4);position:relative;animation:panelIn .35s cubic-bezier(.2,.7,.2,1);}
+  @keyframes panelIn{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+  .modal-header{padding:28px 32px 18px;border-bottom:1px solid var(--line);display:flex;align-items:flex-start;justify-content:space-between;gap:16px;}
+  .modal-header h3{font-size:26px;letter-spacing:-0.02em;}
+  .modal-header p{font-size:13.5px;color:var(--ink-soft);margin-top:6px;max-width:44ch;}
+  .modal-close{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--ink);transition:all .2s;flex-shrink:0;}
+  .modal-close:hover{background:var(--ink);color:var(--paper);}
+  .modal-body{padding:28px 32px 32px;}
+
+  .form-field{margin-bottom:20px;}
+  .form-field label{display:block;font-size:11.5px;letter-spacing:0.12em;text-transform:uppercase;font-weight:600;color:var(--ink-soft);margin-bottom:8px;}
+  .form-field label .req{color:var(--danger);margin-left:3px;}
+  .form-field input, .form-field textarea, .form-field select{width:100%;padding:13px 15px;border:1px solid var(--line);background:var(--paper-3);border-radius:3px;color:var(--ink);outline:none;transition:border-color .2s;font-family:inherit;font-size:15px;}
+  .form-field input:focus, .form-field textarea:focus, .form-field select:focus{border-color:var(--gold-deep);background:var(--paper);}
+  .form-field textarea{resize:vertical;min-height:120px;line-height:1.6;}
+  .form-field .err{font-size:12px;color:var(--danger);margin-top:6px;display:none;}
+  .form-field.invalid input, .form-field.invalid textarea, .form-field.invalid select{border-color:var(--danger);}
+  .form-field.invalid .err{display:block;}
+
+  .star-input{display:flex;gap:8px;align-items:center;margin-top:4px;}
+  .star-input button{background:none;border:none;cursor:pointer;font-size:32px;line-height:1;color:var(--paper-2);transition:color .15s, transform .15s;padding:0;}
+  .star-input button:hover{transform:scale(1.1);}
+  .star-input button.active{color:var(--gold);}
+  .star-input-label{font-size:13px;color:var(--ink-soft);margin-left:12px;font-weight:600;}
+
+  .form-row-2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  @media (max-width:520px){.form-row-2{grid-template-columns:1fr;}}
+
+  .submit-review-btn{width:100%;padding:16px 24px;background:var(--gold);color:var(--ink);font-size:15px;font-weight:600;border-radius:3px;margin-top:8px;transition:all .25s;display:flex;align-items:center;justify-content:center;gap:10px;cursor:pointer;position:relative;overflow:hidden;}
+  .submit-review-btn::before{content:'';position:absolute;inset:0;background:var(--rust-deep);transform:scaleY(0);transform-origin:bottom;transition:transform .4s cubic-bezier(.77,0,.18,1);z-index:0;}
+  .submit-review-btn:hover::before{transform:scaleY(1);}
+  .submit-review-btn:hover{color:var(--paper);}
+  .submit-review-btn > *{position:relative;z-index:1;}
+  .submit-review-btn:disabled{opacity:0.6;cursor:not-allowed;}
+  .submit-review-btn:disabled::before{transform:scaleY(0);}
+
+  .form-note{font-size:12.5px;color:var(--ink-soft);text-align:center;margin-top:14px;line-height:1.6;}
+
+  .success-state{text-align:center;padding:20px 20px 40px;}
+  .success-state .mark{width:80px;height:80px;margin:0 auto 24px;border-radius:50%;background:var(--success);color:white;display:flex;align-items:center;justify-content:center;animation:popIn .5s cubic-bezier(.2,.9,.3,1.4);}
+  @keyframes popIn{0%{transform:scale(0.5);opacity:0;}100%{transform:scale(1);opacity:1;}}
+  .success-state h3{font-size:26px;margin-bottom:14px;letter-spacing:-0.02em;}
+  .success-state p{color:var(--ink-soft);font-size:15.5px;line-height:1.7;max-width:44ch;margin:0 auto 28px;}
+  .success-state .done-btn{display:inline-flex;align-items:center;gap:10px;padding:14px 28px;background:var(--ink);color:var(--paper);font-size:14px;font-weight:600;border-radius:3px;cursor:pointer;transition:background .25s;}
+  .success-state .done-btn:hover{background:var(--gold-deep);}
+
+  .spinner-inline{width:16px;height:16px;border:2px solid rgba(26,20,15,0.25);border-top-color:var(--ink);border-radius:50%;animation:spin .7s linear infinite;display:inline-block;}
+  @keyframes spin{to{transform:rotate(360deg);}}
+
   footer{background:var(--plum);color:var(--paper);padding:96px 0 40px;}
   .footer-top{display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:56px;padding-bottom:72px;border-bottom:1px solid rgba(245,239,226,0.14);}
   .footer-brand h3{font-family:'Fraunces',serif;font-size:32px;font-weight:650;margin-bottom:16px;}
@@ -194,6 +250,8 @@ window.hgFb = { db, collection, onSnapshot, configMissing };
     nav.open{display:flex;flex-direction:column;position:fixed;inset:0;background:var(--ink);padding:120px 32px 40px;gap:24px;z-index:150;}
     nav.open a{font-size:32px;font-family:'Fraunces',serif;color:var(--paper);padding:8px 0;border-bottom:1px solid rgba(245,239,226,0.1);}
     .wrap{padding:0 20px;}
+    .modal-body{padding:24px 22px 28px;}
+    .modal-header{padding:24px 22px 16px;}
   }
 </style>
 </head>
@@ -225,7 +283,13 @@ window.hgFb = { db, collection, onSnapshot, configMissing };
     <div class="breadcrumb"><a href="index.html">Home</a><span>Reviews</span></div>
     <p class="eyebrow page-hero-eyebrow">Client Reviews</p>
     <h1 class="page-hero-headline" id="heroHeadline">Over 100 clients. Here's what they <em>say.</em></h1>
-    <p class="page-hero-sub">Real reviews. Real spaces. Real people who trust Handy-Gidi with their homes and offices.</p>
+    <p class="page-hero-sub">Real reviews from real spaces. Read the wall, or add your own experience below.</p>
+    <div class="page-hero-actions">
+      <button class="btn btn-primary" id="writeReviewBtnHero">
+        <span>Write a Review</span>
+        <svg width="14" height="14" viewBox="0 0 12 12" fill="none"><path d="M1 11L11 1M11 1H3M11 1V9" stroke="currentColor" stroke-width="1.5"/></svg>
+      </button>
+    </div>
   </div>
 </section>
 
@@ -239,14 +303,7 @@ window.hgFb = { db, collection, onSnapshot, configMissing };
     <div class="swiper featured-swiper" id="featuredSwiper">
       <div class="swiper-wrapper" id="featuredWrapper">
         <div class="swiper-slide featured-slide">
-          <p class="featured-quote">Handy-Gidi didn't just deliver furniture. They delivered a <em>finished office.</em> My clients notice it every single visit.</p>
-          <div class="featured-meta">
-            <div class="featured-stars">★★★★★</div>
-            <div>
-              <div class="featured-name">Executive Director</div>
-              <div class="featured-role">Maitama, Abuja</div>
-            </div>
-          </div>
+          <p class="featured-quote">Reviews are loading…</p>
         </div>
       </div>
     </div>
@@ -268,16 +325,16 @@ window.hgFb = { db, collection, onSnapshot, configMissing };
   <div class="wrap">
     <div class="breakdown-grid">
       <div class="breakdown-score">
-        <div class="num">4.9</div>
-        <div class="stars">★★★★★</div>
-        <div class="count">Based on <span id="totalReviews">100+</span> reviews</div>
+        <div class="num" id="avgScore">—</div>
+        <div class="stars" id="avgStars">★★★★★</div>
+        <div class="count">Based on <span id="totalReviews">0</span> reviews</div>
       </div>
       <div class="breakdown-bars">
-        <div class="bar-row"><span>5 star</span><div class="bar-track"><div class="bar-fill" data-width="94"></div></div><span id="pct5">94%</span></div>
-        <div class="bar-row"><span>4 star</span><div class="bar-track"><div class="bar-fill" data-width="4"></div></div><span id="pct4">4%</span></div>
-        <div class="bar-row"><span>3 star</span><div class="bar-track"><div class="bar-fill" data-width="1"></div></div><span id="pct3">1%</span></div>
-        <div class="bar-row"><span>2 star</span><div class="bar-track"><div class="bar-fill" data-width="1"></div></div><span id="pct2">1%</span></div>
-        <div class="bar-row"><span>1 star</span><div class="bar-track"><div class="bar-fill" data-width="0"></div></div><span id="pct1">0%</span></div>
+        <div class="bar-row"><span>5 star</span><div class="bar-track"><div class="bar-fill" id="bar5" data-width="0"></div></div><span id="pct5">0%</span></div>
+        <div class="bar-row"><span>4 star</span><div class="bar-track"><div class="bar-fill" id="bar4" data-width="0"></div></div><span id="pct4">0%</span></div>
+        <div class="bar-row"><span>3 star</span><div class="bar-track"><div class="bar-fill" id="bar3" data-width="0"></div></div><span id="pct3">0%</span></div>
+        <div class="bar-row"><span>2 star</span><div class="bar-track"><div class="bar-fill" id="bar2" data-width="0"></div></div><span id="pct2">0%</span></div>
+        <div class="bar-row"><span>1 star</span><div class="bar-track"><div class="bar-fill" id="bar1" data-width="0"></div></div><span id="pct1">0%</span></div>
       </div>
     </div>
   </div>
@@ -285,19 +342,25 @@ window.hgFb = { db, collection, onSnapshot, configMissing };
 
 <section class="wall-section">
   <div class="wrap">
-    <div class="section-head">
+    <div class="section-head" style="margin-bottom:32px;">
       <p class="eyebrow reveal-mask"><span>All reviews</span></p>
       <h2 class="reveal-mask"><span>Browse the full wall.</span></h2>
     </div>
-    <div class="wall-filters" id="wallFilters">
-      <button class="wall-filter active" data-filter="all">All</button>
-      <button class="wall-filter" data-filter="5">5 star</button>
-      <button class="wall-filter" data-filter="office">Office</button>
-      <button class="wall-filter" data-filter="residential">Residential</button>
-      <button class="wall-filter" data-filter="hospitality">Hospitality</button>
+    <div class="wall-head-row">
+      <div class="wall-filters" id="wallFilters">
+        <button class="wall-filter active" data-filter="all">All</button>
+        <button class="wall-filter" data-filter="5">5 star</button>
+        <button class="wall-filter" data-filter="office">Office</button>
+        <button class="wall-filter" data-filter="residential">Residential</button>
+        <button class="wall-filter" data-filter="hospitality">Hospitality</button>
+      </div>
+      <button class="write-btn" id="writeReviewBtnWall">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 5V19M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        Write a Review
+      </button>
     </div>
     <div class="wall" id="reviewsWall">
-      <!-- Populated from Firestore or fallback -->
+      <div class="empty-wall"><h3>Loading reviews…</h3></div>
     </div>
   </div>
 </section>
@@ -320,7 +383,7 @@ window.hgFb = { db, collection, onSnapshot, configMissing };
     <div class="footer-top">
       <div class="footer-brand"><h3>Handy<em>·</em>Gidi</h3><p>Modern furniture, made smarter. Your space. Your style. Your way.</p><p style="margin-top:20px;font-size:13px;letter-spacing:0.08em;text-transform:uppercase;color:rgba(245,239,226,0.45);">Handy-Gidi International Ltd</p></div>
       <div class="footer-col"><h4>Shop</h4><a href="shop.html">All Furniture</a><a href="shop.html?category=living-room">Living Room</a><a href="shop.html?category=bedroom">Bedroom</a><a href="shop.html?category=dining">Dining</a><a href="shop.html?category=office">Office</a><a href="shop.html?category=outdoor">Outdoor</a></div>
-      <div class="footer-col"><h4>Our Company</h4><a href="about.html">About Us</a><a href="services.html">Services</a><a href="reviews.html">Reviews</a><a href="contact.html">Contact</a></div>
+      <div class="footer-col"><h4>Our Company</h4><a href="about.html">About Us</a><a href="services.html">Services</a><a href="projects.html">Projects</a><a href="reviews.html">Reviews</a><a href="contact.html">Contact</a></div>
       <div class="footer-col"><h4>Connect With Us</h4><a href="#">Instagram @Handygidi</a><a href="#">Facebook Handy-GiDi</a><a href="https://wa.me/2347051094001">WhatsApp 0705 109 4001</a><a href="https://wa.me/2348077778415">WhatsApp 0807 777 8415</a><p style="margin-top:22px;">Suite 7 &amp; 8, Okanga Plaza,<br>Wuye, Abuja</p></div>
     </div>
     <div class="footer-bottom">
@@ -335,6 +398,77 @@ window.hgFb = { db, collection, onSnapshot, configMissing };
   <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M17.6 6.32A8 8 0 0 0 4.2 14.1L3 19.6l5.6-1.2A8 8 0 0 0 17.6 6.32zM12 18.5a6.5 6.5 0 0 1-3.3-.9l-.24-.14-3.32.71.7-3.24-.15-.25a6.5 6.5 0 1 1 6.31 3.82z"/></svg>
 </a>
 
+<!-- WRITE REVIEW MODAL -->
+<div class="modal-overlay" id="reviewModal">
+  <div class="modal-panel">
+    <div class="modal-header" id="modalHeader">
+      <div>
+        <h3>Share your experience.</h3>
+        <p>Your review helps others decide. We review every submission before it goes live.</p>
+      </div>
+      <button class="modal-close" id="modalCloseBtn" aria-label="Close">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M5 5L19 19M19 5L5 19" stroke="currentColor" stroke-width="1.6"/></svg>
+      </button>
+    </div>
+    <div class="modal-body" id="modalBody">
+      <form id="reviewForm" novalidate>
+        <div class="form-row-2">
+          <div class="form-field" id="f-name">
+            <label for="rName">Your name <span class="req">*</span></label>
+            <input type="text" id="rName" required autocomplete="name" />
+            <span class="err">Please enter your name.</span>
+          </div>
+          <div class="form-field" id="f-role">
+            <label for="rRole">Role or city <span style="color:var(--ink-soft);font-weight:400;text-transform:none;letter-spacing:0;">(optional)</span></label>
+            <input type="text" id="rRole" placeholder="e.g. Homeowner, Wuse II" />
+          </div>
+        </div>
+
+        <div class="form-row-2">
+          <div class="form-field" id="f-email">
+            <label for="rEmail">Email <span style="color:var(--ink-soft);font-weight:400;text-transform:none;letter-spacing:0;">(optional, not shown)</span></label>
+            <input type="email" id="rEmail" autocomplete="email" />
+          </div>
+          <div class="form-field" id="f-category">
+            <label for="rCategory">What was it for?</label>
+            <select id="rCategory">
+              <option value="residential">Residential</option>
+              <option value="office">Office</option>
+              <option value="hospitality">Hospitality</option>
+              <option value="retail">Retail</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-field" id="f-stars">
+          <label>Your rating <span class="req">*</span></label>
+          <div class="star-input" id="starInput">
+            <button type="button" data-value="1" aria-label="1 star">★</button>
+            <button type="button" data-value="2" aria-label="2 stars">★</button>
+            <button type="button" data-value="3" aria-label="3 stars">★</button>
+            <button type="button" data-value="4" aria-label="4 stars">★</button>
+            <button type="button" data-value="5" aria-label="5 stars">★</button>
+            <span class="star-input-label" id="starLabel">Tap to rate</span>
+          </div>
+          <span class="err">Please select a rating.</span>
+        </div>
+
+        <div class="form-field" id="f-quote">
+          <label for="rQuote">Your review <span class="req">*</span></label>
+          <textarea id="rQuote" required placeholder="Tell us about your experience. What did you order? How was the delivery, the quality, the service?"></textarea>
+          <span class="err">Please write at least a few words.</span>
+        </div>
+
+        <button type="submit" class="submit-review-btn" id="submitReviewBtn">
+          <span id="submitReviewLabel">Submit Review</span>
+          <svg width="14" height="14" viewBox="0 0 12 12" fill="none"><path d="M1 11L11 1M11 1H3M11 1V9" stroke="currentColor" stroke-width="1.5"/></svg>
+        </button>
+        <p class="form-note">Your review goes to our team for approval. Once approved, it appears on this page. We usually approve within a few hours.</p>
+      </form>
+    </div>
+  </div>
+</div>
+
 <script>
 const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const hasGSAP = typeof gsap !== 'undefined';
@@ -346,83 +480,97 @@ document.getElementById('menuToggle').addEventListener('click', function(){
   document.body.classList.toggle('no-scroll', open);
 });
 
-// Fallback testimonials (used if Firestore not configured or empty)
-const FALLBACK_TESTIMONIALS = [
-  { name:'Executive Director', role:'Maitama, Abuja', quote:'Handy-Gidi didn\'t just deliver furniture. They delivered a *finished office*. My clients notice it every single visit.', stars:5, category:'office' },
-  { name:'Business Owner', role:'Wuse II, Abuja', quote:'The dining set arrived assembled and installed in *under an hour*. Quality is genuinely premium.', stars:5, category:'residential' },
-  { name:'Homeowner', role:'Guzape, Abuja', quote:'I\'ve bought from three different furniture brands in Abuja. Handy-Gidi is the only one I\'ve *gone back to*.', stars:5, category:'residential' },
-  { name:'Hotel Manager', role:'CBD, Abuja', quote:'They furnished our entire hotel lobby. *On time, on budget*, and the craftsmanship speaks for itself.', stars:5, category:'hospitality' },
-  { name:'CEO', role:'Asokoro, Abuja', quote:'The executive table is a statement piece. *Sockets, drawers, finish* — everything is considered.', stars:5, category:'office' },
-  { name:'Family Client', role:'Jabi, Abuja', quote:'The king bed was assembled in 15 minutes and the wood is *absolutely solid*. Worth every naira.', stars:5, category:'residential' },
-  { name:'Restaurant Owner', role:'Wuse', quote:'Six dining tables, all identical, delivered on schedule. *Professional from start to finish.*', stars:5, category:'hospitality' },
-  { name:'Architect', role:'Maitama', quote:'I specify furniture for clients weekly. Handy-Gidi is now my *first recommendation*.', stars:5, category:'office' },
-  { name:'Developer', role:'Katampe', quote:'Furnished 12 apartments in one week. The team was *organised and reliable*.', stars:5, category:'residential' }
-];
-
+/* ==================== REVIEW STATE ==================== */
 let allReviews = [];
 let currentFilter = 'all';
+let currentRating = 0;
 
-function renderWall(list){
+/* ==================== FETCH APPROVED REVIEWS ==================== */
+function loadReviews(){
   const wall = document.getElementById('reviewsWall');
-  if(list.length === 0){
-    wall.innerHTML = `<div class="empty-wall"><h3>No reviews in this view</h3><p>Try another filter.</p></div>`;
+  if(!window.hgFb || window.hgFb.configMissing || !window.hgFb.db){
+    wall.innerHTML = `<div class="empty-wall"><h3>Reviews are on the way.</h3><p>Check back soon.</p></div>`;
     return;
   }
+
+  const { db, collection, query, where, onSnapshot } = window.hgFb;
+  try {
+    const q = query(collection(db, 'testimonials'), where('status', '==', 'approved'));
+    onSnapshot(q, (snap) => {
+      allReviews = snap.docs.map(d => {
+        const data = d.data();
+        if(data.createdAt && data.createdAt.toDate){
+          data._ts = data.createdAt.toDate().getTime();
+        } else {
+          data._ts = 0;
+        }
+        return data;
+      });
+      // sort newest first
+      allReviews.sort((a, b) => (b._ts || 0) - (a._ts || 0));
+      renderWall();
+      renderFeatured();
+      renderBreakdown();
+    }, (err) => {
+      console.error(err);
+      wall.innerHTML = `<div class="empty-wall"><h3>Couldn't load reviews</h3><p>${err.message}</p></div>`;
+    });
+  } catch(e){
+    console.error(e);
+  }
+}
+
+/* ==================== RENDER WALL ==================== */
+function renderWall(){
+  const wall = document.getElementById('reviewsWall');
+  let list = allReviews;
+  if(currentFilter === '5'){
+    list = allReviews.filter(r => (r.stars || 5) === 5);
+  } else if(currentFilter !== 'all'){
+    list = allReviews.filter(r => (r.category || '').toLowerCase() === currentFilter);
+  }
+
+  if(list.length === 0){
+    wall.innerHTML = `<div class="empty-wall">
+      <h3>No reviews here yet</h3>
+      <p>Be the first to share your experience.</p>
+      <button class="btn btn-primary" onclick="document.getElementById('writeReviewBtnWall').click()"><span>Write a Review</span></button>
+    </div>`;
+    return;
+  }
+
   wall.innerHTML = list.map(r => {
     const stars = '★'.repeat(r.stars || 5) + '☆'.repeat(5 - (r.stars || 5));
-    const quote = (r.quote || '').replace(/\*(.*?)\*/g, '<em>$1</em>');
-    const screenshot = r.screenshot ? `<div class="screenshot"><img src="${r.screenshot}" alt="Review screenshot"></div>` : '';
+    const cat = r.category ? r.category.charAt(0).toUpperCase() + r.category.slice(1) : '';
     return `
       <div class="review-card">
+        ${cat ? `<div class="cat-tag">${cat}</div>` : ''}
         <div class="stars">${stars}</div>
-        <p class="quote">${quote}</p>
+        <p class="quote">${r.quote || ''}</p>
         <div class="author">
           <b>${r.name || 'Anonymous'}</b>
-          <span>${r.role || ''}</span>
+          ${r.role ? `<span>${r.role}</span>` : ''}
         </div>
-        ${screenshot}
       </div>
     `;
   }).join('');
 }
 
-function applyFilter(filter){
-  currentFilter = filter;
-  let list = allReviews;
-  if(filter === 'all'){
-    list = allReviews;
-  } else if(filter === '5'){
-    list = allReviews.filter(r => (r.stars || 5) === 5);
-  } else {
-    list = allReviews.filter(r => (r.category || '').toLowerCase() === filter);
-  }
-  renderWall(list);
-}
-
-document.querySelectorAll('.wall-filter').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('.wall-filter').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    applyFilter(btn.dataset.filter);
-  });
-});
-
-// Featured carousel (uses top 4 reviews)
+/* ==================== RENDER FEATURED CAROUSEL ==================== */
 let featSwiper = null;
-function renderFeatured(list){
+function renderFeatured(){
   const wrapper = document.getElementById('featuredWrapper');
-  const top = list.filter(r => (r.stars || 5) === 5).slice(0, 4);
-  const source = top.length ? top : list.slice(0, 4);
+  const top = allReviews.filter(r => (r.stars || 5) === 5).slice(0, 4);
+  const source = top.length ? top : allReviews.slice(0, 4);
 
   if(source.length === 0){
     wrapper.innerHTML = `<div class="swiper-slide featured-slide"><p class="featured-quote">Reviews are on their way. Check back soon.</p></div>`;
   } else {
     wrapper.innerHTML = source.map(r => {
-      const quote = (r.quote || '').replace(/\*(.*?)\*/g, '<em>$1</em>');
       const stars = '★'.repeat(r.stars || 5);
       return `
         <div class="swiper-slide featured-slide">
-          <p class="featured-quote">${quote}</p>
+          <p class="featured-quote">${r.quote || ''}</p>
           <div class="featured-meta">
             <div class="featured-stars">${stars}</div>
             <div>
@@ -448,41 +596,184 @@ function renderFeatured(list){
   }
 }
 
-document.getElementById('featPrev').addEventListener('click', () => featSwiper && featSwiper.slidePrev());
-document.getElementById('featNext').addEventListener('click', () => featSwiper && featSwiper.slideNext());
+/* ==================== BREAKDOWN ==================== */
+function renderBreakdown(){
+  const total = allReviews.length;
+  document.getElementById('totalReviews').textContent = total;
 
-// Load from Firestore or fall back
-function loadReviews(){
-  if(!window.hgFb || window.hgFb.configMissing || !window.hgFb.db){
-    allReviews = FALLBACK_TESTIMONIALS;
-    renderWall(allReviews);
-    renderFeatured(allReviews);
+  if(total === 0){
+    document.getElementById('avgScore').textContent = '—';
+    [1,2,3,4,5].forEach(n => {
+      document.getElementById('bar'+n).dataset.width = 0;
+      document.getElementById('bar'+n).style.width = '0%';
+      document.getElementById('pct'+n).textContent = '0%';
+    });
     return;
   }
-  const { db, collection, onSnapshot } = window.hgFb;
-  try {
-    onSnapshot(collection(db, 'testimonials'), (snap) => {
-      const fetched = snap.docs.map(d => d.data());
-      allReviews = fetched.length ? fetched : FALLBACK_TESTIMONIALS;
-      renderWall(allReviews);
-      renderFeatured(allReviews);
-      document.getElementById('totalReviews').textContent = allReviews.length;
-    }, (err) => {
-      console.error(err);
-      allReviews = FALLBACK_TESTIMONIALS;
-      renderWall(allReviews);
-      renderFeatured(allReviews);
+
+  const sum = allReviews.reduce((s, r) => s + (r.stars || 5), 0);
+  const avg = sum / total;
+  document.getElementById('avgScore').textContent = avg.toFixed(1);
+
+  const counts = {1:0,2:0,3:0,4:0,5:0};
+  allReviews.forEach(r => { counts[r.stars || 5]++; });
+
+  [1,2,3,4,5].forEach(n => {
+    const pct = Math.round((counts[n] / total) * 100);
+    const bar = document.getElementById('bar'+n);
+    bar.dataset.width = pct;
+    bar.style.width = pct + '%';
+    document.getElementById('pct'+n).textContent = pct + '%';
+  });
+}
+
+/* ==================== FILTERS ==================== */
+document.querySelectorAll('.wall-filter').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.wall-filter').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentFilter = btn.dataset.filter;
+    renderWall();
+  });
+});
+
+/* ==================== MODAL ==================== */
+const modal = document.getElementById('reviewModal');
+function openModal(){
+  modal.classList.add('show');
+  document.body.classList.add('no-scroll');
+  // Reset form
+  document.getElementById('reviewForm').reset();
+  currentRating = 0;
+  document.querySelectorAll('#starInput button').forEach(b => b.classList.remove('active'));
+  document.getElementById('starLabel').textContent = 'Tap to rate';
+  document.querySelectorAll('.form-field').forEach(f => f.classList.remove('invalid'));
+  document.getElementById('modalBody').innerHTML = originalModalBodyHTML;
+  bindFormEvents();
+}
+function closeModal(){
+  modal.classList.remove('show');
+  document.body.classList.remove('no-scroll');
+}
+document.getElementById('writeReviewBtnHero').addEventListener('click', openModal);
+document.getElementById('writeReviewBtnWall').addEventListener('click', openModal);
+document.getElementById('modalCloseBtn').addEventListener('click', closeModal);
+modal.addEventListener('click', (e) => { if(e.target === modal) closeModal(); });
+document.addEventListener('keydown', (e) => { if(e.key === 'Escape' && modal.classList.contains('show')) closeModal(); });
+
+/* Save original form HTML so we can restore after success */
+let originalModalBodyHTML = document.getElementById('modalBody').innerHTML;
+
+/* ==================== STAR INPUT ==================== */
+function bindFormEvents(){
+  // Star buttons
+  document.querySelectorAll('#starInput button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const val = parseInt(btn.dataset.value);
+      currentRating = val;
+      document.querySelectorAll('#starInput button').forEach(b => {
+        b.classList.toggle('active', parseInt(b.dataset.value) <= val);
+      });
+      const labels = {1:'Poor', 2:'Fair', 3:'Good', 4:'Great', 5:'Excellent'};
+      document.getElementById('starLabel').textContent = labels[val] || '';
+      document.getElementById('f-stars').classList.remove('invalid');
     });
-  } catch(e){
-    allReviews = FALLBACK_TESTIMONIALS;
-    renderWall(allReviews);
-    renderFeatured(allReviews);
+    btn.addEventListener('mouseenter', () => {
+      const val = parseInt(btn.dataset.value);
+      document.querySelectorAll('#starInput button').forEach(b => {
+        b.style.color = parseInt(b.dataset.value) <= val ? 'var(--gold)' : '';
+      });
+    });
+  });
+  document.getElementById('starInput').addEventListener('mouseleave', () => {
+    document.querySelectorAll('#starInput button').forEach(b => {
+      b.style.color = b.classList.contains('active') ? 'var(--gold)' : '';
+    });
+  });
+
+  // Form submit
+  document.getElementById('reviewForm').addEventListener('submit', handleSubmit);
+}
+
+/* ==================== SUBMIT ==================== */
+async function handleSubmit(e){
+  e.preventDefault();
+  const name = document.getElementById('rName').value.trim();
+  const role = document.getElementById('rRole').value.trim();
+  const email = document.getElementById('rEmail').value.trim();
+  const category = document.getElementById('rCategory').value;
+  const quote = document.getElementById('rQuote').value.trim();
+
+  let valid = true;
+  const setInvalid = (id, isInvalid) => {
+    document.getElementById('f-' + id).classList.toggle('invalid', isInvalid);
+    if(isInvalid) valid = false;
+  };
+  setInvalid('name', name.length < 2);
+  setInvalid('quote', quote.length < 10);
+  setInvalid('stars', currentRating < 1);
+
+  if(!valid){
+    const firstInvalid = document.querySelector('.form-field.invalid');
+    if(firstInvalid) firstInvalid.scrollIntoView({ behavior:'smooth', block:'center' });
+    return;
+  }
+
+  if(!window.hgFb || window.hgFb.configMissing || !window.hgFb.db){
+    alert('Reviews are temporarily unavailable. Please try again later.');
+    return;
+  }
+
+  const btn = document.getElementById('submitReviewBtn');
+  const label = document.getElementById('submitReviewLabel');
+  btn.disabled = true;
+  label.innerHTML = '<span class="spinner-inline"></span> Submitting…';
+
+  const { db, collection, addDoc, serverTimestamp } = window.hgFb;
+
+  try {
+    await addDoc(collection(db, 'testimonials'), {
+      name,
+      role: role || '',
+      email: email || '',
+      category,
+      stars: currentRating,
+      quote,
+      status: 'pending',
+      createdAt: serverTimestamp()
+    });
+
+    // Show success state
+    document.getElementById('modalBody').innerHTML = `
+      <div class="success-state">
+        <div class="mark">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none"><path d="M5 12L10 17L20 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <h3>Thank you!</h3>
+        <p>Your review has been submitted and is awaiting approval. Once our team reviews it, it will appear on this page.</p>
+        <button class="done-btn" id="doneBtn">Done</button>
+      </div>
+    `;
+    document.getElementById('doneBtn').addEventListener('click', () => {
+      closeModal();
+      // Restore form for next time
+      setTimeout(() => {
+        document.getElementById('modalBody').innerHTML = originalModalBodyHTML;
+      }, 300);
+    });
+  } catch(err){
+    console.error('Submit failed', err);
+    alert('Submission failed. Please check your connection and try again.');
+    btn.disabled = false;
+    label.textContent = 'Submit Review';
   }
 }
 
+/* Initialise */
+bindFormEvents();
 loadReviews();
 
-// Bars + animations
+/* ==================== ANIMATIONS ==================== */
 if(!prefersReduced && hasGSAP){
   try {
     const lenis = new Lenis({ duration:1.15, easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)), smoothWheel:true, smoothTouch:false });
@@ -496,6 +787,7 @@ if(!prefersReduced && hasGSAP){
     gsap.from('.h-word', { yPercent:120, opacity:0, duration:.9, stagger:.05, ease:'power4.out', delay:.2 });
     gsap.from('.page-hero-eyebrow', { opacity:0, y:16, duration:.7, delay:.1 });
     gsap.from('.page-hero-sub', { opacity:0, y:16, duration:.7, delay:.4 });
+    gsap.from('.page-hero-actions', { opacity:0, y:16, duration:.7, delay:.55 });
     gsap.from('.breadcrumb', { opacity:0, y:16, duration:.7, delay:.05 });
 
     gsap.to('#heroBg', { yPercent:18, ease:'none', scrollTrigger:{ trigger:'.page-hero', start:'top top', end:'bottom top', scrub:.8 } });
@@ -509,13 +801,11 @@ if(!prefersReduced && hasGSAP){
       trigger: '.breakdown-bars', start:'top 80%', once:true,
       onEnter: () => {
         document.querySelectorAll('.bar-fill').forEach(b => {
-          b.style.width = b.dataset.width + '%';
+          b.style.width = (b.dataset.width || 0) + '%';
         });
       }
     });
   } catch(e){ console.error(e); }
-} else {
-  document.querySelectorAll('.bar-fill').forEach(b => b.style.width = b.dataset.width + '%');
 }
 </script>
 </body>
