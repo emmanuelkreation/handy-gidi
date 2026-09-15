@@ -55,7 +55,6 @@
     line-height:1.15;
   }
 
-  /* ========== CONFIG WARNING ========== */
   .config-warning{
     display:none;
     background:var(--danger);
@@ -741,7 +740,6 @@
     text-transform:uppercase;
   }
 
-  /* Status select */
   .status-select-wrap{
     display:flex;
     flex-direction:column;
@@ -1024,7 +1022,6 @@
 </head>
 <body>
 
-<!-- Config warning -->
 <div class="config-warning" id="configWarning">
   ⚠️ Firebase config not set. Edit <code>admin.html</code> and paste your config in the marked section.
 </div>
@@ -1405,12 +1402,12 @@ import {
    🔧 PASTE YOUR FIREBASE CONFIG HERE
    ═══════════════════════════════════════════════════════════ */
 const firebaseConfig = {
-  apiKey: "AIzaSyA7khlO19sabspXwUhRRd4Bx_80IoJWcDc",
-  authDomain: "handy-gidi.firebaseapp.com",
-  projectId: "handy-gidi",
-  storageBucket: "handy-gidi.firebasestorage.app",
-  messagingSenderId: "841844135657",
-  appId: "1:841844135657:web:f55704c164ec935ef9c278"
+  apiKey: "PASTE_YOUR_API_KEY_HERE",
+  authDomain: "PASTE_YOUR_AUTH_DOMAIN_HERE",
+  projectId: "PASTE_YOUR_PROJECT_ID_HERE",
+  storageBucket: "PASTE_YOUR_STORAGE_BUCKET_HERE",
+  messagingSenderId: "PASTE_YOUR_SENDER_ID_HERE",
+  appId: "PASTE_YOUR_APP_ID_HERE"
 };
 /* ═══════════════════════════════════════════════════════════ */
 
@@ -1477,6 +1474,13 @@ function showToast(msg, type = 'success'){
 
 function showLoading(show){
   document.getElementById('loadingOverlay').classList.toggle('show', show);
+}
+
+/* Normalize specs — handles both legacy [[k,v]] and new [{key,value}] formats */
+function normalizeSpecs(specs){
+  if(!Array.isArray(specs) || specs.length === 0) return [['', '']];
+  if(Array.isArray(specs[0])) return specs; // legacy format
+  return specs.map(s => [s.key || s.label || '', s.value || '']);
 }
 
 /* ==================== AUTH ==================== */
@@ -1644,12 +1648,11 @@ function openProductModal(product = null){
   document.getElementById('pImg').value = product?.img || '';
   document.getElementById('pImg2').value = product?.img2 || '';
 
-  // Update previews
   updatePreview(1, product?.img || '');
   updatePreview(2, product?.img2 || '');
 
   renderColours(product?.colours || ['']);
-  renderSpecs(product?.specs || [['', '']]);
+  renderSpecs(normalizeSpecs(product?.specs));
 
   productModal.classList.add('show');
   document.body.style.overflow = 'hidden';
@@ -1661,7 +1664,7 @@ function closeProductModal(){
   editingCode = null;
 }
 
-/* Image URL previews */
+/* Image previews */
 function updatePreview(slotNum, url){
   const box = document.getElementById('previewBox' + slotNum);
   const img = document.getElementById('previewImg' + slotNum);
@@ -1677,12 +1680,8 @@ function updatePreview(slotNum, url){
   }
 }
 
-document.getElementById('pImg').addEventListener('input', (e) => {
-  updatePreview(1, e.target.value);
-});
-document.getElementById('pImg2').addEventListener('input', (e) => {
-  updatePreview(2, e.target.value);
-});
+document.getElementById('pImg').addEventListener('input', (e) => updatePreview(1, e.target.value));
+document.getElementById('pImg2').addEventListener('input', (e) => updatePreview(2, e.target.value));
 
 /* Colours */
 function renderColours(list){
@@ -1772,7 +1771,10 @@ document.getElementById('modalSave').addEventListener('click', async () => {
     .map(inp => inp.value.trim()).filter(Boolean);
   const specKeys = [...document.querySelectorAll('[data-spec-key]')].map(i => i.value.trim());
   const specVals = [...document.querySelectorAll('[data-spec-val]')].map(i => i.value.trim());
-  const specs = specKeys.map((k, i) => [k, specVals[i]]).filter(s => s[0] && s[1]);
+  // Firestore does not support nested arrays — store as array of objects
+  const specs = specKeys
+    .map((k, i) => ({ key: k, value: specVals[i] }))
+    .filter(s => s.key && s.value);
 
   if(colours.length === 0) colours.push('Standard');
 
