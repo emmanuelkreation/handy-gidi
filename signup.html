@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Create Account | Handy-Gidi</title>
+<meta name="description" content="Create your Handy-Gidi account to track orders, save favourites and check out faster." />
+<meta name="robots" content="noindex" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,340;0,9..144,460;0,9..144,560;0,9..144,650&family=Public+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  :root{--ink:#1A140F;--ink-soft:#3A2E24;--paper:#F5EFE2;--paper-2:#ECE2CC;--paper-3:#FBF8F0;--gold:#B0812E;--gold-deep:#8C6321;--gold-light:#E4C77E;--rust:#A0492A;--rust-deep:#7C371F;--plum:#3E2530;--success:#2D6A4F;--danger:#A4161A;--line:rgba(26,20,15,0.14);--line-soft:rgba(26,20,15,0.08);}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--paper);color:var(--ink);font-family:'Public Sans',sans-serif;font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;}
+  img{max-width:100%;display:block;}
+  a{color:inherit;text-decoration:none;}
+  button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit;}
+  input{font-family:inherit;font-size:15px;}
+  h1,h2,h3,h4{font-family:'Fraunces',serif;font-weight:560;letter-spacing:-0.02em;line-height:1.1;}
+
+  .auth-layout{display:grid;grid-template-columns:1fr 1fr;min-height:100vh;}
+  @media (max-width:900px){.auth-layout{grid-template-columns:1fr;}}
+  .auth-visual{position:relative;overflow:hidden;background:var(--ink);display:flex;flex-direction:column;justify-content:space-between;padding:56px 56px 48px;color:var(--paper);}
+  @media (max-width:900px){.auth-visual{min-height:340px;padding:36px 32px;}}
+  .auth-visual-bg{position:absolute;inset:0;background-size:cover;background-position:center;z-index:0;animation:kenburns 22s ease-in-out infinite alternate;}
+  @keyframes kenburns{0%{transform:scale(1);}100%{transform:scale(1.08);}}
+  .auth-visual-veil{position:absolute;inset:0;background:linear-gradient(180deg,rgba(26,20,15,0.55) 0%,rgba(26,20,15,0.78) 100%);z-index:1;}
+  .auth-visual > *{position:relative;z-index:2;}
+  .auth-brand{font-family:'Fraunces',serif;font-size:28px;font-weight:650;letter-spacing:-0.03em;}
+  .auth-brand em{font-style:italic;font-weight:460;color:var(--gold-light);}
+  .auth-quote{font-family:'Fraunces',serif;font-size:clamp(24px,3vw,40px);line-height:1.24;font-weight:460;letter-spacing:-0.01em;max-width:22ch;}
+  .auth-quote em{font-style:italic;color:var(--gold-light);}
+  .auth-trust{font-size:13px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(245,239,226,0.6);}
+
+  .auth-panel{display:flex;flex-direction:column;justify-content:center;padding:80px 56px;background:var(--paper);}
+  @media (max-width:900px){.auth-panel{padding:56px 28px;}}
+  @media (min-width:1600px){.auth-panel{padding:100px 80px;}}
+  .auth-form-wrap{max-width:440px;width:100%;margin:0 auto;}
+  .auth-head{margin-bottom:36px;}
+  .auth-head .eyebrow{font-size:12px;letter-spacing:0.2em;text-transform:uppercase;font-weight:600;color:var(--rust);display:inline-flex;align-items:center;gap:10px;margin-bottom:20px;}
+  .auth-head .eyebrow::before{content:'';width:24px;height:1px;background:var(--rust);}
+  .auth-head h1{font-size:clamp(32px,3vw,44px);letter-spacing:-0.03em;margin-bottom:14px;}
+  .auth-head p{color:var(--ink-soft);font-size:15.5px;}
+
+  .google-btn{display:flex;align-items:center;justify-content:center;gap:12px;width:100%;padding:14px 20px;background:var(--paper-3);border:1px solid var(--line);border-radius:3px;font-size:14.5px;font-weight:600;color:var(--ink);transition:all .2s;}
+  .google-btn:hover{border-color:var(--ink);background:var(--paper-2);}
+  .google-btn:disabled{opacity:0.6;cursor:not-allowed;}
+
+  .divider{display:flex;align-items:center;gap:16px;margin:26px 0;color:var(--ink-soft);font-size:12px;letter-spacing:0.1em;text-transform:uppercase;}
+  .divider::before, .divider::after{content:'';flex:1;height:1px;background:var(--line);}
+
+  .field{margin-bottom:18px;}
+  .field label{display:block;font-size:11.5px;letter-spacing:0.12em;text-transform:uppercase;font-weight:600;color:var(--ink-soft);margin-bottom:8px;}
+  .field label .req{color:var(--danger);margin-left:3px;}
+  .field input{width:100%;padding:13px 15px;border:1px solid var(--line);background:var(--paper-3);border-radius:3px;color:var(--ink);transition:border-color .2s;outline:none;}
+  .field input:focus{border-color:var(--gold-deep);background:var(--paper);}
+  .field .err{font-size:12px;color:var(--danger);margin-top:6px;display:none;}
+  .field.invalid input{border-color:var(--danger);}
+  .field.invalid .err{display:block;}
+
+  .submit-btn{width:100%;padding:16px 24px;background:var(--gold);color:var(--ink);font-size:15px;font-weight:600;letter-spacing:0.02em;border-radius:3px;margin-top:8px;transition:all .25s;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;gap:10px;}
+  .submit-btn::before{content:'';position:absolute;inset:0;background:var(--rust-deep);transform:scaleY(0);transform-origin:bottom;transition:transform .4s cubic-bezier(.77,0,.18,1);}
+  .submit-btn:hover::before{transform:scaleY(1);}
+  .submit-btn:hover{color:var(--paper);}
+  .submit-btn > *{position:relative;z-index:1;}
+  .submit-btn:disabled{opacity:0.6;cursor:not-allowed;}
+
+  .auth-footer{margin-top:26px;text-align:center;font-size:14px;color:var(--ink-soft);}
+  .auth-footer a{color:var(--gold-deep);font-weight:600;transition:opacity .2s;}
+  .auth-footer a:hover{opacity:0.75;}
+  .terms-line{margin-top:20px;text-align:center;font-size:12.5px;color:var(--ink-soft);line-height:1.65;}
+  .terms-line a{color:var(--ink);font-weight:600;text-decoration:underline;text-decoration-color:rgba(26,20,15,0.3);text-underline-offset:3px;}
+
+  .auth-alert{padding:14px 16px;border-radius:3px;font-size:13.5px;margin-bottom:20px;display:none;}
+  .auth-alert.show{display:block;}
+  .auth-alert.error{background:rgba(164,22,26,0.08);color:var(--danger);border:1px solid rgba(164,22,26,0.2);}
+  .auth-alert.success{background:rgba(45,106,79,0.08);color:var(--success);border:1px solid rgba(45,106,79,0.2);}
+
+  .spinner-inline{width:16px;height:16px;border:2px solid rgba(26,20,15,0.25);border-top-color:var(--ink);border-radius:50%;animation:spin .7s linear infinite;display:inline-block;}
+  @keyframes spin{to{transform:rotate(360deg);}}
+</style>
+</head>
+<body>
+
+<div class="auth-layout">
+
+  <div class="auth-visual">
+    <div class="auth-visual-bg" style="background-image:url('https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=1400&q=85');"></div>
+    <div class="auth-visual-veil"></div>
+    <a href="index.html" class="auth-brand">Handy<em>·</em>Gidi</a>
+    <div>
+      <p class="auth-quote">Beautiful furniture. Built here. Delivered <em>ready to use.</em></p>
+    </div>
+    <div class="auth-trust">Trusted by 100+ clients across Nigeria</div>
+  </div>
+
+  <div class="auth-panel">
+    <div class="auth-form-wrap">
+      <div class="auth-head">
+        <span class="eyebrow">Create Account</span>
+        <h1>Join the Handy-Gidi community.</h1>
+        <p>Save your details, track orders, and check out faster next time.</p>
+      </div>
+
+      <div class="auth-alert" id="authAlert"></div>
+
+      <button class="google-btn" id="googleBtn">
+        <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+        Sign up with Google
+      </button>
+
+      <div class="divider">or</div>
+
+      <form id="signupForm">
+        <div class="field" id="field-name">
+          <label for="fullName">Full name <span class="req">*</span></label>
+          <input type="text" id="fullName" required autocomplete="name" />
+          <span class="err">Please enter your full name.</span>
+        </div>
+        <div class="field" id="field-email">
+          <label for="email">Email <span class="req">*</span></label>
+          <input type="email" id="email" required autocomplete="email" />
+          <span class="err">Please enter a valid email.</span>
+        </div>
+        <div class="field" id="field-password">
+          <label for="password">Password <span class="req">*</span></label>
+          <input type="password" id="password" required autocomplete="new-password" minlength="6" />
+          <span class="err">Password must be at least 6 characters.</span>
+        </div>
+        <div class="field" id="field-phone">
+          <label for="phone">Phone <span class="req">*</span></label>
+          <input type="tel" id="phone" required autocomplete="tel" />
+          <span class="err">Please enter your phone number.</span>
+        </div>
+        <button type="submit" class="submit-btn" id="submitBtn">
+          <span id="submitLabel">Create Account</span>
+          <svg width="14" height="14" viewBox="0 0 12 12" fill="none"><path d="M1 11L11 1M11 1H3M11 1V9" stroke="currentColor" stroke-width="1.5"/></svg>
+        </button>
+      </form>
+
+      <p class="terms-line">
+        By creating an account you agree to our <a href="terms.html">Terms &amp; Privacy Policy</a>.
+      </p>
+
+      <p class="auth-footer">Already a member? <a href="login.html">Sign in</a></p>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import {
+  getAuth, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, updateProfile
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { getFirestore, doc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+/* 🔧 PASTE YOUR FIREBASE CONFIG HERE */
+const firebaseConfig = {
+  apiKey: "PASTE_YOUR_API_KEY_HERE",
+  authDomain: "PASTE_YOUR_AUTH_DOMAIN_HERE",
+  projectId: "PASTE_YOUR_PROJECT_ID_HERE",
+  storageBucket: "PASTE_YOUR_STORAGE_BUCKET_HERE",
+  messagingSenderId: "PASTE_YOUR_SENDER_ID_HERE",
+  appId: "PASTE_YOUR_APP_ID_HERE"
+};
+
+let auth, db;
+const configMissing = firebaseConfig.apiKey.startsWith('PASTE_');
+if(!configMissing){
+  try {
+    const app = initializeApp(firebaseConfig);
+    auth = getAuth(app);
+    db = getFirestore(app);
+  } catch(e){ console.error(e); }
+}
+
+const alertEl = document.getElementById('authAlert');
+function showAlert(msg, type = 'error'){
+  alertEl.textContent = msg;
+  alertEl.className = 'auth-alert ' + type + ' show';
+}
+function hideAlert(){ alertEl.classList.remove('show'); }
+
+// Save profile to Firestore
+async function saveProfile(user, extra = {}){
+  try {
+    await setDoc(doc(db, 'customers', user.uid), {
+      email: user.email,
+      name: extra.name || user.displayName || '',
+      phone: extra.phone || '',
+      createdAt: serverTimestamp(),
+      ...extra
+    }, { merge: true });
+  } catch(e){ console.error('Profile save', e); }
+}
+
+// Email signup
+document.getElementById('signupForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const name = document.getElementById('fullName').value.trim();
+  const email = document.getElementById('email').value.trim();
+  const password = document.getElementById('password').value;
+  const phone = document.getElementById('phone').value.trim();
+
+  let valid = true;
+  const setInvalid = (id, isInvalid) => {
+    document.getElementById('field-' + id).classList.toggle('invalid', isInvalid);
+    if(isInvalid) valid = false;
+  };
+  setInvalid('name', name.length < 2);
+  setInvalid('email', !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email));
+  setInvalid('password', password.length < 6);
+  setInvalid('phone', phone.length < 7);
+  if(!valid) return;
+
+  if(configMissing || !auth){
+    showAlert('Firebase is not configured yet. Add your config to enable signup.');
+    return;
+  }
+
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = true;
+  document.getElementById('submitLabel').innerHTML = '<span class="spinner-inline"></span> Creating account…';
+  hideAlert();
+
+  try {
+    const cred = await createUserWithEmailAndPassword(auth, email, password);
+    await updateProfile(cred.user, { displayName: name });
+    await saveProfile(cred.user, { name, phone });
+    window.location.href = 'account.html';
+  } catch(e){
+    console.error(e);
+    let msg = 'Signup failed. Please try again.';
+    if(e.code === 'auth/email-already-in-use') msg = 'An account with that email already exists.';
+    else if(e.code === 'auth/weak-password') msg = 'Password is too weak. Use at least 6 characters.';
+    else if(e.code === 'auth/invalid-email') msg = 'That email address is not valid.';
+    showAlert(msg);
+    btn.disabled = false;
+    document.getElementById('submitLabel').textContent = 'Create Account';
+  }
+});
+
+// Google signup
+document.getElementById('googleBtn').addEventListener('click', async () => {
+  if(configMissing || !auth){
+    showAlert('Firebase is not configured yet. Add your config to enable Google signup.');
+    return;
+  }
+  const btn = document.getElementById('googleBtn');
+  btn.disabled = true;
+  hideAlert();
+
+  try {
+    const provider = new GoogleAuthProvider();
+    const cred = await signInWithPopup(auth, provider);
+    await saveProfile(cred.user);
+    window.location.href = 'account.html';
+  } catch(e){
+    console.error(e);
+    if(e.code !== 'auth/popup-closed-by-user'){
+      showAlert('Google sign-up failed. Please try again.');
+    }
+    btn.disabled = false;
+  }
+});
+</script>
+</body>
+</html>
