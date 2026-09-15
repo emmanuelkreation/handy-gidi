@@ -26,8 +26,13 @@
     --line:rgba(26,20,15,0.14);
     --line-soft:rgba(26,20,15,0.08);
     --success:#2D6A4F;
-    --danger:#A4161A;
+    --success-light:#D8F3DC;
     --warning:#B0812E;
+    --warning-light:#F5E6C8;
+    --danger:#A4161A;
+    --danger-light:#FADCD9;
+    --info:#1E6091;
+    --info-light:#D6E8F5;
   }
   *{box-sizing:border-box; margin:0; padding:0;}
   html, body{height:100%;}
@@ -50,7 +55,7 @@
     line-height:1.15;
   }
 
-  /* ==================== CONFIG WARNING ==================== */
+  /* ========== CONFIG WARNING ========== */
   .config-warning{
     display:none;
     background:var(--danger);
@@ -69,7 +74,7 @@
     font-family:monospace;
   }
 
-  /* ==================== LOGIN ==================== */
+  /* ========== LOGIN ========== */
   .login-screen{
     position:fixed; inset:0;
     z-index:1000;
@@ -77,8 +82,7 @@
     display:flex; align-items:center; justify-content:center;
     padding:24px;
     background-image:
-      radial-gradient(120% 80% at 50% 30%, rgba(176,129,46,0.15) 0%, transparent 60%),
-      url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='0.05'/></svg>");
+      radial-gradient(120% 80% at 50% 30%, rgba(176,129,46,0.15) 0%, transparent 60%);
   }
   .login-screen.hidden{display:none;}
   .login-card{
@@ -161,7 +165,7 @@
   }
   .login-error.show{display:block;}
 
-  /* ==================== DASHBOARD LAYOUT ==================== */
+  /* ========== DASHBOARD LAYOUT ========== */
   .dashboard{
     display:none;
     min-height:100vh;
@@ -169,7 +173,6 @@
   }
   .dashboard.show{display:grid;}
 
-  /* Sidebar */
   .sidebar{
     background:var(--ink);
     color:var(--paper);
@@ -220,17 +223,27 @@
     transition:all .2s;
     text-align:left;
     width:100%;
+    position:relative;
   }
-  .nav-item:hover{
-    background:rgba(245,239,226,0.06);
+  .nav-item:hover{background:rgba(245,239,226,0.06); color:var(--paper);}
+  .nav-item.active{background:var(--gold); color:var(--ink); font-weight:600;}
+  .nav-item svg{flex-shrink:0;}
+  .nav-badge{
+    margin-left:auto;
+    background:var(--rust);
+    color:var(--paper);
+    font-size:10px;
+    font-weight:700;
+    padding:2px 7px;
+    border-radius:10px;
+    min-width:18px;
+    text-align:center;
+  }
+  .nav-item.active .nav-badge{
+    background:var(--ink);
     color:var(--paper);
   }
-  .nav-item.active{
-    background:var(--gold);
-    color:var(--ink);
-    font-weight:600;
-  }
-  .nav-item svg{flex-shrink:0;}
+  .nav-badge:empty{display:none;}
 
   .sidebar-footer{
     padding:20px 28px 0;
@@ -265,7 +278,7 @@
   }
   .logout-btn:hover{background:rgba(164,22,26,0.3); color:white;}
 
-  /* Main */
+  /* ========== MAIN ========== */
   .main{
     padding:40px 48px;
     overflow-x:hidden;
@@ -290,7 +303,7 @@
     margin-top:6px;
   }
 
-  /* ==================== OVERVIEW ==================== */
+  /* ========== STATS ========== */
   .stats-grid{
     display:grid;
     grid-template-columns:repeat(4, 1fr);
@@ -312,6 +325,9 @@
     width:3px; height:100%;
     background:var(--gold);
   }
+  .stat-card.success::before{background:var(--success);}
+  .stat-card.warning::before{background:var(--warning);}
+  .stat-card.info::before{background:var(--info);}
   .stat-card .stat-label{
     font-size:11px;
     letter-spacing:0.14em;
@@ -328,8 +344,13 @@
     color:var(--ink);
     line-height:1;
   }
+  .stat-card .stat-sub{
+    font-size:11.5px;
+    color:var(--ink-soft);
+    margin-top:8px;
+  }
 
-  /* ==================== PRODUCTS TABLE ==================== */
+  /* ========== TABLE ========== */
   .products-table-wrap{
     background:var(--paper-3);
     border:1px solid var(--line);
@@ -352,6 +373,7 @@
     font-weight:600;
     color:var(--ink-soft);
     border-bottom:1px solid var(--line);
+    white-space:nowrap;
   }
   td{
     padding:16px 18px;
@@ -360,6 +382,7 @@
     vertical-align:middle;
   }
   tr:last-child td{border-bottom:none;}
+  tbody tr{cursor:pointer; transition:background .15s;}
   tbody tr:hover{background:var(--paper-2);}
   .product-thumb{
     width:52px; height:52px;
@@ -398,6 +421,7 @@
   .action-buttons{
     display:flex;
     gap:6px;
+    justify-content:flex-end;
   }
   .icon-btn{
     width:34px; height:34px;
@@ -410,21 +434,125 @@
   }
   .icon-btn:hover{background:var(--ink); color:var(--paper); border-color:var(--ink);}
   .icon-btn.delete:hover{background:var(--danger); border-color:var(--danger);}
+  .icon-btn.wa:hover{background:var(--success); border-color:var(--success);}
 
   .empty-table{
     padding:80px 24px;
     text-align:center;
   }
-  .empty-table h3{
-    font-size:22px;
-    margin-bottom:8px;
+  .empty-table h3{font-size:22px; margin-bottom:8px;}
+  .empty-table p{color:var(--ink-soft); margin-bottom:24px;}
+
+  /* ========== STATUS PILLS ========== */
+  .status-pill{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    padding:5px 12px;
+    border-radius:20px;
+    font-size:11px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    font-weight:700;
+    white-space:nowrap;
   }
-  .empty-table p{
-    color:var(--ink-soft);
+  .status-pill::before{
+    content:'';
+    width:6px; height:6px;
+    border-radius:50%;
+    background:currentColor;
+  }
+  .status-pill.pending{background:var(--warning-light); color:var(--warning);}
+  .status-pill.confirmed{background:var(--info-light); color:var(--info);}
+  .status-pill.delivered{background:var(--success-light); color:var(--success);}
+  .status-pill.cancelled{background:var(--danger-light); color:var(--danger);}
+  .status-pill.approved{background:var(--success-light); color:var(--success);}
+  .status-pill.rejected{background:var(--danger-light); color:var(--danger);}
+
+  /* ========== ORDER / REVIEW FILTERS ========== */
+  .order-filters{
+    display:flex;
+    gap:6px;
     margin-bottom:24px;
+    flex-wrap:wrap;
+    padding-bottom:20px;
+    border-bottom:1px solid var(--line);
+  }
+  .order-filter-btn{
+    padding:9px 18px;
+    font-size:12.5px;
+    font-weight:500;
+    letter-spacing:0.04em;
+    border-radius:2px;
+    color:var(--ink-soft);
+    border:1px solid transparent;
+    transition:all .2s ease;
+    white-space:nowrap;
+  }
+  .order-filter-btn:hover{color:var(--ink); background:var(--paper-2);}
+  .order-filter-btn.active{
+    background:var(--ink);
+    color:var(--paper);
+    border-color:var(--ink);
+  }
+  .order-filter-btn .count{
+    display:inline-block;
+    margin-left:6px;
+    padding:1px 7px;
+    border-radius:10px;
+    background:rgba(26,20,15,0.08);
+    font-size:10.5px;
+    font-weight:700;
+  }
+  .order-filter-btn.active .count{
+    background:rgba(245,239,226,0.15);
+    color:var(--gold-light);
   }
 
-  /* ==================== MODAL ==================== */
+  /* ========== ORDER STATS ROW ========== */
+  .order-stats-grid{
+    display:grid;
+    grid-template-columns:repeat(4, 1fr);
+    gap:16px;
+    margin-bottom:32px;
+  }
+  .order-stat{
+    background:var(--paper-3);
+    border:1px solid var(--line);
+    padding:20px;
+    border-radius:4px;
+    position:relative;
+    overflow:hidden;
+  }
+  .order-stat::before{
+    content:'';
+    position:absolute;
+    top:0; left:0;
+    width:3px; height:100%;
+    background:var(--ink-soft);
+  }
+  .order-stat.pending::before{background:var(--warning);}
+  .order-stat.confirmed::before{background:var(--info);}
+  .order-stat.delivered::before{background:var(--success);}
+  .order-stat.approved::before{background:var(--success);}
+  .order-stat-label{
+    font-size:10.5px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    font-weight:600;
+    color:var(--ink-soft);
+    margin-bottom:8px;
+  }
+  .order-stat-value{
+    font-family:'Fraunces', serif;
+    font-size:28px;
+    font-weight:560;
+    letter-spacing:-0.02em;
+    color:var(--ink);
+    line-height:1;
+  }
+
+  /* ========== MODAL ========== */
   .modal-overlay{
     position:fixed; inset:0;
     background:rgba(26,20,15,0.75);
@@ -444,21 +572,28 @@
     max-height:92vh;
     overflow-y:auto;
     box-shadow:0 40px 80px rgba(0,0,0,0.4);
+    position:relative;
   }
+  .modal-panel.wide{max-width:900px;}
   .modal-header{
     padding:28px 32px 20px;
     border-bottom:1px solid var(--line);
     display:flex;
-    align-items:center;
+    align-items:flex-start;
     justify-content:space-between;
+    gap:16px;
     position:sticky;
     top:0;
     background:var(--paper);
     z-index:1;
   }
-  .modal-header h3{
-    font-size:24px;
-    letter-spacing:-0.02em;
+  .modal-header h3{font-size:24px; letter-spacing:-0.02em;}
+  .modal-header .modal-sub{
+    font-family:monospace;
+    font-size:12.5px;
+    color:var(--ink-soft);
+    margin-top:6px;
+    letter-spacing:0.05em;
   }
   .modal-close{
     width:36px; height:36px;
@@ -466,6 +601,7 @@
     display:flex; align-items:center; justify-content:center;
     color:var(--ink);
     transition:all .2s;
+    flex-shrink:0;
   }
   .modal-close:hover{background:var(--ink); color:var(--paper);}
   .modal-body{padding:28px 32px;}
@@ -478,104 +614,255 @@
     position:sticky;
     bottom:0;
     background:var(--paper);
+    flex-wrap:wrap;
   }
 
-  .form-grid{
+  /* Order detail blocks */
+  .order-detail-grid{
     display:grid;
     grid-template-columns:1fr 1fr;
-    gap:18px;
+    gap:24px;
+    margin-bottom:24px;
   }
-  .form-grid .full{grid-column:1 / -1;}
-
-  .image-upload{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:16px;
-  }
-  .image-slot{
-    position:relative;
-    aspect-ratio:4/5;
-    background:var(--paper-2);
-    border:2px dashed var(--line);
+  @media (max-width:640px){.order-detail-grid{grid-template-columns:1fr;}}
+  .detail-block{
+    padding:20px 22px;
+    background:var(--paper-3);
+    border:1px solid var(--line-soft);
     border-radius:4px;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-    gap:8px;
-    cursor:pointer;
-    overflow:hidden;
-    transition:border-color .2s;
   }
-  .image-slot:hover{border-color:var(--gold-deep);}
-  .image-slot img{
-    position:absolute; inset:0;
-    width:100%; height:100%;
-    object-fit:cover;
-  }
-  .image-slot span{
-    font-size:12px;
+  .detail-block h4{
+    font-family:'Public Sans', sans-serif;
+    font-size:11px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    font-weight:600;
     color:var(--ink-soft);
+    margin-bottom:14px;
+  }
+  .detail-row{
+    display:flex;
+    justify-content:space-between;
+    gap:16px;
+    padding:8px 0;
+    border-bottom:1px solid var(--line-soft);
+    font-size:13.5px;
+  }
+  .detail-row:last-child{border-bottom:none;}
+  .detail-row span:first-child{color:var(--ink-soft); flex-shrink:0;}
+  .detail-row span:last-child{
+    text-align:right;
+    word-break:break-word;
     font-weight:500;
   }
-  .image-slot svg{color:var(--ink-soft);}
-  .image-slot input{display:none;}
-  .image-slot.filled{border-style:solid; border-color:transparent;}
-  .image-slot.filled span, .image-slot.filled svg{display:none;}
+  .detail-row a{color:var(--info); font-weight:600;}
+  .detail-row a:hover{text-decoration:underline;}
 
-  .colour-input-row{
+  .order-items-block{margin-bottom:24px;}
+  .order-items-block h4{
+    font-family:'Public Sans', sans-serif;
+    font-size:11px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    font-weight:600;
+    color:var(--ink-soft);
+    margin-bottom:14px;
+  }
+  .order-item-row{
+    display:grid;
+    grid-template-columns:60px 1fr auto;
+    gap:16px;
+    align-items:center;
+    padding:14px 0;
+    border-bottom:1px solid var(--line-soft);
+  }
+  .order-item-row:last-child{border-bottom:none;}
+  .order-item-img{
+    width:60px; height:60px;
+    border-radius:3px;
+    background:var(--paper-2);
+    overflow:hidden;
+  }
+  .order-item-img img{width:100%; height:100%; object-fit:cover;}
+  .order-item-info h5{
+    font-size:14px;
+    font-weight:600;
+    margin-bottom:3px;
+    color:var(--ink);
+  }
+  .order-item-info p{
+    font-size:11.5px;
+    color:var(--ink-soft);
+    letter-spacing:0.04em;
+    text-transform:uppercase;
+  }
+  .order-item-price{
+    font-family:'Fraunces', serif;
+    font-size:16px;
+    font-weight:650;
+    color:var(--gold-deep);
+    text-align:right;
+    white-space:nowrap;
+  }
+
+  .order-total-block{
+    padding:20px 22px;
+    background:var(--paper-2);
+    border-radius:4px;
+    margin-bottom:24px;
+  }
+  .order-total-row{
+    display:flex;
+    justify-content:space-between;
+    padding:6px 0;
+    font-size:13.5px;
+  }
+  .order-total-row.final{
+    padding-top:14px;
+    margin-top:10px;
+    border-top:1px solid var(--line);
+    font-size:18px;
+  }
+  .order-total-row.final span:first-child{
+    font-family:'Fraunces', serif;
+    color:var(--ink);
+  }
+  .order-total-row.final span:last-child{
+    font-family:'Fraunces', serif;
+    font-weight:650;
+    color:var(--ink);
+    font-size:24px;
+  }
+  .free-tag{
+    color:var(--success);
+    font-weight:600;
+    font-size:11.5px;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+  }
+
+  /* Status select */
+  .status-select-wrap{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+    margin-bottom:24px;
+  }
+  .status-select-wrap label{
+    font-size:11px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    font-weight:600;
+    color:var(--ink-soft);
+  }
+  .status-select{position:relative; display:inline-block;}
+  .status-select select{
+    appearance:none;
+    padding:12px 40px 12px 16px;
+    border:1px solid var(--line);
+    background:var(--paper-3);
+    border-radius:3px;
+    font-size:13.5px;
+    font-weight:600;
+    color:var(--ink);
+    cursor:pointer;
+    min-width:200px;
+    transition:border-color .2s;
+  }
+  .status-select select:focus{outline:none; border-color:var(--gold-deep);}
+  .status-select svg{
+    position:absolute;
+    right:14px;
+    top:50%;
+    transform:translateY(-50%);
+    pointer-events:none;
+    color:var(--ink-soft);
+  }
+
+  /* ========== REVIEW ADMIN CARDS ========== */
+  .review-admin-card{
+    background:var(--paper-3);
+    border:1px solid var(--line);
+    border-radius:4px;
+    padding:24px 26px;
+    margin-bottom:16px;
+    position:relative;
+    transition:box-shadow .2s;
+  }
+  .review-admin-card:hover{box-shadow:0 6px 20px rgba(26,20,15,0.06);}
+  .review-admin-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:16px;
+    margin-bottom:14px;
+  }
+  .review-admin-name{
+    font-family:'Fraunces', serif;
+    font-size:18px;
+    font-weight:560;
+    letter-spacing:-0.01em;
+    color:var(--ink);
+  }
+  .review-admin-role{
+    font-size:12px;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+    margin-top:4px;
+  }
+  .review-admin-stars{
+    color:var(--gold);
+    font-size:15px;
+    letter-spacing:0.1em;
+    margin-bottom:14px;
+  }
+  .review-admin-quote{
+    font-size:14.5px;
+    line-height:1.7;
+    color:var(--ink);
+    margin-bottom:16px;
+    padding:14px 18px;
+    background:var(--paper);
+    border-left:3px solid var(--gold);
+    border-radius:3px;
+  }
+  .review-admin-meta{
     display:flex;
     gap:8px;
-    margin-bottom:8px;
-  }
-  .colour-input-row input{flex:1;}
-  .colour-input-row button{
-    width:36px;
-    border:1px solid var(--line);
-    border-radius:3px;
+    align-items:center;
+    font-size:12px;
     color:var(--ink-soft);
-    transition:all .2s;
+    letter-spacing:0.04em;
+    flex-wrap:wrap;
+    margin-bottom:18px;
+    padding-top:14px;
+    border-top:1px solid var(--line-soft);
   }
-  .colour-input-row button:hover{
-    background:var(--danger);
-    color:white;
-    border-color:var(--danger);
-  }
-
-  .spec-input-row{
-    display:grid;
-    grid-template-columns:1fr 2fr 36px;
+  .review-admin-actions{
+    display:flex;
     gap:8px;
-    margin-bottom:8px;
+    flex-wrap:wrap;
   }
-  .spec-input-row button{
-    border:1px solid var(--line);
+  .btn-sm{
+    padding:8px 16px;
+    font-size:12.5px;
+    font-weight:600;
     border-radius:3px;
-    color:var(--ink-soft);
-    transition:all .2s;
-  }
-  .spec-input-row button:hover{
-    background:var(--danger);
-    color:white;
-    border-color:var(--danger);
-  }
-
-  .add-row-btn{
     display:inline-flex;
     align-items:center;
     gap:6px;
-    padding:8px 14px;
-    font-size:12.5px;
-    font-weight:600;
-    color:var(--gold-deep);
-    border:1px dashed var(--gold-deep);
-    border-radius:3px;
     transition:all .2s;
-    margin-top:6px;
+    border:1px solid transparent;
   }
-  .add-row-btn:hover{background:rgba(176,129,46,0.08);}
+  .btn-approve{background:var(--success); color:white;}
+  .btn-approve:hover{background:#25643F;}
+  .btn-reject{background:transparent; color:var(--warning); border-color:var(--warning);}
+  .btn-reject:hover{background:var(--warning); color:white;}
+  .btn-delete{background:transparent; color:var(--danger); border-color:var(--line);}
+  .btn-delete:hover{background:var(--danger); color:white; border-color:var(--danger);}
 
-  /* ==================== TOAST ==================== */
+  /* ========== TOAST ========== */
   .toast{
     position:fixed;
     top:24px; right:24px;
@@ -595,6 +882,7 @@
   }
   .toast.show{transform:translateX(0);}
   .toast.error{background:var(--danger);}
+  .toast.success{background:var(--success);}
   .toast .check{
     width:20px; height:20px;
     border-radius:50%;
@@ -606,8 +894,9 @@
     flex-shrink:0;
   }
   .toast.error .check{background:white; color:var(--danger);}
+  .toast.success .check{background:white; color:var(--success);}
 
-  /* ==================== LOADING ==================== */
+  /* ========== LOADING ========== */
   .loading-overlay{
     position:fixed; inset:0;
     background:rgba(245,239,226,0.85);
@@ -624,11 +913,13 @@
     border-radius:50%;
     animation:spin .9s linear infinite;
   }
+  .spinner.small{width:20px; height:20px; border-width:2px;}
   @keyframes spin{to{transform:rotate(360deg);}}
 
-  /* Responsive */
+  /* ========== RESPONSIVE ========== */
   @media (max-width:1024px){
     .stats-grid{grid-template-columns:repeat(2, 1fr);}
+    .order-stats-grid{grid-template-columns:repeat(2, 1fr);}
   }
   @media (max-width:768px){
     .dashboard{grid-template-columns:1fr;}
@@ -639,21 +930,22 @@
     .main{padding:24px 20px;}
     .main-header{flex-direction:column; align-items:flex-start;}
     .stats-grid{grid-template-columns:1fr 1fr; gap:12px;}
-    .form-grid{grid-template-columns:1fr;}
+    .order-stats-grid{grid-template-columns:1fr 1fr; gap:12px;}
     .products-table-wrap{overflow-x:auto;}
-    table{min-width:700px;}
-    .image-upload{grid-template-columns:1fr 1fr;}
+    table{min-width:780px;}
+    .modal-panel{padding:0;}
+    .modal-header, .modal-body, .modal-footer{padding-left:20px; padding-right:20px;}
   }
 </style>
 </head>
 <body>
 
-<!-- Config warning (shows if Firebase config not set) -->
+<!-- Config warning -->
 <div class="config-warning" id="configWarning">
   ⚠️ Firebase config not set. Edit <code>admin.html</code> and paste your config in the marked section.
 </div>
 
-<!-- Login -->
+<!-- ========== LOGIN ========== -->
 <div class="login-screen" id="loginScreen">
   <div class="login-card">
     <h1 class="login-brand">Handy<em>·</em>Gidi</h1>
@@ -675,7 +967,7 @@
   </div>
 </div>
 
-<!-- Dashboard -->
+<!-- ========== DASHBOARD ========== -->
 <div class="dashboard" id="dashboard">
   <aside class="sidebar">
     <div class="sidebar-brand">
@@ -694,6 +986,12 @@
       <button class="nav-item" data-tab="orders">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M3 6H5L7 18H19L21 9H6" stroke="currentColor" stroke-width="1.5"/><circle cx="9" cy="21" r="1.4" fill="currentColor"/><circle cx="18" cy="21" r="1.4" fill="currentColor"/></svg>
         Orders
+        <span class="nav-badge" id="ordersBadge"></span>
+      </button>
+      <button class="nav-item" data-tab="reviews">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+        Reviews
+        <span class="nav-badge" id="reviewsBadge"></span>
       </button>
     </nav>
     <div class="sidebar-footer">
@@ -709,35 +1007,62 @@
   </aside>
 
   <main class="main">
-    <!-- Overview Tab -->
+
+    <!-- ========== OVERVIEW TAB ========== -->
     <div id="tab-overview" class="tab-content">
       <div class="main-header">
         <div>
           <h2>Overview</h2>
-          <p>A quick snapshot of your catalogue and orders.</p>
+          <p>A quick snapshot of your catalogue, orders and reviews.</p>
         </div>
       </div>
       <div class="stats-grid">
         <div class="stat-card">
           <div class="stat-label">Total Products</div>
           <div class="stat-value" id="statProducts">0</div>
+          <div class="stat-sub">in catalogue</div>
         </div>
-        <div class="stat-card">
+        <div class="stat-card info">
           <div class="stat-label">Total Orders</div>
           <div class="stat-value" id="statOrders">0</div>
+          <div class="stat-sub" id="statOrdersSub">all time</div>
         </div>
-        <div class="stat-card">
+        <div class="stat-card warning">
           <div class="stat-label">Units Sold</div>
           <div class="stat-value" id="statUnits">0</div>
+          <div class="stat-sub">across all orders</div>
         </div>
-        <div class="stat-card">
+        <div class="stat-card success">
           <div class="stat-label">Revenue</div>
           <div class="stat-value" id="statRevenue">₦0</div>
+          <div class="stat-sub" id="statRevenueSub">from all orders</div>
+        </div>
+      </div>
+
+      <!-- Recent orders preview -->
+      <div style="margin-top:40px;">
+        <h3 style="font-size:22px; margin-bottom:20px; letter-spacing:-0.02em;">Recent Orders</h3>
+        <div class="products-table-wrap" id="recentOrdersWrap">
+          <div class="empty-table">
+            <div class="spinner" style="margin:0 auto 16px;"></div>
+            <p>Loading orders…</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent reviews preview -->
+      <div style="margin-top:40px;">
+        <h3 style="font-size:22px; margin-bottom:20px; letter-spacing:-0.02em;">Recent Reviews</h3>
+        <div id="recentReviewsWrap">
+          <div class="empty-table">
+            <div class="spinner" style="margin:0 auto 16px;"></div>
+            <p>Loading reviews…</p>
+          </div>
         </div>
       </div>
     </div>
 
-    <!-- Products Tab -->
+    <!-- ========== PRODUCTS TAB ========== -->
     <div id="tab-products" class="tab-content" style="display:none;">
       <div class="main-header">
         <div>
@@ -757,25 +1082,105 @@
       </div>
     </div>
 
-    <!-- Orders Tab -->
+    <!-- ========== ORDERS TAB ========== -->
     <div id="tab-orders" class="tab-content" style="display:none;">
       <div class="main-header">
         <div>
           <h2>Orders</h2>
-          <p>Incoming orders will appear here once checkout is live.</p>
+          <p>Manage incoming orders, update status, and contact customers.</p>
+        </div>
+        <button class="btn btn-ghost" id="refreshOrdersBtn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M21 12A9 9 0 1 1 3.5 7.5M21 3V9H15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Refresh
+        </button>
+      </div>
+
+      <div class="order-stats-grid">
+        <div class="order-stat pending">
+          <div class="order-stat-label">Pending</div>
+          <div class="order-stat-value" id="ordStatPending">0</div>
+        </div>
+        <div class="order-stat confirmed">
+          <div class="order-stat-label">Confirmed</div>
+          <div class="order-stat-value" id="ordStatConfirmed">0</div>
+        </div>
+        <div class="order-stat delivered">
+          <div class="order-stat-label">Delivered</div>
+          <div class="order-stat-value" id="ordStatDelivered">0</div>
+        </div>
+        <div class="order-stat">
+          <div class="order-stat-label">All Orders</div>
+          <div class="order-stat-value" id="ordStatAll">0</div>
         </div>
       </div>
-      <div class="products-table-wrap">
+
+      <div class="order-filters" id="orderFilters">
+        <button class="order-filter-btn active" data-filter="all">All <span class="count" id="cntAll">0</span></button>
+        <button class="order-filter-btn" data-filter="pending">Pending <span class="count" id="cntPending">0</span></button>
+        <button class="order-filter-btn" data-filter="confirmed">Confirmed <span class="count" id="cntConfirmed">0</span></button>
+        <button class="order-filter-btn" data-filter="delivered">Delivered <span class="count" id="cntDelivered">0</span></button>
+        <button class="order-filter-btn" data-filter="cancelled">Cancelled <span class="count" id="cntCancelled">0</span></button>
+      </div>
+
+      <div class="products-table-wrap" id="ordersTableWrap">
         <div class="empty-table">
-          <h3>No orders yet</h3>
-          <p>Order management activates once checkout is deployed.</p>
+          <div class="spinner" style="margin:0 auto 16px;"></div>
+          <p>Loading orders…</p>
         </div>
       </div>
     </div>
+
+    <!-- ========== REVIEWS TAB ========== -->
+    <div id="tab-reviews" class="tab-content" style="display:none;">
+      <div class="main-header">
+        <div>
+          <h2>Reviews</h2>
+          <p>Approve or reject client reviews submitted through the site.</p>
+        </div>
+        <button class="btn btn-ghost" id="refreshReviewsBtn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M21 12A9 9 0 1 1 3.5 7.5M21 3V9H15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Refresh
+        </button>
+      </div>
+
+      <div class="order-stats-grid">
+        <div class="order-stat pending">
+          <div class="order-stat-label">Pending</div>
+          <div class="order-stat-value" id="revStatPending">0</div>
+        </div>
+        <div class="order-stat delivered">
+          <div class="order-stat-label">Approved</div>
+          <div class="order-stat-value" id="revStatApproved">0</div>
+        </div>
+        <div class="order-stat">
+          <div class="order-stat-label">Rejected</div>
+          <div class="order-stat-value" id="revStatRejected">0</div>
+        </div>
+        <div class="order-stat">
+          <div class="order-stat-label">All Reviews</div>
+          <div class="order-stat-value" id="revStatAll">0</div>
+        </div>
+      </div>
+
+      <div class="order-filters" id="reviewFilters">
+        <button class="order-filter-btn" data-filter="pending">Pending <span class="count" id="cntRevPending">0</span></button>
+        <button class="order-filter-btn" data-filter="approved">Approved <span class="count" id="cntRevApproved">0</span></button>
+        <button class="order-filter-btn" data-filter="rejected">Rejected <span class="count" id="cntRevRejected">0</span></button>
+        <button class="order-filter-btn active" data-filter="all">All <span class="count" id="cntRevAll">0</span></button>
+      </div>
+
+      <div id="reviewsList">
+        <div class="empty-table">
+          <div class="spinner" style="margin:0 auto 16px;"></div>
+          <p>Loading reviews…</p>
+        </div>
+      </div>
+    </div>
+
   </main>
 </div>
 
-<!-- Product Modal -->
+<!-- ========== PRODUCT MODAL ========== -->
 <div class="modal-overlay" id="productModal">
   <div class="modal-panel">
     <div class="modal-header">
@@ -786,7 +1191,7 @@
     </div>
     <div class="modal-body">
       <form id="productForm">
-        <div class="form-grid">
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:18px;">
           <div class="field">
             <label for="pCode">Product Code *</label>
             <input type="text" id="pCode" required placeholder="e.g. DT-005" />
@@ -802,7 +1207,7 @@
               <option value="outdoor">Outdoor</option>
             </select>
           </div>
-          <div class="field full">
+          <div class="field" style="grid-column:1 / -1;">
             <label for="pName">Product Name *</label>
             <input type="text" id="pName" required placeholder="e.g. Executive Office Table" />
           </div>
@@ -815,37 +1220,37 @@
             <input type="text" id="pReviews" placeholder="4.9 · 24 reviews" />
           </div>
 
-          <div class="field full">
+          <div class="field" style="grid-column:1 / -1;">
             <label>Product Images (First: main · Second: hover)</label>
-            <div class="image-upload">
-              <label class="image-slot" id="imgSlot1">
-                <input type="file" id="imgFile1" accept="image/*" />
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 5V19M5 12H19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-                <span>Upload main image</span>
-                <img id="imgPreview1" style="display:none;" />
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+              <label style="position:relative; aspect-ratio:4/5; background:var(--paper-2); border:2px dashed var(--line); border-radius:4px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; cursor:pointer; overflow:hidden;" id="imgSlot1">
+                <input type="file" id="imgFile1" accept="image/*" style="display:none;" />
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" style="color:var(--ink-soft);"><path d="M12 5V19M5 12H19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                <span style="font-size:12px; color:var(--ink-soft); font-weight:500;">Upload main image</span>
+                <img id="imgPreview1" style="display:none; position:absolute; inset:0; width:100%; height:100%; object-fit:cover;" />
               </label>
-              <label class="image-slot" id="imgSlot2">
-                <input type="file" id="imgFile2" accept="image/*" />
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 5V19M5 12H19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-                <span>Upload hover image</span>
-                <img id="imgPreview2" style="display:none;" />
+              <label style="position:relative; aspect-ratio:4/5; background:var(--paper-2); border:2px dashed var(--line); border-radius:4px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; cursor:pointer; overflow:hidden;" id="imgSlot2">
+                <input type="file" id="imgFile2" accept="image/*" style="display:none;" />
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" style="color:var(--ink-soft);"><path d="M12 5V19M5 12H19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                <span style="font-size:12px; color:var(--ink-soft); font-weight:500;">Upload hover image</span>
+                <img id="imgPreview2" style="display:none; position:absolute; inset:0; width:100%; height:100%; object-fit:cover;" />
               </label>
             </div>
           </div>
 
-          <div class="field full">
+          <div class="field" style="grid-column:1 / -1;">
             <label>Colours / Finishes</label>
             <div id="coloursList"></div>
-            <button type="button" class="add-row-btn" id="addColourBtn">
+            <button type="button" class="btn btn-ghost" id="addColourBtn" style="margin-top:6px; font-size:12.5px; padding:8px 14px;">
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M12 5V19M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
               Add colour
             </button>
           </div>
 
-          <div class="field full">
+          <div class="field" style="grid-column:1 / -1;">
             <label>Specifications</label>
             <div id="specsList"></div>
-            <button type="button" class="add-row-btn" id="addSpecBtn">
+            <button type="button" class="btn btn-ghost" id="addSpecBtn" style="margin-top:6px; font-size:12.5px; padding:8px 14px;">
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M12 5V19M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
               Add spec row
             </button>
@@ -860,25 +1265,59 @@
   </div>
 </div>
 
-<!-- Loading -->
+<!-- ========== ORDER DETAIL MODAL ========== -->
+<div class="modal-overlay" id="orderModal">
+  <div class="modal-panel wide">
+    <div class="modal-header">
+      <div>
+        <h3 id="orderModalTitle">Order Details</h3>
+        <div class="modal-sub" id="orderModalRef">—</div>
+      </div>
+      <button class="modal-close" id="orderModalClose">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M5 5L19 19M19 5L5 19" stroke="currentColor" stroke-width="1.6"/></svg>
+      </button>
+    </div>
+    <div class="modal-body" id="orderModalBody"></div>
+    <div class="modal-footer" id="orderModalFooter"></div>
+  </div>
+</div>
+
+<!-- ========== REVIEW DETAIL MODAL ========== -->
+<div class="modal-overlay" id="reviewModal">
+  <div class="modal-panel">
+    <div class="modal-header">
+      <div>
+        <h3 id="reviewModalTitle">Review Details</h3>
+        <div class="modal-sub" id="reviewModalRef">—</div>
+      </div>
+      <button class="modal-close" id="reviewModalClose">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M5 5L19 19M19 5L5 19" stroke="currentColor" stroke-width="1.6"/></svg>
+      </button>
+    </div>
+    <div class="modal-body" id="reviewModalBody"></div>
+    <div class="modal-footer" id="reviewModalFooter"></div>
+  </div>
+</div>
+
+<!-- ========== LOADING ========== -->
 <div class="loading-overlay" id="loadingOverlay">
   <div class="spinner"></div>
 </div>
 
-<!-- Toast -->
+<!-- ========== TOAST ========== -->
 <div class="toast" id="toast">
   <span class="check">✓</span>
   <span id="toastText">Saved</span>
 </div>
 
-<!-- ═══════════════════════════════════════════════════════════
-     FIREBASE SDK
-     ═══════════════════════════════════════════════════════════ -->
+<!-- ============================================================
+     FIREBASE SDK + APP LOGIC
+     ============================================================ -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import {
   getFirestore, collection, doc, getDocs, getDoc, setDoc, deleteDoc,
-  serverTimestamp, query, orderBy
+  updateDoc, addDoc, onSnapshot, query, orderBy, serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 import {
   getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged
@@ -889,8 +1328,6 @@ import {
 
 /* ═══════════════════════════════════════════════════════════
    🔧 PASTE YOUR FIREBASE CONFIG HERE
-   Replace everything between the { } with your config object
-   from Firebase Console → Project Settings → Your Apps
    ═══════════════════════════════════════════════════════════ */
 const firebaseConfig = {
   apiKey: "AIzaSyA7khlO19sabspXwUhRRd4Bx_80IoJWcDc",
@@ -900,11 +1337,8 @@ const firebaseConfig = {
   messagingSenderId: "841844135657",
   appId: "1:841844135657:web:f55704c164ec935ef9c278"
 };
-/* ═══════════════════════════════════════════════════════════
-   END CONFIG
-   ═══════════════════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════════════════════ */
 
-/* Detect missing config */
 if(firebaseConfig.apiKey.startsWith('PASTE_')){
   document.getElementById('configWarning').classList.add('show');
 }
@@ -915,32 +1349,60 @@ try {
   db = getFirestore(app);
   auth = getAuth(app);
   storage = getStorage(app);
-} catch(e){
-  console.error('Firebase init failed', e);
-}
+} catch(e){ console.error('Firebase init failed', e); }
 
 /* ==================== STATE ==================== */
 let allProducts = [];
+let allOrders = [];
+let allReviews = [];
+let orderFilter = 'all';
+let reviewFilter = 'all';
 let editingCode = null;
 let uploadedImg1 = null;
 let uploadedImg2 = null;
 let existingImg1 = '';
 let existingImg2 = '';
+let unsubscribeOrders = null;
+let unsubscribeReviews = null;
 
 /* ==================== HELPERS ==================== */
-function formatNaira(n){
-  return '₦' + Number(n || 0).toLocaleString('en-NG');
+function formatNaira(n){ return '₦' + Number(n || 0).toLocaleString('en-NG'); }
+
+function formatDate(ts){
+  if(!ts) return '—';
+  try {
+    const d = ts.toDate ? ts.toDate() : new Date(ts.seconds ? ts.seconds * 1000 : ts);
+    return d.toLocaleDateString('en-NG', { day:'numeric', month:'short', year:'numeric' }) +
+           ' · ' + d.toLocaleTimeString('en-NG', { hour:'2-digit', minute:'2-digit' });
+  } catch(e){ return '—'; }
+}
+
+function formatDateShort(ts){
+  if(!ts) return '—';
+  try {
+    const d = ts.toDate ? ts.toDate() : new Date(ts.seconds ? ts.seconds * 1000 : ts);
+    return d.toLocaleDateString('en-NG', { day:'numeric', month:'short', year:'numeric' });
+  } catch(e){ return '—'; }
+}
+
+function buildWhatsAppLink(phone, message){
+  if(!phone) return '#';
+  let cleaned = String(phone).replace(/\D/g, '');
+  if(cleaned.startsWith('0')) cleaned = '234' + cleaned.substring(1);
+  if(!cleaned.startsWith('234') && cleaned.length === 10) cleaned = '234' + cleaned;
+  return `https://wa.me/${cleaned}${message ? '?text=' + encodeURIComponent(message) : ''}`;
 }
 
 let toastTimer;
-function showToast(msg, isError = false){
+function showToast(msg, type = 'success'){
   const t = document.getElementById('toast');
   document.getElementById('toastText').textContent = msg;
-  t.classList.toggle('error', isError);
-  t.querySelector('.check').textContent = isError ? '!' : '✓';
+  t.classList.remove('error', 'success');
+  t.classList.add(type);
+  t.querySelector('.check').textContent = type === 'error' ? '!' : '✓';
   t.classList.add('show');
   clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => t.classList.remove('show'), 3200);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 3500);
 }
 
 function showLoading(show){
@@ -958,7 +1420,7 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
   const btn = document.getElementById('loginBtn');
   const err = document.getElementById('loginError');
 
-  if(!auth){ 
+  if(!auth){
     err.textContent = 'Firebase not configured. Add your config first.';
     err.classList.add('show');
     return;
@@ -990,6 +1452,8 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
 
 document.getElementById('logoutBtn').addEventListener('click', async () => {
   if(!auth) return;
+  if(unsubscribeOrders) unsubscribeOrders();
+  if(unsubscribeReviews) unsubscribeReviews();
   await signOut(auth);
 });
 
@@ -1000,7 +1464,8 @@ if(auth){
       dashboard.classList.add('show');
       document.getElementById('adminEmail').textContent = user.email;
       loadProducts();
-      loadStats();
+      subscribeToOrders();
+      subscribeToReviews();
     } else {
       loginScreen.classList.remove('hidden');
       dashboard.classList.remove('show');
@@ -1019,7 +1484,7 @@ document.querySelectorAll('.nav-item').forEach(item => {
   });
 });
 
-/* ==================== LOAD DATA ==================== */
+/* ==================== PRODUCTS ==================== */
 async function loadProducts(){
   if(!db) return;
   const wrap = document.getElementById('productsTableWrap');
@@ -1030,6 +1495,7 @@ async function loadProducts(){
     allProducts = snap.docs.map(d => ({ code: d.id, ...d.data() }));
     allProducts.sort((a, b) => (a.code || '').localeCompare(b.code || ''));
     renderProductsTable();
+    document.getElementById('statProducts').textContent = allProducts.length;
   } catch(e){
     console.error(e);
     wrap.innerHTML = `<div class="empty-table"><h3>Couldn't load products</h3><p>${e.message}</p></div>`;
@@ -1066,10 +1532,10 @@ function renderProductsTable(){
             <td><img class="product-thumb" src="${p.img || ''}" alt="" onerror="this.style.opacity=0.3;"></td>
             <td class="product-code">${p.code}</td>
             <td class="product-name-cell">${p.name || '—'}</td>
-            <td><span class="category-badge">${(p.categoryLabel || p.category || '—')}</span></td>
+            <td><span class="category-badge">${p.categoryLabel || p.category || '—'}</span></td>
             <td class="price-cell">${formatNaira(p.price)}</td>
             <td>
-              <div class="action-buttons" style="justify-content:flex-end;">
+              <div class="action-buttons">
                 <button class="icon-btn" onclick="editProduct('${p.code}')" title="Edit">
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 20H21M3 20L3 16L16 3L20 7L7 20L3 20Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
                 </button>
@@ -1085,29 +1551,7 @@ function renderProductsTable(){
   `;
 }
 
-/* ==================== STATS ==================== */
-async function loadStats(){
-  if(!db) return;
-  document.getElementById('statProducts').textContent = allProducts.length || 0;
-
-  try {
-    const orderSnap = await getDocs(collection(db, 'orders'));
-    let units = 0, revenue = 0;
-    orderSnap.forEach(d => {
-      const o = d.data();
-      const items = o.items || [];
-      units += items.reduce((s, i) => s + (i.qty || 0), 0);
-      revenue += o.total || 0;
-    });
-    document.getElementById('statOrders').textContent = orderSnap.size;
-    document.getElementById('statUnits').textContent = units;
-    document.getElementById('statRevenue').textContent = formatNaira(revenue);
-  } catch(e){
-    console.error(e);
-  }
-}
-
-/* ==================== MODAL ==================== */
+/* ==================== PRODUCT MODAL ==================== */
 const productModal = document.getElementById('productModal');
 
 document.getElementById('addProductBtn').addEventListener('click', () => openProductModal());
@@ -1133,7 +1577,6 @@ function openProductModal(product = null){
   uploadedImg1 = null;
   uploadedImg2 = null;
 
-  // Image previews
   const prev1 = document.getElementById('imgPreview1');
   const prev2 = document.getElementById('imgPreview2');
   const slot1 = document.getElementById('imgSlot1');
@@ -1142,27 +1585,26 @@ function openProductModal(product = null){
   if(existingImg1){
     prev1.src = existingImg1;
     prev1.style.display = 'block';
-    slot1.classList.add('filled');
+    slot1.style.borderStyle = 'solid';
+    slot1.style.borderColor = 'transparent';
   } else {
     prev1.style.display = 'none';
-    slot1.classList.remove('filled');
+    slot1.style.borderStyle = 'dashed';
+    slot1.style.borderColor = 'var(--line)';
   }
   if(existingImg2){
     prev2.src = existingImg2;
     prev2.style.display = 'block';
-    slot2.classList.add('filled');
+    slot2.style.borderStyle = 'solid';
+    slot2.style.borderColor = 'transparent';
   } else {
     prev2.style.display = 'none';
-    slot2.classList.remove('filled');
+    slot2.style.borderStyle = 'dashed';
+    slot2.style.borderColor = 'var(--line)';
   }
 
-  // Colours
-  const colours = product?.colours || [''];
-  renderColours(colours);
-
-  // Specs
-  const specs = product?.specs || [['', '']];
-  renderSpecs(specs);
+  renderColours(product?.colours || ['']);
+  renderSpecs(product?.specs || [['', '']]);
 
   productModal.classList.add('show');
   document.body.style.overflow = 'hidden';
@@ -1176,40 +1618,37 @@ function closeProductModal(){
   uploadedImg2 = null;
 }
 
-/* ==================== COLOURS ==================== */
+/* Colours */
 function renderColours(list){
   const wrap = document.getElementById('coloursList');
   wrap.innerHTML = list.map((c, i) => `
-    <div class="colour-input-row">
-      <input type="text" value="${c}" placeholder="e.g. Charcoal / Walnut" data-colour-index="${i}" />
-      <button type="button" onclick="removeColour(${i})">
+    <div style="display:flex; gap:8px; margin-bottom:8px;">
+      <input type="text" value="${c}" placeholder="e.g. Charcoal / Walnut" data-colour-index="${i}" style="flex:1; padding:12px 14px; border:1px solid var(--line); background:var(--paper-3); border-radius:3px;" />
+      <button type="button" onclick="removeColour(${i})" style="width:36px; border:1px solid var(--line); border-radius:3px; color:var(--ink-soft);">
         <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M5 5L19 19M19 5L5 19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
       </button>
     </div>
   `).join('');
 }
 window.removeColour = (i) => {
-  const inputs = [...document.querySelectorAll('[data-colour-index]')];
-  const values = inputs.map(inp => inp.value);
+  const values = [...document.querySelectorAll('[data-colour-index]')].map(inp => inp.value);
   values.splice(i, 1);
   renderColours(values.length ? values : ['']);
 };
-
 document.getElementById('addColourBtn').addEventListener('click', () => {
-  const inputs = [...document.querySelectorAll('[data-colour-index]')];
-  const values = inputs.map(inp => inp.value);
+  const values = [...document.querySelectorAll('[data-colour-index]')].map(inp => inp.value);
   values.push('');
   renderColours(values);
 });
 
-/* ==================== SPECS ==================== */
+/* Specs */
 function renderSpecs(list){
   const wrap = document.getElementById('specsList');
   wrap.innerHTML = list.map((s, i) => `
-    <div class="spec-input-row">
-      <input type="text" value="${s[0] || ''}" placeholder="Label" data-spec-key="${i}" />
-      <input type="text" value="${s[1] || ''}" placeholder="Value" data-spec-val="${i}" />
-      <button type="button" onclick="removeSpec(${i})">
+    <div style="display:grid; grid-template-columns:1fr 2fr 36px; gap:8px; margin-bottom:8px;">
+      <input type="text" value="${s[0] || ''}" placeholder="Label" data-spec-key="${i}" style="padding:12px 14px; border:1px solid var(--line); background:var(--paper-3); border-radius:3px;" />
+      <input type="text" value="${s[1] || ''}" placeholder="Value" data-spec-val="${i}" style="padding:12px 14px; border:1px solid var(--line); background:var(--paper-3); border-radius:3px;" />
+      <button type="button" onclick="removeSpec(${i})" style="border:1px solid var(--line); border-radius:3px; color:var(--ink-soft);">
         <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M5 5L19 19M19 5L5 19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
       </button>
     </div>
@@ -1222,7 +1661,6 @@ window.removeSpec = (i) => {
   specs.splice(i, 1);
   renderSpecs(specs.length ? specs : [['', '']]);
 };
-
 document.getElementById('addSpecBtn').addEventListener('click', () => {
   const keys = [...document.querySelectorAll('[data-spec-key]')].map(inp => inp.value);
   const vals = [...document.querySelectorAll('[data-spec-val]')].map(inp => inp.value);
@@ -1231,7 +1669,7 @@ document.getElementById('addSpecBtn').addEventListener('click', () => {
   renderSpecs(specs);
 });
 
-/* ==================== IMAGE UPLOAD ==================== */
+/* Image uploads */
 document.getElementById('imgFile1').addEventListener('change', (e) => {
   const file = e.target.files[0];
   if(!file) return;
@@ -1239,9 +1677,10 @@ document.getElementById('imgFile1').addEventListener('change', (e) => {
   const prev = document.getElementById('imgPreview1');
   prev.src = URL.createObjectURL(file);
   prev.style.display = 'block';
-  document.getElementById('imgSlot1').classList.add('filled');
+  const slot = document.getElementById('imgSlot1');
+  slot.style.borderStyle = 'solid';
+  slot.style.borderColor = 'transparent';
 });
-
 document.getElementById('imgFile2').addEventListener('change', (e) => {
   const file = e.target.files[0];
   if(!file) return;
@@ -1249,10 +1688,12 @@ document.getElementById('imgFile2').addEventListener('change', (e) => {
   const prev = document.getElementById('imgPreview2');
   prev.src = URL.createObjectURL(file);
   prev.style.display = 'block';
-  document.getElementById('imgSlot2').classList.add('filled');
+  const slot = document.getElementById('imgSlot2');
+  slot.style.borderStyle = 'solid';
+  slot.style.borderColor = 'transparent';
 });
 
-/* ==================== SAVE PRODUCT ==================== */
+/* Save product */
 document.getElementById('modalSave').addEventListener('click', async () => {
   const code = document.getElementById('pCode').value.trim().toUpperCase();
   const name = document.getElementById('pName').value.trim();
@@ -1261,7 +1702,7 @@ document.getElementById('modalSave').addEventListener('click', async () => {
   const reviews = document.getElementById('pReviews').value.trim();
 
   if(!code || !name || !category || !price){
-    showToast('Please fill in all required fields.', true);
+    showToast('Please fill in all required fields.', 'error');
     return;
   }
 
@@ -1274,14 +1715,12 @@ document.getElementById('modalSave').addEventListener('click', async () => {
   };
 
   const colours = [...document.querySelectorAll('[data-colour-index]')]
-    .map(inp => inp.value.trim())
-    .filter(Boolean);
-
+    .map(inp => inp.value.trim()).filter(Boolean);
   const specKeys = [...document.querySelectorAll('[data-spec-key]')].map(i => i.value.trim());
   const specVals = [...document.querySelectorAll('[data-spec-val]')].map(i => i.value.trim());
   const specs = specKeys.map((k, i) => [k, specVals[i]]).filter(s => s[0] && s[1]);
 
-  if(colours.length === 0){ colours.push('Standard'); }
+  if(colours.length === 0) colours.push('Standard');
 
   const saveBtn = document.getElementById('modalSave');
   saveBtn.disabled = true;
@@ -1292,46 +1731,38 @@ document.getElementById('modalSave').addEventListener('click', async () => {
     let imgUrl = existingImg1;
     let img2Url = existingImg2;
 
-    // Upload image 1
     if(uploadedImg1){
       const ext = uploadedImg1.name.split('.').pop();
-      const path = `products/${code}/image-1.${ext}`;
-      const r = storageRef(storage, path);
+      const r = storageRef(storage, `products/${code}/image-1.${ext}`);
       await uploadBytes(r, uploadedImg1);
       imgUrl = await getDownloadURL(r);
     }
-
-    // Upload image 2
     if(uploadedImg2){
       const ext = uploadedImg2.name.split('.').pop();
-      const path = `products/${code}/image-2.${ext}`;
-      const r = storageRef(storage, path);
+      const r = storageRef(storage, `products/${code}/image-2.${ext}`);
       await uploadBytes(r, uploadedImg2);
       img2Url = await getDownloadURL(r);
     }
 
     const payload = {
-      name,
-      category,
+      name, category,
       categoryLabel: categoryLabels[category] || category,
       price,
       reviews: reviews || '5.0 · New arrival',
       img: imgUrl || '',
       img2: img2Url || imgUrl || '',
-      colours,
-      specs,
+      colours, specs,
       updatedAt: serverTimestamp()
     };
 
     await setDoc(doc(db, 'products', code), payload, { merge: true });
 
-    showToast(editingCode ? 'Product updated' : 'Product added');
+    showToast(editingCode ? 'Product updated' : 'Product added', 'success');
     closeProductModal();
     await loadProducts();
-    loadStats();
   } catch(e){
     console.error(e);
-    showToast('Save failed: ' + e.message, true);
+    showToast('Save failed: ' + e.message, 'error');
   } finally {
     saveBtn.disabled = false;
     saveBtn.textContent = 'Save Product';
@@ -1339,7 +1770,7 @@ document.getElementById('modalSave').addEventListener('click', async () => {
   }
 });
 
-/* ==================== EDIT / DELETE ==================== */
+/* Edit / Delete product */
 window.editProduct = (code) => {
   const p = allProducts.find(x => x.code === code);
   if(!p) return;
@@ -1354,21 +1785,599 @@ window.deleteProduct = async (code) => {
   showLoading(true);
   try {
     await deleteDoc(doc(db, 'products', code));
-    // Try to clean up images (best-effort)
     try {
       await deleteObject(storageRef(storage, `products/${code}/image-1.jpg`)).catch(()=>{});
       await deleteObject(storageRef(storage, `products/${code}/image-2.jpg`)).catch(()=>{});
     } catch(_){}
-    showToast('Product deleted');
+    showToast('Product deleted', 'success');
     await loadProducts();
-    loadStats();
   } catch(e){
     console.error(e);
-    showToast('Delete failed: ' + e.message, true);
+    showToast('Delete failed: ' + e.message, 'error');
   } finally {
     showLoading(false);
   }
 };
+
+/* ==================== ORDERS ==================== */
+function subscribeToOrders(){
+  if(!db) return;
+
+  const wrap = document.getElementById('ordersTableWrap');
+  wrap.innerHTML = `<div class="empty-table"><div class="spinner" style="margin:0 auto 16px;"></div><p>Loading orders…</p></div>`;
+
+  try {
+    const q = query(collection(db, 'orders'), orderBy('createdAt', 'desc'));
+    unsubscribeOrders = onSnapshot(q, (snap) => {
+      allOrders = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      updateOrdersUI();
+      updateOverviewFromOrders();
+      updateRecentOrdersPreview();
+    }, (err) => {
+      console.error('Orders listener error', err);
+      onSnapshot(collection(db, 'orders'), (snap2) => {
+        allOrders = snap2.docs.map(d => ({ id: d.id, ...d.data() }));
+        allOrders.sort((a, b) => {
+          const at = a.createdAt?.seconds || 0;
+          const bt = b.createdAt?.seconds || 0;
+          return bt - at;
+        });
+        updateOrdersUI();
+        updateOverviewFromOrders();
+        updateRecentOrdersPreview();
+      });
+    });
+  } catch(e){
+    console.error(e);
+    wrap.innerHTML = `<div class="empty-table"><h3>Couldn't load orders</h3><p>${e.message}</p></div>`;
+  }
+}
+
+function getOrderStatus(o){ return (o.status || 'pending').toLowerCase(); }
+
+function statusPill(status){
+  const s = (status || 'pending').toLowerCase();
+  return `<span class="status-pill ${s}">${s}</span>`;
+}
+
+function updateOrdersUI(){
+  const counts = {
+    all: allOrders.length,
+    pending: allOrders.filter(o => getOrderStatus(o) === 'pending').length,
+    confirmed: allOrders.filter(o => getOrderStatus(o) === 'confirmed').length,
+    delivered: allOrders.filter(o => getOrderStatus(o) === 'delivered').length,
+    cancelled: allOrders.filter(o => getOrderStatus(o) === 'cancelled').length
+  };
+
+  document.getElementById('ordStatPending').textContent = counts.pending;
+  document.getElementById('ordStatConfirmed').textContent = counts.confirmed;
+  document.getElementById('ordStatDelivered').textContent = counts.delivered;
+  document.getElementById('ordStatAll').textContent = counts.all;
+
+  document.getElementById('cntAll').textContent = counts.all;
+  document.getElementById('cntPending').textContent = counts.pending;
+  document.getElementById('cntConfirmed').textContent = counts.confirmed;
+  document.getElementById('cntDelivered').textContent = counts.delivered;
+  document.getElementById('cntCancelled').textContent = counts.cancelled;
+
+  const badge = document.getElementById('ordersBadge');
+  badge.textContent = counts.pending > 0 ? counts.pending : '';
+
+  renderOrdersTable();
+}
+
+function renderOrdersTable(){
+  const wrap = document.getElementById('ordersTableWrap');
+  let list = allOrders;
+  if(orderFilter !== 'all'){
+    list = allOrders.filter(o => getOrderStatus(o) === orderFilter);
+  }
+
+  if(allOrders.length === 0){
+    wrap.innerHTML = `
+      <div class="empty-table">
+        <h3>No orders yet</h3>
+        <p>Orders will appear here as soon as customers check out on your site.</p>
+      </div>`;
+    return;
+  }
+
+  if(list.length === 0){
+    wrap.innerHTML = `
+      <div class="empty-table">
+        <h3>No orders in this view</h3>
+        <p>Try another filter.</p>
+      </div>`;
+    return;
+  }
+
+  wrap.innerHTML = `
+    <table>
+      <thead>
+        <tr>
+          <th>Order</th>
+          <th>Customer</th>
+          <th>Zone</th>
+          <th>Items</th>
+          <th>Total</th>
+          <th>Payment</th>
+          <th>Status</th>
+          <th style="width:120px; text-align:right;">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${list.map(o => {
+          const custName = o.customer?.fullName || '—';
+          const custPhone = o.customer?.phone || '';
+          const zone = o.delivery?.zone || '—';
+          const itemsCount = (o.items || []).reduce((s, i) => s + (i.qty || 0), 0);
+          const paymentStatus = o.payment?.status || 'pending';
+          const payLabel = paymentStatus === 'paid' ? 'Paid' : 'Pending';
+          const payClass = paymentStatus === 'paid' ? 'delivered' : 'pending';
+
+          return `
+            <tr onclick="openOrderModal('${o.id}')">
+              <td>
+                <div class="product-code" style="font-weight:600; color:var(--ink);">${o.orderId || o.id}</div>
+                <div style="font-size:11px; color:var(--ink-soft); margin-top:2px;">${formatDateShort(o.createdAt)}</div>
+              </td>
+              <td>
+                <div class="product-name-cell">${custName}</div>
+                <div style="font-size:11.5px; color:var(--ink-soft); margin-top:2px;">${custPhone}</div>
+              </td>
+              <td>${zone}</td>
+              <td>${itemsCount} item${itemsCount === 1 ? '' : 's'}</td>
+              <td class="price-cell">${formatNaira(o.total)}</td>
+              <td><span class="status-pill ${payClass}">${payLabel}</span></td>
+              <td>${statusPill(getOrderStatus(o))}</td>
+              <td onclick="event.stopPropagation();">
+                <div class="action-buttons">
+                  <a href="${buildWhatsAppLink(custPhone, `Hi ${custName}, this is Handy-Gidi regarding your order ${o.orderId || ''}.`)}" target="_blank" rel="noopener" class="icon-btn wa" title="Contact on WhatsApp">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.6 6.32A8 8 0 0 0 4.2 14.1L3 19.6l5.6-1.2A8 8 0 0 0 17.6 6.32zM12 18.5a6.5 6.5 0 0 1-3.3-.9l-.24-.14-3.32.71.7-3.24-.15-.25a6.5 6.5 0 1 1 6.31 3.82z"/></svg>
+                  </a>
+                  <button class="icon-btn" title="View details">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M2 12C2 12 5 5 12 5C19 5 22 12 22 12C22 12 19 19 12 19C5 19 2 12 2 12Z" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.5"/></svg>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          `;
+        }).join('')}
+      </tbody>
+    </table>
+  `;
+}
+
+document.querySelectorAll('#orderFilters .order-filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    orderFilter = btn.dataset.filter;
+    document.querySelectorAll('#orderFilters .order-filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderOrdersTable();
+  });
+});
+
+document.getElementById('refreshOrdersBtn').addEventListener('click', () => {
+  showToast('Refreshing orders…', 'success');
+  subscribeToOrders();
+});
+
+/* ==================== ORDER DETAIL MODAL ==================== */
+const orderModal = document.getElementById('orderModal');
+
+document.getElementById('orderModalClose').addEventListener('click', () => {
+  orderModal.classList.remove('show');
+  document.body.style.overflow = '';
+});
+orderModal.addEventListener('click', (e) => {
+  if(e.target === orderModal){
+    orderModal.classList.remove('show');
+    document.body.style.overflow = '';
+  }
+});
+
+window.openOrderModal = (id) => {
+  const o = allOrders.find(x => x.id === id);
+  if(!o) return;
+
+  document.getElementById('orderModalTitle').textContent = `Order ${o.orderId || o.id}`;
+  document.getElementById('orderModalRef').textContent = `Placed ${formatDate(o.createdAt)}`;
+
+  const custName = o.customer?.fullName || '—';
+  const custPhone = o.customer?.phone || '';
+  const altPhone = o.customer?.altPhone || '';
+  const email = o.customer?.email || '';
+  const address = o.delivery?.address || '—';
+  const zone = o.delivery?.zone || '—';
+  const prefTime = o.delivery?.preferredTime || '';
+  const notes = o.delivery?.notes || '';
+  const paymentMethod = o.payment?.method === 'paystack' ? 'Paid Online (Paystack)' : 'Pay on Delivery';
+  const paymentStatus = o.payment?.status === 'paid' ? 'Paid' : 'Pending';
+  const paymentRef = o.payment?.reference || '';
+  const subtotal = o.subtotal || o.total || 0;
+  const deliveryFee = o.deliveryFee || 0;
+  const total = o.total || 0;
+
+  const itemsHtml = (o.items || []).map(item => `
+    <div class="order-item-row">
+      <div class="order-item-img"></div>
+      <div class="order-item-info">
+        <h5>${item.name || item.code}</h5>
+        <p>${item.colour || ''} · Qty ${item.qty}</p>
+      </div>
+      <div class="order-item-price">${formatNaira((item.price || 0) * (item.qty || 0))}</div>
+    </div>
+  `).join('');
+
+  const waMsg = `Hi ${custName}, this is Handy-Gidi regarding your order ${o.orderId || ''}.`;
+  const waLink = buildWhatsAppLink(custPhone, waMsg);
+
+  document.getElementById('orderModalBody').innerHTML = `
+    <div class="order-detail-grid">
+      <div class="detail-block">
+        <h4>Customer</h4>
+        <div class="detail-row"><span>Name</span><span>${custName}</span></div>
+        <div class="detail-row"><span>Phone</span><span><a href="tel:${custPhone}">${custPhone}</a></span></div>
+        ${altPhone ? `<div class="detail-row"><span>Alt. phone</span><span>${altPhone}</span></div>` : ''}
+        ${email ? `<div class="detail-row"><span>Email</span><span><a href="mailto:${email}">${email}</a></span></div>` : ''}
+      </div>
+      <div class="detail-block">
+        <h4>Delivery</h4>
+        <div class="detail-row"><span>Zone</span><span>${zone}</span></div>
+        <div class="detail-row"><span>Address</span><span>${address}</span></div>
+        ${prefTime ? `<div class="detail-row"><span>Preferred time</span><span>${prefTime}</span></div>` : ''}
+        ${notes ? `<div class="detail-row"><span>Notes</span><span>${notes}</span></div>` : ''}
+      </div>
+    </div>
+
+    <div class="order-items-block">
+      <h4>Items (${(o.items || []).length})</h4>
+      ${itemsHtml || '<p style="color:var(--ink-soft); font-size:13px;">No items</p>'}
+    </div>
+
+    <div class="order-total-block">
+      <div class="order-total-row"><span>Subtotal</span><span>${formatNaira(subtotal)}</span></div>
+      <div class="order-total-row">
+        <span>Delivery &amp; installation</span>
+        <span>${deliveryFee === 0 ? '<span class="free-tag">Free</span>' : formatNaira(deliveryFee)}</span>
+      </div>
+      <div class="order-total-row final">
+        <span>Total</span>
+        <span>${formatNaira(total)}</span>
+      </div>
+    </div>
+
+    <div class="detail-block">
+      <h4>Payment</h4>
+      <div class="detail-row"><span>Method</span><span>${paymentMethod}</span></div>
+      <div class="detail-row"><span>Status</span><span><span class="status-pill ${paymentStatus === 'Paid' ? 'delivered' : 'pending'}">${paymentStatus}</span></span></div>
+      ${paymentRef ? `<div class="detail-row"><span>Reference</span><span style="font-family:monospace; font-size:12px;">${paymentRef}</span></div>` : ''}
+    </div>
+
+    <div class="status-select-wrap" style="margin-top:24px;">
+      <label for="orderStatusSelect">Update Order Status</label>
+      <div class="status-select">
+        <select id="orderStatusSelect">
+          <option value="pending" ${getOrderStatus(o) === 'pending' ? 'selected' : ''}>Pending</option>
+          <option value="confirmed" ${getOrderStatus(o) === 'confirmed' ? 'selected' : ''}>Confirmed</option>
+          <option value="delivered" ${getOrderStatus(o) === 'delivered' ? 'selected' : ''}>Delivered</option>
+          <option value="cancelled" ${getOrderStatus(o) === 'cancelled' ? 'selected' : ''}>Cancelled</option>
+        </select>
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.4"/></svg>
+      </div>
+    </div>
+  `;
+
+  document.getElementById('orderModalFooter').innerHTML = `
+    <a href="${waLink}" target="_blank" rel="noopener" class="btn btn-dark">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.6 6.32A8 8 0 0 0 4.2 14.1L3 19.6l5.6-1.2A8 8 0 0 0 17.6 6.32zM12 18.5a6.5 6.5 0 0 1-3.3-.9l-.24-.14-3.32.71.7-3.24-.15-.25a6.5 6.5 0 1 1 6.31 3.82z"/></svg>
+      Contact on WhatsApp
+    </a>
+    <button class="btn btn-ghost" onclick="document.getElementById('orderModalClose').click()">Close</button>
+    <button class="btn btn-primary" id="orderSaveStatusBtn">Save Status</button>
+  `;
+
+  document.getElementById('orderSaveStatusBtn').addEventListener('click', async () => {
+    const newStatus = document.getElementById('orderStatusSelect').value;
+    await updateOrderStatus(id, newStatus);
+  });
+
+  orderModal.classList.add('show');
+  document.body.style.overflow = 'hidden';
+};
+
+async function updateOrderStatus(id, newStatus){
+  const btn = document.getElementById('orderSaveStatusBtn');
+  if(btn){ btn.disabled = true; btn.textContent = 'Saving…'; }
+
+  try {
+    await updateDoc(doc(db, 'orders', id), {
+      status: newStatus,
+      updatedAt: serverTimestamp()
+    });
+    showToast('Order status updated to ' + newStatus, 'success');
+  } catch(e){
+    console.error(e);
+    showToast('Failed to update status: ' + e.message, 'error');
+  } finally {
+    if(btn){ btn.disabled = false; btn.textContent = 'Save Status'; }
+  }
+}
+
+/* ==================== REVIEWS ==================== */
+function subscribeToReviews(){
+  if(!db) return;
+  const list = document.getElementById('reviewsList');
+  list.innerHTML = `<div class="empty-table"><div class="spinner" style="margin:0 auto 16px;"></div><p>Loading reviews…</p></div>`;
+
+  try {
+    unsubscribeReviews = onSnapshot(collection(db, 'testimonials'), (snap) => {
+      allReviews = snap.docs.map(d => {
+        const data = d.data();
+        if(data.createdAt && data.createdAt.toDate){
+          data._ts = data.createdAt.toDate().getTime();
+        } else {
+          data._ts = 0;
+        }
+        return { id: d.id, ...data };
+      });
+      allReviews.sort((a, b) => (b._ts || 0) - (a._ts || 0));
+      updateReviewsUI();
+      updateOverviewFromReviews();
+      updateRecentReviewsPreview();
+    }, (err) => {
+      console.error('Reviews listener error', err);
+      list.innerHTML = `<div class="empty-table"><h3>Couldn't load reviews</h3><p>${err.message}</p></div>`;
+    });
+  } catch(e){
+    console.error(e);
+  }
+}
+
+function getReviewStatus(r){ return (r.status || 'pending').toLowerCase(); }
+
+function updateReviewsUI(){
+  const counts = {
+    all: allReviews.length,
+    pending: allReviews.filter(r => getReviewStatus(r) === 'pending').length,
+    approved: allReviews.filter(r => getReviewStatus(r) === 'approved').length,
+    rejected: allReviews.filter(r => getReviewStatus(r) === 'rejected').length
+  };
+
+  document.getElementById('revStatPending').textContent = counts.pending;
+  document.getElementById('revStatApproved').textContent = counts.approved;
+  document.getElementById('revStatRejected').textContent = counts.rejected;
+  document.getElementById('revStatAll').textContent = counts.all;
+
+  document.getElementById('cntRevPending').textContent = counts.pending;
+  document.getElementById('cntRevApproved').textContent = counts.approved;
+  document.getElementById('cntRevRejected').textContent = counts.rejected;
+  document.getElementById('cntRevAll').textContent = counts.all;
+
+  const badge = document.getElementById('reviewsBadge');
+  badge.textContent = counts.pending > 0 ? counts.pending : '';
+
+  renderReviewsList();
+}
+
+function renderReviewsList(){
+  const wrap = document.getElementById('reviewsList');
+  let list = allReviews;
+  if(reviewFilter !== 'all'){
+    list = allReviews.filter(r => getReviewStatus(r) === reviewFilter);
+  }
+
+  if(allReviews.length === 0){
+    wrap.innerHTML = `
+      <div class="empty-table">
+        <h3>No reviews yet</h3>
+        <p>Client reviews submitted on the site will appear here for approval.</p>
+      </div>`;
+    return;
+  }
+
+  if(list.length === 0){
+    wrap.innerHTML = `
+      <div class="empty-table">
+        <h3>No reviews in this view</h3>
+        <p>Try another filter.</p>
+      </div>`;
+    return;
+  }
+
+  wrap.innerHTML = list.map(r => {
+    const status = getReviewStatus(r);
+    const statusClass = status === 'approved' ? 'approved' :
+                        status === 'rejected' ? 'rejected' : 'pending';
+    const stars = '★'.repeat(r.stars || 5) + '☆'.repeat(5 - (r.stars || 5));
+    const dateStr = r._ts ? new Date(r._ts).toLocaleDateString('en-NG', { day:'numeric', month:'short', year:'numeric' }) : '—';
+    const catLabel = r.category ? (r.category.charAt(0).toUpperCase() + r.category.slice(1)) : 'Uncategorised';
+
+    return `
+      <div class="review-admin-card">
+        <div class="review-admin-head">
+          <div>
+            <div class="review-admin-name">${r.name || 'Anonymous'}</div>
+            ${r.role ? `<div class="review-admin-role">${r.role}</div>` : ''}
+          </div>
+          <span class="status-pill ${statusClass}">${status}</span>
+        </div>
+        <div class="review-admin-stars">${stars}</div>
+        <p class="review-admin-quote">${r.quote || ''}</p>
+        <div class="review-admin-meta">
+          <span>${catLabel}</span>
+          <span>·</span>
+          <span>${dateStr}</span>
+          ${r.email ? `· <span style="font-family:monospace; font-size:11.5px;">${r.email}</span>` : ''}
+        </div>
+        <div class="review-admin-actions">
+          ${status !== 'approved' ? `<button class="btn-sm btn-approve" onclick="approveReview('${r.id}')">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M5 12L10 17L20 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Approve
+          </button>` : ''}
+          ${status !== 'rejected' ? `<button class="btn-sm btn-reject" onclick="rejectReview('${r.id}')">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M6 6L18 18M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            Reject
+          </button>` : ''}
+          <button class="btn-sm btn-delete" onclick="deleteReview('${r.id}')">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M4 7H20M10 11V17M14 11V17M5 7L6 20H18L19 7M9 7V4H15V7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+            Delete
+          </button>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+document.querySelectorAll('#reviewFilters .order-filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    reviewFilter = btn.dataset.filter;
+    document.querySelectorAll('#reviewFilters .order-filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderReviewsList();
+  });
+});
+
+document.getElementById('refreshReviewsBtn').addEventListener('click', () => {
+  showToast('Refreshing reviews…', 'success');
+  subscribeToReviews();
+});
+
+window.approveReview = async (id) => {
+  try {
+    await updateDoc(doc(db, 'testimonials', id), {
+      status: 'approved',
+      approvedAt: serverTimestamp()
+    });
+    showToast('Review approved — now live on the site', 'success');
+  } catch(e){
+    console.error(e);
+    showToast('Failed: ' + e.message, 'error');
+  }
+};
+
+window.rejectReview = async (id) => {
+  if(!confirm('Reject this review? It will be hidden from the site.')) return;
+  try {
+    await updateDoc(doc(db, 'testimonials', id), {
+      status: 'rejected',
+      rejectedAt: serverTimestamp()
+    });
+    showToast('Review rejected', 'success');
+  } catch(e){
+    console.error(e);
+    showToast('Failed: ' + e.message, 'error');
+  }
+};
+
+window.deleteReview = async (id) => {
+  if(!confirm('Permanently delete this review? This cannot be undone.')) return;
+  try {
+    await deleteDoc(doc(db, 'testimonials', id));
+    showToast('Review deleted', 'success');
+  } catch(e){
+    console.error(e);
+    showToast('Failed: ' + e.message, 'error');
+  }
+};
+
+/* ==================== OVERVIEW UPDATES ==================== */
+function updateOverviewFromOrders(){
+  const totalOrders = allOrders.length;
+  const units = allOrders.reduce((s, o) => {
+    return s + (o.items || []).reduce((a, i) => a + (i.qty || 0), 0);
+  }, 0);
+  const revenue = allOrders.reduce((s, o) => s + (o.total || 0), 0);
+  const paidRevenue = allOrders
+    .filter(o => (o.payment?.status || '').toLowerCase() === 'paid')
+    .reduce((s, o) => s + (o.total || 0), 0);
+
+  document.getElementById('statOrders').textContent = totalOrders;
+  document.getElementById('statUnits').textContent = units;
+  document.getElementById('statRevenue').textContent = formatNaira(revenue);
+  document.getElementById('statRevenueSub').textContent =
+    `${formatNaira(paidRevenue)} paid · ${totalOrders} order${totalOrders === 1 ? '' : 's'}`;
+}
+
+function updateOverviewFromReviews(){
+  // Could add a reviews stat card later; nothing needed for now
+}
+
+function updateRecentOrdersPreview(){
+  const wrap = document.getElementById('recentOrdersWrap');
+  const recent = allOrders.slice(0, 5);
+
+  if(recent.length === 0){
+    wrap.innerHTML = `
+      <div class="empty-table">
+        <h3>No orders yet</h3>
+        <p>Orders will appear here as they come in.</p>
+      </div>`;
+    return;
+  }
+
+  wrap.innerHTML = `
+    <table>
+      <thead>
+        <tr>
+          <th>Order</th>
+          <th>Customer</th>
+          <th>Total</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${recent.map(o => `
+          <tr onclick="openOrderModal('${o.id}')">
+            <td><span class="product-code" style="font-weight:600;">${o.orderId || o.id}</span></td>
+            <td>${o.customer?.fullName || '—'}</td>
+            <td class="price-cell">${formatNaira(o.total)}</td>
+            <td>${statusPill(getOrderStatus(o))}</td>
+          </tr>
+        `).join('')}
+      </tbody>
+    </table>
+  `;
+}
+
+function updateRecentReviewsPreview(){
+  const wrap = document.getElementById('recentReviewsWrap');
+  const recent = allReviews.slice(0, 4);
+
+  if(recent.length === 0){
+    wrap.innerHTML = `
+      <div class="empty-table">
+        <h3>No reviews yet</h3>
+        <p>Client reviews will appear here as they come in.</p>
+      </div>`;
+    return;
+  }
+
+  wrap.innerHTML = recent.map(r => {
+    const stars = '★'.repeat(r.stars || 5);
+    const status = getReviewStatus(r);
+    const statusClass = status === 'approved' ? 'approved' :
+                        status === 'rejected' ? 'rejected' : 'pending';
+    return `
+      <div style="background:var(--paper-3); border:1px solid var(--line); border-radius:4px; padding:20px 22px; margin-bottom:12px; display:flex; justify-content:space-between; align-items:center; gap:20px; flex-wrap:wrap;">
+        <div style="flex:1; min-width:240px;">
+          <div style="display:flex; align-items:center; gap:12px; margin-bottom:6px;">
+            <b style="font-size:14px;">${r.name || 'Anonymous'}</b>
+            <span class="status-pill ${statusClass}" style="font-size:9.5px;">${status}</span>
+          </div>
+          <div style="color:var(--gold); font-size:13px; letter-spacing:0.08em; margin-bottom:6px;">${stars}</div>
+          <div style="font-size:13px; color:var(--ink-soft); line-height:1.5; overflow:hidden; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical;">
+            ${r.quote || ''}
+          </div>
+        </div>
+        <div style="display:flex; gap:6px;">
+          ${status !== 'approved' ? `<button class="btn-sm btn-approve" onclick="approveReview('${r.id}')">Approve</button>` : ''}
+          ${status !== 'rejected' ? `<button class="btn-sm btn-reject" onclick="rejectReview('${r.id}')">Reject</button>` : ''}
+        </div>
+      </div>
+    `;
+  }).join('');
+}
 </script>
 </body>
 </html>
