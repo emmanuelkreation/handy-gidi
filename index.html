@@ -52,6 +52,7 @@ if(!configMissing){
 window.hgFb = { db, collection, getDocs, onSnapshot, configMissing };
 window.hgAuth = auth;
 window.hgOnAuthStateChanged = onAuthStateChanged;
+window.hgReady = true;
 </script>
 
 <style>
@@ -249,6 +250,10 @@ window.hgOnAuthStateChanged = onAuthStateChanged;
     transition:transform .4s cubic-bezier(.77,0,.18,1);
   }
   nav a.nav-link:hover::after{transform:scaleX(1); transform-origin:left center;}
+
+  /* The auth link in the mobile menu — hidden on desktop */
+  .nav-link-auth{display:none !important;}
+
   .header-cta{
     display:inline-flex; align-items:center; gap:10px;
     padding:12px 22px;
@@ -328,8 +333,10 @@ window.hgOnAuthStateChanged = onAuthStateChanged;
   }
   .auth-link-icon{flex-shrink:0;}
 
-  /* Mobile-only nav sign-in link */
-  .nav-link-mobile-only{display:none;}
+  /* ==================== MOBILE NAV CLOSE BUTTON ==================== */
+  .mobile-nav-close{
+    display:none;
+  }
 
   /* ==================== HERO ==================== */
   .hero{
@@ -643,7 +650,6 @@ window.hgOnAuthStateChanged = onAuthStateChanged;
   }
   .picks-footer-cta p strong{color:var(--gold-light); font-weight:600;}
 
-  /* Skeleton pick card */
   .pick-skeleton{
     background:#231B14;
     border:1px solid rgba(245,239,226,0.08);
@@ -1256,22 +1262,89 @@ window.hgOnAuthStateChanged = onAuthStateChanged;
     .header-cta{display:none;}
     .auth-link{display:none;}
     .menu-toggle{display:block;}
-    .nav-link-mobile-only{display:block;}
+
+    /* Hide desktop nav by default */
     nav{display:none;}
+
+    /* Mobile nav overlay when open */
     nav.open{
-      display:flex; flex-direction:column;
-      position:fixed; inset:0;
+      display:flex;
+      flex-direction:column;
+      position:fixed;
+      inset:0;
       background:var(--ink);
-      padding:120px 32px 40px;
-      gap:24px;
+      padding:100px 32px 48px;
+      gap:12px;
       z-index:150;
+      overflow-y:auto;
+      -webkit-overflow-scrolling:touch;
     }
-    nav.open a.nav-link{
-      font-size:32px;
-      font-family:'Fraunces', serif;
+
+    /* X close button — visible only when the mobile nav is open */
+    nav.open .mobile-nav-close{
+      display:flex;
+      position:fixed;
+      top:20px;
+      right:20px;
+      width:48px;
+      height:48px;
+      align-items:center;
+      justify-content:center;
       color:var(--paper);
-      padding:8px 0;
+      background:rgba(245,239,226,0.08);
+      border:1px solid rgba(245,239,226,0.22);
+      border-radius:50%;
+      cursor:pointer;
+      transition:all .25s ease;
+      z-index:160;
+    }
+    nav.open .mobile-nav-close:hover{
+      background:rgba(245,239,226,0.18);
+      border-color:rgba(245,239,226,0.5);
+    }
+    nav.open .mobile-nav-close svg{
+      pointer-events:none;
+    }
+
+    /* Mobile nav links */
+    nav.open a.nav-link{
+      font-size:26px;
+      font-family:'Fraunces', serif;
+      font-weight:560;
+      color:var(--paper);
+      padding:16px 0;
       border-bottom:1px solid rgba(245,239,226,0.1);
+      display:block;
+      letter-spacing:-0.01em;
+      transition:color .2s ease;
+    }
+    nav.open a.nav-link:hover{
+      color:var(--gold-light);
+    }
+
+    /* The auth link inside the mobile menu — show it, style it distinctly */
+    nav.open a.nav-link-auth{
+      display:flex !important;
+      align-items:center;
+      gap:14px;
+      font-size:20px;
+      margin-top:20px;
+      padding:20px 22px;
+      border:1px solid rgba(228,199,126,0.35);
+      border-radius:3px;
+      color:var(--gold-light);
+      background:rgba(176,129,46,0.12);
+      border-bottom:1px solid rgba(228,199,126,0.35);
+      transition:all .25s ease;
+    }
+    nav.open a.nav-link-auth:hover{
+      background:rgba(176,129,46,0.2);
+      color:var(--gold-light);
+    }
+    nav.open a.nav-link-auth.signed-in{
+      background:rgba(45,106,79,0.2);
+      border-color:rgba(45,106,79,0.5);
+      color:#A8D8BA;
     }
   }
 </style>
@@ -1302,13 +1375,25 @@ window.hgOnAuthStateChanged = onAuthStateChanged;
   <div class="header-inner">
     <a href="index.html" class="brand-mark">Handy<em>·</em>Gidi</a>
     <nav id="nav">
+      <!-- X close button — only visible when mobile nav is open -->
+      <button class="mobile-nav-close" id="mobileNavClose" aria-label="Close menu" type="button">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+          <path d="M5 5L19 19M19 5L5 19" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+      </button>
       <a href="shop.html" class="nav-link">Shop</a>
       <a href="about.html" class="nav-link">About</a>
       <a href="shop.html?category=living-room" class="nav-link">Rooms</a>
       <a href="services.html" class="nav-link">Services</a>
       <a href="reviews.html" class="nav-link">Reviews</a>
       <a href="contact.html" class="nav-link">Contact</a>
-      <a href="login.html" class="nav-link nav-link-mobile-only" id="authMobileLink">Sign In</a>
+      <a href="login.html" class="nav-link nav-link-auth" id="authMobileLink">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+          <circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.5"/>
+          <path d="M4 21C4 17 7.5 14 12 14C16.5 14 20 17 20 21" stroke="currentColor" stroke-width="1.5"/>
+        </svg>
+        <span id="authMobileLabel">Sign In</span>
+      </a>
     </nav>
     <div class="header-right">
       <a href="login.html" class="auth-link" id="authLink" title="Sign in">
@@ -1322,7 +1407,7 @@ window.hgOnAuthStateChanged = onAuthStateChanged;
         Shop the Collection
         <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M1 11L11 1M11 1H3M11 1V9" stroke="currentColor" stroke-width="1.5"/></svg>
       </a>
-      <button class="menu-toggle" id="menuToggle" aria-label="Menu">
+      <button class="menu-toggle" id="menuToggle" aria-label="Menu" type="button">
         <span></span><span></span>
       </button>
     </div>
@@ -1424,7 +1509,7 @@ window.hgOnAuthStateChanged = onAuthStateChanged;
 <!-- ==================== ABOUT ==================== -->
 <section class="about-section" id="about">
   <div class="about-media">
-    <img src="image/handyi.jpeg" alt="Handy-Gidi workshop" id="aboutImg">
+    <img src="https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=1600&q=85" alt="Handy-Gidi workshop" id="aboutImg">
     <div class="about-media-tag">
       <span>Since 2015</span>
       <strong>Wuye, Abuja</strong>
@@ -1889,10 +1974,44 @@ updateHeader();
 /* ---------- Mobile menu ---------- */
 const menuToggle = document.getElementById('menuToggle');
 const navEl = document.getElementById('nav');
+const mobileNavClose = document.getElementById('mobileNavClose');
+
+function openMobileMenu(){
+  navEl.classList.add('open');
+  menuToggle.classList.add('open');
+  menuToggle.setAttribute('aria-expanded', 'true');
+  document.body.classList.add('loading');
+}
+
+function closeMobileMenu(){
+  navEl.classList.remove('open');
+  menuToggle.classList.remove('open');
+  menuToggle.setAttribute('aria-expanded', 'false');
+  document.body.classList.remove('loading');
+}
+
 menuToggle.addEventListener('click', () => {
-  const open = navEl.classList.toggle('open');
-  menuToggle.classList.toggle('open', open);
-  document.body.classList.toggle('loading', open);
+  if(navEl.classList.contains('open')){
+    closeMobileMenu();
+  } else {
+    openMobileMenu();
+  }
+});
+
+if(mobileNavClose){
+  mobileNavClose.addEventListener('click', closeMobileMenu);
+}
+
+/* Close menu when a nav link is clicked */
+navEl.querySelectorAll('a').forEach(link => {
+  link.addEventListener('click', closeMobileMenu);
+});
+
+/* Close on Escape key */
+document.addEventListener('keydown', (e) => {
+  if(e.key === 'Escape' && navEl.classList.contains('open')){
+    closeMobileMenu();
+  }
 });
 
 /* ---------- Hero reveal ---------- */
@@ -2194,19 +2313,17 @@ try {
 
 /* ============================================================
    AUTH STATE — Update header sign-in / account link
+   Fires once, retries until Firebase module is ready.
    ============================================================ */
 (function initAuthState(){
   const authLink = document.getElementById('authLink');
   const authLinkLabel = document.getElementById('authLinkLabel');
   const authMobileLink = document.getElementById('authMobileLink');
+  const authMobileLabel = document.getElementById('authMobileLabel');
 
-  if(!authLink) return;
+  let attached = false;
 
-  const auth = window.hgAuth;
-  const onAuth = window.hgOnAuthStateChanged;
-  if(!auth || !onAuth) return;
-
-  onAuth(auth, (user) => {
+  const handleAuth = (user) => {
     if(user){
       // Signed in → link to account page, show first name
       const displayName = user.displayName || user.email || '';
@@ -2217,13 +2334,14 @@ try {
         authLink.classList.add('signed-in');
         authLink.title = 'My Account';
       }
-      if(authLinkLabel){
-        authLinkLabel.textContent = firstName;
-      }
+      if(authLinkLabel) authLinkLabel.textContent = firstName;
+
       if(authMobileLink){
         authMobileLink.href = 'account.html';
-        authMobileLink.textContent = 'My Account';
+        authMobileLink.classList.add('signed-in');
       }
+      if(authMobileLabel) authMobileLabel.textContent = firstName;
+
     } else {
       // Signed out → link to login page
       if(authLink){
@@ -2231,15 +2349,30 @@ try {
         authLink.classList.remove('signed-in');
         authLink.title = 'Sign in';
       }
-      if(authLinkLabel){
-        authLinkLabel.textContent = 'Sign In';
-      }
+      if(authLinkLabel) authLinkLabel.textContent = 'Sign In';
+
       if(authMobileLink){
         authMobileLink.href = 'login.html';
-        authMobileLink.textContent = 'Sign In';
+        authMobileLink.classList.remove('signed-in');
       }
+      if(authMobileLabel) authMobileLabel.textContent = 'Sign In';
     }
-  });
+  };
+
+  const tryAttach = () => {
+    if(attached) return;
+    const auth = window.hgAuth;
+    const onAuth = window.hgOnAuthStateChanged;
+    if(auth && onAuth){
+      attached = true;
+      onAuth(auth, handleAuth);
+    } else {
+      // Retry every 100ms for up to 5 seconds
+      setTimeout(tryAttach, 100);
+    }
+  };
+
+  tryAttach();
 })();
 </script>
 </body>
