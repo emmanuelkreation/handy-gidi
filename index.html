@@ -22,11 +22,12 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/fireba
 import {
   getFirestore, collection, getDocs, onSnapshot
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import {
+  getAuth, onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
 /* ═══════════════════════════════════════════════════════════
-   🔧 PASTE YOUR FIREBASE CONFIG HERE
-   Replace everything between { } with the config object from
-   Firebase Console → Project Settings → Your apps → SDK setup
+   🔧 FIREBASE CONFIG
    ═══════════════════════════════════════════════════════════ */
 const firebaseConfig = {
   apiKey: "AIzaSyA7khlO19sabspXwUhRRd4Bx_80IoJWcDc",
@@ -36,20 +37,21 @@ const firebaseConfig = {
   messagingSenderId: "841844135657",
   appId: "1:841844135657:web:f55704c164ec935ef9c278"
 };
-/* ═══════════════════════════════════════════════════════════
-   END CONFIG
-   ═══════════════════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════════════════════ */
 
-let fbApp, db;
+let fbApp, db, auth;
 const configMissing = firebaseConfig.apiKey.startsWith('PASTE_');
 if(!configMissing){
   try {
     fbApp = initializeApp(firebaseConfig);
     db = getFirestore(fbApp);
+    auth = getAuth(fbApp);
   } catch(e){ console.error('Firebase init failed', e); }
 }
 
 window.hgFb = { db, collection, getDocs, onSnapshot, configMissing };
+window.hgAuth = auth;
+window.hgOnAuthStateChanged = onAuthStateChanged;
 </script>
 
 <style>
@@ -277,6 +279,57 @@ window.hgFb = { db, collection, getDocs, onSnapshot, configMissing };
   .menu-toggle span:nth-child(2){top:24px;}
   .menu-toggle.open span:nth-child(1){top:21px; transform:rotate(45deg);}
   .menu-toggle.open span:nth-child(2){top:21px; transform:rotate(-45deg);}
+
+  /* ==================== HEADER RIGHT / AUTH LINK ==================== */
+  .header-right{
+    display:flex; align-items:center; gap:14px;
+  }
+  .auth-link{
+    display:inline-flex; align-items:center; gap:8px;
+    padding:9px 16px;
+    font-size:13.5px;
+    font-weight:600;
+    color:var(--paper);
+    background:rgba(245,239,226,0.08);
+    border:1px solid rgba(245,239,226,0.22);
+    border-radius:2px;
+    transition:all .3s ease;
+    white-space:nowrap;
+    max-width:180px;
+  }
+  .auth-link span{
+    overflow:hidden;
+    text-overflow:ellipsis;
+  }
+  .auth-link:hover{
+    background:rgba(245,239,226,0.16);
+    border-color:rgba(245,239,226,0.5);
+  }
+  header.scrolled .auth-link,
+  header:not(.on-hero) .auth-link{
+    color:var(--ink);
+    background:transparent;
+    border-color:var(--line);
+  }
+  header.scrolled .auth-link:hover,
+  header:not(.on-hero) .auth-link:hover{
+    border-color:var(--ink);
+    background:rgba(26,20,15,0.04);
+  }
+  .auth-link.signed-in{
+    color:var(--gold-light);
+    border-color:rgba(228,199,126,0.45);
+  }
+  header.scrolled .auth-link.signed-in,
+  header:not(.on-hero) .auth-link.signed-in{
+    color:var(--gold-deep);
+    border-color:rgba(176,129,46,0.4);
+    background:rgba(176,129,46,0.08);
+  }
+  .auth-link-icon{flex-shrink:0;}
+
+  /* Mobile-only nav sign-in link */
+  .nav-link-mobile-only{display:none;}
 
   /* ==================== HERO ==================== */
   .hero{
@@ -1197,10 +1250,13 @@ window.hgFb = { db, collection, getDocs, onSnapshot, configMissing };
     .grain, .hero-scroll-line::after, .wa-float::before{display:none;}
   }
 
-  /* ==================== MOBILE MENU ==================== */
+  /* ==================== MOBILE ==================== */
   @media (max-width:900px){
+    .header-inner{padding:0 20px;}
     .header-cta{display:none;}
+    .auth-link{display:none;}
     .menu-toggle{display:block;}
+    .nav-link-mobile-only{display:block;}
     nav{display:none;}
     nav.open{
       display:flex; flex-direction:column;
@@ -1247,13 +1303,21 @@ window.hgFb = { db, collection, getDocs, onSnapshot, configMissing };
     <a href="index.html" class="brand-mark">Handy<em>·</em>Gidi</a>
     <nav id="nav">
       <a href="shop.html" class="nav-link">Shop</a>
-      <a href="about" class="nav-link">About</a>
-      <a href="rooms" class="nav-link">Rooms</a>
-      <a href="services" class="nav-link">Services</a>
-      <a href="reviews" class="nav-link">Reviews</a>
-      <a href="contact" class="nav-link">Contact</a>
+      <a href="about.html" class="nav-link">About</a>
+      <a href="shop.html?category=living-room" class="nav-link">Rooms</a>
+      <a href="services.html" class="nav-link">Services</a>
+      <a href="reviews.html" class="nav-link">Reviews</a>
+      <a href="contact.html" class="nav-link">Contact</a>
+      <a href="login.html" class="nav-link nav-link-mobile-only" id="authMobileLink">Sign In</a>
     </nav>
-    <div style="display:flex; align-items:center; gap:16px;">
+    <div class="header-right">
+      <a href="login.html" class="auth-link" id="authLink" title="Sign in">
+        <svg class="auth-link-icon" width="16" height="16" viewBox="0 0 24 24" fill="none">
+          <circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.5"/>
+          <path d="M4 21C4 17 7.5 14 12 14C16.5 14 20 17 20 21" stroke="currentColor" stroke-width="1.5"/>
+        </svg>
+        <span id="authLinkLabel">Sign In</span>
+      </a>
       <a href="shop.html" class="header-cta">
         Shop the Collection
         <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M1 11L11 1M11 1H3M11 1V9" stroke="currentColor" stroke-width="1.5"/></svg>
@@ -1285,7 +1349,7 @@ window.hgFb = { db, collection, getDocs, onSnapshot, configMissing };
         <span>Explore the Collection</span>
         <svg width="14" height="14" viewBox="0 0 12 12" fill="none"><path d="M1 11L11 1M11 1H3M11 1V9" stroke="currentColor" stroke-width="1.5"/></svg>
       </a>
-      <a href="#services" class="btn btn-ghost" data-magnetic>Our Services</a>
+      <a href="services.html" class="btn btn-ghost" data-magnetic>Our Services</a>
     </div>
     <div class="hero-micro" id="heroMicro">
       <span>Abuja Metropolis</span>
@@ -1323,7 +1387,6 @@ window.hgFb = { db, collection, getDocs, onSnapshot, configMissing };
   <div class="wrap">
     <div class="swiper picks-swiper" id="picksSwiper">
       <div class="swiper-wrapper" id="picksWrapper">
-        <!-- Skeletons render on load, replaced by Firestore data -->
         <div class="swiper-slide">
           <div class="pick-skeleton">
             <div class="sk-media"></div>
@@ -1389,11 +1452,11 @@ window.hgFb = { db, collection, getDocs, onSnapshot, configMissing };
     </div>
 
     <div class="about-actions">
-      <a href="#" class="btn btn-primary" data-magnetic>
+      <a href="about.html" class="btn btn-primary" data-magnetic>
         <span>Read Our Full Story</span>
         <svg width="14" height="14" viewBox="0 0 12 12" fill="none"><path d="M1 11L11 1M11 1H3M11 1V9" stroke="currentColor" stroke-width="1.5"/></svg>
       </a>
-      <a href="#contact" class="about-cta-secondary">
+      <a href="contact.html" class="about-cta-secondary">
         Book a Consultation
         <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M1 6H11M11 6L6 1M11 6L6 11" stroke="currentColor" stroke-width="1.5"/></svg>
       </a>
@@ -1653,11 +1716,11 @@ window.hgFb = { db, collection, getDocs, onSnapshot, configMissing };
       </div>
       <div class="footer-col">
         <h4>Our Company</h4>
-        <a href="#about">About Us</a>
-        <a href="#">Projects</a>
-        <a href="#reviews">Reviews</a>
-        <a href="#services">Services</a>
-        <a href="#contact">Contact</a>
+        <a href="about.html">About Us</a>
+        <a href="projects.html">Projects</a>
+        <a href="reviews.html">Reviews</a>
+        <a href="services.html">Services</a>
+        <a href="contact.html">Contact</a>
       </div>
       <div class="footer-col">
         <h4>Connect With Us</h4>
@@ -2029,7 +2092,6 @@ function renderPicksFromProducts(products){
   const countEl = document.getElementById('picksCount');
   if(!wrapper) return;
 
-  // Take first 6 for the carousel
   const top = products.slice(0, 6);
 
   if(countEl){
@@ -2075,7 +2137,6 @@ function renderPicksFromProducts(products){
 }
 
 async function loadHomePicks(){
-  // If Firebase is not configured, show empty state gracefully
   if(!window.hgFb || window.hgFb.configMissing || !window.hgFb.db){
     renderPicksFromProducts([]);
     return;
@@ -2084,7 +2145,6 @@ async function loadHomePicks(){
   const { db, collection, onSnapshot } = window.hgFb;
 
   try {
-    // Real-time listener: any admin change updates the home carousel
     onSnapshot(collection(db, 'products'), (snap) => {
       const products = snap.docs.map(d => ({ code: d.id, ...d.data() }));
       products.sort((a, b) => (a.code || '').localeCompare(b.code || ''));
@@ -2099,7 +2159,6 @@ async function loadHomePicks(){
   }
 }
 
-/* ---------- Picks nav buttons ---------- */
 document.getElementById('picksPrev').addEventListener('click', () => {
   if(homePicksSwiper) homePicksSwiper.slidePrev();
 });
@@ -2107,7 +2166,6 @@ document.getElementById('picksNext').addEventListener('click', () => {
   if(homePicksSwiper) homePicksSwiper.slideNext();
 });
 
-/* Kick off after DOM ready */
 if(document.readyState === 'loading'){
   document.addEventListener('DOMContentLoaded', loadHomePicks);
 } else {
@@ -2133,6 +2191,56 @@ try {
 } catch(e){
   console.error('Swiper setup error', e);
 }
+
+/* ============================================================
+   AUTH STATE — Update header sign-in / account link
+   ============================================================ */
+(function initAuthState(){
+  const authLink = document.getElementById('authLink');
+  const authLinkLabel = document.getElementById('authLinkLabel');
+  const authMobileLink = document.getElementById('authMobileLink');
+
+  if(!authLink) return;
+
+  const auth = window.hgAuth;
+  const onAuth = window.hgOnAuthStateChanged;
+  if(!auth || !onAuth) return;
+
+  onAuth(auth, (user) => {
+    if(user){
+      // Signed in → link to account page, show first name
+      const displayName = user.displayName || user.email || '';
+      const firstName = displayName.split(' ')[0].split('@')[0] || 'Account';
+
+      if(authLink){
+        authLink.href = 'account.html';
+        authLink.classList.add('signed-in');
+        authLink.title = 'My Account';
+      }
+      if(authLinkLabel){
+        authLinkLabel.textContent = firstName;
+      }
+      if(authMobileLink){
+        authMobileLink.href = 'account.html';
+        authMobileLink.textContent = 'My Account';
+      }
+    } else {
+      // Signed out → link to login page
+      if(authLink){
+        authLink.href = 'login.html';
+        authLink.classList.remove('signed-in');
+        authLink.title = 'Sign in';
+      }
+      if(authLinkLabel){
+        authLinkLabel.textContent = 'Sign In';
+      }
+      if(authMobileLink){
+        authMobileLink.href = 'login.html';
+        authMobileLink.textContent = 'Sign In';
+      }
+    }
+  });
+})();
 </script>
 </body>
 </html>
