@@ -14,14 +14,10 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script src="https://unpkg.com/lenis@1.0.42/dist/lenis.min.js"></script>
 
-<!-- Firebase SDK (module) -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
-/* ═══════════════════════════════════════════════════════════
-   🔧 FIREBASE CONFIG
-   ═══════════════════════════════════════════════════════════ */
 const firebaseConfig = {
   apiKey: "AIzaSyA7khlO19sabspXwUhRRd4Bx_80IoJWcDc",
   authDomain: "handy-gidi.firebaseapp.com",
@@ -30,17 +26,9 @@ const firebaseConfig = {
   messagingSenderId: "841844135657",
   appId: "1:841844135657:web:f55704c164ec935ef9c278"
 };
-/* ═══════════════════════════════════════════════════════════ */
 
-let fbApp, auth;
-const configMissing = firebaseConfig.apiKey.startsWith('PASTE_');
-if(!configMissing){
-  try {
-    fbApp = initializeApp(firebaseConfig);
-    auth = getAuth(fbApp);
-  } catch(e){ console.error('Firebase init failed', e); }
-}
-
+let auth;
+try { const app = initializeApp(firebaseConfig); auth = getAuth(app); } catch(e){ console.error(e); }
 window.hgAuth = auth;
 window.hgOnAuthStateChanged = onAuthStateChanged;
 </script>
@@ -91,10 +79,7 @@ window.hgOnAuthStateChanged = onAuthStateChanged;
   .menu-toggle.open span:nth-child(1){top:21px; transform:rotate(45deg);}
   .menu-toggle.open span:nth-child(2){top:21px; transform:rotate(-45deg);}
 
-  /* Hide the mobile auth link on desktop */
   .nav-link-auth{display:none !important;}
-
-  /* Mobile nav close button — hidden by default */
   .mobile-nav-close{display:none;}
 
   .page-hero{position:relative; height:70vh; min-height:560px; overflow:hidden; isolation:isolate; padding-top:80px;}
@@ -132,7 +117,6 @@ window.hgOnAuthStateChanged = onAuthStateChanged;
   .split-flip > *{direction:ltr;}
   @media (max-width:900px){ .split-section{grid-template-columns:1fr;} .split-media{aspect-ratio:4/5; min-height:auto; position:relative;} .split-copy{padding:80px 32px;} .split-flip{direction:ltr;} }
 
-  /* ==================== LEADERSHIP ==================== */
   .ceo-section{background:var(--paper); padding:140px 0; position:relative; overflow:hidden;}
   .ceo-grid{display:grid; grid-template-columns:0.9fr 1.1fr; gap:80px; align-items:center;}
   @media (max-width:900px){ .ceo-grid{grid-template-columns:1fr; gap:48px;} }
@@ -148,7 +132,6 @@ window.hgOnAuthStateChanged = onAuthStateChanged;
   .ceo-signature-name{font-family:'Fraunces', serif; font-size:22px; font-weight:560; letter-spacing:-0.01em; color:var(--ink);}
   .ceo-signature-role{font-size:12.5px; letter-spacing:0.1em; text-transform:uppercase; color:var(--gold-deep); font-weight:600; margin-top:6px;}
 
-  /* ==================== TEAM ==================== */
   .team-section{background:var(--paper-2); padding:140px 0; position:relative;}
   .team-grid{display:grid; grid-template-columns:repeat(3, 1fr); gap:32px; margin-top:64px;}
   @media (max-width:900px){ .team-grid{grid-template-columns:repeat(2, 1fr);} }
@@ -163,7 +146,6 @@ window.hgOnAuthStateChanged = onAuthStateChanged;
   .team-role{font-size:11.5px; letter-spacing:0.14em; text-transform:uppercase; color:var(--gold-deep); font-weight:700; margin-top:10px; margin-bottom:16px; line-height:1.5;}
   .team-bio{font-size:13.5px; line-height:1.7; color:var(--ink-soft);}
 
-  /* ==================== VALUES ==================== */
   .values-section{position:relative; padding:160px 0; overflow:hidden; color:var(--paper);}
   .values-bg{position:absolute; inset:-10%; background-image:url('https://images.unsplash.com/photo-1581092160562-40aa08e78837?auto=format&fit=crop&w=2400&q=85'); background-size:cover; background-position:center; z-index:0; will-change:transform; filter:brightness(0.42);}
   .values-veil{position:absolute; inset:0; background:linear-gradient(180deg, rgba(26,20,15,0.65) 0%, rgba(26,20,15,0.88) 100%); z-index:1;}
@@ -176,7 +158,6 @@ window.hgOnAuthStateChanged = onAuthStateChanged;
   .value p{color:rgba(245,239,226,0.7); font-size:15.5px; line-height:1.65; max-width:44ch;}
   @media (max-width:900px){.values-grid{grid-template-columns:1fr;} .value{padding:40px 28px;}}
 
-  /* ==================== PROCESS ==================== */
   .process{padding:140px 0; background:var(--paper);}
   .process-timeline{display:grid; grid-template-columns:repeat(4, 1fr); gap:24px; margin-top:64px; position:relative;}
   .process-timeline::before{content:''; position:absolute; top:36px; left:5%; right:5%; height:1px; background:var(--line);}
@@ -186,7 +167,6 @@ window.hgOnAuthStateChanged = onAuthStateChanged;
   .process-step p{font-size:14px; color:var(--ink-soft); line-height:1.65;}
   @media (max-width:900px){.process-timeline{grid-template-columns:1fr; gap:40px;} .process-timeline::before{display:none;}}
 
-  /* ==================== STATS ==================== */
   .stats-bar{background:var(--gold); padding:80px 0; position:relative; overflow:hidden;}
   .stats-bar::before{content:''; position:absolute; inset:0; background:linear-gradient(120deg, transparent 0%, rgba(26,20,15,0.12) 100%);}
   .stats-grid{position:relative; z-index:1; display:grid; grid-template-columns:repeat(4, 1fr); gap:40px; align-items:center;}
@@ -195,7 +175,6 @@ window.hgOnAuthStateChanged = onAuthStateChanged;
   .stat-label{font-size:12.5px; letter-spacing:0.1em; text-transform:uppercase; color:rgba(26,20,15,0.75); margin-top:14px;}
   @media (max-width:900px){.stats-grid{grid-template-columns:repeat(2, 1fr); gap:32px;}}
 
-  /* ==================== CTA ==================== */
   .cta-section{position:relative; padding:160px 0; overflow:hidden; color:var(--paper); text-align:center;}
   .cta-bg{position:absolute; inset:-10%; background-image:url('https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=2400&q=85'); background-size:cover; background-position:center; z-index:0; will-change:transform; filter:brightness(0.35);}
   .cta-veil{position:absolute; inset:0; background:linear-gradient(180deg, rgba(26,20,15,0.75) 0%, rgba(26,20,15,0.9) 100%); z-index:1;}
@@ -232,14 +211,13 @@ window.hgOnAuthStateChanged = onAuthStateChanged;
   .wa-float::before{content:''; position:absolute; inset:-6px; border-radius:50%; border:1px solid rgba(228,199,126,0.6); animation:pulse 2.2s ease-out infinite;}
   @keyframes pulse{0%{transform:scale(0.9); opacity:0.9;}100%{transform:scale(1.35); opacity:0;}}
 
-  /* ==================== MOBILE ==================== */
+  /* ==================== MOBILE MENU ==================== */
   @media (max-width:900px){
     .header-inner{padding:0 20px;}
     .header-cta{display:none;}
     .menu-toggle{display:block;}
     nav{display:none;}
 
-    /* Mobile nav overlay */
     nav.open{
       display:flex;
       flex-direction:column;
@@ -253,7 +231,6 @@ window.hgOnAuthStateChanged = onAuthStateChanged;
       -webkit-overflow-scrolling:touch;
     }
 
-    /* X close button — fixed at top-right of the menu */
     nav.open .mobile-nav-close{
       display:flex;
       position:fixed;
@@ -277,7 +254,6 @@ window.hgOnAuthStateChanged = onAuthStateChanged;
     }
     nav.open .mobile-nav-close svg{pointer-events:none;}
 
-    /* Nav links inside the mobile menu */
     nav.open a{
       font-size:26px;
       font-family:'Fraunces', serif;
@@ -287,11 +263,10 @@ window.hgOnAuthStateChanged = onAuthStateChanged;
       border-bottom:1px solid rgba(245,239,226,0.1);
       display:block;
       letter-spacing:-0.01em;
-      transition:color .2s ease;
+      transition:color .2s;
     }
     nav.open a:hover{color:var(--gold-light);}
 
-    /* The auth link inside the mobile menu */
     nav.open a.nav-link-auth{
       display:flex !important;
       align-items:center;
@@ -306,10 +281,7 @@ window.hgOnAuthStateChanged = onAuthStateChanged;
       border-bottom:1px solid rgba(228,199,126,0.35);
       transition:all .25s ease;
     }
-    nav.open a.nav-link-auth:hover{
-      background:rgba(176,129,46,0.2);
-      color:var(--gold-light);
-    }
+    nav.open a.nav-link-auth:hover{background:rgba(176,129,46,0.2); color:var(--gold-light);}
     nav.open a.nav-link-auth.signed-in{
       background:rgba(45,106,79,0.2);
       border-color:rgba(45,106,79,0.5);
@@ -318,6 +290,15 @@ window.hgOnAuthStateChanged = onAuthStateChanged;
 
     .wrap{padding:0 20px;}
     .ceo-section, .team-section{padding:80px 0;}
+  }
+
+  /* ==================== MOBILE MENU FIX ==================== */
+  /* When the mobile menu is open, disable backdrop-filter on the header
+     so the fixed nav escapes the header's containing block and covers
+     the full viewport. */
+  body.menu-open header{
+    backdrop-filter:none !important;
+    -webkit-backdrop-filter:none !important;
   }
 </style>
 </head>
@@ -329,20 +310,16 @@ window.hgOnAuthStateChanged = onAuthStateChanged;
   <div class="header-inner">
     <a href="index.html" class="brand-mark">Handy<em>·</em>Gidi</a>
     <nav id="nav">
-      <!-- X close button — visible only when mobile nav is open -->
       <button class="mobile-nav-close" id="mobileNavClose" aria-label="Close menu" type="button">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
           <path d="M5 5L19 19M19 5L5 19" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
         </svg>
       </button>
-
       <a href="shop.html">Shop</a>
       <a href="about.html" class="active">About</a>
       <a href="services.html">Services</a>
       <a href="reviews.html">Reviews</a>
       <a href="contact.html">Contact</a>
-
-      <!-- Mobile-only auth link -->
       <a href="login.html" class="nav-link-auth" id="authMobileLink">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
           <circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.5"/>
@@ -358,7 +335,6 @@ window.hgOnAuthStateChanged = onAuthStateChanged;
   </div>
 </header>
 
-<!-- HERO -->
 <section class="page-hero">
   <div class="page-hero-bg" id="heroBg"></div>
   <div class="page-hero-veil"></div>
@@ -370,7 +346,6 @@ window.hgOnAuthStateChanged = onAuthStateChanged;
   </div>
 </section>
 
-<!-- ORIGIN STORY -->
 <section class="split-section">
   <div class="split-media"><img src="image/handyi.jpeg" alt="Workshop" id="img1"></div>
   <div class="split-copy">
@@ -381,7 +356,6 @@ window.hgOnAuthStateChanged = onAuthStateChanged;
   </div>
 </section>
 
-<!-- WHAT WE DO -->
 <section class="split-section split-flip">
   <div class="split-copy">
     <p class="eyebrow reveal-mask"><span>What we do</span></p>
@@ -392,7 +366,6 @@ window.hgOnAuthStateChanged = onAuthStateChanged;
   <div class="split-media"><img src="https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=1600&q=85" alt="Workshop detail" id="img2"></div>
 </section>
 
-<!-- LEADERSHIP -->
 <section class="ceo-section">
   <div class="wrap">
     <div class="section-head" style="max-width:640px;">
@@ -419,7 +392,6 @@ window.hgOnAuthStateChanged = onAuthStateChanged;
   </div>
 </section>
 
-<!-- TEAM -->
 <section class="team-section">
   <div class="wrap">
     <div class="section-head" style="max-width:720px;">
@@ -430,11 +402,8 @@ window.hgOnAuthStateChanged = onAuthStateChanged;
 
     <div class="team-grid">
 
-      <!-- Jonathan Idu Adu -->
       <div class="team-card">
-        <div class="team-media">
-          <img src="image/Jonathan.jpeg" alt="Jonathan Idu Adu">
-        </div>
+        <div class="team-media"><img src="image/Jonathan.jpeg" alt="Jonathan Idu Adu"></div>
         <div class="team-body">
           <div class="team-name">Mr Jonathan Idu Adu</div>
           <div class="team-role">Head, Edgeband Operator · Head, Factory Logistics</div>
@@ -442,11 +411,8 @@ window.hgOnAuthStateChanged = onAuthStateChanged;
         </div>
       </div>
 
-      <!-- Victoria Ubong Thompson -->
       <div class="team-card">
-        <div class="team-media">
-          <img src="image/Victoria.jpeg" alt="Victoria Ubong Thompson">
-        </div>
+        <div class="team-media"><img src="image/Victoria.jpeg" alt="Victoria Ubong Thompson"></div>
         <div class="team-body">
           <div class="team-name">Miss Victoria Ubong Thompson</div>
           <div class="team-role">Procurement Officer</div>
@@ -454,11 +420,8 @@ window.hgOnAuthStateChanged = onAuthStateChanged;
         </div>
       </div>
 
-      <!-- Ndubisi Ezekiel Oha -->
       <div class="team-card">
-        <div class="team-media">
-          <img src="image/Ndubisi.jpeg" alt="Ndubisi Ezekiel Oha">
-        </div>
+        <div class="team-media"><img src="image/Ndubisi.jpeg" alt="Ndubisi Ezekiel Oha"></div>
         <div class="team-body">
           <div class="team-name">Ndubisi Ezekiel Oha</div>
           <div class="team-role">Technical Fabricator (Carpentry)</div>
@@ -466,11 +429,8 @@ window.hgOnAuthStateChanged = onAuthStateChanged;
         </div>
       </div>
 
-      <!-- Shedrach Solomon Kambai -->
       <div class="team-card">
-        <div class="team-media">
-          <img src="image/Shedrach.jpeg" alt="Shedrach Solomon Kambai">
-        </div>
+        <div class="team-media"><img src="image/Shedrach.jpeg" alt="Shedrach Solomon Kambai"></div>
         <div class="team-body">
           <div class="team-name">Shedrach Solomon Kambai</div>
           <div class="team-role">Technical Assistant</div>
@@ -478,11 +438,8 @@ window.hgOnAuthStateChanged = onAuthStateChanged;
         </div>
       </div>
 
-      <!-- Ogar Confidence Ochuole -->
       <div class="team-card">
-        <div class="team-media">
-          <img src="image/confidence.jpeg" alt="Ogar Confidence Ochuole">
-        </div>
+        <div class="team-media"><img src="image/confidence.jpeg" alt="Ogar Confidence Ochuole"></div>
         <div class="team-body">
           <div class="team-name">Ogar Confidence Ochuole</div>
           <div class="team-role">Factory Inventory Officer</div>
@@ -490,11 +447,8 @@ window.hgOnAuthStateChanged = onAuthStateChanged;
         </div>
       </div>
 
-      <!-- Francis Osunkwo -->
       <div class="team-card">
-        <div class="team-media">
-          <img src="image/Francis.jpeg" alt="Francis Osunkwo">
-        </div>
+        <div class="team-media"><img src="image/Francis.jpeg" alt="Francis Osunkwo"></div>
         <div class="team-body">
           <div class="team-name">Francis Osunkwo</div>
           <div class="team-role">Technical Fabricator (Carpentry)</div>
@@ -506,7 +460,6 @@ window.hgOnAuthStateChanged = onAuthStateChanged;
   </div>
 </section>
 
-<!-- VALUES -->
 <section class="values-section">
   <div class="values-bg" id="valuesBg"></div>
   <div class="values-veil"></div>
@@ -524,7 +477,6 @@ window.hgOnAuthStateChanged = onAuthStateChanged;
   </div>
 </section>
 
-<!-- PROCESS -->
 <section class="process">
   <div class="wrap">
     <div class="section-head">
@@ -540,7 +492,6 @@ window.hgOnAuthStateChanged = onAuthStateChanged;
   </div>
 </section>
 
-<!-- STATS -->
 <section class="stats-bar">
   <div class="wrap stats-grid">
     <div class="stat"><div class="stat-num" data-count="10" data-suffix="+">0</div><div class="stat-label">Years crafting</div></div>
@@ -550,7 +501,6 @@ window.hgOnAuthStateChanged = onAuthStateChanged;
   </div>
 </section>
 
-<!-- CTA -->
 <section class="cta-section">
   <div class="cta-bg" id="ctaBg"></div>
   <div class="cta-veil"></div>
@@ -598,38 +548,53 @@ function openMobileMenu(){
   menuToggle.classList.add('open');
   menuToggle.setAttribute('aria-expanded', 'true');
   document.body.classList.add('no-scroll');
+  document.body.classList.add('menu-open');
 }
-
 function closeMobileMenu(){
   navEl.classList.remove('open');
   menuToggle.classList.remove('open');
   menuToggle.setAttribute('aria-expanded', 'false');
   document.body.classList.remove('no-scroll');
+  document.body.classList.remove('menu-open');
 }
-
 menuToggle.addEventListener('click', () => {
-  if(navEl.classList.contains('open')){
-    closeMobileMenu();
-  } else {
-    openMobileMenu();
-  }
+  if(navEl.classList.contains('open')) closeMobileMenu();
+  else openMobileMenu();
 });
-
-if(mobileNavClose){
-  mobileNavClose.addEventListener('click', closeMobileMenu);
-}
-
-/* Close when any nav link is clicked */
-navEl.querySelectorAll('a').forEach(link => {
-  link.addEventListener('click', closeMobileMenu);
-});
-
-/* Close on Escape key */
+if(mobileNavClose) mobileNavClose.addEventListener('click', closeMobileMenu);
+navEl.querySelectorAll('a').forEach(link => link.addEventListener('click', closeMobileMenu));
 document.addEventListener('keydown', (e) => {
-  if(e.key === 'Escape' && navEl.classList.contains('open')){
-    closeMobileMenu();
-  }
+  if(e.key === 'Escape' && navEl.classList.contains('open')) closeMobileMenu();
 });
+
+/* ==================== AUTH STATE ==================== */
+(function initAuthState(){
+  const authMobileLink = document.getElementById('authMobileLink');
+  const authMobileLabel = document.getElementById('authMobileLabel');
+  if(!authMobileLink) return;
+  let attached = false;
+  const handleAuth = (user) => {
+    if(user){
+      const displayName = user.displayName || user.email || '';
+      const firstName = displayName.split(' ')[0].split('@')[0] || 'Account';
+      authMobileLink.href = 'account.html';
+      authMobileLink.classList.add('signed-in');
+      if(authMobileLabel) authMobileLabel.textContent = firstName;
+    } else {
+      authMobileLink.href = 'login.html';
+      authMobileLink.classList.remove('signed-in');
+      if(authMobileLabel) authMobileLabel.textContent = 'Sign In';
+    }
+  };
+  const tryAttach = () => {
+    if(attached) return;
+    const auth = window.hgAuth;
+    const onAuth = window.hgOnAuthStateChanged;
+    if(auth && onAuth){ attached = true; onAuth(auth, handleAuth); }
+    else setTimeout(tryAttach, 100);
+  };
+  tryAttach();
+})();
 
 /* ==================== SCROLL ANIMATIONS ==================== */
 if(!prefersReduced && hasGSAP){
@@ -686,42 +651,6 @@ if(!prefersReduced && hasGSAP){
 } else {
   document.querySelectorAll('[data-count]').forEach(el => el.textContent = el.dataset.count + (el.dataset.suffix || ''));
 }
-
-/* ==================== AUTH STATE — Mobile menu link ==================== */
-(function initAuthState(){
-  const authMobileLink = document.getElementById('authMobileLink');
-  const authMobileLabel = document.getElementById('authMobileLabel');
-
-  if(!authMobileLink) return;
-
-  let attached = false;
-  const handleAuth = (user) => {
-    if(user){
-      const displayName = user.displayName || user.email || '';
-      const firstName = displayName.split(' ')[0].split('@')[0] || 'Account';
-      authMobileLink.href = 'account.html';
-      authMobileLink.classList.add('signed-in');
-      if(authMobileLabel) authMobileLabel.textContent = firstName;
-    } else {
-      authMobileLink.href = 'login.html';
-      authMobileLink.classList.remove('signed-in');
-      if(authMobileLabel) authMobileLabel.textContent = 'Sign In';
-    }
-  };
-
-  const tryAttach = () => {
-    if(attached) return;
-    const auth = window.hgAuth;
-    const onAuth = window.hgOnAuthStateChanged;
-    if(auth && onAuth){
-      attached = true;
-      onAuth(auth, handleAuth);
-    } else {
-      setTimeout(tryAttach, 100);
-    }
-  };
-  tryAttach();
-})();
 </script>
 </body>
 </html>
