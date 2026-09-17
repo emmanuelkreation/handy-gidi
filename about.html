@@ -14,6 +14,37 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script src="https://unpkg.com/lenis@1.0.42/dist/lenis.min.js"></script>
 
+<!-- Firebase SDK (module) -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+/* ═══════════════════════════════════════════════════════════
+   🔧 FIREBASE CONFIG
+   ═══════════════════════════════════════════════════════════ */
+const firebaseConfig = {
+  apiKey: "AIzaSyA7khlO19sabspXwUhRRd4Bx_80IoJWcDc",
+  authDomain: "handy-gidi.firebaseapp.com",
+  projectId: "handy-gidi",
+  storageBucket: "handy-gidi.firebasestorage.app",
+  messagingSenderId: "841844135657",
+  appId: "1:841844135657:web:f55704c164ec935ef9c278"
+};
+/* ═══════════════════════════════════════════════════════════ */
+
+let fbApp, auth;
+const configMissing = firebaseConfig.apiKey.startsWith('PASTE_');
+if(!configMissing){
+  try {
+    fbApp = initializeApp(firebaseConfig);
+    auth = getAuth(fbApp);
+  } catch(e){ console.error('Firebase init failed', e); }
+}
+
+window.hgAuth = auth;
+window.hgOnAuthStateChanged = onAuthStateChanged;
+</script>
+
 <style>
   :root{
     --ink:#1A140F; --ink-soft:#3A2E24;
@@ -38,6 +69,7 @@
     background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
     animation:grain 6s steps(6) infinite;}
   @keyframes grain{0%,100%{transform:translate(0,0);}20%{transform:translate(-2%,2%);}40%{transform:translate(2%,-1%);}60%{transform:translate(-1%,-2%);}80%{transform:translate(1%,2%);}}
+
   header{position:fixed; top:0; left:0; right:0; z-index:100; padding:20px 0;
     background:rgba(245,239,226,0.94); backdrop-filter:blur(14px); border-bottom:1px solid var(--line);
     transition:padding .3s ease;}
@@ -58,6 +90,13 @@
   .menu-toggle span:nth-child(2){top:24px;}
   .menu-toggle.open span:nth-child(1){top:21px; transform:rotate(45deg);}
   .menu-toggle.open span:nth-child(2){top:21px; transform:rotate(-45deg);}
+
+  /* Hide the mobile auth link on desktop */
+  .nav-link-auth{display:none !important;}
+
+  /* Mobile nav close button — hidden by default */
+  .mobile-nav-close{display:none;}
+
   .page-hero{position:relative; height:70vh; min-height:560px; overflow:hidden; isolation:isolate; padding-top:80px;}
   .page-hero-bg{position:absolute; inset:-8%; background-image:url('https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=2400&q=85'); background-size:cover; background-position:center; z-index:0; will-change:transform;}
   .page-hero-veil{position:absolute; inset:0; z-index:1; background:linear-gradient(180deg, rgba(26,20,15,0.7) 0%, rgba(26,20,15,0.45) 40%, rgba(26,20,15,0.88) 100%);}
@@ -193,13 +232,90 @@
   .wa-float::before{content:''; position:absolute; inset:-6px; border-radius:50%; border:1px solid rgba(228,199,126,0.6); animation:pulse 2.2s ease-out infinite;}
   @keyframes pulse{0%{transform:scale(0.9); opacity:0.9;}100%{transform:scale(1.35); opacity:0;}}
 
+  /* ==================== MOBILE ==================== */
   @media (max-width:900px){
     .header-inner{padding:0 20px;}
     .header-cta{display:none;}
     .menu-toggle{display:block;}
     nav{display:none;}
-    nav.open{display:flex; flex-direction:column; position:fixed; inset:0; background:var(--ink); padding:120px 32px 40px; gap:24px; z-index:150;}
-    nav.open a{font-size:32px; font-family:'Fraunces', serif; color:var(--paper); padding:8px 0; border-bottom:1px solid rgba(245,239,226,0.1);}
+
+    /* Mobile nav overlay */
+    nav.open{
+      display:flex;
+      flex-direction:column;
+      position:fixed;
+      inset:0;
+      background:var(--ink);
+      padding:100px 32px 48px;
+      gap:12px;
+      z-index:150;
+      overflow-y:auto;
+      -webkit-overflow-scrolling:touch;
+    }
+
+    /* X close button — fixed at top-right of the menu */
+    nav.open .mobile-nav-close{
+      display:flex;
+      position:fixed;
+      top:20px;
+      right:20px;
+      width:48px;
+      height:48px;
+      align-items:center;
+      justify-content:center;
+      color:var(--paper);
+      background:rgba(245,239,226,0.08);
+      border:1px solid rgba(245,239,226,0.22);
+      border-radius:50%;
+      cursor:pointer;
+      transition:all .25s ease;
+      z-index:160;
+    }
+    nav.open .mobile-nav-close:hover{
+      background:rgba(245,239,226,0.18);
+      border-color:rgba(245,239,226,0.5);
+    }
+    nav.open .mobile-nav-close svg{pointer-events:none;}
+
+    /* Nav links inside the mobile menu */
+    nav.open a{
+      font-size:26px;
+      font-family:'Fraunces', serif;
+      font-weight:560;
+      color:var(--paper);
+      padding:16px 0;
+      border-bottom:1px solid rgba(245,239,226,0.1);
+      display:block;
+      letter-spacing:-0.01em;
+      transition:color .2s ease;
+    }
+    nav.open a:hover{color:var(--gold-light);}
+
+    /* The auth link inside the mobile menu */
+    nav.open a.nav-link-auth{
+      display:flex !important;
+      align-items:center;
+      gap:14px;
+      font-size:20px;
+      margin-top:20px;
+      padding:20px 22px;
+      border:1px solid rgba(228,199,126,0.35);
+      border-radius:3px;
+      color:var(--gold-light);
+      background:rgba(176,129,46,0.12);
+      border-bottom:1px solid rgba(228,199,126,0.35);
+      transition:all .25s ease;
+    }
+    nav.open a.nav-link-auth:hover{
+      background:rgba(176,129,46,0.2);
+      color:var(--gold-light);
+    }
+    nav.open a.nav-link-auth.signed-in{
+      background:rgba(45,106,79,0.2);
+      border-color:rgba(45,106,79,0.5);
+      color:#A8D8BA;
+    }
+
     .wrap{padding:0 20px;}
     .ceo-section, .team-section{padding:80px 0;}
   }
@@ -213,15 +329,31 @@
   <div class="header-inner">
     <a href="index.html" class="brand-mark">Handy<em>·</em>Gidi</a>
     <nav id="nav">
+      <!-- X close button — visible only when mobile nav is open -->
+      <button class="mobile-nav-close" id="mobileNavClose" aria-label="Close menu" type="button">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+          <path d="M5 5L19 19M19 5L5 19" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+      </button>
+
       <a href="shop.html">Shop</a>
       <a href="about.html" class="active">About</a>
       <a href="services.html">Services</a>
       <a href="reviews.html">Reviews</a>
       <a href="contact.html">Contact</a>
+
+      <!-- Mobile-only auth link -->
+      <a href="login.html" class="nav-link-auth" id="authMobileLink">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+          <circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.5"/>
+          <path d="M4 21C4 17 7.5 14 12 14C16.5 14 20 17 20 21" stroke="currentColor" stroke-width="1.5"/>
+        </svg>
+        <span id="authMobileLabel">Sign In</span>
+      </a>
     </nav>
     <div style="display:flex; align-items:center; gap:16px;">
       <a href="shop.html" class="header-cta">Shop the Collection</a>
-      <button class="menu-toggle" id="menuToggle"><span></span><span></span></button>
+      <button class="menu-toggle" id="menuToggle" aria-label="Menu" type="button"><span></span><span></span></button>
     </div>
   </div>
 </header>
@@ -456,13 +588,50 @@
 const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const hasGSAP = typeof gsap !== 'undefined';
 
-document.getElementById('menuToggle').addEventListener('click', function(){
-  const nav = document.getElementById('nav');
-  const open = nav.classList.toggle('open');
-  this.classList.toggle('open', open);
-  document.body.classList.toggle('no-scroll', open);
+/* ==================== MOBILE MENU ==================== */
+const menuToggle = document.getElementById('menuToggle');
+const navEl = document.getElementById('nav');
+const mobileNavClose = document.getElementById('mobileNavClose');
+
+function openMobileMenu(){
+  navEl.classList.add('open');
+  menuToggle.classList.add('open');
+  menuToggle.setAttribute('aria-expanded', 'true');
+  document.body.classList.add('no-scroll');
+}
+
+function closeMobileMenu(){
+  navEl.classList.remove('open');
+  menuToggle.classList.remove('open');
+  menuToggle.setAttribute('aria-expanded', 'false');
+  document.body.classList.remove('no-scroll');
+}
+
+menuToggle.addEventListener('click', () => {
+  if(navEl.classList.contains('open')){
+    closeMobileMenu();
+  } else {
+    openMobileMenu();
+  }
 });
 
+if(mobileNavClose){
+  mobileNavClose.addEventListener('click', closeMobileMenu);
+}
+
+/* Close when any nav link is clicked */
+navEl.querySelectorAll('a').forEach(link => {
+  link.addEventListener('click', closeMobileMenu);
+});
+
+/* Close on Escape key */
+document.addEventListener('keydown', (e) => {
+  if(e.key === 'Escape' && navEl.classList.contains('open')){
+    closeMobileMenu();
+  }
+});
+
+/* ==================== SCROLL ANIMATIONS ==================== */
 if(!prefersReduced && hasGSAP){
   try {
     const lenis = new Lenis({ duration:1.15, easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)), smoothWheel:true, smoothTouch:false });
@@ -517,6 +686,42 @@ if(!prefersReduced && hasGSAP){
 } else {
   document.querySelectorAll('[data-count]').forEach(el => el.textContent = el.dataset.count + (el.dataset.suffix || ''));
 }
+
+/* ==================== AUTH STATE — Mobile menu link ==================== */
+(function initAuthState(){
+  const authMobileLink = document.getElementById('authMobileLink');
+  const authMobileLabel = document.getElementById('authMobileLabel');
+
+  if(!authMobileLink) return;
+
+  let attached = false;
+  const handleAuth = (user) => {
+    if(user){
+      const displayName = user.displayName || user.email || '';
+      const firstName = displayName.split(' ')[0].split('@')[0] || 'Account';
+      authMobileLink.href = 'account.html';
+      authMobileLink.classList.add('signed-in');
+      if(authMobileLabel) authMobileLabel.textContent = firstName;
+    } else {
+      authMobileLink.href = 'login.html';
+      authMobileLink.classList.remove('signed-in');
+      if(authMobileLabel) authMobileLabel.textContent = 'Sign In';
+    }
+  };
+
+  const tryAttach = () => {
+    if(attached) return;
+    const auth = window.hgAuth;
+    const onAuth = window.hgOnAuthStateChanged;
+    if(auth && onAuth){
+      attached = true;
+      onAuth(auth, handleAuth);
+    } else {
+      setTimeout(tryAttach, 100);
+    }
+  };
+  tryAttach();
+})();
 </script>
 </body>
 </html>
