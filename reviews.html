@@ -248,6 +248,15 @@ window.hgOnAuthStateChanged = onAuthStateChanged;
     .modal-body{padding:24px 22px 28px;}
     .modal-header{padding:24px 22px 16px;}
   }
+
+  /* ==================== MOBILE MENU FIX ==================== */
+  /* When the mobile menu is open, disable backdrop-filter on the header
+     so the fixed nav escapes the header's containing block and covers
+     the full viewport. */
+  body.menu-open header{
+    backdrop-filter:none !important;
+    -webkit-backdrop-filter:none !important;
+  }
 </style>
 </head>
 <body>
@@ -486,12 +495,14 @@ function openMobileMenu(){
   menuToggle.classList.add('open');
   menuToggle.setAttribute('aria-expanded', 'true');
   document.body.classList.add('no-scroll');
+  document.body.classList.add('menu-open');
 }
 function closeMobileMenu(){
   navEl.classList.remove('open');
   menuToggle.classList.remove('open');
   menuToggle.setAttribute('aria-expanded', 'false');
   document.body.classList.remove('no-scroll');
+  document.body.classList.remove('menu-open');
 }
 menuToggle.addEventListener('click', () => {
   if(navEl.classList.contains('open')) closeMobileMenu();
