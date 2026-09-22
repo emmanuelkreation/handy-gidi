@@ -131,7 +131,7 @@ window.hgOnAuthStateChanged = onAuthStateChanged;
   .shop-section{padding:64px 0 120px; background:var(--paper); min-height:400px;}
   .product-grid{display:grid; grid-template-columns:repeat(3, 1fr); gap:32px 28px;}
   @media (max-width:1024px){.product-grid{grid-template-columns:repeat(2, 1fr); gap:24px 20px;}}
-  @media (max-width:600px){.product-grid{grid-template-columns:1fr; gap:20px;}}
+  @media (max-width:600px){.product-grid{grid-template-columns:1fr; gap:14px;}}
   .product-card{position:relative; cursor:pointer; display:flex; flex-direction:column; opacity:0; transform:translateY(40px); transition:transform .5s, opacity .5s;}
   .product-card.revealed{opacity:1; transform:translateY(0);}
   .product-media{position:relative; aspect-ratio:4/5; overflow:hidden; background:#EDE4D2; border-radius:3px;}
@@ -256,14 +256,6 @@ window.hgOnAuthStateChanged = onAuthStateChanged;
   .modal-spec-row{display:flex; justify-content:space-between; gap:20px; font-size:13.5px; padding-bottom:10px; border-bottom:1px solid var(--line-soft);}
   .modal-spec-row dt{color:var(--ink-soft);}
   .modal-spec-row dd{margin:0; font-weight:600; text-align:right;}
-  @media (max-width:900px){
-    .product-modal{top:auto; bottom:0; left:0; transform:translateY(100%); width:100%; max-width:none; max-height:92vh; border-radius:16px 16px 0 0;}
-    .product-modal.open{transform:translateY(0);}
-    .modal-scroll{grid-template-columns:1fr;}
-    .modal-media{min-height:280px; aspect-ratio:4/5; position:relative;}
-    .modal-body{padding:32px 24px 48px;}
-    .modal-close{top:14px; right:14px;}
-  }
 
   /* CART */
   .cart-backdrop{position:fixed; inset:0; background:rgba(26,20,15,0.6); backdrop-filter:blur(4px); z-index:1100; opacity:0; pointer-events:none; transition:opacity .4s;}
@@ -394,20 +386,211 @@ window.hgOnAuthStateChanged = onAuthStateChanged;
       color:#A8D8BA;
     }
 
-    .filter-bar{top:64px;}
-    .filter-bar-inner{padding:0 20px; gap:12px;}
+    .filter-bar{top:60px;}
+    .filter-bar-inner{padding:0 16px; gap:10px; min-height:60px;}
     .filter-meta .filter-count{display:none;}
     .wrap{padding:0 20px;}
     .cart-body, .cart-foot, .cart-head{padding-left:20px; padding-right:20px;}
   }
 
   /* ==================== MOBILE MENU FIX ==================== */
-  /* When the mobile menu is open, disable backdrop-filter on the header
-     so the fixed nav escapes the header's containing block and covers
-     the full viewport. */
   body.menu-open header{
     backdrop-filter:none !important;
     -webkit-backdrop-filter:none !important;
+  }
+
+  /* ==================== MOBILE RESPONSIVE POLISH ==================== */
+  @media (max-width:900px){
+    .shop-hero{height:52vh; min-height:400px; padding-top:64px;}
+    .shop-hero-content{padding:32px 20px 40px;}
+    .shop-hero-headline{font-size:clamp(34px, 9vw, 60px);}
+    .shop-hero-sub{font-size:15px; margin-top:16px;}
+    .shop-hero-breadcrumb{margin-bottom:14px; font-size:11px;}
+
+    .shop-section{padding:40px 0 80px;}
+
+    /* Hero padding */
+    .shop-hero-content{padding:32px 20px 36px;}
+
+    /* Product modal — bottom sheet on mobile */
+    .product-modal{top:auto; bottom:0; left:0; transform:translateY(100%); width:100%; max-width:none; max-height:92vh; border-radius:16px 16px 0 0;}
+    .product-modal.open{transform:translateY(0);}
+    .modal-scroll{grid-template-columns:1fr;}
+    .modal-media{min-height:auto; aspect-ratio:4/5; position:relative; max-height:44vh;}
+    .modal-body{padding:28px 22px 40px;}
+    .modal-close{top:14px; right:14px; width:40px; height:40px;}
+    .modal-name{font-size:24px;}
+    .modal-price{font-size:28px;}
+    .modal-actions{flex-direction:column;}
+    .modal-actions .btn{width:100%; min-width:0;}
+    .modal-actions .btn-wa{width:100%;}
+    .colour-option{padding:10px 16px; font-size:13px;}
+    .qty-btn{width:44px; height:44px;}
+    .qty-value{width:56px; height:44px; font-size:16px;}
+
+    /* Cart drawer adjustments */
+    .cart-head{padding:20px 20px 16px;}
+    .cart-head h3{font-size:18px;}
+    .cart-item{grid-template-columns:72px 1fr; gap:14px;}
+    .cart-item-info h4{font-size:14px; padding-right:32px;}
+    .cart-foot{padding:20px 20px 24px;}
+
+    /* Toast repositioned */
+    .toast{top:auto; bottom:100px; right:20px; left:20px; max-width:none; transform:translateY(140%);}
+    .toast.show{transform:translateY(0);}
+
+    /* CTA buttons full-width */
+    .cta-actions .btn{flex:1 1 auto; min-width:200px; justify-content:center;}
+  }
+
+  /* ==================== MOBILE PRODUCT CARDS — HORIZONTAL LAYOUT ==================== */
+  @media (max-width:600px){
+    .product-grid{
+      grid-template-columns:1fr;
+      gap:12px;
+    }
+
+    .product-card{
+      flex-direction:row;
+      align-items:stretch;
+      background:var(--paper-3);
+      border:1px solid var(--line);
+      border-radius:6px;
+      overflow:hidden;
+      padding:10px;
+      gap:14px;
+      transform:none;
+      opacity:1;
+    }
+    .product-card.revealed{transform:none;}
+
+    .product-media{
+      width:118px;
+      min-width:118px;
+      height:118px;
+      flex-shrink:0;
+      aspect-ratio:1;
+      border-radius:4px;
+      background:#EDE4D2;
+    }
+    .product-media img{
+      transition:transform .6s ease, opacity .4s ease;
+    }
+    .product-card:hover .product-media img{transform:scale(1.03);}
+    .product-card:hover .product-media img.first{opacity:1;}
+    .product-card:hover .product-media img.second{opacity:0;}
+
+    .product-tag{
+      top:8px;
+      left:8px;
+      padding:4px 8px;
+      font-size:9px;
+      letter-spacing:0.1em;
+      border-radius:2px;
+    }
+    .product-quickview{display:none;}
+
+    .product-body{
+      padding:2px 2px 2px 0;
+      flex:1;
+      min-width:0;
+      gap:5px;
+      justify-content:space-between;
+    }
+    .product-name{
+      font-size:15.5px;
+      line-height:1.22;
+      letter-spacing:-0.005em;
+      overflow:hidden;
+      display:-webkit-box;
+      -webkit-line-clamp:2;
+      -webkit-box-orient:vertical;
+      word-break:break-word;
+    }
+    .product-variant{
+      font-size:10.5px;
+      letter-spacing:0.06em;
+      color:var(--ink-soft);
+      overflow:hidden;
+      text-overflow:ellipsis;
+      white-space:nowrap;
+    }
+    .product-price-row{
+      margin-top:auto;
+      padding-top:8px;
+      flex-direction:row;
+      align-items:center;
+      justify-content:space-between;
+      gap:8px;
+    }
+    .product-price{
+      font-size:16.5px;
+      letter-spacing:-0.01em;
+      white-space:nowrap;
+    }
+    .product-buy{
+      padding:8px 12px;
+      font-size:10px;
+      letter-spacing:0.08em;
+      gap:4px;
+    }
+    .product-buy svg{width:10px; height:10px;}
+
+    /* Skeleton cards match horizontal layout */
+    .skeleton-card{
+      flex-direction:row;
+      padding:10px;
+      gap:14px;
+      background:var(--paper-3);
+      border:1px solid var(--line);
+      border-radius:6px;
+    }
+    .skeleton-card .skeleton-media{
+      width:118px;
+      min-width:118px;
+      height:118px;
+      aspect-ratio:1;
+      border-radius:4px;
+    }
+    .skeleton-card .skeleton-body{
+      flex:1;
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
+      gap:8px;
+    }
+
+    /* Empty state */
+    .empty-state{padding:60px 16px;}
+    .empty-state h3{font-size:22px;}
+    .empty-state p{font-size:14.5px;}
+
+    /* Support section tighter */
+    .support{padding:80px 0;}
+    .support-item{padding:24px 20px;}
+
+    /* CTA tighter */
+    .cta-section{padding:100px 0;}
+    .cta-inner{padding:0 20px;}
+    .cta-inner p{font-size:15px;}
+    .cta-actions{flex-direction:column; align-items:stretch;}
+    .cta-actions .btn{width:100%; justify-content:center;}
+
+    /* Footer */
+    footer{padding:72px 0 32px;}
+    .footer-top{padding-bottom:48px; gap:32px;}
+
+    /* WhatsApp float smaller */
+    .wa-float{width:52px; height:52px; bottom:20px; right:20px;}
+  }
+
+  /* Extra small (very narrow phones) */
+  @media (max-width:380px){
+    .product-media, .skeleton-card .skeleton-media{width:100px; min-width:100px; height:100px;}
+    .product-name{font-size:14.5px;}
+    .product-price{font-size:15px;}
+    .product-buy{padding:7px 10px; font-size:9.5px;}
+    .filter-tab{padding:9px 14px; font-size:12px;}
   }
 </style>
 </head>
@@ -1042,8 +1225,10 @@ function renderSkeletons(){
   grid.innerHTML = Array.from({ length: 6 }).map(() => `
     <div class="skeleton-card">
       <div class="skeleton-media"></div>
-      <div class="skeleton-line"></div>
-      <div class="skeleton-line short"></div>
+      <div class="skeleton-body">
+        <div class="skeleton-line"></div>
+        <div class="skeleton-line short"></div>
+      </div>
     </div>
   `).join('');
 }
