@@ -53,6 +53,7 @@ window.hgOnAuthStateChanged = onAuthStateChanged;
     --line:rgba(26,20,15,0.14); --line-soft:rgba(26,20,15,0.08);
     --danger:#A4161A;
     --max:1360px;
+    --font-brand: 'Athery', 'Fraunces', serif; /* Client requested Athery font */
   }
   *{box-sizing:border-box; margin:0; padding:0;}
   body{background:var(--paper); color:var(--ink); font-family:'Public Sans', sans-serif; font-size:16px; line-height:1.6; -webkit-font-smoothing:antialiased; overflow-x:hidden; padding-bottom:64px; }
@@ -77,13 +78,17 @@ window.hgOnAuthStateChanged = onAuthStateChanged;
     transition:padding .3s ease;}
   header.scrolled{padding:12px 0;}
   .header-inner{max-width:var(--max); margin:0 auto; padding:0 32px; display:flex; align-items:center; justify-content:space-between; gap:32px;}
-  .brand-mark{font-family:'Fraunces', serif; font-size:26px; font-weight:650; letter-spacing:-0.03em;}
-  .brand-mark em{font-style:italic; font-weight:460; color:var(--gold-deep);}
+  
+  /* Logo Image */
+  .brand-logo{display:flex; align-items:center;}
+  .brand-logo img{height:40px; width:auto; object-fit:contain;}
+  
   nav{display:flex; align-items:center; gap:36px;}
   nav a{font-size:14px; font-weight:500; color:var(--ink-soft); position:relative; padding:6px 0; transition:color .25s;}
   nav a.active{color:var(--gold-deep); font-weight:600;}
   nav a::after{content:''; position:absolute; left:0; bottom:0; width:100%; height:1px; background:currentColor; transform:scaleX(0); transform-origin:right center; transition:transform .4s cubic-bezier(.77,0,.18,1);}
   nav a:hover::after, nav a.active::after{transform:scaleX(1); transform-origin:left center;}
+  
   .header-right{display:flex; align-items:center; gap:20px;}
   .header-cta{display:inline-flex; align-items:center; gap:10px; padding:12px 22px; background:var(--gold); color:var(--ink); font-size:13.5px; font-weight:600; border-radius:2px; transition:all .3s;}
   .header-cta:hover{background:var(--gold-deep); color:var(--paper);}
@@ -100,6 +105,18 @@ window.hgOnAuthStateChanged = onAuthStateChanged;
   .nav-link-auth{display:none !important;}
   .mobile-nav-close{display:none;}
 
+  /* Dropdown */
+  .dropdown { position: relative; display: inline-block; }
+  .dropdown-menu {
+    display: none; position: absolute; top: 100%; left: 0; background: var(--paper-3);
+    min-width: 200px; box-shadow: 0 8px 16px rgba(0,0,0,0.1); border: 1px solid var(--line);
+    border-radius: 4px; padding: 8px 0; z-index: 100;
+  }
+  .dropdown:hover .dropdown-menu { display: block; }
+  .dropdown-menu a { display: block; padding: 10px 20px; font-size: 14px; color: var(--ink-soft); }
+  .dropdown-menu a:hover { background: var(--paper-2); color: var(--gold-deep); }
+  .dropdown-menu a::after { display: none; }
+
   /* Cinematic Hero */
   .hero{position:relative; height:100vh; min-height:700px; overflow:hidden; isolation:isolate; display:flex; align-items:center;}
   .hero-video-wrap{position:absolute; inset:0; z-index:0; overflow:hidden;}
@@ -108,7 +125,7 @@ window.hgOnAuthStateChanged = onAuthStateChanged;
   .hero-content{position:relative; z-index:2; max-width:var(--max); margin:0 auto; padding:0 32px; width:100%; color:var(--paper); padding-top:80px;}
   .hero-eyebrow{color:var(--gold-light); margin-bottom:24px;}
   .hero-eyebrow::before{background:var(--gold-light);}
-  .hero-headline{font-size:clamp(54px, 9vw, 120px); line-height:0.9; font-weight:460; letter-spacing:-0.04em; color:var(--paper); max-width:15ch; margin-bottom:32px;}
+  .hero-headline{font-size:clamp(54px, 9vw, 120px); line-height:0.9; font-weight:460; letter-spacing:-0.04em; color:var(--paper); max-width:15ch; margin-bottom:32px; font-family:var(--font-brand);}
   .hero-headline em{font-style:italic; font-weight:340; color:var(--gold-light);}
   .hero-sub{font-size:18px; color:rgba(245,239,226,0.85); max-width:48ch; margin-bottom:40px; line-height:1.6;}
   .hero-actions{display:flex; gap:16px; flex-wrap:wrap; align-items:center;}
@@ -187,6 +204,7 @@ window.hgOnAuthStateChanged = onAuthStateChanged;
   .room-label h3{font-size:22px; font-weight:560; line-height:1.1;}
   .room-label span{width:32px; height:32px; border-radius:50%; background:rgba(245,239,226,0.15); backdrop-filter:blur(8px); display:flex; align-items:center; justify-content:center; transition:all .3s;}
   .room-tile:hover .room-label span{background:var(--gold); color:var(--ink);}
+  @media (max-width:1024px){.room-grid{grid-template-columns:repeat(3, 1fr);}}
   @media (max-width:900px){.room-grid{grid-template-columns:repeat(2, 1fr);}}
   @media (max-width:500px){.room-grid{grid-template-columns:1fr; gap:16px;}}
 
@@ -209,32 +227,33 @@ window.hgOnAuthStateChanged = onAuthStateChanged;
   .carousel-nav button{width:40px; height:40px; border-radius:50%; border:1px solid var(--line); display:flex; align-items:center; justify-content:center; transition:all .2s; color:var(--ink-soft);}
   .carousel-nav button:hover{background:var(--ink); color:var(--paper); border-color:var(--ink);}
 
-  /* Project Showcase / Instagram Grid */
+  /* Project Showcase / Video Grid */
   .projects-section{background:var(--paper); padding:140px 0;}
-  .project-grid{display:grid; grid-template-columns:repeat(3, 1fr); gap:16px;}
-  .project-item{position:relative; aspect-ratio:1; overflow:hidden; border-radius:4px; background:#EDE4D2; cursor:pointer; display:block;}
-  .project-item img{width:100%; height:100%; object-fit:cover; transition:transform .8s ease;}
-  .project-item:hover img{transform:scale(1.05);}
-  .project-overlay{position:absolute; inset:0; background:rgba(26,20,15,0.4); opacity:0; transition:opacity .3s; display:flex; align-items:center; justify-content:center; color:var(--paper); z-index:2;}
-  .project-item:hover .project-overlay{opacity:1;}
-  @media (max-width:768px){.project-grid{grid-template-columns:repeat(2, 1fr);}}
+  .video-grid{display:grid; grid-template-columns:repeat(3, 1fr); gap:16px;}
+  .video-item{position:relative; aspect-ratio:16/9; overflow:hidden; border-radius:4px; background:#000;}
+  .video-item video{width:100%; height:100%; object-fit:cover;}
+  @media (max-width:768px){.video-grid{grid-template-columns:1fr;}}
 
   /* Footer */
   footer{background:var(--plum); color:var(--paper); padding:96px 0 40px;}
   .footer-top{display:grid; grid-template-columns:1.6fr 1fr 1fr 1fr; gap:56px; padding-bottom:72px; border-bottom:1px solid rgba(245,239,226,0.14);}
-  .footer-brand h3{font-family:'Fraunces', serif; font-size:32px; font-weight:650; margin-bottom:16px;}
-  .footer-brand h3 em{font-style:italic; font-weight:340; color:var(--gold-light);}
-  .footer-brand p{color:rgba(245,239,226,0.62); font-size:15px; line-height:1.7; max-width:36ch; margin-top:18px;}
+  .footer-brand .footer-logo{height:48px; width:auto; margin-bottom:12px;}
+  .footer-brand .slogan{font-family:var(--font-brand); color:var(--gold-light); font-size:18px; font-style:italic; margin-bottom:16px; letter-spacing:0.05em;}
+  .footer-brand p{color:rgba(245,239,226,0.62); font-size:15px; line-height:1.7; max-width:36ch;}
   .footer-col h4{font-family:'Public Sans', sans-serif; font-size:12px; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; color:rgba(245,239,226,0.55); margin-bottom:22px;}
   .footer-col a, .footer-col p{display:block; font-size:14.5px; color:rgba(245,239,226,0.82); margin-bottom:12px; transition:color .25s;}
   .footer-col a:hover{color:var(--gold-light);}
+  .social-link{display:flex; align-items:center; gap:10px; margin-bottom:12px; color:rgba(245,239,226,0.82); transition:color .2s;}
+  .social-link:hover{color:var(--gold-light);}
+  .social-link svg{flex-shrink:0;}
   .footer-bottom{display:flex; align-items:center; justify-content:space-between; gap:20px; padding-top:32px; flex-wrap:wrap; font-size:12.5px; color:rgba(245,239,226,0.5);}
   .footer-pay{display:flex; gap:18px; flex-wrap:wrap;}
   .footer-pay span{font-size:11px; letter-spacing:0.08em; text-transform:uppercase; padding:6px 12px; border:1px solid rgba(245,239,226,0.18); border-radius:2px;}
   @media (max-width:900px){.footer-top{grid-template-columns:1fr 1fr; gap:40px;}}
   @media (max-width:600px){.footer-top{grid-template-columns:1fr;}}
 
-  .wa-float{position:fixed; bottom:84px; right:28px; z-index:200; width:58px; height:58px; border-radius:50%; background:var(--gold); color:var(--ink); display:flex; align-items:center; justify-content:center; box-shadow:0 8px 28px rgba(176,129,46,0.45); transition:transform .3s;}
+  /* WhatsApp Float */
+  .wa-float{position:fixed; bottom:84px; right:28px; z-index:200; width:58px; height:58px; border-radius:50%; background:#25D366; color:#fff; display:flex; align-items:center; justify-content:center; box-shadow:0 8px 28px rgba(37,211,102,0.4); transition:transform .3s;}
   .wa-float:hover{transform:scale(1.08);}
 
   /* Modal & Cart (same as shop) */
@@ -347,6 +366,11 @@ window.hgOnAuthStateChanged = onAuthStateChanged;
     .header-cta{display:none;}
     .wrap{padding:0 20px;}
 
+    /* Mobile Dropdown */
+    .dropdown-menu { position: static; display: block; box-shadow: none; border: none; background: transparent; padding: 0; margin-top: 10px; }
+    .dropdown-menu a { color: var(--paper); font-size: 20px; padding-left: 20px; border-bottom: none; opacity: 0.8; }
+    .dropdown-menu a:hover { color: var(--gold-light); background: transparent; }
+
     /* Mobile Typography & Spacing */
     .hero{height:85vh; min-height:500px;}
     .hero-headline{font-size:clamp(40px, 10vw, 60px);}
@@ -354,6 +378,8 @@ window.hgOnAuthStateChanged = onAuthStateChanged;
     .section-pad{padding:80px 0;}
     .section-head h2{font-size:clamp(30px, 6vw, 40px);}
     .section-head p{font-size:15px;}
+    
+    .brand-logo img{height:32px;}
   }
 
   /* ==================== MOBILE MENU FIX ==================== */
@@ -407,14 +433,33 @@ window.hgOnAuthStateChanged = onAuthStateChanged;
 
 <header id="header">
   <div class="header-inner">
-    <a href="index.html" class="brand-mark">Handy<em>·</em>Gidi</a>
+    <!-- Logo Image (Replace 'image/logo.png' with actual logo file path) -->
+    <a href="index.html" class="brand-logo">
+      <img src="image/logo.png" alt="Handy-Gidi Logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+      <span style="display:none; font-family:var(--font-brand); font-size:28px; font-weight:650; letter-spacing:-0.03em;">Handy<em style="font-style:italic; font-weight:460; color:var(--gold-deep);">·</em>Gidi</span>
+    </a>
+    
     <nav id="nav">
       <button class="mobile-nav-close" id="mobileNavClose" aria-label="Close menu" type="button">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M5 5L19 19M19 5L5 19" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
       </button>
-      <a href="shop.html">Shop</a>
+      <div class="dropdown">
+        <a href="shop.html" style="cursor: pointer;">Shop ▾</a>
+        <div class="dropdown-menu">
+          <a href="shop.html">All Furniture</a>
+          <a href="shop.html?category=living-room">Living Room</a>
+          <a href="shop.html?category=bedroom">Bedroom</a>
+          <a href="shop.html?category=dining">Dining</a>
+          <a href="shop.html?category=office">Office</a>
+          <a href="shop.html?category=outdoor">Outdoor</a>
+          <a href="shop.html?category=sofa">Sofa</a>
+          <a href="shop.html?category=table">Table</a>
+          <a href="shop.html?category=corporate-table">Corporate Table</a>
+        </div>
+      </div>
       <a href="about.html">About</a>
-      <a href="services.html">Services</a>
+      <a href="modular.html">Modular</a> <!-- Changed from Services -->
+      <a href="csr.html">CSR</a> <!-- Added CSR before Reviews -->
       <a href="reviews.html">Reviews</a>
       <a href="contact.html">Contact</a>
       <a href="login.html" class="nav-link-auth" id="authMobileLink">
@@ -436,7 +481,6 @@ window.hgOnAuthStateChanged = onAuthStateChanged;
 <!-- CINEMATIC HERO -->
 <section class="hero">
   <div class="hero-video-wrap">
-    <!-- REPLACE THIS VIDEO URL WITH THE CLIENT'S ACTUAL VIDEO (e.g., from Google Drive or Instagram) -->
     <video autoplay loop muted playsinline poster="https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=2400&q=85">
       <source src="https://cdn.coverr.co/videos/coverr-a-modern-living-room-1571/1080p.mp4" type="video/mp4">
     </video>
@@ -461,7 +505,7 @@ window.hgOnAuthStateChanged = onAuthStateChanged;
   <div class="wrap trust-grid">
     <div class="trust-item">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M3 9L12 3L21 9V21H3V9Z" stroke="currentColor" stroke-width="1.5"/><path d="M9 21V13H15V21" stroke="currentColor" stroke-width="1.5"/></svg>
-      <span>Free Abuja Delivery</span>
+      <span>Abuja Delivery</span>
     </div>
     <div class="trust-item">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M14 2L20 8L9 19H3V13L14 2Z" stroke="currentColor" stroke-width="1.5"/></svg>
@@ -478,51 +522,10 @@ window.hgOnAuthStateChanged = onAuthStateChanged;
   </div>
 </section>
 
-<!-- THE LOOKBOOK (Parallax Masonry) -->
-<section class="lookbook-section">
-  <div class="wrap">
-    <div class="section-head section-head-light" style="margin-bottom: 48px;">
-      <div class="section-head-left">
-        <p class="eyebrow reveal-mask"><span>The Lookbook</span></p>
-        <h2 class="reveal-mask"><span>Immersive spaces. Uncompromising detail.</span></h2>
-      </div>
-    </div>
-    
-    <div class="lookbook-grid">
-      <!-- Replace with actual project images -->
-      <div class="lookbook-item">
-        <img src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=1000&q=85" class="lookbook-img parallax-img" alt="Luxury Living Room">
-        <div class="lookbook-overlay"></div>
-        <div class="lookbook-content">
-          <h3>The Executive Suite</h3>
-          <p>Maitama, Abuja</p>
-        </div>
-      </div>
-      <div class="lookbook-item tall">
-        <img src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1000&q=85" class="lookbook-img parallax-img" alt="Modern Dining">
-        <div class="lookbook-overlay"></div>
-        <div class="lookbook-content">
-          <h3>Family Dining</h3>
-          <p>Guzape Hills</p>
-        </div>
-      </div>
-      <div class="lookbook-item wide">
-        <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1600&q=85" class="lookbook-img parallax-img" alt="Corporate Office">
-        <div class="lookbook-overlay"></div>
-        <div class="lookbook-content">
-          <h3>Corporate Headquarters</h3>
-          <p>Central Business District</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- WATCH HOW WE BUILD (Video Section) -->
 <section class="video-showcase" id="craft-video">
   <div class="wrap video-showcase-grid">
     <div class="video-container">
-      <!-- REPLACE THIS VIDEO URL WITH CLIENT'S WORKSHOP/PROJECT VIDEO -->
       <video controls poster="https://images.unsplash.com/photo-1581092160562-40aa08e78837?auto=format&fit=crop&w=1200&q=85">
         <source src="https://cdn.coverr.co/videos/coverr-carpenter-working-in-a-workshop-1571/1080p.mp4" type="video/mp4">
       </video>
@@ -548,6 +551,7 @@ window.hgOnAuthStateChanged = onAuthStateChanged;
       <a href="shop.html" class="view-all">View All Rooms</a>
     </div>
     <div class="room-grid">
+      <!-- Expanded Room Categories -->
       <a href="shop.html?category=living-room" class="room-tile">
         <img src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=800&q=85" alt="Living Room">
         <div class="room-label">
@@ -573,6 +577,34 @@ window.hgOnAuthStateChanged = onAuthStateChanged;
         <img src="https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=800&q=85" alt="Office">
         <div class="room-label">
           <h3>Office</h3>
+          <span><svg width="14" height="14" viewBox="0 0 12 12" fill="none"><path d="M1 11L11 1M11 1H3M11 1V9" stroke="currentColor" stroke-width="1.5"/></svg></span>
+        </div>
+      </a>
+      <a href="shop.html?category=kitchen" class="room-tile">
+        <img src="https://images.unsplash.com/photo-1556910103-1c02745aae4d?auto=format&fit=crop&w=800&q=85" alt="Kitchen">
+        <div class="room-label">
+          <h3>Kitchen</h3>
+          <span><svg width="14" height="14" viewBox="0 0 12 12" fill="none"><path d="M1 11L11 1M11 1H3M11 1V9" stroke="currentColor" stroke-width="1.5"/></svg></span>
+        </div>
+      </a>
+      <a href="shop.html?category=outdoor" class="room-tile">
+        <img src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=800&q=85" alt="Outdoor">
+        <div class="room-label">
+          <h3>Outdoor</h3>
+          <span><svg width="14" height="14" viewBox="0 0 12 12" fill="none"><path d="M1 11L11 1M11 1H3M11 1V9" stroke="currentColor" stroke-width="1.5"/></svg></span>
+        </div>
+      </a>
+      <a href="shop.html?category=commercial" class="room-tile">
+        <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800&q=85" alt="Commercial">
+        <div class="room-label">
+          <h3>Commercial</h3>
+          <span><svg width="14" height="14" viewBox="0 0 12 12" fill="none"><path d="M1 11L11 1M11 1H3M11 1V9" stroke="currentColor" stroke-width="1.5"/></svg></span>
+        </div>
+      </a>
+      <a href="shop.html?category=custom" class="room-tile">
+        <img src="https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=800&q=85" alt="Custom Pieces">
+        <div class="room-label">
+          <h3>Custom Pieces</h3>
           <span><svg width="14" height="14" viewBox="0 0 12 12" fill="none"><path d="M1 11L11 1M11 1H3M11 1V9" stroke="currentColor" stroke-width="1.5"/></svg></span>
         </div>
       </a>
@@ -622,31 +654,63 @@ window.hgOnAuthStateChanged = onAuthStateChanged;
   </div>
 </section>
 
-<!-- PROJECT SHOWCASE (Instagram Link) -->
+<!-- THE LOOKBOOK (Parallax Masonry) -->
+<section class="lookbook-section">
+  <div class="wrap">
+    <div class="section-head section-head-light" style="margin-bottom: 48px;">
+      <div class="section-head-left">
+        <p class="eyebrow reveal-mask"><span>The Lookbook</span></p>
+        <h2 class="reveal-mask"><span>Immersive spaces. Uncompromising detail.</span></h2>
+      </div>
+    </div>
+    
+    <div class="lookbook-grid">
+      <div class="lookbook-item">
+        <img src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=1000&q=85" class="lookbook-img parallax-img" alt="Luxury Living Room">
+        <div class="lookbook-overlay"></div>
+        <div class="lookbook-content">
+          <h3>The Executive Suite</h3>
+          <p>Maitama, Abuja</p>
+        </div>
+      </div>
+      <div class="lookbook-item tall">
+        <img src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1000&q=85" class="lookbook-img parallax-img" alt="Modern Dining">
+        <div class="lookbook-overlay"></div>
+        <div class="lookbook-content">
+          <h3>Family Dining</h3>
+          <p>Guzape Hills</p>
+        </div>
+      </div>
+      <div class="lookbook-item wide">
+        <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1600&q=85" class="lookbook-img parallax-img" alt="Corporate Office">
+        <div class="lookbook-overlay"></div>
+        <div class="lookbook-content">
+          <h3>Corporate Headquarters</h3>
+          <p>Central Business District</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- OUR WORK (Videos) -->
 <section class="projects-section">
   <div class="wrap">
     <div class="section-head">
       <div class="section-head-left">
         <p class="eyebrow reveal-mask"><span>Our Work</span></p>
         <h2 class="reveal-mask"><span>Real projects. Real spaces.</span></h2>
-        <p>From executive offices in Maitama to family homes in Guzape. See how we've transformed spaces across Nigeria.</p>
+        <p>From executive offices in Maitama to family homes in Guzape. Watch how we've transformed spaces across Nigeria.</p>
       </div>
-      <a href="https://www.instagram.com/handygidi/" target="_blank" rel="noopener" class="view-all">Follow @handygidi</a>
     </div>
-    <div class="project-grid">
-      <!-- Replace these images with actual project photos from your Instagram/Firebase -->
-      <a href="https://www.instagram.com/handygidi/" target="_blank" rel="noopener" class="project-item">
-        <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800&q=85" alt="Office Project">
-        <div class="project-overlay"><svg width="32" height="32" viewBox="0 0 24 24" fill="none"><path d="M7 17L17 7M17 7H7M17 7V17" stroke="currentColor" stroke-width="1.5"/></svg></div>
-      </a>
-      <a href="https://www.instagram.com/handygidi/" target="_blank" rel="noopener" class="project-item">
-        <img src="https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=800&q=85" alt="Living Room Project">
-        <div class="project-overlay"><svg width="32" height="32" viewBox="0 0 24 24" fill="none"><path d="M7 17L17 7M17 7H7M17 7V17" stroke="currentColor" stroke-width="1.5"/></svg></div>
-      </a>
-      <a href="https://www.instagram.com/handygidi/" target="_blank" rel="noopener" class="project-item">
-        <img src="https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?auto=format&fit=crop&w=800&q=85" alt="Showroom Project">
-        <div class="project-overlay"><svg width="32" height="32" viewBox="0 0 24 24" fill="none"><path d="M7 17L17 7M17 7H7M17 7V17" stroke="currentColor" stroke-width="1.5"/></svg></div>
-      </a>
+    <div class="video-grid">
+      <!-- Placeholder Videos - Replace with actual project videos -->
+      <div class="video-item"><video controls poster="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800&q=85"><source src="https://cdn.coverr.co/videos/coverr-a-modern-living-room-1571/1080p.mp4" type="video/mp4"></video></div>
+      <div class="video-item"><video controls poster="https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=800&q=85"><source src="https://cdn.coverr.co/videos/coverr-carpenter-working-in-a-workshop-1571/1080p.mp4" type="video/mp4"></video></div>
+      <div class="video-item"><video controls poster="https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?auto=format&fit=crop&w=800&q=85"><source src="https://cdn.coverr.co/videos/coverr-a-modern-living-room-1571/1080p.mp4" type="video/mp4"></video></div>
+      <div class="video-item"><video controls poster="https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=800&q=85"><source src="https://cdn.coverr.co/videos/coverr-carpenter-working-in-a-workshop-1571/1080p.mp4" type="video/mp4"></video></div>
+      <div class="video-item"><video controls poster="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=800&q=85"><source src="https://cdn.coverr.co/videos/coverr-a-modern-living-room-1571/1080p.mp4" type="video/mp4"></video></div>
+      <div class="video-item"><video controls poster="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=800&q=85"><source src="https://cdn.coverr.co/videos/coverr-carpenter-working-in-a-workshop-1571/1080p.mp4" type="video/mp4"></video></div>
     </div>
   </div>
 </section>
@@ -656,8 +720,12 @@ window.hgOnAuthStateChanged = onAuthStateChanged;
   <div class="wrap">
     <div class="footer-top">
       <div class="footer-brand">
-        <h3>Handy<em>·</em>Gidi</h3>
-        <p>Modern furniture, made smarter. Your space. Your style. Your way. Handy-Gidi International Ltd.</p>
+        <!-- Footer Logo & Slogan -->
+        <img src="image/logo.png" alt="Handy-Gidi Logo" class="footer-logo" onerror="this.style.display='none'; document.getElementById('footer-logo-text').style.display='block';">
+        <h3 id="footer-logo-text" style="display:none; font-family:var(--font-brand); font-size:32px; font-weight:650; margin-bottom:12px;">Handy<em style="font-style:italic; font-weight:340; color:var(--gold-light);">·</em>Gidi</h3>
+        
+        <div class="slogan">Luxury redefined</div>
+        <p>Your space. Your style. Your way. Handy-Gidi International Ltd.</p>
         <p style="margin-top:20px; font-size:13px; letter-spacing:0.08em; text-transform:uppercase; color:rgba(245,239,226,0.45);">Suite 7 &amp; 8, Okanga Plaza, Wuye, Abuja</p>
       </div>
       <div class="footer-col">
@@ -671,18 +739,33 @@ window.hgOnAuthStateChanged = onAuthStateChanged;
       <div class="footer-col">
         <h4>Our Company</h4>
         <a href="about.html">About Us</a>
-        <a href="services.html">Services</a>
-        <a href="projects.html">Projects</a>
+        <a href="modular.html">Modular</a> <!-- Changed from Services -->
+        <a href="csr.html">CSR</a> <!-- Replaced Projects with CSR -->
         <a href="reviews.html">Reviews</a>
         <a href="contact.html">Contact</a>
       </div>
       <div class="footer-col">
         <h4>Connect With Us</h4>
-        <a href="https://www.instagram.com/handygidi/" target="_blank">Instagram @handygidi</a>
-        <a href="https://www.facebook.com/handygidi">Facebook Handy-GiDi</a>
-        <a href="https://wa.me/2347051094001">WhatsApp 0705 109 4001</a>
-        
-        <p style="margin-top:22px;">Nation wide</p>
+        <a href="https://www.instagram.com/handygidi/" target="_blank" class="social-link">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4.5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
+          @handygidi
+        </a>
+        <a href="https://www.facebook.com/handygidi" target="_blank" class="social-link">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+          Handy-GiDi
+        </a>
+        <a href="https://youtube.com/@handygidi?si=y8ShkqdwroXiZmoX" target="_blank" class="social-link">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"/></svg>
+          @handygidi
+        </a>
+        <a href="https://www.tiktok.com/@handygidi?_r=1&_t=ZS-9AzOfSWEUgI" target="_blank" class="social-link">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg>
+          @handygidi
+        </a>
+        <a href="https://wa.me/2347051094001" target="_blank" class="social-link">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17.6 6.32A8 8 0 0 0 4.2 14.1L3 19.6l5.6-1.2A8 8 0 0 0 17.6 6.32z"/></svg>
+          0705 109 4001
+        </a>
       </div>
     </div>
     <div class="footer-bottom">
@@ -693,9 +776,9 @@ window.hgOnAuthStateChanged = onAuthStateChanged;
   </div>
 </footer>
 
-<!-- WhatsApp Float -->
-<a href="https://wa.me/2347051094001" class="wa-float" aria-label="Chat on WhatsApp">
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M17.6 6.32A8 8 0 0 0 4.2 14.1L3 19.6l5.6-1.2A8 8 0 0 0 17.6 6.32zM12 18.5a6.5 6.5 0 0 1-3.3-.9l-.24-.14-3.32.71.7-3.24-.15-.25a6.5 6.5 0 1 1 6.31 3.82z"/></svg>
+<!-- WhatsApp Float (Official Icon) -->
+<a href="https://wa.me/2347051094001" class="wa-float" aria-label="Chat on WhatsApp" target="_blank" rel="noopener">
+  <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
 </a>
 
 <!-- MOBILE BOTTOM NAVIGATION -->
@@ -708,9 +791,9 @@ window.hgOnAuthStateChanged = onAuthStateChanged;
     <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="7" height="7" stroke="currentColor" stroke-width="1.5"/><rect x="14" y="3" width="7" height="7" stroke="currentColor" stroke-width="1.5"/><rect x="3" y="14" width="7" height="7" stroke="currentColor" stroke-width="1.5"/><rect x="14" y="14" width="7" height="7" stroke="currentColor" stroke-width="1.5"/></svg>
     Shop
   </a>
-  <a href="https://www.instagram.com/handygidi/" target="_blank">
-    <svg viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="4.5" stroke="currentColor" stroke-width="1.5"/></svg>
-    Projects
+  <a href="csr.html"> <!-- Changed to CSR -->
+    <svg viewBox="0 0 24 24" fill="none"><path d="M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21Z" stroke="currentColor" stroke-width="1.5"/><path d="M12 8V16M8 12H16" stroke="currentColor" stroke-width="1.5"/></svg>
+    CSR
   </a>
   <a href="#" id="mobileCartBtn">
     <div class="icon-wrap">
@@ -735,7 +818,7 @@ window.hgOnAuthStateChanged = onAuthStateChanged;
       <p class="modal-code" id="modalCode">Code</p>
       <div class="modal-stars"><span class="stars">★★★★★</span><span id="modalReviews">4.9 · 18 reviews</span></div>
       <div class="modal-price" id="modalPrice">₦0</div>
-      <p class="modal-price-note">Free delivery &amp; installation within Abuja Metropolis.</p>
+      <p class="modal-price-note"> Delivery &amp; installation within Abuja Metropolis.</p>
       <div class="modal-divider"></div>
       <p class="modal-label">Choose your finish</p>
       <div class="colour-options" id="modalColours"></div>
@@ -1120,10 +1203,7 @@ async function loadProductsFromFirebase(){
       
       const allProducts = Object.entries(PRODUCTS).map(([code, p]) => ({ code, ...p }));
       
-      // Simulate New Arrivals: grab the 6 latest by code
       const newArrivals = allProducts.sort((a,b) => b.code.localeCompare(a.code)).slice(0, 6);
-      
-      // Simulate Best Sellers: pick 6 random
       const bestSellers = [...allProducts].sort(() => 0.5 - Math.random()).slice(0, 6);
 
       renderCarousel('newArrivalsScroll', newArrivals);
