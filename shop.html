@@ -61,6 +61,7 @@ window.hgOnAuthStateChanged = onAuthStateChanged;
     --line:rgba(26,20,15,0.14); --line-soft:rgba(26,20,15,0.08);
     --danger:#A4161A;
     --max:1280px;
+    --font-brand: 'Athery', 'Fraunces', serif;
   }
   *{box-sizing:border-box; margin:0; padding:0;}
   body{background:var(--paper); color:var(--ink); font-family:'Public Sans', sans-serif; font-size:16px; line-height:1.6; -webkit-font-smoothing:antialiased; overflow-x:hidden;}
@@ -82,8 +83,11 @@ window.hgOnAuthStateChanged = onAuthStateChanged;
     transition:padding .3s ease;}
   header.scrolled{padding:12px 0;}
   .header-inner{max-width:var(--max); margin:0 auto; padding:0 32px; display:flex; align-items:center; justify-content:space-between; gap:32px;}
-  .brand-mark{font-family:'Fraunces', serif; font-size:26px; font-weight:650; letter-spacing:-0.03em;}
-  .brand-mark em{font-style:italic; font-weight:460; color:var(--gold-deep);}
+  
+  /* Logo Image */
+  .brand-logo{display:flex; align-items:center;}
+  .brand-logo img{height:40px; width:auto; object-fit:contain;}
+
   nav{display:flex; align-items:center; gap:36px;}
   nav a{font-size:14px; font-weight:500; color:var(--ink-soft); position:relative; padding:6px 0; transition:color .25s;}
   nav a.active{color:var(--gold-deep); font-weight:600;}
@@ -105,6 +109,18 @@ window.hgOnAuthStateChanged = onAuthStateChanged;
   .nav-link-auth{display:none !important;}
   .mobile-nav-close{display:none;}
 
+  /* Dropdown */
+  .dropdown { position: relative; display: inline-block; }
+  .dropdown-menu {
+    display: none; position: absolute; top: 100%; left: 0; background: var(--paper-3);
+    min-width: 240px; box-shadow: 0 8px 16px rgba(0,0,0,0.1); border: 1px solid var(--line);
+    border-radius: 4px; padding: 8px 0; z-index: 100;
+  }
+  .dropdown:hover .dropdown-menu { display: block; }
+  .dropdown-menu a { display: block; padding: 10px 20px; font-size: 13px; color: var(--ink-soft); font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em;}
+  .dropdown-menu a:hover { background: var(--paper-2); color: var(--gold-deep); }
+  .dropdown-menu a::after { display: none; }
+
   /* HERO */
   .shop-hero{position:relative; height:65vh; min-height:520px; overflow:hidden; isolation:isolate; padding-top:80px;}
   .shop-hero-bg{position:absolute; inset:-8%; background-image:url('https://images.unsplash.com/photo-1567016432779-094069958ea5?auto=format&fit=crop&w=2400&q=85'); background-size:cover; background-position:center; z-index:0; will-change:transform;}
@@ -124,7 +140,7 @@ window.hgOnAuthStateChanged = onAuthStateChanged;
   .filter-bar-inner{max-width:var(--max); margin:0 auto; padding:0 32px; display:flex; align-items:center; justify-content:space-between; gap:24px; min-height:72px;}
   .filter-tabs{display:flex; align-items:center; gap:6px; overflow-x:auto; scrollbar-width:none; flex:1;}
   .filter-tabs::-webkit-scrollbar{display:none;}
-  .filter-tab{padding:10px 18px; font-size:13px; font-weight:500; letter-spacing:0.06em; text-transform:uppercase; color:var(--ink-soft); border-radius:2px; white-space:nowrap; transition:all .3s;}
+  .filter-tab{padding:10px 18px; font-size:12.5px; font-weight:600; letter-spacing:0.06em; text-transform:uppercase; color:var(--ink-soft); border-radius:2px; white-space:nowrap; transition:all .3s;}
   .filter-tab:hover{color:var(--ink); background:rgba(176,129,46,0.08);}
   .filter-tab.active{background:var(--ink); color:var(--paper);}
   .filter-meta{display:flex; align-items:center; gap:16px; flex-shrink:0;}
@@ -209,19 +225,23 @@ window.hgOnAuthStateChanged = onAuthStateChanged;
   /* FOOTER */
   footer{background:var(--plum); color:var(--paper); padding:96px 0 40px;}
   .footer-top{display:grid; grid-template-columns:1.6fr 1fr 1fr 1fr; gap:56px; padding-bottom:72px; border-bottom:1px solid rgba(245,239,226,0.14);}
-  .footer-brand h3{font-family:'Fraunces', serif; font-size:32px; font-weight:650; margin-bottom:16px;}
-  .footer-brand h3 em{font-style:italic; font-weight:340; color:var(--gold-light);}
-  .footer-brand p{color:rgba(245,239,226,0.62); font-size:15px; line-height:1.7; max-width:36ch; margin-top:18px;}
+  .footer-brand .footer-logo{height:48px; width:auto; margin-bottom:12px;}
+  .footer-brand .slogan{font-family:var(--font-brand); color:var(--gold-light); font-size:18px; font-style:italic; margin-bottom:16px; letter-spacing:0.05em;}
+  .footer-brand p{color:rgba(245,239,226,0.62); font-size:15px; line-height:1.7; max-width:36ch;}
   .footer-col h4{font-family:'Public Sans', sans-serif; font-size:12px; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; color:rgba(245,239,226,0.55); margin-bottom:22px;}
   .footer-col a, .footer-col p{display:block; font-size:14.5px; color:rgba(245,239,226,0.82); margin-bottom:12px; transition:color .25s;}
   .footer-col a:hover{color:var(--gold-light);}
+  .social-link{display:flex; align-items:center; gap:10px; margin-bottom:12px; color:rgba(245,239,226,0.82); transition:color .2s;}
+  .social-link:hover{color:var(--gold-light);}
+  .social-link svg{flex-shrink:0;}
   .footer-bottom{display:flex; align-items:center; justify-content:space-between; gap:20px; padding-top:32px; flex-wrap:wrap; font-size:12.5px; color:rgba(245,239,226,0.5);}
   .footer-pay{display:flex; gap:18px; flex-wrap:wrap;}
   .footer-pay span{font-size:11px; letter-spacing:0.08em; text-transform:uppercase; padding:6px 12px; border:1px solid rgba(245,239,226,0.18); border-radius:2px;}
   @media (max-width:900px){.footer-top{grid-template-columns:1fr 1fr; gap:40px;}}
   @media (max-width:600px){.footer-top{grid-template-columns:1fr;}}
 
-  .wa-float{position:fixed; bottom:28px; right:28px; z-index:200; width:58px; height:58px; border-radius:50%; background:var(--gold); color:var(--ink); display:flex; align-items:center; justify-content:center; box-shadow:0 8px 28px rgba(176,129,46,0.45); transition:transform .3s;}
+  /* WhatsApp Float */
+  .wa-float{position:fixed; bottom:28px; right:28px; z-index:200; width:58px; height:58px; border-radius:50%; background:#25D366; color:#fff; display:flex; align-items:center; justify-content:center; box-shadow:0 8px 28px rgba(37,211,102,0.4); transition:transform .3s;}
   .wa-float:hover{transform:scale(1.08);}
 
   /* MODAL */
@@ -394,6 +414,13 @@ window.hgOnAuthStateChanged = onAuthStateChanged;
       color:#A8D8BA;
     }
 
+    /* Mobile Dropdown */
+    .dropdown-menu { position: static; display: block; box-shadow: none; border: none; background: transparent; padding: 0; margin-top: 10px; }
+    .dropdown-menu a { color: var(--paper); font-size: 20px; padding-left: 20px; border-bottom: none; opacity: 0.8; text-transform: none; font-weight: 400; }
+    .dropdown-menu a:hover { color: var(--gold-light); background: transparent; }
+
+    .brand-logo img{height:32px;}
+    
     .filter-bar{top:60px;}
     .filter-bar-inner{padding:0 16px; gap:10px; min-height:60px;}
     .filter-meta .filter-count{display:none;}
@@ -650,11 +677,48 @@ window.hgOnAuthStateChanged = onAuthStateChanged;
     .product-buy{padding:7px 10px; font-size:9.5px;}
     .filter-tab{padding:9px 14px; font-size:12px;}
   }
+
+  /* ==================== MOBILE BOTTOM NAVIGATION ==================== */
+  .mobile-bottom-nav{display:none;}
+  @media (max-width:900px){
+    .mobile-bottom-nav{
+      display:flex;
+      position:fixed;
+      bottom:0; left:0; right:0;
+      height:60px;
+      background:rgba(251,248,240,0.96);
+      backdrop-filter:blur(16px);
+      border-top:1px solid var(--line);
+      z-index:900;
+      justify-content:space-around;
+      align-items:center;
+      padding:0 10px;
+      box-shadow:0 -4px 20px rgba(26,20,15,0.05);
+    }
+    .mobile-bottom-nav a{
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:4px;
+      font-size:10px;
+      font-weight:600;
+      letter-spacing:0.04em;
+      text-transform:uppercase;
+      color:var(--ink-soft);
+      transition:color .2s;
+      width:25%;
+      text-align:center;
+    }
+    .mobile-bottom-nav a.active{color:var(--gold-deep);}
+    .mobile-bottom-nav a svg{width:20px; height:20px;}
+    .mobile-bottom-nav .cart-badge-mini{position:absolute; top:-6px; right:-10px; background:var(--gold); color:var(--ink); font-size:9px; width:16px; height:16px; border-radius:50%; display:flex; align-items:center; justify-content:center; border:1px solid var(--paper-3);}
+    .mobile-bottom-nav a .icon-wrap{position:relative;}
+  }
 </style>
 </head>
 <body>
 
-  <!-- Google Tag Manager (noscript) -->
+<!-- Google Tag Manager (noscript) -->
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-53CJKZXQ"
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
@@ -667,18 +731,42 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <header id="header">
   <div class="header-inner">
-    <a href="index.html" class="brand-mark">Handy<em>·</em>Gidi</a>
+    <!-- Logo Image -->
+    <a href="index.html" class="brand-logo">
+      <img src="image/Logo.jpeg" alt="Handy-Gidi Logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+      <span style="display:none; font-family:var(--font-brand); font-size:28px; font-weight:650; letter-spacing:-0.03em;">Handy<em style="font-style:italic; font-weight:460; color:var(--gold-deep);">·</em>Gidi</span>
+    </a>
+    
     <nav id="nav">
       <button class="mobile-nav-close" id="mobileNavClose" aria-label="Close menu" type="button">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
           <path d="M5 5L19 19M19 5L5 19" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
         </svg>
       </button>
-      <a href="shop.html" class="nav-link active">Shop</a>
+      
+      <div class="dropdown">
+        <a href="shop.html" class="nav-link active" style="cursor: pointer;">Shop ▾</a>
+        <div class="dropdown-menu">
+          <a href="shop.html">All Furniture</a>
+          <a href="shop.html?category=doors">DOORS</a>
+          <a href="shop.html?category=kitchen">KITCHEN CABINETS</a>
+          <a href="shop.html?category=wardrobe">WARDROBE CABINETS</a>
+          <a href="shop.html?category=tv-media">TV MEDIA CONSOLES & PANELS</a>
+          <a href="shop.html?category=bedroom">BEDROOM SETS</a>
+          <a href="shop.html?category=sofa">SOFA SETS</a>
+          <a href="shop.html?category=dining">DINING CHAIRS & TABLES</a>
+          <a href="shop.html?category=office">OFFICE FURNITURES</a>
+          <a href="shop.html?category=wall-decor">WALL, ACCESSORIES & DECORATIONS</a>
+          <a href="shop.html?category=outdoor">OUTDOOR</a>
+        </div>
+      </div>
+      
       <a href="about.html" class="nav-link">About</a>
-      <a href="services.html" class="nav-link">Services</a>
+      <a href="modular.html" class="nav-link">Modular</a>
+      <a href="csr.html" class="nav-link">CSR</a>
       <a href="reviews.html" class="nav-link">Reviews</a>
       <a href="contact.html" class="nav-link">Contact</a>
+      
       <a href="login.html" class="nav-link-auth" id="authMobileLink">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
           <circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.5"/>
@@ -719,10 +807,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div class="filter-bar-inner">
     <div class="filter-tabs" id="filterTabs">
       <button class="filter-tab active" data-category="all">All</button>
-      <button class="filter-tab" data-category="living-room">Living Room</button>
+      <button class="filter-tab" data-category="doors">Doors</button>
+      <button class="filter-tab" data-category="kitchen">Kitchen</button>
+      <button class="filter-tab" data-category="wardrobe">Wardrobe</button>
+      <button class="filter-tab" data-category="tv-media">TV Consoles</button>
       <button class="filter-tab" data-category="bedroom">Bedroom</button>
+      <button class="filter-tab" data-category="sofa">Sofas</button>
       <button class="filter-tab" data-category="dining">Dining</button>
       <button class="filter-tab" data-category="office">Office</button>
+      <button class="filter-tab" data-category="wall-decor">Decor</button>
       <button class="filter-tab" data-category="outdoor">Outdoor</button>
     </div>
     <div class="filter-meta">
@@ -799,9 +892,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div class="wrap">
     <div class="footer-top">
       <div class="footer-brand">
-        <h3>Handy<em>·</em>Gidi</h3>
-        <p>Modern furniture, made smarter. Your space. Your style. Your way.</p>
-        <p style="margin-top:20px; font-size:13px; letter-spacing:0.08em; text-transform:uppercase; color:rgba(245,239,226,0.45);">Handy-Gidi International Ltd</p>
+        <img src="image/Logo.jpeg" alt="Handy-Gidi Logo" class="footer-logo" onerror="this.style.display='none'; document.getElementById('footer-logo-text').style.display='block';">
+        <h3 id="footer-logo-text" style="display:none; font-family:var(--font-brand); font-size:32px; font-weight:650; margin-bottom:12px;">Handy<em style="font-style:italic; font-weight:340; color:var(--gold-light);">·</em>Gidi</h3>
+        
+        <div class="slogan">Luxury redefined</div>
+        <p>Your space. Your style. Your way. Handy-Gidi International Ltd.</p>
+        <p style="margin-top:20px; font-size:13px; letter-spacing:0.08em; text-transform:uppercase; color:rgba(245,239,226,0.45);">Suite 7 &amp; 8, Okanga Plaza, Wuye, Abuja</p>
       </div>
       <div class="footer-col">
         <h4>Shop</h4>
@@ -810,22 +906,37 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <a href="shop.html?category=bedroom">Bedroom</a>
         <a href="shop.html?category=dining">Dining</a>
         <a href="shop.html?category=office">Office</a>
-        <a href="shop.html?category=outdoor">Outdoor</a>
       </div>
       <div class="footer-col">
         <h4>Our Company</h4>
         <a href="about.html">About Us</a>
-        <a href="projects.html">Projects</a>
+        <a href="modular.html">Modular</a>
+        <a href="csr.html">CSR</a>
         <a href="reviews.html">Reviews</a>
-        <a href="services.html">Services</a>
         <a href="contact.html">Contact</a>
       </div>
       <div class="footer-col">
         <h4>Connect With Us</h4>
-        <a href="https://www.instagram.com/handygidi/">Instagram @Handygidi</a>
-        <a href="https://www.facebook.com/handygidi">Facebook Handy-GiDi</a>
-        <a href="https://wa.me/2347051094001">WhatsApp 0705 109 4001</a>
-        <p style="margin-top:22px;">Suite 7 &amp; 8, Okanga Plaza,<br>Wuye, Abuja</p>
+        <a href="https://www.instagram.com/handygidi/" target="_blank" class="social-link">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4.5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
+          @handygidi
+        </a>
+        <a href="https://www.facebook.com/handygidi" target="_blank" class="social-link">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+          Handy-GiDi
+        </a>
+        <a href="https://youtube.com/@handygidi?si=y8ShkqdwroXiZmoX" target="_blank" class="social-link">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"/></svg>
+          @handygidi
+        </a>
+        <a href="https://www.tiktok.com/@handygidi?_r=1&_t=ZS-9AzOfSWEUgI" target="_blank" class="social-link">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg>
+          @handygidi
+        </a>
+        <a href="https://wa.me/2347051094001" target="_blank" class="social-link">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17.6 6.32A8 8 0 0 0 4.2 14.1L3 19.6l5.6-1.2A8 8 0 0 0 17.6 6.32z"/></svg>
+          0705 109 4001
+        </a>
       </div>
     </div>
     <div class="footer-bottom">
@@ -836,9 +947,33 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 </footer>
 
-<a href="https://wa.me/2347051094001" class="wa-float" aria-label="Chat on WhatsApp">
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M17.6 6.32A8 8 0 0 0 4.2 14.1L3 19.6l5.6-1.2A8 8 0 0 0 17.6 6.32zM12 18.5a6.5 6.5 0 0 1-3.3-.9l-.24-.14-3.32.71.7-3.24-.15-.25a6.5 6.5 0 1 1 6.31 3.82zM15.9 13.9c-.22-.11-1.3-.64-1.5-.71s-.34-.11-.49.11-.56.71-.69.86-.26.16-.48.05a5.3 5.3 0 0 1-1.56-.96 5.9 5.9 0 0 1-1.09-1.36c-.11-.19 0-.29.08-.39s.22-.26.33-.39a1.5 1.5 0 0 0 .22-.37.4.4 0 0 0 0-.37c-.05-.11-.49-1.18-.67-1.61s-.36-.36-.49-.36h-.42a.8.8 0 0 0-.58.27 2.43 2.43 0 0 0-.76 1.81 4.22 4.22 0 0 0 .88 2.23 9.65 9.65 0 0 0 3.7 3.27c.52.22.92.35 1.24.45a3 3 0 0 0 1.37.09 2.22 2.22 0 0 0 1.46-1 1.85 1.85 0 0 0 .13-1c-.05-.09-.2-.15-.42-.26z"/></svg>
+<!-- WhatsApp Float (Official Icon) -->
+<a href="https://wa.me/2347051094001" class="wa-float" aria-label="Chat on WhatsApp" target="_blank" rel="noopener">
+  <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
 </a>
+
+<!-- MOBILE BOTTOM NAVIGATION -->
+<nav class="mobile-bottom-nav">
+  <a href="index.html">
+    <svg viewBox="0 0 24 24" fill="none"><path d="M3 9L12 3L21 9V21H3V9Z" stroke="currentColor" stroke-width="1.5"/><path d="M9 21V13H15V21" stroke="currentColor" stroke-width="1.5"/></svg>
+    Home
+  </a>
+  <a href="shop.html" class="active">
+    <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="7" height="7" stroke="currentColor" stroke-width="1.5"/><rect x="14" y="3" width="7" height="7" stroke="currentColor" stroke-width="1.5"/><rect x="3" y="14" width="7" height="7" stroke="currentColor" stroke-width="1.5"/><rect x="14" y="14" width="7" height="7" stroke="currentColor" stroke-width="1.5"/></svg>
+    Shop
+  </a>
+  <a href="csr.html">
+    <svg viewBox="0 0 24 24" fill="none"><path d="M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21Z" stroke="currentColor" stroke-width="1.5"/><path d="M12 8V16M8 12H16" stroke="currentColor" stroke-width="1.5"/></svg>
+    CSR
+  </a>
+  <a href="#" id="mobileCartBtn">
+    <div class="icon-wrap">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M3 6H5L7 18H19L21 9H6" stroke="currentColor" stroke-width="1.5"/><circle cx="9" cy="21" r="1.4" fill="currentColor"/><circle cx="18" cy="21" r="1.4" fill="currentColor"/></svg>
+      <span class="cart-badge-mini" id="mobileCartBadge">0</span>
+    </div>
+    Cart
+  </a>
+</nav>
 
 <div class="modal-backdrop" id="modalBackdrop"></div>
 <div class="product-modal" id="productModal">
@@ -929,7 +1064,22 @@ const hasGSAP = typeof gsap !== 'undefined';
 const isDesktop = window.matchMedia('(min-width: 901px)').matches;
 
 function formatNaira(n){ return '₦' + Number(n || 0).toLocaleString('en-NG'); }
-const CATEGORY_LABELS = {all:'Shop','living-room':'Living Room','bedroom':'Bedroom','dining':'Dining','office':'Office','outdoor':'Outdoor'};
+
+// UPDATED CATEGORY LABELS
+const CATEGORY_LABELS = {
+  all: 'Shop', 
+  'living-room': 'Living Room',
+  'doors': 'Doors',
+  'kitchen': 'Kitchen Cabinets',
+  'wardrobe': 'Wardrobe Cabinets',
+  'tv-media': 'TV Media Consoles',
+  'bedroom': 'Bedroom Sets',
+  'sofa': 'Sofa Sets',
+  'dining': 'Dining Chairs & Tables',
+  'office': 'Office Furnitures',
+  'wall-decor': 'Wall & Decorations',
+  'outdoor': 'Outdoor'
+};
 
 let PRODUCTS = {};
 let currentCategory = 'all';
@@ -1093,10 +1243,12 @@ function clearCart(){
 function updateCartUI(){
   const count = cartCount();
   const cartCountEl = document.getElementById('cartCount');
+  const mobileCartBadge = document.getElementById('mobileCartBadge');
   const cartHeadCountEl = document.getElementById('cartHeadCount');
   const clearBtn = document.getElementById('cartClearBtn');
   cartCountEl.textContent = count;
   cartCountEl.classList.toggle('show', count > 0);
+  if(mobileCartBadge) mobileCartBadge.textContent = count;
   cartHeadCountEl.textContent = `(${count} item${count === 1 ? '' : 's'})`;
   clearBtn.style.display = cart.length > 0 ? 'inline-flex' : 'none';
 
@@ -1184,6 +1336,7 @@ function closeCart(){
 }
 window.hgCloseCart = closeCart;
 document.getElementById('cartBtn').addEventListener('click', openCart);
+document.getElementById('mobileCartBtn').addEventListener('click', (e) => { e.preventDefault(); openCart(); });
 document.getElementById('cartClose').addEventListener('click', closeCart);
 cartBackdrop.addEventListener('click', closeCart);
 document.getElementById('cartContinue').addEventListener('click', closeCart);
