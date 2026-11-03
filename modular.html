@@ -1,0 +1,1182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>MODULAR Executive Office Table — Handy-Gidi | Pay on Delivery, Abuja</title>
+<meta name="description" content="MODULAR Executive Office Table by Handy-Gidi. Premium executive design, free same-day delivery and installation within Abuja Metropolis. Payment on delivery." />
+
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-53CJKZXQ');</script>
+<!-- End Google Tag Manager -->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,340;0,9..144,460;0,9..144,560;0,9..144,650&family=Public+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://unpkg.com/lenis@1.0.42/dist/lenis.min.js"></script>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyA7khlO19sabspXwUhRRd4Bx_80IoJWcDc",
+  authDomain: "handy-gidi.firebaseapp.com",
+  projectId: "handy-gidi",
+  storageBucket: "handy-gidi.firebasestorage.app",
+  messagingSenderId: "841844135657",
+  appId: "1:841844135657:web:f55704c164ec935ef9c278"
+};
+
+let auth;
+try { const app = initializeApp(firebaseConfig); auth = getAuth(app); } catch(e){ console.error(e); }
+window.hgAuth = auth;
+window.hgOnAuthStateChanged = onAuthStateChanged;
+</script>
+
+<style>
+  :root{
+    --ink:#1A140F; --ink-soft:#3A2E24; 
+    --paper:#F5EFE2; --paper-2:#ECE2CC; --paper-3:#FBF8F0;
+    --gold:#B0812E; --gold-deep:#8C6321; --gold-light:#E4C77E; 
+    --rust:#A0492A; --rust-deep:#7C371F;
+    --plum:#3E2530; 
+    --line:rgba(26,20,15,0.16); --line-soft:rgba(26,20,15,0.09); 
+    --max:1280px;
+    --font-brand: 'Athery', 'Fraunces', serif;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--paper); color:var(--ink); font-family:'Public Sans', sans-serif; font-size:16px; line-height:1.6; -webkit-font-smoothing:antialiased; overflow-x:hidden; padding-bottom:64px;}
+  img{max-width:100%; display:block;}
+  a{color:inherit; text-decoration:none;}
+  button{font-family:inherit; cursor:pointer; border:none; background:none; color:inherit;}
+  h1,h2,h3,h4{font-family:'Fraunces', serif; font-weight:560; margin:0; letter-spacing:-0.01em; color:var(--ink);}
+  .wrap{max-width:var(--max); margin:0 auto; padding:0 32px;}
+  .eyebrow{font-size:12px; letter-spacing:0.2em; text-transform:uppercase; font-weight:600; color:var(--rust); display:inline-flex; align-items:center; gap:10px;}
+  .eyebrow::before{content:''; width:24px; height:1px; background:var(--rust);}
+  
+  .rule{border:none; border-top:1px solid var(--line); margin:0;}
+  .btn{display:inline-flex; align-items:center; justify-content:center; gap:8px; padding:15px 28px; font-family:'Public Sans', sans-serif; font-size:15px; font-weight:600; text-decoration:none; cursor:pointer; border:1px solid transparent; border-radius:2px; transition:transform .15s ease, background .2s ease, color .2s ease, border-color .2s ease; position:relative; overflow:hidden;}
+  .btn:active{transform:translateY(1px);}
+  .btn-primary{background:var(--ink); color:var(--paper-3); border-color:var(--ink);}
+  .btn-primary:hover{background:var(--rust-deep); border-color:var(--rust-deep);}
+  .btn-ghost{background:transparent; color:var(--ink); border-color:var(--line);}
+  .btn-ghost:hover{border-color:var(--ink);}
+  .btn-wa{background:var(--gold); color:var(--ink); border-color:var(--gold);}
+  .btn-wa:hover{background:var(--gold-deep); color:var(--paper-3);}
+
+  /* Header Global */
+  header{position:fixed; top:0; left:0; right:0; z-index:100; padding:18px 0;
+    background:rgba(245,239,226,0.94); backdrop-filter:blur(14px); border-bottom:1px solid var(--line);
+    transition:padding .3s ease;}
+  header.scrolled{padding:12px 0;}
+  .header-inner{max-width:var(--max); margin:0 auto; padding:0 32px; display:flex; align-items:center; justify-content:space-between; gap:32px;}
+  
+  .brand-logo{display:flex; align-items:center;}
+  .brand-logo img{height:40px; width:auto; object-fit:contain;}
+
+  nav{display:flex; align-items:center; gap:36px;}
+  nav a{font-size:14px; font-weight:500; color:var(--ink-soft); position:relative; padding:6px 0; transition:color .25s;}
+  nav a.active{color:var(--gold-deep); font-weight:600;}
+  nav a::after{content:''; position:absolute; left:0; bottom:0; width:100%; height:1px; background:currentColor; transform:scaleX(0); transform-origin:right center; transition:transform .4s cubic-bezier(.77,0,.18,1);}
+  nav a:hover::after, nav a.active::after{transform:scaleX(1); transform-origin:left center;}
+
+  .header-right{display:flex; align-items:center; gap:20px;}
+  .header-cta{display:inline-flex; align-items:center; gap:10px; padding:12px 22px; background:var(--gold); color:var(--ink); font-size:13.5px; font-weight:600; border-radius:2px; transition:all .3s;}
+  .header-cta:hover{background:var(--gold-deep); color:var(--paper);}
+  .menu-toggle{display:none; width:44px; height:44px; position:relative;}
+  .menu-toggle span{position:absolute; left:12px; width:20px; height:1.5px; background:var(--ink); transition:transform .3s, top .3s;}
+  .menu-toggle span:nth-child(1){top:18px;}
+  .menu-toggle span:nth-child(2){top:24px;}
+  .menu-toggle.open span:nth-child(1){top:21px; transform:rotate(45deg);}
+  .menu-toggle.open span:nth-child(2){top:21px; transform:rotate(-45deg);}
+  .nav-link-auth{display:none !important;}
+  .mobile-nav-close{display:none;}
+
+  /* Dropdown */
+  .dropdown { position: relative; display: inline-block; }
+  .dropdown-menu {
+    display: none; position: absolute; top: 100%; left: 0; background: var(--paper-3);
+    min-width: 240px; box-shadow: 0 8px 16px rgba(0,0,0,0.1); border: 1px solid var(--line);
+    border-radius: 4px; padding: 8px 0; z-index: 100;
+  }
+  .dropdown:hover .dropdown-menu { display: block; }
+  .dropdown-menu a { display: block; padding: 10px 20px; font-size: 13px; color: var(--ink-soft); font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em;}
+  .dropdown-menu a:hover { background: var(--paper-2); color: var(--gold-deep); }
+  .dropdown-menu a::after { display: none; }
+
+  /* Page Layout */
+  .page-wrap{padding-top:100px;}
+  
+  .hero{padding:64px 0 40px; position:relative; overflow:hidden;}
+  .hero-grid{display:grid; grid-template-columns:1fr 1fr; gap:40px; align-items:center;}
+  .hero-copy h1{font-size:clamp(34px,4.4vw,54px); line-height:1.06; margin:16px 0 20px; letter-spacing:-0.03em;}
+  .hero-copy p.lede{font-size:17.5px; color:var(--ink-soft); max-width:46ch; margin:0 0 28px;}
+  .hero-actions{display:flex; gap:14px; flex-wrap:wrap; margin-bottom:30px;}
+  .hero-stats{display:flex; gap:28px; flex-wrap:wrap; padding-top:22px; border-top:1px solid var(--line);}
+  .hero-stats .stat b{display:block; font-family:'Fraunces', serif; font-size:23px; font-weight:560;}
+  .hero-stats .stat span{font-size:13px; color:var(--ink-soft);}
+  .hero-visual{position:relative; display:flex; align-items:center; justify-content:center;}
+  .hero-glow{position:absolute; width:520px; height:520px; border-radius:50%; background:radial-gradient(circle, rgba(176,129,46,0.28) 0%, rgba(176,129,46,0.08) 55%, transparent 75%); z-index:0;}
+  .hero-img-frame{position:relative; z-index:1; max-width:560px;}
+  .hero-img-frame img{filter:drop-shadow(0 30px 34px rgba(26,20,15,0.28));}
+  .price-tag{position:absolute; top:8%; right:-4%; background:var(--paper-3); border:1px solid var(--line); padding:14px 18px 16px; width:150px; text-align:center; box-shadow:0 10px 22px rgba(26,20,15,0.16); transform:rotate(6deg); z-index:2;}
+  .price-tag::before{content:''; position:absolute; top:-9px; left:50%; transform:translateX(-50%); width:16px; height:16px; border-radius:50%; background:var(--paper); border:1px solid var(--line);}
+  .price-tag .ptag-label{font-size:10.5px; letter-spacing:0.1em; text-transform:uppercase; color:var(--rust-deep); font-weight:700;}
+  .price-tag .ptag-price{font-family:'Fraunces', serif; font-size:22px; font-weight:650; margin-top:4px;}
+  .price-tag .ptag-note{font-size:10.5px; color:var(--ink-soft); margin-top:2px;}
+  
+  section{padding:76px 0;}
+  section.alt{background:var(--paper-2);}
+  .section-head{max-width:640px; margin-bottom:44px;}
+  .section-head h2{font-size:clamp(26px,3vw,36px); margin-top:10px; letter-spacing:-0.03em;}
+  .section-head p{color:var(--ink-soft); font-size:16px; margin-top:12px;}
+  
+  .gallery{display:grid; grid-template-columns:1.15fr 0.85fr; gap:48px; align-items:start;}
+  .gallery-main{border:1px solid var(--line); background:var(--paper-3); padding:30px; display:flex; align-items:center; justify-content:center; min-height:380px; position:relative; border-radius:4px;}
+  .gallery-main img{max-height:400px; width:auto; margin:0 auto;}
+  .gallery-price-tag{position:absolute; bottom:20px; right:20px; background:var(--paper-3); border:1px solid var(--line); padding:10px 16px; text-align:center; box-shadow:0 8px 16px rgba(26,20,15,0.12); font-size:13px; font-weight:600; color:var(--ink); border-radius:3px;}
+  .gallery-price-tag .price{font-family:'Fraunces', serif; font-size:20px; font-weight:650; display:block;}
+  .swatch-row{display:flex; gap:12px; margin-top:16px; flex-wrap:wrap;}
+  .swatch{flex:1; border:1px solid var(--line); background:var(--paper-3); cursor:pointer; padding:10px; text-align:center; transition:border-color .15s ease, background .15s ease; min-width:80px; border-radius:4px;}
+  .swatch img{height:56px; width:auto; margin:0 auto 8px;}
+  .swatch span{font-size:12px; font-weight:600; color:var(--ink-soft);}
+  .swatch.active{border-color:var(--gold-deep); background:var(--paper);}
+  .swatch.active span{color:var(--rust-deep);}
+  .swatch:hover{border-color:var(--ink);}
+  
+  .spec-sheet{border-top:1px solid var(--line);}
+  .spec-row{display:flex; justify-content:space-between; gap:20px; padding:14px 0; border-bottom:1px solid var(--line-soft); font-size:14.5px;}
+  .spec-row dt{color:var(--ink-soft);}
+  .spec-row dd{margin:0; font-weight:600; text-align:right;}
+  .gallery-note{font-size:13px; color:var(--ink-soft); margin-top:18px; line-height:1.55;}
+  
+  .benefits-cols{display:grid; grid-template-columns:repeat(3,1fr); gap:0; border-top:1px solid var(--line);}
+  .benefit-col{padding:26px 26px 26px 0; border-right:1px solid var(--line);}
+  .benefit-col:last-child{border-right:none; padding-right:0;}
+  .benefit-col h3{font-size:19px; margin-bottom:16px;}
+  .benefit-col ul{list-style:none; margin:0; padding:0;}
+  .benefit-col li{position:relative; padding-left:18px; margin-bottom:12px; font-size:14.8px; color:var(--ink-soft);}
+  .benefit-col li::before{content:'—'; position:absolute; left:0; color:var(--gold-deep); font-weight:600;}
+  
+  .pricing-panel{display:grid; grid-template-columns:1fr 1fr; gap:48px; align-items:start;}
+  .price-display{border:1px solid var(--line); background:var(--paper-3); padding:26px; border-radius:4px;}
+  .price-display .unit-price{font-size:13px; color:var(--ink-soft); text-transform:uppercase; letter-spacing:0.06em;}
+  .price-display .unit-price b{font-family:'Fraunces', serif; font-size:28px; font-weight:650; color:var(--ink); display:block; margin-top:4px;}
+  .calc{border:1px solid var(--line); background:var(--paper-3); padding:26px; border-radius:4px;}
+  .calc h3{font-size:18px; margin-bottom:18px;}
+  .qty-row{display:flex; align-items:center; gap:14px; margin-bottom:20px;}
+  .qty-btn{width:38px; height:38px; border:1px solid var(--line); background:var(--paper); font-size:18px; cursor:pointer; border-radius:2px;}
+  .qty-btn:hover{border-color:var(--ink);}
+  #calcQty{width:60px; text-align:center; font-size:16px; border:1px solid var(--line); padding:9px 6px; border-radius:2px; background:var(--paper); outline:none;}
+  .calc-total{display:flex; justify-content:space-between; align-items:baseline; padding-top:16px; border-top:1px solid var(--line);}
+  .calc-total span{font-size:13px; color:var(--ink-soft); text-transform:uppercase; letter-spacing:0.06em;}
+  .calc-total b{font-family:'Fraunces', serif; font-size:26px; font-weight:650;}
+  .included{margin-top:22px; padding-top:18px; border-top:1px solid var(--line-soft);}
+  .included p{font-size:12.5px; text-transform:uppercase; letter-spacing:0.08em; color:var(--ink-soft); margin:0 0 10px;}
+  .included ul{list-style:none; margin:0; padding:0; display:flex; gap:18px; flex-wrap:wrap;}
+  .included li{font-size:14px; font-weight:600;}
+  
+  .trust-bar{display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:24px; padding:34px 0; border-top:1px solid var(--line); border-bottom:1px solid var(--line);}
+  .stars{color:var(--gold-deep); font-size:19px; letter-spacing:2px;}
+  .trust-item b{font-family:'Fraunces', serif; font-size:24px; font-weight:600; display:block;}
+  .trust-item span{font-size:13px; color:var(--ink-soft);}
+  .trust-items{display:flex; gap:44px; flex-wrap:wrap;}
+  
+  .delivery-grid{display:grid; grid-template-columns:1fr 1fr; gap:48px;}
+  .zone-chips{display:flex; flex-wrap:wrap; gap:9px; margin-top:18px;}
+  .chip{border:1px solid var(--line); padding:7px 14px; font-size:13px; font-weight:500; background:var(--paper-3); border-radius:2px;}
+  .policy-list{list-style:none; margin:18px 0 0; padding:0;}
+  .policy-list li{padding:12px 0; border-top:1px solid var(--line-soft); font-size:14.5px; color:var(--ink-soft);}
+  .policy-list li b{color:var(--ink); font-weight:600;}
+  .info-note{background:var(--paper-3); border:1px solid var(--line); padding:20px 24px; margin-top:24px; border-radius:3px;}
+  .info-note p{margin:4px 0; font-size:14px; color:var(--ink-soft);}
+  .info-note p strong{color:var(--ink);}
+  
+  .faq-item{border-bottom:1px solid var(--line);}
+  .faq-q{width:100%; text-align:left; background:none; border:none; cursor:pointer; padding:20px 0; display:flex; justify-content:space-between; align-items:center; font-family:'Fraunces', serif; font-size:17px; color:var(--ink); gap:20px;}
+  .faq-q .plus{font-size:20px; font-weight:400; color:var(--gold-deep); flex-shrink:0; transition:transform .2s ease;}
+  .faq-item.open .plus{transform:rotate(45deg);}
+  .faq-a{max-height:0; overflow:hidden; transition:max-height .25s ease;}
+  .faq-a p{margin:0 0 20px; color:var(--ink-soft); font-size:14.8px; max-width:64ch;}
+  
+  .order-section{background:var(--ink); color:var(--paper-2);}
+  .order-section .section-head h2{color:var(--paper-3);}
+  .order-section .eyebrow{color:var(--gold-light);}
+  .order-section .eyebrow::before{background:var(--gold-light);}
+  .order-section .section-head p{color:rgba(245,239,226,0.72);}
+  .order-grid{display:grid; grid-template-columns:0.9fr 1.1fr; gap:52px;}
+  .order-summary{border-top:1px solid rgba(245,239,226,0.2); padding-top:22px;}
+  .order-summary .osum-row{display:flex; justify-content:space-between; padding:10px 0; font-size:14.5px; border-bottom:1px solid rgba(245,239,226,0.12);}
+  .order-summary .osum-row span:first-child{color:rgba(245,239,226,0.65);}
+  .order-form-panel{background:var(--paper-3); color:var(--ink); padding:34px; border:1px solid rgba(245,239,226,0.15); border-radius:4px;}
+  .form-row{margin-bottom:18px;}
+  .form-row label{display:block; font-size:13px; font-weight:600; margin-bottom:7px;}
+  .form-row .opt{font-weight:400; color:var(--ink-soft); text-transform:none; letter-spacing:0;}
+  .form-row input, .form-row select, .form-row textarea{width:100%; padding:12px 13px; border:1px solid var(--line); background:var(--paper); font-family:'Public Sans', sans-serif; font-size:14.5px; color:var(--ink); border-radius:3px; outline:none;}
+  .form-row input:focus, .form-row select:focus, .form-row textarea:focus{border-color:var(--gold-deep); outline:2px solid var(--gold-deep);}
+  .form-two{display:grid; grid-template-columns:1fr 1fr; gap:16px;}
+  .zone-radio-group{display:flex; flex-wrap:wrap; gap:8px; margin-top:4px;}
+  .zone-radio-group label{display:flex; align-items:center; gap:4px; padding:6px 12px; border:1px solid var(--line); background:var(--paper); font-size:13px; font-weight:500; cursor:pointer; border-radius:3px; transition:border-color .15s ease, background .15s ease;}
+  .zone-radio-group label:hover{border-color:var(--ink);}
+  .zone-radio-group input[type="radio"]{margin:0; accent-color:var(--gold-deep);}
+  .zone-radio-group input[type="radio"]:checked + span{color:var(--rust-deep);}
+  .zone-radio-group label:has(input:checked){border-color:var(--gold-deep); background:var(--paper-3);}
+  .form-submit{width:100%; margin-top:6px;}
+  .confirm-panel{display:none; text-align:center; padding:40px 10px;}
+  .confirm-panel .mark{font-size:38px; color:var(--gold-deep); margin-bottom:14px;}
+  .confirm-panel h3{margin-bottom:10px;}
+  .confirm-panel p{color:var(--ink-soft); max-width:44ch; margin:0 auto 22px;}
+  .required-note{font-size:12px; color:rgba(245,239,226,0.55); margin-top:10px;}
+
+  /* Footer Global */
+  footer{background:var(--plum); color:var(--paper); padding:96px 0 40px;}
+  .footer-top{display:grid; grid-template-columns:1.6fr 1fr 1fr 1fr; gap:56px; padding-bottom:72px; border-bottom:1px solid rgba(245,239,226,0.14);}
+  .footer-brand .footer-logo{height:48px; width:auto; margin-bottom:12px;}
+  .footer-brand .slogan{font-family:var(--font-brand); color:var(--gold-light); font-size:18px; font-style:italic; margin-bottom:16px; letter-spacing:0.05em;}
+  .footer-brand p{color:rgba(245,239,226,0.62); font-size:15px; line-height:1.7; max-width:36ch;}
+  .footer-col h4{font-family:'Public Sans', sans-serif; font-size:12px; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; color:rgba(245,239,226,0.55); margin-bottom:22px;}
+  .footer-col a, .footer-col p{display:block; font-size:14.5px; color:rgba(245,239,226,0.82); margin-bottom:12px; transition:color .25s;}
+  .footer-col a:hover{color:var(--gold-light);}
+  .social-link{display:flex; align-items:center; gap:10px; margin-bottom:12px; color:rgba(245,239,226,0.82); transition:color .2s;}
+  .social-link:hover{color:var(--gold-light);}
+  .social-link svg{flex-shrink:0;}
+  .footer-bottom{display:flex; align-items:center; justify-content:space-between; gap:20px; padding-top:32px; flex-wrap:wrap; font-size:12.5px; color:rgba(245,239,226,0.5);}
+  .footer-pay{display:flex; gap:18px; flex-wrap:wrap;}
+  .footer-pay span{font-size:11px; letter-spacing:0.08em; text-transform:uppercase; padding:6px 12px; border:1px solid rgba(245,239,226,0.18); border-radius:2px;}
+
+  /* WhatsApp Float */
+  .wa-float{position:fixed; bottom:84px; right:28px; z-index:200; width:58px; height:58px; border-radius:50%; background:#25D366; color:#fff; display:flex; align-items:center; justify-content:center; box-shadow:0 8px 28px rgba(37,211,102,0.4); transition:transform .3s;}
+  .wa-float:hover{transform:scale(1.08);}
+  
+  /* Sticky CTA (Mobile) */
+  .sticky-cta{position:fixed; bottom:60px; left:0; right:0; z-index:800; background:var(--ink); padding:12px 16px; display:none; justify-content:space-between; align-items:center; gap:12px; border-top:1px solid rgba(245,239,226,0.15);}
+  .sticky-cta .sc-price{color:var(--paper-3); font-family:'Fraunces', serif; font-size:16px;}
+  .sticky-cta .sc-price small{display:block; font-family:'Public Sans', sans-serif; font-size:10.5px; color:rgba(245,239,226,0.6); font-weight:400;}
+  .sticky-cta .btn{padding:12px 20px; font-size:14px;}
+
+  /* Responsive */
+  @media (max-width: 900px){
+    .header-inner{padding:0 20px;}
+    .menu-toggle{display:block;}
+    nav{display:none;}
+    nav.open{display:flex; flex-direction:column; position:fixed; inset:0; background:var(--ink); padding:100px 32px 48px; gap:12px; z-index:150; overflow-y:auto; -webkit-overflow-scrolling:touch;}
+    nav.open .mobile-nav-close{display:flex; position:fixed; top:20px; right:20px; width:48px; height:48px; align-items:center; justify-content:center; color:var(--paper); background:rgba(245,239,226,0.08); border:1px solid rgba(245,239,226,0.22); border-radius:50%; cursor:pointer; transition:all .25s ease; z-index:160;}
+    nav.open .mobile-nav-close:hover{background:rgba(245,239,226,0.18); border-color:rgba(245,239,226,0.5);}
+    nav.open .mobile-nav-close svg{pointer-events:none;}
+    nav.open a{font-size:26px; font-family:'Fraunces', serif; font-weight:560; color:var(--paper); padding:16px 0; border-bottom:1px solid rgba(245,239,226,0.1); display:block; letter-spacing:-0.01em; transition:color .2s;}
+    nav.open a:hover{color:var(--gold-light);}
+    nav.open a.nav-link-auth{display:flex !important; align-items:center; gap:14px; font-size:20px; margin-top:20px; padding:20px 22px; border:1px solid rgba(228,199,126,0.35); border-radius:3px; color:var(--gold-light); background:rgba(176,129,46,0.12); border-bottom:1px solid rgba(228,199,126,0.35); transition:all .25s ease;}
+    nav.open a.nav-link-auth:hover{background:rgba(176,129,46,0.2); color:var(--gold-light);}
+    nav.open a.nav-link-auth.signed-in{background:rgba(45,106,79,0.2); border-color:rgba(45,106,79,0.5); color:#A8D8BA;}
+    .header-cta{display:none;}
+    
+    .dropdown-menu { position: static; display: block; box-shadow: none; border: none; background: transparent; padding: 0; margin-top: 10px; }
+    .dropdown-menu a { color: var(--paper); font-size: 20px; padding-left: 20px; border-bottom: none; opacity: 0.8; text-transform: none; font-weight: 400; }
+    .dropdown-menu a:hover { color: var(--gold-light); background: transparent; }
+
+    .brand-logo img{height:32px;}
+    .wrap{padding:0 20px;}
+    
+    .hero-grid{grid-template-columns:1fr; gap:34px;}
+    .hero-visual{order:-1;}
+    .gallery{grid-template-columns:1fr;}
+    .benefits-cols{grid-template-columns:1fr;}
+    .benefit-col{border-right:none; border-bottom:1px solid var(--line); padding:22px 0;}
+    .pricing-panel{grid-template-columns:1fr;}
+    .delivery-grid{grid-template-columns:1fr;}
+    .order-grid{grid-template-columns:1fr;}
+    .footer-top{grid-template-columns:1fr 1fr; gap:40px;}
+    .price-tag{right:2%;}
+    .sticky-cta{display:flex;}
+    section{padding:56px 0;}
+    .benefits-cols{border-top:none;}
+    .page-wrap{padding-top:80px;}
+  }
+
+  body.menu-open header{backdrop-filter:none !important; -webkit-backdrop-filter:none !important;}
+
+  /* Mobile Bottom Nav */
+  .mobile-bottom-nav{display:none;}
+  @media (max-width:900px){
+    .mobile-bottom-nav{
+      display:flex;
+      position:fixed;
+      bottom:0; left:0; right:0;
+      height:60px;
+      background:rgba(251,248,240,0.96);
+      backdrop-filter:blur(16px);
+      border-top:1px solid var(--line);
+      z-index:900;
+      justify-content:space-around;
+      align-items:center;
+      padding:0 10px;
+      box-shadow:0 -4px 20px rgba(26,20,15,0.05);
+    }
+    .mobile-bottom-nav a{
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:4px;
+      font-size:10px;
+      font-weight:600;
+      letter-spacing:0.04em;
+      text-transform:uppercase;
+      color:var(--ink-soft);
+      transition:color .2s;
+      width:25%;
+      text-align:center;
+    }
+    .mobile-bottom-nav a.active{color:var(--gold-deep);}
+    .mobile-bottom-nav a svg{width:20px; height:20px;}
+    .mobile-bottom-nav .cart-badge-mini{position:absolute; top:-6px; right:-10px; background:var(--gold); color:var(--ink); font-size:9px; width:16px; height:16px; border-radius:50%; display:flex; align-items:center; justify-content:center; border:1px solid var(--paper-3);}
+    .mobile-bottom-nav a .icon-wrap{position:relative;}
+  }
+
+  @media (max-width: 640px){
+    .swatch-row{flex-wrap:wrap;}
+    .swatch{flex:1 1 calc(50% - 6px);}
+  }
+  @media (max-width: 520px){
+    .footer-top{grid-template-columns:1fr; gap:32px;}
+    .form-two{grid-template-columns:1fr;}
+    .hero-stats{gap:16px 22px;}
+    .price-tag{width:120px; padding:10px 12px 12px; right:0;}
+    .gallery-main{padding:18px; min-height:260px;}
+    .gallery-main img{max-height:230px;}
+    .trust-bar{justify-content:flex-start; gap:28px;}
+    .order-form-panel{padding:24px 20px;}
+    .hero{padding:40px 0 28px;}
+  }
+</style>
+</head>
+<body>
+
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-53CJKZXQ"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+<div class="grain"></div>
+
+<header id="header">
+  <div class="header-inner">
+    <a href="index.html" class="brand-logo">
+      <img src="image/Logo.jpeg" alt="Handy-Gidi Logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+      <span style="display:none; font-family:var(--font-brand); font-size:28px; font-weight:650; letter-spacing:-0.03em;">Handy<em style="font-style:italic; font-weight:460; color:var(--gold-deep);">·</em>Gidi</span>
+    </a>
+    
+    <nav id="nav">
+      <button class="mobile-nav-close" id="mobileNavClose" aria-label="Close menu" type="button">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+          <path d="M5 5L19 19M19 5L5 19" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+      </button>
+      
+      <div class="dropdown">
+        <a href="shop.html" class="nav-link" style="cursor: pointer;">Shop ▾</a>
+        <div class="dropdown-menu">
+          <a href="shop.html">All Furniture</a>
+          <a href="shop.html?category=doors">DOORS</a>
+          <a href="shop.html?category=kitchen">KITCHEN CABINETS</a>
+          <a href="shop.html?category=wardrobe">WARDROBE CABINETS</a>
+          <a href="shop.html?category=tv-media">TV MEDIA CONSOLES & PANELS</a>
+          <a href="shop.html?category=bedroom">BEDROOM SETS</a>
+          <a href="shop.html?category=sofa">SOFA SETS</a>
+          <a href="shop.html?category=dining">DINING CHAIRS & TABLES</a>
+          <a href="shop.html?category=office">OFFICE FURNITURES</a>
+          <a href="shop.html?category=wall-decor">WALL, ACCESSORIES & DECORATIONS</a>
+          <a href="shop.html?category=outdoor">OUTDOOR</a>
+        </div>
+      </div>
+      
+      <a href="about.html" class="nav-link">About</a>
+      <a href="modular.html" class="nav-link active">Modular</a>
+      <a href="csr.html" class="nav-link">CSR</a>
+      <a href="reviews.html" class="nav-link">Reviews</a>
+      <a href="contact.html" class="nav-link">Contact</a>
+      
+      <a href="login.html" class="nav-link-auth" id="authMobileLink">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+          <circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.5"/>
+          <path d="M4 21C4 17 7.5 14 12 14C16.5 14 20 17 20 21" stroke="currentColor" stroke-width="1.5"/>
+        </svg>
+        <span id="authMobileLabel">Sign In</span>
+      </a>
+    </nav>
+    <div class="header-right">
+      <a href="shop.html" class="header-cta">Shop the Collection</a>
+      <button class="menu-toggle" id="menuToggle" aria-label="Menu" type="button"><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<main id="top" class="page-wrap">
+  <div class="announce" style="background:var(--ink); color:var(--paper-2); text-align:center; font-size:13px; letter-spacing:0.04em; padding:9px 16px;">Free delivery &amp; installation within Abuja Metropolis &nbsp;·&nbsp; <b style="color:var(--gold-light); font-weight:600;">Payment on Delivery</b> &nbsp;·&nbsp; Nationwide shipping available</div>
+
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <p class="eyebrow">Modular Executive Collection</p>
+        <h1>An office table built for leaders who don't have time to wait.</h1>
+        <p class="lede">Fully manufactured and delivered ready for quick coupling and installation — a commanding, professional desk without the long production wait. Free delivery and installation within Abuja Metropolis, with payment on delivery.</p>
+        <div class="hero-actions">
+          <a href="#order" class="btn btn-primary">Order now — Pay on delivery</a>
+          <a href="#product" class="btn btn-ghost">See finishes &amp; specs</a>
+        </div>
+        <div class="hero-stats">
+          <div class="stat"><b id="heroPrice">₦550,000</b><span>Starting price, single unit</span></div>
+          <div class="stat"><b>100+</b><span>Satisfied clients</span></div>
+          <div class="stat"><b>Same day</b><span>Delivery within Abuja</span></div>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="hero-glow"></div>
+        <div class="hero-img-frame">
+          <img id="heroProductImg" src="image/DT-003.png" alt="MODULAR Executive Office Table">
+          <div class="price-tag">
+            <div class="ptag-label">Executive Table</div>
+            <div class="ptag-price" id="heroTagPrice">₦550,000</div>
+            <div class="ptag-note">Pay on delivery, Abuja</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="product">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">The Table</p>
+        <h2>Four finishes. One commanding presence.</h2>
+        <p>Every MODULAR executive table ships fully built, with a spacious L-shaped work surface, an integrated side cabinet, and a finish chosen to match your office.</p>
+      </div>
+
+      <div class="gallery">
+        <div>
+          <div class="gallery-main">
+            <img id="mainProductImg" src="image/DT-003.png" alt="MODULAR Executive Office Table">
+            <div class="gallery-price-tag">
+              <span class="price" id="galleryPriceTag">₦550,000</span>
+              <span style="font-size:11px; font-weight:400; color:var(--ink-soft);">per unit</span>
+            </div>
+          </div>
+          <div class="swatch-row">
+            <div class="swatch" data-code="DT-001" data-img="image/DT-001.png" data-name="Wood Grain">
+              <img src="image/DT-001.png" alt="Wood Grain" loading="lazy"><span>Wood Grain</span>
+            </div>
+            <div class="swatch" data-code="DT-002" data-img="image/DT-002.png" data-name="Wood Grain">
+              <img src="image/DT-002.png" alt="Wood Grain" loading="lazy"><span>Wood Grain</span>
+            </div>
+            <div class="swatch active" data-code="DT-003" data-img="image/DT-003.png" data-name="White &amp; Dark Grey">
+              <img src="image/DT-003.png" alt="White & Dark Grey" loading="lazy"><span>White &amp; Dark Grey</span>
+            </div>
+            <div class="swatch" data-code="DT-004" data-img="image/DT-004.png" data-name="Wood Grain">
+              <img src="image/DT-004.png" alt="Wood Grain" loading="lazy"><span>Wood Grain</span>
+            </div>
+          </div>
+          <p class="gallery-note">Product codes: DT‑001, DT‑002, DT‑003, DT‑004.</p>
+        </div>
+
+        <div>
+          <h3 style="font-size:19px; margin-bottom:6px;">Specification</h3>
+          <dl class="spec-sheet" id="specSheet">
+            <!-- populated by JS -->
+          </dl>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="alt">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Why Modular</p>
+        <h2>Made smart. Installed fast. Designed to impress.</h2>
+      </div>
+      <div class="benefits-cols">
+        <div class="benefit-col">
+          <h3>Design &amp; presence</h3>
+          <ul>
+            <li>Premium executive design</li>
+            <li>Elegant wood-grain or contemporary finishes</li>
+            <li>Powerful, professional office presence</li>
+            <li>Spacious work surface &amp; extension</li>
+          </ul>
+        </div>
+        <div class="benefit-col">
+          <h3>Ready in minutes</h3>
+          <ul>
+            <li>Ready-made — only requires coupling and installation</li>
+            <li>Quick, stress-free setup by our team</li>
+            <li>Instantly elevates the look and feel of your office</li>
+          </ul>
+        </div>
+        <div class="benefit-col">
+          <h3>Delivered with ease</h3>
+          <ul>
+            <li>Free delivery and installation within Abuja Metropolis</li>
+            <li>Payment on delivery within Abuja Metropolis</li>
+            <li>Ideal for CEOs, directors, executives and business owners</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="pricing">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Pricing</p>
+        <h2>Choose your finish, see your price.</h2>
+        <p>Prices vary by finish. Calculate your total instantly – no hidden costs.</p>
+      </div>
+
+      <div class="pricing-panel">
+        <div class="price-display">
+          <div class="unit-price">
+            Unit price
+            <b id="unitPriceDisplay">₦550,000</b>
+          </div>
+          <div style="margin-top:18px; border-top:1px solid var(--line-soft); padding-top:16px;">
+            <div style="display:flex; justify-content:space-between; font-size:14px; color:var(--ink-soft);">
+              <span>Selected finish</span>
+              <span id="selectedFinishName">White &amp; Dark Grey</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="calc">
+          <h3>Estimate your order</h3>
+          <div class="qty-row">
+            <button class="qty-btn" id="qtyMinus" type="button" aria-label="Decrease quantity">−</button>
+            <input type="number" id="calcQty" value="1" min="1">
+            <button class="qty-btn" id="qtyPlus" type="button" aria-label="Increase quantity">+</button>
+            <span style="font-size:13px; color:var(--ink-soft);">table(s)</span>
+          </div>
+          <div class="calc-total">
+            <span>Estimated total</span>
+            <b id="calcTotal">₦550,000</b>
+          </div>
+          <div class="included">
+            <p>Every table includes</p>
+            <ul>
+              <li>Manual</li>
+              <li>Warranty card</li>
+              <li>Dust cover</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="alt" style="padding:0;">
+    <div class="wrap">
+      <div class="trust-bar">
+        <div class="trust-items">
+          <div class="trust-item"><b>100+</b><span>Satisfied clients</span></div>
+          <div class="trust-item"><b>Abuja-wide</b><span>Same-day free delivery</span></div>
+          <div class="trust-item"><b>Nationwide</b><span>Delivery available</span></div>
+        </div>
+        <div class="stars" aria-label="Rated by our clients">★★★★★<div style="font-size:12px; letter-spacing:0; color:var(--ink-soft); font-family:'Public Sans',sans-serif; margin-top:4px;">Rated by our clients</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="delivery">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Delivery &amp; Payment</p>
+        <h2>Pay on delivery, right across Abuja.</h2>
+      </div>
+      <div class="delivery-grid">
+        <div>
+          <h3 style="font-size:18px; margin-bottom:4px;">Free, same-day delivery zones</h3>
+          <p style="color:var(--ink-soft); font-size:14.5px; margin-top:8px;">Payment on delivery applies within Abuja Metropolis. Please select your zone in the order form below.</p>
+          <div class="zone-chips">
+            <span class="chip">Asokoro</span><span class="chip">CBD</span><span class="chip">Maitama</span>
+            <span class="chip">Garki</span><span class="chip">Wuse</span><span class="chip">Wuye</span>
+            <span class="chip">Utako</span><span class="chip">Jabi</span><span class="chip">Apo</span>
+            <span class="chip">Katampe</span><span class="chip">Guzape</span><span class="chip">Durumi</span>
+            <span class="chip">Mabushi</span><span class="chip">Jahi</span><span class="chip">Kaura</span>
+          </div>
+          <p class="gallery-note">Outside Abuja: we deliver nationwide. Delivery cost is location-based and communicated before dispatch, with payment required before shipping and delivery within 2–10 days depending on courier and location.</p>
+        </div>
+        <div>
+          <h3 style="font-size:18px; margin-bottom:4px;">Good to know</h3>
+          <ul class="policy-list">
+            <li><b>If you're unavailable at delivery:</b> a delivery fee applies outside Abuja Metropolis only.</li>
+            <li><b>Returns:</b> goods paid for cannot be returned after 24 hours of accepting delivery in good condition.</li>
+            <li><b>Wrong item:</b> may be returned for the correct one.</li>
+            <li><b>Damage:</b> items not physically damaged on arrival will be replaced.</li>
+          </ul>
+          <div class="info-note">
+            <p><strong>📦 Installation &amp; Support</strong></p>
+            <p>• There is no Installation outside Abuja, FCT.</p>
+            <p>• Installation Manual and accessories are included in delivery.</p>
+            <p>• Office Executive tables are DIY (Do it Yourself) – visit our YouTube tutorials or any of our social media handles for guidance.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="alt" id="faq">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Questions</p>
+        <h2>Frequently asked questions</h2>
+      </div>
+      <div id="faqList">
+        <div class="faq-item">
+          <button class="faq-q"><span>Is the table made from scratch after I order?</span><span class="plus">+</span></button>
+          <div class="faq-a"><p>No. The table is already fully manufactured and only requires coupling and installation.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q"><span>How long does installation take?</span><span class="plus">+</span></button>
+          <div class="faq-a"><p>Installation is quick and can be completed within minutes by our team.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q"><span>Do you offer delivery?</span><span class="plus">+</span></button>
+          <div class="faq-a"><p>Yes. We offer free delivery and installation within Abuja Metropolis.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q"><span>Can I pay when my table is delivered?</span><span class="plus">+</span></button>
+          <div class="faq-a"><p>Yes. Payment on delivery is available within Abuja Metropolis.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q"><span>How much is the Executive Office Table?</span><span class="plus">+</span></button>
+          <div class="faq-a"><p>Prices start from ₦450,000 and vary by finish – see the pricing section for details.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q"><span>Who is this table suitable for?</span><span class="plus">+</span></button>
+          <div class="faq-a"><p>It is ideal for CEOs, Executives, Managers, Business owners, hotels managers, VIPs and celebrities.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q"><span>Can I choose a different colour or finish?</span><span class="plus">+</span></button>
+          <div class="faq-a"><p>We offer four finish options – please see the product gallery above.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q"><span>Is the table easy to move?</span><span class="plus">+</span></button>
+          <div class="faq-a"><p>Yes. Its modular construction makes transportation and installation more convenient than a fully assembled table.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q"><span>Do you deliver outside Abuja?</span><span class="plus">+</span></button>
+          <div class="faq-a"><p>Yes, we do. Contact us for delivery options and charges to other locations outside Abuja.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q"><span>How do I place an order?</span><span class="plus">+</span></button>
+          <div class="faq-a"><p>Fill in the order form below, or send us a DM — our sales team will confirm your order on WhatsApp.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="order-section" id="order">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Place Your Order</p>
+        <h2>Enter your details — we'll take it from there.</h2>
+        <p>No payment needed now. Complete the form, confirm on WhatsApp, and pay when your table is delivered (Abuja Metropolis).</p>
+      </div>
+
+      <div class="order-grid">
+        <div>
+          <div class="order-summary">
+            <div class="osum-row"><span>Product</span><span id="sumProduct">Executive Table Code: DT-003 (White &amp; Dark Grey)</span></div>
+            <div class="osum-row"><span>Quantity</span><span id="sumQty">1</span></div>
+            <div class="osum-row"><span>Estimated total</span><span id="sumTotal">₦550,000</span></div>
+            <div class="osum-row"><span>Delivery zone</span><span id="sumZone">Asokoro</span></div>
+            <div class="osum-row"><span>Payment</span><span>On delivery (Abuja Metropolis)</span></div>
+          </div>
+          <p style="font-size:13.5px; color:rgba(245,239,226,0.65); margin-top:22px; max-width:42ch;">Ordering from outside Abuja? No problem — we deliver nationwide. Our team will confirm delivery cost and timing with you on WhatsApp before dispatch.</p>
+        </div>
+
+        <div class="order-form-panel">
+          <form id="orderForm" name="order-form" netlify>
+            <input type="hidden" name="form-name" value="order-form" />
+
+            <div class="form-row">
+              <label for="fullName">Full name</label>
+              <input type="text" id="fullName" name="fullName" required>
+            </div>
+            <div class="form-two">
+              <div class="form-row">
+                <label for="phone">Phone number</label>
+                <input type="tel" id="phone" name="phone" required>
+              </div>
+              <div class="form-row">
+                <label for="altPhone">Alternative phone <span class="opt">(optional)</span></label>
+                <input type="tel" id="altPhone" name="altPhone">
+              </div>
+            </div>
+            <div class="form-row">
+              <label for="address">Delivery address <span class="opt">(street, city/state)</span></label>
+              <input type="text" id="address" name="address" required>
+            </div>
+
+            <div class="form-row">
+              <label for="qty">Quantity</label>
+              <input type="number" id="qty" name="qty" value="1" min="1">
+            </div>
+
+            <div class="form-row">
+              <label>Select your delivery zone (Abuja Metropolis)</label>
+              <div class="zone-radio-group">
+                <label><input type="radio" name="deliveryZone" value="Asokoro" checked> <span>Asokoro</span></label>
+                <label><input type="radio" name="deliveryZone" value="CBD"> <span>CBD</span></label>
+                <label><input type="radio" name="deliveryZone" value="Maitama"> <span>Maitama</span></label>
+                <label><input type="radio" name="deliveryZone" value="Garki"> <span>Garki</span></label>
+                <label><input type="radio" name="deliveryZone" value="Wuse"> <span>Wuse</span></label>
+                <label><input type="radio" name="deliveryZone" value="Wuye"> <span>Wuye</span></label>
+                <label><input type="radio" name="deliveryZone" value="Utako"> <span>Utako</span></label>
+                <label><input type="radio" name="deliveryZone" value="Jabi"> <span>Jabi</span></label>
+                <label><input type="radio" name="deliveryZone" value="Apo"> <span>Apo</span></label>
+                <label><input type="radio" name="deliveryZone" value="Katampe"> <span>Katampe</span></label>
+                <label><input type="radio" name="deliveryZone" value="Guzape"> <span>Guzape</span></label>
+                <label><input type="radio" name="deliveryZone" value="Durumi"> <span>Durumi</span></label>
+                <label><input type="radio" name="deliveryZone" value="Mabushi"> <span>Mabushi</span></label>
+                <label><input type="radio" name="deliveryZone" value="Jahi"> <span>Jahi</span></label>
+                <label><input type="radio" name="deliveryZone" value="Kaura"> <span>Kaura</span></label>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <label for="deliveryTime">Preferred delivery time <span class="opt">(optional)</span></label>
+              <input type="text" id="deliveryTime" name="deliveryTime" placeholder="e.g. weekday afternoon">
+            </div>
+            <div class="form-row">
+              <label for="notes">Notes / special instructions <span class="opt">(optional)</span></label>
+              <textarea id="notes" name="notes" rows="3"></textarea>
+            </div>
+            <button type="submit" class="btn btn-wa form-submit">Send order on WhatsApp</button>
+            <p class="required-note" style="color:var(--ink-soft);">We'll open WhatsApp with your order details pre-filled to 0705 109 4001 — just hit send.</p>
+          </form>
+
+          <div class="confirm-panel" id="confirmPanel">
+            <div class="mark">✓</div>
+            <h3>Order details sent</h3>
+            <p>Your order summary has been submitted. We'll email you a confirmation and reach out shortly to finalise delivery.</p>
+            <a href="#order" class="btn btn-ghost" onclick="location.reload()">Start a new order</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <img src="image/Logo.jpeg" alt="Handy-Gidi Logo" class="footer-logo" onerror="this.style.display='none'; document.getElementById('footer-logo-text').style.display='block';">
+        <h3 id="footer-logo-text" style="display:none; font-family:var(--font-brand); font-size:32px; font-weight:650; margin-bottom:12px;">Handy<em style="font-style:italic; font-weight:340; color:var(--gold-light);">·</em>Gidi</h3>
+        
+        <div class="slogan">Luxury redefined</div>
+        <p>Your space. Your style. Your way. Handy-Gidi International Ltd.</p>
+        <p style="margin-top:20px; font-size:13px; letter-spacing:0.08em; text-transform:uppercase; color:rgba(245,239,226,0.45);">Suite 7 &amp; 8, Okanga Plaza, Wuye, Abuja</p>
+      </div>
+      <div class="footer-col">
+        <h4>Shop</h4>
+        <a href="shop.html">All Furniture</a>
+        <a href="shop.html?category=living-room">Living Room</a>
+        <a href="shop.html?category=bedroom">Bedroom</a>
+        <a href="shop.html?category=dining">Dining</a>
+        <a href="shop.html?category=office">Office</a>
+      </div>
+      <div class="footer-col">
+        <h4>Our Company</h4>
+        <a href="about.html">About Us</a>
+        <a href="modular.html">Modular</a>
+        <a href="csr.html">CSR</a>
+        <a href="reviews.html">Reviews</a>
+        <a href="contact.html">Contact</a>
+      </div>
+      <div class="footer-col">
+        <h4>Connect With Us</h4>
+        <a href="https://www.instagram.com/handygidi/" target="_blank" class="social-link">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4.5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
+          @handygidi
+        </a>
+        <a href="https://www.facebook.com/handygidi" target="_blank" class="social-link">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+          Handy-GiDi
+        </a>
+        <a href="https://youtube.com/@handygidi?si=y8ShkqdwroXiZmoX" target="_blank" class="social-link">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"/></svg>
+          @handygidi
+        </a>
+        <a href="https://www.tiktok.com/@handygidi?_r=1&_t=ZS-9AzOfSWEUgI" target="_blank" class="social-link">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg>
+          @handygidi
+        </a>
+        <a href="https://wa.me/2347051094001" target="_blank" class="social-link">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17.6 6.32A8 8 0 0 0 4.2 14.1L3 19.6l5.6-1.2A8 8 0 0 0 17.6 6.32z"/></svg>
+          0705 109 4001
+        </a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Handy-Gidi International Ltd. All rights reserved. Terms &amp; Conditions apply.</span>
+      <div class="footer-pay"><span>Paystack</span><span>Verve</span><span>Mastercard</span><span>Visa</span></div>
+      <span>Built by Kreation Digitals</span>
+    </div>
+  </div>
+</footer>
+
+<!-- WhatsApp Float (Official Icon) -->
+<a href="https://wa.me/2347051094001" class="wa-float" aria-label="Chat on WhatsApp" target="_blank" rel="noopener">
+  <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
+</a>
+
+<!-- MOBILE BOTTOM NAVIGATION -->
+<nav class="mobile-bottom-nav">
+  <a href="index.html">
+    <svg viewBox="0 0 24 24" fill="none"><path d="M3 9L12 3L21 9V21H3V9Z" stroke="currentColor" stroke-width="1.5"/><path d="M9 21V13H15V21" stroke="currentColor" stroke-width="1.5"/></svg>
+    Home
+  </a>
+  <a href="shop.html">
+    <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="7" height="7" stroke="currentColor" stroke-width="1.5"/><rect x="14" y="3" width="7" height="7" stroke="currentColor" stroke-width="1.5"/><rect x="3" y="14" width="7" height="7" stroke="currentColor" stroke-width="1.5"/><rect x="14" y="14" width="7" height="7" stroke="currentColor" stroke-width="1.5"/></svg>
+    Shop
+  </a>
+  <a href="csr.html">
+    <svg viewBox="0 0 24 24" fill="none"><path d="M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21Z" stroke="currentColor" stroke-width="1.5"/><path d="M12 8V16M8 12H16" stroke="currentColor" stroke-width="1.5"/></svg>
+    CSR
+  </a>
+  <a href="contact.html">
+    <svg viewBox="0 0 24 24" fill="none"><path d="M22 16.92V19.92C22 20.92 21.11 21.75 20.11 21.7C17.14 21.55 14.27 20.76 11.63 19.42C9.18 18.18 6.98 16.45 5.19 14.35C3.42 12.28 2.16 9.87 1.47 7.28C1.25 6.32 1.99 5.45 2.97 5.4L5.97 5.25C6.75 5.21 7.42 5.75 7.56 6.52L8.1 9.52C8.22 10.2 7.91 10.88 7.32 11.23L6.24 11.85C7.66 14.47 9.53 16.34 12.15 17.76L12.77 16.68C13.12 16.09 13.8 15.78 14.48 15.9L17.48 16.44C18.25 16.58 18.79 17.24 18.75 18.02" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    Contact
+  </a>
+</nav>
+
+<!-- Sticky Mobile CTA -->
+<div class="sticky-cta">
+  <div class="sc-price" id="stickyPrice">₦550,000<small>Executive Office Table</small></div>
+  <a href="#order" class="btn btn-wa">Order now</a>
+</div>
+
+<script>
+/* ==================== MOBILE MENU ==================== */
+const menuToggle = document.getElementById('menuToggle');
+const navEl = document.getElementById('nav');
+const mobileNavClose = document.getElementById('mobileNavClose');
+
+function openMobileMenu(){
+  navEl.classList.add('open');
+  menuToggle.classList.add('open');
+  menuToggle.setAttribute('aria-expanded', 'true');
+  document.body.classList.add('no-scroll');
+  document.body.classList.add('menu-open');
+}
+function closeMobileMenu(){
+  navEl.classList.remove('open');
+  menuToggle.classList.remove('open');
+  menuToggle.setAttribute('aria-expanded', 'false');
+  document.body.classList.remove('no-scroll');
+  document.body.classList.remove('menu-open');
+}
+menuToggle.addEventListener('click', () => {
+  if(navEl.classList.contains('open')) closeMobileMenu();
+  else openMobileMenu();
+});
+if(mobileNavClose) mobileNavClose.addEventListener('click', closeMobileMenu);
+navEl.querySelectorAll('a').forEach(link => link.addEventListener('click', closeMobileMenu));
+document.addEventListener('keydown', (e) => {
+  if(e.key === 'Escape' && navEl.classList.contains('open')) closeMobileMenu();
+});
+
+/* ==================== AUTH STATE ==================== */
+(function initAuthState(){
+  const authMobileLink = document.getElementById('authMobileLink');
+  const authMobileLabel = document.getElementById('authMobileLabel');
+  if(!authMobileLink) return;
+  let attached = false;
+  const handleAuth = (user) => {
+    if(user){
+      const displayName = user.displayName || user.email || '';
+      const firstName = displayName.split(' ')[0].split('@')[0] || 'Account';
+      authMobileLink.href = 'account.html';
+      authMobileLink.classList.add('signed-in');
+      if(authMobileLabel) authMobileLabel.textContent = firstName;
+    } else {
+      authMobileLink.href = 'login.html';
+      authMobileLink.classList.remove('signed-in');
+      if(authMobileLabel) authMobileLabel.textContent = 'Sign In';
+    }
+  };
+  const tryAttach = () => {
+    if(attached) return;
+    const auth = window.hgAuth;
+    const onAuth = window.hgOnAuthStateChanged;
+    if(auth && onAuth){ attached = true; onAuth(auth, handleAuth); }
+    else setTimeout(tryAttach, 100);
+  };
+  tryAttach();
+})();
+
+/* ==================== SCROLL HEADER ==================== */
+const header = document.getElementById('header');
+window.addEventListener('scroll', () => {
+  header.classList.toggle('scrolled', window.scrollY > 40);
+}, { passive: true });
+
+/* ==================== PRODUCT LOGIC ==================== */
+document.getElementById('yr').textContent = new Date().getFullYear();
+
+const PRODUCTS = {
+  'DT-001': {
+    fullName: 'Executive Office table Code: DT-001',
+    color: 'Wood Grain',
+    price: 550000,
+    img: 'image/DT-001.png',
+    dimensions: '1800 × 750 × 800 mm',
+    extension: '1300 × 750 × 500 mm',
+    features: ['Drawers', 'Smart sockets and USB ducts'],
+    sideCabinet: 'Side cabinets duct cover'
+  },
+  'DT-002': {
+    fullName: 'Executive Office table Code: DT-002',
+    color: 'Wood Grain',
+    price: 450000,
+    img: 'image/DT-002.png',
+    dimensions: '1500 × 750 × 800 mm',
+    extension: null,
+    features: ['Drawers', 'Smart sockets and USB ducts'],
+    sideCabinet: null
+  },
+  'DT-003': {
+    fullName: 'Executive Table Code: DT-003',
+    color: 'White & Dark Grey',
+    price: 550000,
+    img: 'image/DT-003.png',
+    dimensions: '1800 × 750 × 800 mm',
+    extension: '1300 × 750 × 500 mm',
+    features: ['Drawers', 'Smart sockets and USB ducts'],
+    sideCabinet: 'Side cabinets duct cover'
+  },
+  'DT-004': {
+    fullName: 'Executive Table Code: DT-004',
+    color: 'Wood Grain',
+    price: 550000,
+    img: 'image/DT-004.png',
+    dimensions: '1800 × 750 × 800 mm',
+    extension: '1300 × 750 × 500 mm',
+    features: ['Drawers', 'Smart sockets and USB ducts'],
+    sideCabinet: 'Side cabinets duct cover'
+  }
+};
+
+function formatNaira(n){
+  return '₦' + n.toLocaleString('en-NG');
+}
+
+const swatches = document.querySelectorAll('.swatch');
+const mainImg = document.getElementById('mainProductImg');
+const heroImg = document.getElementById('heroProductImg');
+
+const unitPriceDisplay = document.getElementById('unitPriceDisplay');
+const heroPrice = document.getElementById('heroPrice');
+const heroTagPrice = document.getElementById('heroTagPrice');
+const selectedFinishName = document.getElementById('selectedFinishName');
+const sumProduct = document.getElementById('sumProduct');
+const stickyPrice = document.getElementById('stickyPrice');
+const calcTotal = document.getElementById('calcTotal');
+const sumTotal = document.getElementById('sumTotal');
+const sumQty = document.getElementById('sumQty');
+const sumZone = document.getElementById('sumZone');
+const calcQty = document.getElementById('calcQty');
+const qtyField = document.getElementById('qty');
+const galleryPrice = document.getElementById('galleryPriceTag');
+const specSheet = document.getElementById('specSheet');
+
+document.querySelectorAll('input[name="deliveryZone"]').forEach(radio => {
+  radio.addEventListener('change', function() {
+    sumZone.textContent = this.value;
+  });
+});
+
+function renderSpecs(product){
+  const rows = [
+    { label: 'Product', value: product.fullName },
+    { label: 'Color', value: product.color },
+    { label: 'Overall dimensions', value: product.dimensions }
+  ];
+  if (product.extension) rows.push({ label: 'Extension', value: product.extension });
+  if (product.features && product.features.length) rows.push({ label: 'Features', value: product.features.join(', ') });
+  if (product.sideCabinet) rows.push({ label: 'Side cabinet', value: product.sideCabinet });
+  rows.push({ label: 'Build', value: 'Modular — quick coupling & install' });
+  rows.push({ label: 'Installation', value: '5 to 10 minutes' });
+  rows.push({ label: 'Recommended for', value: 'CEOs, Executives, Managers, Business owners, hotels managers, VIPs and celebrities' });
+
+  specSheet.innerHTML = rows.map(row => `
+    <div class="spec-row">
+      <dt>${row.label}</dt>
+      <dd>${row.value}</dd>
+    </div>
+  `).join('');
+}
+
+function updateForCode(code){
+  const product = PRODUCTS[code];
+  if(!product) return;
+  const { fullName, color, price, img } = product;
+
+  mainImg.src = img;
+  heroImg.src = img;
+
+  const priceStr = formatNaira(price);
+  unitPriceDisplay.textContent = priceStr;
+  heroPrice.textContent = priceStr;
+  heroTagPrice.textContent = priceStr;
+  stickyPrice.innerHTML = priceStr + '<small>Executive Office Table</small>';
+  galleryPrice.textContent = priceStr;
+
+  selectedFinishName.textContent = color;
+  sumProduct.textContent = fullName + ' (' + color + ')';
+
+  renderSpecs(product);
+  updateCalc();
+}
+
+function getCurrentCode(){
+  const active = document.querySelector('.swatch.active');
+  return active ? active.dataset.code : 'DT-003';
+}
+
+function getCurrentProduct(){
+  return PRODUCTS[getCurrentCode()];
+}
+
+function updateCalc(){
+  const product = getCurrentProduct();
+  if(!product) return;
+  let qty = Math.max(1, parseInt(calcQty.value) || 1);
+  calcQty.value = qty;
+  qtyField.value = qty;
+  const total = product.price * qty;
+  const totalStr = formatNaira(total);
+  calcTotal.textContent = totalStr;
+  sumTotal.textContent = totalStr;
+  sumQty.textContent = qty;
+}
+
+swatches.forEach(sw => {
+  sw.addEventListener('click', () => {
+    swatches.forEach(s => s.classList.remove('active'));
+    sw.classList.add('active');
+    updateForCode(sw.dataset.code);
+  });
+});
+
+document.getElementById('qtyMinus').addEventListener('click', () => {
+  calcQty.value = Math.max(1, (parseInt(calcQty.value)||1) - 1);
+  updateCalc();
+});
+document.getElementById('qtyPlus').addEventListener('click', () => {
+  calcQty.value = (parseInt(calcQty.value)||1) + 1;
+  updateCalc();
+});
+calcQty.addEventListener('input', updateCalc);
+qtyField.addEventListener('input', () => {
+  calcQty.value = Math.max(1, parseInt(qtyField.value)||1);
+  updateCalc();
+});
+
+/* ==================== FAQ ACCORDION ==================== */
+document.querySelectorAll('.faq-item').forEach(item => {
+  const q = item.querySelector('.faq-q');
+  const a = item.querySelector('.faq-a');
+  q.addEventListener('click', () => {
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item.open').forEach(other => {
+      other.classList.remove('open');
+      other.querySelector('.faq-a').style.maxHeight = null;
+    });
+    if(!isOpen){
+      item.classList.add('open');
+      a.style.maxHeight = a.scrollHeight + 'px';
+    }
+  });
+});
+
+/* ==================== ORDER FORM ==================== */
+document.getElementById('orderForm').addEventListener('submit', function(e){
+  e.preventDefault();
+
+  const f = e.target;
+  const name = f.fullName.value.trim();
+  const phone = f.phone.value.trim();
+  const address = f.address.value.trim();
+  if(!name || !phone || !address){
+    alert('Please fill in your name, phone number and delivery address.');
+    return;
+  }
+
+  const zoneRadio = document.querySelector('input[name="deliveryZone"]:checked');
+  const zone = zoneRadio ? zoneRadio.value : 'Not selected';
+
+  const code = getCurrentCode();
+  const product = PRODUCTS[code];
+  if(!product) return;
+  const qty = Math.max(1, parseInt(f.qty.value)||1);
+  const total = product.price * qty;
+
+  const formData = new FormData(f);
+  fetch('/', {
+    method: 'POST',
+    body: formData
+  }).then(response => {
+    console.log('Netlify form submitted');
+  }).catch(err => console.log('Netlify submit error', err));
+
+  const lines = [
+    'New order — MODULAR Executive Office Table',
+    'Name: ' + name,
+    'Phone: ' + phone,
+    f.altPhone.value.trim() ? 'Alt. phone: ' + f.altPhone.value.trim() : null,
+    'Delivery address: ' + address,
+    'Delivery zone: ' + zone,
+    'Finish: ' + product.color,
+    'Product: ' + product.fullName,
+    'Quantity: ' + qty,
+    'Estimated total: ' + formatNaira(total),
+    f.deliveryTime.value.trim() ? 'Preferred delivery time: ' + f.deliveryTime.value.trim() : null,
+    f.notes.value.trim() ? 'Notes: ' + f.notes.value.trim() : null,
+    'Payment: On delivery (Abuja Metropolis) / arranged nationwide'
+  ].filter(Boolean);
+  const message = encodeURIComponent(lines.join('\n'));
+  window.open('https://wa.me/2347051094001?text=' + message, '_blank');
+
+  f.style.display = 'none';
+  document.getElementById('confirmPanel').style.display = 'block';
+});
+
+/* ==================== INITIALISE ==================== */
+const activeSwatch = document.querySelector('.swatch.active');
+if(activeSwatch) {
+  updateForCode(activeSwatch.dataset.code);
+} else {
+  updateForCode('DT-003');
+}
+
+/* ==================== SMOOTH SCROLL ==================== */
+if(typeof Lenis !== 'undefined'){
+  try {
+    const lenis = new Lenis({ duration:1.15, easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)), smoothWheel:true, smoothTouch:false });
+    function raf(t){ lenis.raf(t); requestAnimationFrame(raf); }
+    requestAnimationFrame(raf);
+  } catch(e){}
+}
+</script>
+
+</body>
+</html>
