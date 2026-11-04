@@ -161,6 +161,28 @@ window.hgOnAuthStateChanged = onAuthStateChanged;
   .pillar p + p{margin-top:16px;}
   @media (max-width:900px){ .pillar, .pillar:nth-child(even){grid-template-columns:1fr; gap:32px; direction:ltr;} .pillar-media{aspect-ratio:4/3;} }
 
+  /* ==================== NEW: WHAT SETS US APART ==================== */
+  .apart-section{padding:120px 0; background:var(--paper-2); border-top:1px solid var(--line);}
+  .apart-grid{display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:20px; margin-bottom:80px;}
+  .apart-item{background:var(--paper-3); border:1px solid var(--line); border-radius:4px; padding:24px 28px; display:flex; gap:16px; align-items:flex-start; transition:transform .3s, box-shadow .3s;}
+  .apart-item:hover{transform:translateY(-4px); box-shadow:0 12px 32px rgba(26,20,15,0.06); border-color:rgba(176,129,46,0.3);}
+  .apart-icon{flex-shrink:0; width:24px; height:24px; border-radius:50%; background:rgba(176,129,46,0.15); color:var(--gold-deep); display:flex; align-items:center; justify-content:center; margin-top:2px;}
+  .apart-text{font-size:15.5px; font-weight:600; color:var(--ink); line-height:1.4;}
+  
+  .apart-manifesto{text-align:center; max-width:860px; margin:0 auto;}
+  .apart-manifesto p{font-size:17px; color:var(--ink-soft); line-height:1.8; margin-bottom:24px;}
+  .apart-manifesto .bold-statements{font-family:'Fraunces', serif; font-size:clamp(24px, 3vw, 36px); font-weight:460; color:var(--ink); line-height:1.3; letter-spacing:-0.01em; margin:48px 0 32px;}
+  .apart-manifesto .bold-statements p{margin-bottom:16px; font-size:inherit; color:inherit;}
+  .apart-manifesto .bold-statements em{font-style:italic; color:var(--gold-deep);}
+  .apart-manifesto .closing-brand{margin-top:56px; padding-top:40px; border-top:1px solid var(--line);}
+  .apart-manifesto .closing-brand h3{font-family:'Fraunces', serif; font-size:22px; font-weight:650; letter-spacing:0.1em; text-transform:uppercase; color:var(--ink); margin-bottom:8px;}
+  .apart-manifesto .closing-brand p{font-size:13px; letter-spacing:0.15em; text-transform:uppercase; color:var(--gold-deep); font-weight:600; margin:0;}
+  
+  @media (max-width:900px){
+    .apart-grid{grid-template-columns:1fr;}
+    .apart-section{padding:80px 0;}
+  }
+
   /* CEO Section */
   .ceo-section{background:var(--paper); padding:140px 0; position:relative; overflow:hidden;}
   .ceo-grid{display:grid; grid-template-columns:0.9fr 1.1fr; gap:80px; align-items:center;}
@@ -453,18 +475,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <section class="split-section split-flip">
   <div class="split-copy">
-    <p class="eyebrow reveal-mask"><span>About Us
-</span></p>
+    <p class="eyebrow reveal-mask"><span>About Us</span></p>
     <h2 class="reveal-mask"><span>Handi Gidi Furnitures – Transforming Spaces, Creating Luxury.</span></h2>
     <p>Handi Gidi Furnitures is a furniture design and manufacturing company dedicated to transforming residential and commercial spaces through innovative designs, quality craftsmanship and functional furniture solutions.
 We specialise in the design, production, installation and furnishing of bespoke furniture tailored to meet our clients’ unique tastes, lifestyles and needs.</p>
-    <p>From elegant kitchen cabinets and modern wardrobes to luxurious walk-in closets, TV consoles, office furniture and complete interior furnishing, we bring creativity, precision and excellence to every project.
-
-<p>Our commitment goes beyond making furniture. We create beautiful, functional and comfortable spaces that reflect your personality and elevate your everyday living.</p>
-<p>With a focus on quality materials, attention to detail, modern technology and skilled craftsmanship, we strive to deliver outstanding results from concept to completion.
-
-At Handi Gidi Furnitures, we don’t just make furniture; we create spaces you’ll love to live and work in.</p> 
-</div>
+    <p>From elegant kitchen cabinets and modern wardrobes to luxurious walk-in closets, TV consoles, office furniture and complete interior furnishing, we bring creativity, precision and excellence to every project.</p>
+    <p>Our commitment goes beyond making furniture. We create beautiful, functional and comfortable spaces that reflect your personality and elevate your everyday living.</p>
+    <p>With a focus on quality materials, attention to detail, modern technology and skilled craftsmanship, we strive to deliver outstanding results from concept to completion.</p>
+    <p>At Handi Gidi Furnitures, we don’t just make furniture; we create spaces you’ll love to live and work in.</p> 
+  </div>
   <div class="split-media"><img src="https://i.pinimg.com/736x/f3/e2/de/f3e2debf9575ec99a168d896ee3e61d8.jpg?auto=format&fit=crop&w=1600&q=85" alt="Workshop detail" id="img2"></div>
 </section>
 
@@ -511,13 +530,87 @@ At Handi Gidi Furnitures, we don’t just make furniture; we create spaces you�
       <div class="pillar-media"><img src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=1400&q=85" alt="Turnkey"></div>
       <div>
         <div class="pillar-num">04 · TURN-KEY</div>
-        <h2>WE DON’T JUST BUILD SPACES. WE DELIVER COMPLETE EXPERIENCES.
-</h2>
-
+        <h2>WE DON’T JUST BUILD SPACES. WE DELIVER COMPLETE EXPERIENCES.</h2>
         <p>At Handi Gidi Furnitures, we redefine project delivery through exceptional turnkey solutions that combine design, innovation, engineering coordination, furniture manufacturing and complete interior execution.</p>
-
-<p>We transform empty properties and unfinished spaces into fully realised environments, managing every critical detail with precision, professionalism and an uncompromising commitment to quality.</p>
+        <p>We transform empty properties and unfinished spaces into fully realised environments, managing every critical detail with precision, professionalism and an uncompromising commitment to quality.</p>
         <p>From luxury residential developments and corporate offices to hotels, commercial facilities and large-scale furnishing projects, we bring every element together under one coordinated project delivery system.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NEW SECTION: WHAT SETS US APART -->
+<section class="apart-section">
+  <div class="wrap">
+    <div class="section-head" style="text-align: center; margin: 0 auto 64px;">
+      <p class="eyebrow reveal-mask" style="justify-content: center;"><span>Why Handy-Gidi</span></p>
+      <h2 class="reveal-mask" style="font-size: clamp(36px, 4.5vw, 56px);">What sets us apart?</h2>
+    </div>
+    
+    <div class="apart-grid">
+      <!-- Item 1 -->
+      <div class="apart-item">
+        <div class="apart-icon">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12L10 17L20 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="apart-text">Strategic project planning and management.</div>
+      </div>
+      <!-- Item 2 -->
+      <div class="apart-item">
+        <div class="apart-icon">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12L10 17L20 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="apart-text">Creative interior design and space optimisation.</div>
+      </div>
+      <!-- Item 3 -->
+      <div class="apart-item">
+        <div class="apart-icon">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12L10 17L20 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="apart-text">Premium furniture design and manufacturing.</div>
+      </div>
+      <!-- Item 4 -->
+      <div class="apart-item">
+        <div class="apart-icon">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12L10 17L20 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="apart-text">Material sourcing and procurement.</div>
+      </div>
+      <!-- Item 5 -->
+      <div class="apart-item">
+        <div class="apart-icon">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12L10 17L20 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="apart-text">Interior construction and finishing coordination.</div>
+      </div>
+      <!-- Item 6 -->
+      <div class="apart-item">
+        <div class="apart-icon">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12L10 17L20 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="apart-text">Professional installation and furnishing.</div>
+      </div>
+      <!-- Item 7 -->
+      <div class="apart-item">
+        <div class="apart-icon">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12L10 17L20 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="apart-text">Quality assurance and final project handover.</div>
+      </div>
+    </div>
+
+    <div class="apart-manifesto">
+      <p>We understand that a successful project is not just about how it looks. It is about functionality, durability, precision, efficiency and the experience delivered.</p>
+      <p>With Handi Gidi Furnitures, you get more than a service provider. You get a dedicated project partner committed to turning ambitious ideas into exceptional realities.</p>
+      
+      <div class="bold-statements">
+        <p>ONE PARTNER. TOTAL PROJECT CONTROL. EXCEPTIONAL DELIVERY.</p>
+        <p><em>YOUR VISION IS OUR BLUEPRINT. EXCELLENCE IS OUR STANDARD.</em></p>
+      </div>
+      
+      <div class="closing-brand">
+        <h3>HANDI GIDI FURNITURES</h3>
+        <p>Transforming Spaces. Creating Comfort. Delivering Excellence.</p>
       </div>
     </div>
   </div>
