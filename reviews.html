@@ -433,7 +433,9 @@ window.hgOnAuthStateChanged = onAuthStateChanged;
         </div>
       </div>
     </div>
-    <div style="display:flex; align-items:center; justify-content:space-between; margin-top:56px; flex-wrap:wrap; gap:24px;">
+    
+    <!-- Added ID to this wrapper and changed to display:none by default -->
+    <div id="featControls" style="display:none; align-items:center; justify-content:space-between; margin-top:56px; flex-wrap:wrap; gap:24px;">
       <div class="featured-nav">
         <button id="featPrev" aria-label="Previous">
           <svg width="16" height="16" viewBox="0 0 12 12" fill="none"><path d="M11 6H1M1 6L6 1M1 6L6 11" stroke="currentColor" stroke-width="1.5"/></svg>
@@ -782,8 +784,10 @@ function renderWall(){
 
 function renderFeatured(){
   const wrapper = document.getElementById('featuredWrapper');
+  const controls = document.getElementById('featControls');
   const top = allReviews.filter(r => (r.stars || 5) === 5).slice(0, 4);
   const source = top.length ? top : allReviews.slice(0, 4);
+  
   if(source.length === 0){
     wrapper.innerHTML = `<div class="swiper-slide featured-slide"><p class="featured-quote">Reviews are on their way. Check back soon.</p></div>`;
   } else {
@@ -801,6 +805,12 @@ function renderFeatured(){
       </div>`;
     }).join('');
   }
+
+  // Hide arrows and pagination if there's only 1 review or none
+  if (controls) {
+    controls.style.display = (source.length > 1) ? 'flex' : 'none';
+  }
+
   if(typeof Swiper !== 'undefined'){
     if(featSwiper) featSwiper.destroy(true, false);
     featSwiper = new Swiper('#featuredSwiper', {
