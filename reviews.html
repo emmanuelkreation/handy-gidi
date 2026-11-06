@@ -154,7 +154,6 @@ window.hgOnAuthStateChanged = onAuthStateChanged;
   .featured-inner{position:relative; z-index:2;}
   .featured-swiper{overflow:hidden;}
   
-  /* Fixed: Removed max-width to allow full sizing */
   .featured-slide{padding:0 20px;}
   
   .featured-quote{font-family:'Fraunces',serif; font-size:clamp(24px,3.2vw,44px); line-height:1.22; font-weight:460; letter-spacing:-0.01em; color:var(--paper);}
@@ -780,13 +779,16 @@ function renderWall(){
   wall.innerHTML = list.map(r => {
     const stars = '★'.repeat(r.stars || 5) + '☆'.repeat(5 - (r.stars || 5));
     const cat = r.category ? r.category.charAt(0).toUpperCase() + r.category.slice(1) : '';
+    const dateStr = r._ts ? new Date(r._ts).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }) : '';
+    const metaStr = [r.role, dateStr].filter(Boolean).join(' · ');
+    
     return `<div class="review-card">
       ${cat ? `<div class="cat-tag">${cat}</div>` : ''}
       <div class="stars">${stars}</div>
       <p class="quote">${r.quote || ''}</p>
       <div class="author">
         <b>${r.name || 'Anonymous'}</b>
-        ${r.role ? `<span>${r.role}</span>` : ''}
+        ${metaStr ? `<span>${metaStr}</span>` : ''}
       </div>
     </div>`;
   }).join('');
@@ -803,13 +805,16 @@ function renderFeatured(){
   } else {
     wrapper.innerHTML = source.map(r => {
       const stars = '★'.repeat(r.stars || 5);
+      const dateStr = r._ts ? new Date(r._ts).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }) : '';
+      const metaStr = [r.role, dateStr].filter(Boolean).join(' · ');
+      
       return `<div class="swiper-slide featured-slide">
         <p class="featured-quote">${r.quote || ''}</p>
         <div class="featured-meta">
           <div class="featured-stars">${stars}</div>
           <div>
             <div class="featured-name">${r.name || 'Anonymous'}</div>
-            <div class="featured-role">${r.role || ''}</div>
+            ${metaStr ? `<div class="featured-role">${metaStr}</div>` : ''}
           </div>
         </div>
       </div>`;
