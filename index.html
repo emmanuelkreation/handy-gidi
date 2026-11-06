@@ -53,7 +53,7 @@ window.hgOnAuthStateChanged = onAuthStateChanged;
     --line:rgba(26,20,15,0.14); --line-soft:rgba(26,20,15,0.08);
     --danger:#A4161A;
     --max:1360px;
-    --font-brand: 'Athery', 'Fraunces', serif; /* Client requested Athery font */
+    --font-brand: 'Athery', 'Fraunces', serif;
   }
   *{box-sizing:border-box; margin:0; padding:0;}
   body{background:var(--paper); color:var(--ink); font-family:'Public Sans', sans-serif; font-size:16px; line-height:1.6; -webkit-font-smoothing:antialiased; overflow-x:hidden; padding-bottom:64px; }
@@ -109,26 +109,41 @@ window.hgOnAuthStateChanged = onAuthStateChanged;
   .dropdown { position: relative; display: inline-block; }
   .dropdown-menu {
     display: none; position: absolute; top: 100%; left: 0; background: var(--paper-3);
-    min-width: 200px; box-shadow: 0 8px 16px rgba(0,0,0,0.1); border: 1px solid var(--line);
+    min-width: 240px; box-shadow: 0 8px 16px rgba(0,0,0,0.1); border: 1px solid var(--line);
     border-radius: 4px; padding: 8px 0; z-index: 100;
   }
   .dropdown:hover .dropdown-menu { display: block; }
-  .dropdown-menu a { display: block; padding: 10px 20px; font-size: 14px; color: var(--ink-soft); }
+  .dropdown-menu a { display: block; padding: 10px 20px; font-size: 13px; color: var(--ink-soft); font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em;}
   .dropdown-menu a:hover { background: var(--paper-2); color: var(--gold-deep); }
   .dropdown-menu a::after { display: none; }
 
   /* Cinematic Hero */
-  .hero{position:relative; height:100vh; min-height:700px; overflow:hidden; isolation:isolate; display:flex; align-items:center;}
+  .hero{position:relative; height:100vh; min-height:750px; overflow:hidden; isolation:isolate; display:flex; align-items:center;}
   .hero-video-wrap{position:absolute; inset:0; z-index:0; overflow:hidden;}
   .hero-video-wrap video{width:100%; height:100%; object-fit:cover; opacity:0.7;}
   .hero-veil{position:absolute; inset:0; z-index:1; background:linear-gradient(180deg, rgba(26,20,15,0.7) 0%, rgba(26,20,15,0.3) 50%, rgba(26,20,15,0.9) 100%);}
-  .hero-content{position:relative; z-index:2; max-width:var(--max); margin:0 auto; padding:0 32px; width:100%; color:var(--paper); padding-top:80px;}
-  .hero-eyebrow{color:var(--gold-light); margin-bottom:24px;}
-  .hero-eyebrow::before{background:var(--gold-light);}
-  .hero-headline{font-size:clamp(54px, 9vw, 120px); line-height:0.9; font-weight:460; letter-spacing:-0.04em; color:var(--paper); max-width:15ch; margin-bottom:32px; font-family:var(--font-brand);}
+  .hero-content{position:relative; z-index:2; max-width:var(--max); margin:0 auto; padding:0 32px; width:100%; color:var(--paper); padding-top:80px; display:flex; flex-direction:column; gap:40px;}
+  
+  @media(min-width: 1024px){
+    .hero-content{flex-direction:row; align-items:center; justify-content:space-between;}
+  }
+
+  .hero-left { flex: 1; max-width: 60%; }
+  .hero-eyebrow {
+    color: var(--gold-light); 
+    margin-bottom: 20px;
+    font-size: clamp(24px, 3vw, 42px); /* Increased font size */
+    text-transform: none;
+    letter-spacing: -0.01em;
+    font-family: 'Fraunces', serif;
+  }
+  .hero-eyebrow::before { display: none; } /* Remove the line for this specific text */
+  
+  .hero-headline{font-size:clamp(48px, 7vw, 96px); line-height:0.95; font-weight:460; letter-spacing:-0.04em; color:var(--paper); max-width:15ch; margin-bottom:28px; font-family:var(--font-brand);}
   .hero-headline em{font-style:italic; font-weight:340; color:var(--gold-light);}
   .hero-sub{font-size:18px; color:rgba(245,239,226,0.85); max-width:48ch; margin-bottom:40px; line-height:1.6;}
   .hero-actions{display:flex; gap:16px; flex-wrap:wrap; align-items:center;}
+  
   .btn{display:inline-flex; align-items:center; gap:12px; padding:18px 32px; font-size:14.5px; font-weight:600; border-radius:2px; position:relative; overflow:hidden; transition:transform .3s; text-decoration:none;}
   .btn-primary{background:var(--gold); color:var(--ink);}
   .btn-primary::before{content:''; position:absolute; inset:0; background:var(--rust-deep); transform:scaleY(0); transform-origin:bottom; transition:transform .45s cubic-bezier(.77,0,.18,1); z-index:0;}
@@ -141,6 +156,36 @@ window.hgOnAuthStateChanged = onAuthStateChanged;
   .play-btn{display:flex; align-items:center; gap:12px; color:var(--paper); font-size:13px; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; cursor:pointer;}
   .play-btn .icon{width:48px; height:48px; border-radius:50%; border:1px solid rgba(245,239,226,0.4); display:flex; align-items:center; justify-content:center; transition:all .3s;}
   .play-btn:hover .icon{background:var(--paper); color:var(--ink);}
+
+  /* Hero Right - Promo Card */
+  .hero-right { flex: 0 0 100%; max-width: 420px; }
+  .promo-card {
+    background: rgba(26,20,15,0.6);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(245,239,226,0.15);
+    border-radius: 8px;
+    overflow: hidden;
+    color: var(--paper);
+    box-shadow: 0 24px 48px rgba(0,0,0,0.5);
+    position: relative;
+  }
+  .promo-media { position: relative; aspect-ratio: 16/9; width: 100%; }
+  .promo-media img { width: 100%; height: 100%; object-fit: cover; }
+  .promo-overlay { position: absolute; inset: 0; background: linear-gradient(0deg, rgba(26,20,15,0.9) 0%, transparent 100%); }
+  .promo-play-overlay { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; z-index: 2; cursor: pointer; }
+  .promo-play-overlay .icon { width: 56px; height: 56px; border-radius: 50%; background: rgba(245,239,226,0.2); backdrop-filter: blur(8px); border: 1px solid rgba(245,239,226,0.5); display: flex; align-items: center; justify-content: center; transition: all .3s; }
+  .promo-play-overlay:hover .icon { background: var(--gold); color: var(--ink); border-color: var(--gold); transform: scale(1.05); }
+  .promo-content { padding: 24px; position: relative; z-index: 3; }
+  .promo-tag { font-size: 10.5px; font-weight: 700; letter-spacing: 0.15em; color: var(--gold-light); text-transform: uppercase; background: rgba(176,129,46,0.2); padding: 4px 10px; border-radius: 2px; }
+  .promo-content h3 { font-size: 22px; margin: 14px 0 10px; line-height: 1.1; }
+  .promo-content p { font-size: 14px; color: rgba(245,239,226,0.8); margin-bottom: 20px; line-height: 1.5; }
+  .promo-btn { display: inline-block; padding: 12px 24px; background: var(--gold); color: var(--ink); font-weight: 600; font-size: 13px; border-radius: 2px; transition: all .3s; }
+  .promo-btn:hover { background: var(--gold-deep); color: var(--paper); }
+
+  @media (max-width: 1023px) {
+    .hero { height: auto; padding-bottom: 60px; }
+    .hero-left, .hero-right { max-width: 100%; flex: auto; }
+  }
 
   /* Trust Bar */
   .trust-bar{background:var(--ink); color:var(--paper); padding:24px 0; border-bottom:1px solid rgba(245,239,226,0.1);}
@@ -372,12 +417,12 @@ window.hgOnAuthStateChanged = onAuthStateChanged;
     .dropdown-menu a:hover { color: var(--gold-light); background: transparent; }
 
     /* Mobile Typography & Spacing */
-    .hero{height:85vh; min-height:500px;}
-    .hero-headline{font-size:clamp(40px, 10vw, 60px);}
-    .hero-sub{font-size:16px;}
-    .section-pad{padding:80px 0;}
-    .section-head h2{font-size:clamp(30px, 6vw, 40px);}
-    .section-head p{font-size:15px;}
+    .hero { height: auto; min-height: 100vh; }
+    .hero-headline { font-size: clamp(40px, 10vw, 60px); }
+    .hero-sub { font-size: 16px; }
+    .section-pad { padding: 80px 0; }
+    .section-head h2 { font-size: clamp(30px, 6vw, 40px); }
+    .section-head p { font-size: 15px; }
     
     .brand-logo img{height:40px;}
   }
@@ -433,7 +478,7 @@ window.hgOnAuthStateChanged = onAuthStateChanged;
 
 <header id="header">
   <div class="header-inner">
-    <!-- Logo Image (Replace 'image/logo.png' with actual logo file path) -->
+    <!-- Logo Image -->
     <a href="index.html" class="brand-logo">
       <img src="image/Logo.jpeg" alt="Handy-Gidi Logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
       <span style="display:none; font-family:var(--font-brand); font-size:28px; font-weight:650; letter-spacing:-0.03em;">Handy<em style="font-style:italic; font-weight:460; color:var(--gold-deep);">·</em>Gidi</span>
@@ -488,17 +533,45 @@ window.hgOnAuthStateChanged = onAuthStateChanged;
     </video>
   </div>
   <div class="hero-veil"></div>
+  
   <div class="hero-content">
-    <p class="eyebrow hero-eyebrow">Handy-Gidi International Ltd</p>
-    <h1 class="hero-headline" id="heroHeadline">Furnishing Nigeria's <em>finest spaces.</em></h1>
-    <p class="hero-sub">Premium furniture, interior design, and turn-key execution. Built in Abuja. Delivered nationwide.</p>
-    <div class="hero-actions">
-      <a href="shop.html" class="btn btn-primary"><span>Shop the Collection</span> <svg width="14" height="14" viewBox="0 0 12 12" fill="none"><path d="M1 11L11 1M11 1H3M11 1V9" stroke="currentColor" stroke-width="1.5"/></svg></a>
-      <button class="play-btn" onclick="document.getElementById('projects').scrollIntoView({behavior: 'smooth'});">
-        <span class="icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5V19L19 12L8 5Z"/></svg></span>
-        Watch Our Project
-      </button>
+    
+    <!-- LEFT SIDE: Main Text -->
+    <div class="hero-left">
+      <p class="eyebrow hero-eyebrow">Handy-Gidi Furnitures</p>
+      <h1 class="hero-headline" id="heroHeadline">Furnishing Nigeria's <em>finest spaces.</em></h1>
+      <p class="hero-sub">Premium furniture, interior design, and turn-key execution. Built in Abuja. Delivered nationwide.</p>
+      <div class="hero-actions">
+        <a href="shop.html" class="btn btn-primary"><span>Shop the Collection</span> <svg width="14" height="14" viewBox="0 0 12 12" fill="none"><path d="M1 11L11 1M11 1H3M11 1V9" stroke="currentColor" stroke-width="1.5"/></svg></a>
+        <button class="play-btn" onclick="document.getElementById('projects').scrollIntoView({behavior: 'smooth'});">
+          <span class="icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5V19L19 12L8 5Z"/></svg></span>
+          Watch Our Project
+        </button>
+      </div>
     </div>
+
+    <!-- RIGHT SIDE: Promo / News Flash -->
+    <div class="hero-right">
+      <div class="promo-card">
+        <div class="promo-media">
+          <!-- Replace with a high-quality promo image or video -->
+          <img src="https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=800&q=85" alt="Promo">
+          <div class="promo-overlay"></div>
+          <div class="promo-play-overlay">
+            <div class="icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5V19L19 12L8 5Z"/></svg>
+            </div>
+          </div>
+        </div>
+        <div class="promo-content">
+          <span class="promo-tag">News Flash</span>
+          <h3>Mid-Year Exclusive</h3>
+          <p>Upgrade your workspace with our new executive modular range. Limited stock available.</p>
+          <a href="shop.html" class="promo-btn">Shop the Promo</a>
+        </div>
+      </div>
+    </div>
+
   </div>
 </section>
 
@@ -529,8 +602,7 @@ window.hgOnAuthStateChanged = onAuthStateChanged;
   <div class="wrap video-showcase-grid">
     <div class="video-container">
       <video controls poster="https://i.pinimg.com/1200x/d7/13/58/d7135895522d9c83547e2501e4a5020a.jpg?auto=format&fit=crop&w=1200&q=85">
-        <source src="https://ik.imagekit.io/2pqi3dzrd/IMG_0257.MP4?updatedAt=null&ik-s=530c0761c5eaf16142456a80061ecec41108aba6
-      " type="video/mp4">
+        <source src="https://ik.imagekit.io/2pqi3dzrd/IMG_0257.MP4?updatedAt=null&ik-s=530c0761c5eaf16142456a80061ecec41108aba6" type="video/mp4">
       </video>
     </div>
     <div class="video-copy">
@@ -580,7 +652,6 @@ window.hgOnAuthStateChanged = onAuthStateChanged;
       <a href="shop.html" class="view-all">View All Rooms</a>
     </div>
     <div class="room-grid">
-      <!-- Expanded Room Categories -->
       <a href="shop.html?category=living-room" class="room-tile">
         <img src="https://i.pinimg.com/736x/b3/cd/93/b3cd9367334eedb9c57dc52c7489a5d6.jpg?auto=format&fit=crop&w=800&q=85" alt="Living Room">
         <div class="room-label">
@@ -624,7 +695,7 @@ window.hgOnAuthStateChanged = onAuthStateChanged;
         </div>
       </a>
       <a href="shop.html?category=Modula" class="room-tile">
-        <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800&q=85" alt="Modula">
+        <img src="https://i.pinimg.com/736x/2f/7d/9c/2f7d9cbef5d11cd5c5f5a746fc4dee54.jpg?auto=format&fit=crop&w=800&q=85" alt="Modula">
         <div class="room-label">
           <h3>Modula</h3>
           <span><svg width="14" height="14" viewBox="0 0 12 12" fill="none"><path d="M1 11L11 1M11 1H3M11 1V9" stroke="currentColor" stroke-width="1.5"/></svg></span>
@@ -637,27 +708,6 @@ window.hgOnAuthStateChanged = onAuthStateChanged;
           <span><svg width="14" height="14" viewBox="0 0 12 12" fill="none"><path d="M1 11L11 1M11 1H3M11 1V9" stroke="currentColor" stroke-width="1.5"/></svg></span>
         </div>
       </a>
-    </div>
-  </div>
-</section>
-
-<!-- NEW ARRIVALS CAROUSEL -->
-<section class="section-pad" style="background:var(--paper-3); padding-top:80px; padding-bottom:80px;">
-  <div class="wrap">
-    <div class="section-head">
-      <div class="section-head-left">
-        <p class="eyebrow reveal-mask"><span>New Arrivals</span></p>
-        <h2 class="reveal-mask"><span>Just landed in the showroom.</span></h2>
-      </div>
-      <div class="carousel-nav">
-        <button id="newArrivalPrev" aria-label="Previous"><svg width="16" height="16" viewBox="0 0 12 12" fill="none"><path d="M11 6H1M1 6L6 1M1 6L6 11" stroke="currentColor" stroke-width="1.5"/></svg></button>
-        <button id="newArrivalNext" aria-label="Next"><svg width="16" height="16" viewBox="0 0 12 12" fill="none"><path d="M1 6H11M11 6L6 1M11 6L6 11" stroke="currentColor" stroke-width="1.5"/></svg></button>
-      </div>
-    </div>
-    <div class="carousel-wrap">
-      <div class="carousel-scroll" id="newArrivalsScroll">
-        <!-- Populated by JS -->
-      </div>
     </div>
   </div>
 </section>
@@ -683,57 +733,14 @@ window.hgOnAuthStateChanged = onAuthStateChanged;
   </div>
 </section> 
 
-<!-- THE LOOKBOOK (Parallax Masonry) 
-<section class="lookbook-section">
-  <div class="wrap">
-    <div class="section-head section-head-light" style="margin-bottom: 48px;">
-      <div class="section-head-left">
-        <p class="eyebrow reveal-mask"><span>The Lookbook</span></p>
-        <h2 class="reveal-mask"><span>Immersive spaces. Uncompromising detail.</span></h2>
-      </div>
-    </div>
-    
-    <div class="lookbook-grid">
-      <div class="lookbook-item">
-        <img src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=1000&q=85" class="lookbook-img parallax-img" alt="Luxury Living Room">
-        <div class="lookbook-overlay"></div>
-        <div class="lookbook-content">
-          <h3>The Executive Suite</h3>
-          <p>Maitama, Abuja</p>
-        </div>
-      </div>
-      <div class="lookbook-item tall">
-        <img src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1000&q=85" class="lookbook-img parallax-img" alt="Modern Dining">
-        <div class="lookbook-overlay"></div>
-        <div class="lookbook-content">
-          <h3>Family Dining</h3>
-          <p>Guzape Hills</p>
-        </div>
-      </div>
-      <div class="lookbook-item wide">
-        <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1600&q=85" class="lookbook-img parallax-img" alt="Corporate Office">
-        <div class="lookbook-overlay"></div>
-        <div class="lookbook-content">
-          <h3>Corporate Headquarters</h3>
-          <p>Central Business District</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section> -->
-
-
-
 <!-- FOOTER -->
 <footer>
   <div class="wrap">
     <div class="footer-top">
       <div class="footer-brand">
-        <!-- Footer Logo & Slogan -->
         <img src="image/PLogo.jpeg" alt="Handy-Gidi Logo" class="footer-logo" onerror="this.style.display='none'; document.getElementById('footer-logo-text').style.display='block';">
         <h3 id="footer-logo-text" style="display:none; font-family:var(--font-brand); font-size:32px; font-weight:650; margin-bottom:12px;">Handy<em style="font-style:italic; font-weight:340; color:var(--gold-light);">·</em>Gidi</h3>
         
-      
         <h3>Handygidi furnitures</h3>
         <div class="slogan">Luxury redefined</div>
         <p>Your space. Your style. Your way. Handy-Gidi International Ltd.</p>
@@ -803,7 +810,7 @@ window.hgOnAuthStateChanged = onAuthStateChanged;
     <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="7" height="7" stroke="currentColor" stroke-width="1.5"/><rect x="14" y="3" width="7" height="7" stroke="currentColor" stroke-width="1.5"/><rect x="3" y="14" width="7" height="7" stroke="currentColor" stroke-width="1.5"/><rect x="14" y="14" width="7" height="7" stroke="currentColor" stroke-width="1.5"/></svg>
     Shop
   </a>
-  <a href="csr.html"> <!-- Changed to CSR -->
+  <a href="csr.html">
     <svg viewBox="0 0 24 24" fill="none"><path d="M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21Z" stroke="currentColor" stroke-width="1.5"/><path d="M12 8V16M8 12H16" stroke="currentColor" stroke-width="1.5"/></svg>
     CSR
   </a>
@@ -971,11 +978,9 @@ if(!prefersReduced && hasGSAP){
     gsap.from('.hero-eyebrow', { opacity:0, y:16, duration:.7, delay:.1 });
     gsap.from('.hero-sub', { opacity:0, y:16, duration:.7, delay:.4 });
     gsap.from('.hero-actions', { opacity:0, y:16, duration:.7, delay:.5 });
-
-    // Parallax Lookbook Images
-    document.querySelectorAll('.parallax-img').forEach(img => {
-      gsap.fromTo(img, { yPercent: -10 }, { yPercent: 10, ease: 'none', scrollTrigger: { trigger: img.parentElement, start: 'top bottom', end: 'bottom top', scrub: true } });
-    });
+    
+    // Hero Promo Card Animation
+    gsap.from('.promo-card', { opacity:0, x:40, duration:1, ease:'power3.out', delay:.6 });
 
     // Reveal Masks
     document.querySelectorAll('.reveal-mask > *').forEach(el => {
@@ -1197,14 +1202,13 @@ function scrollCarousel(id, direction){
   el.scrollBy({ left: direction * scrollAmount, behavior: 'smooth' });
 }
 
-document.getElementById('newArrivalPrev').addEventListener('click', () => scrollCarousel('newArrivalsScroll', -1));
-document.getElementById('newArrivalNext').addEventListener('click', () => scrollCarousel('newArrivalsScroll', 1));
-document.getElementById('bestSellerPrev').addEventListener('click', () => scrollCarousel('bestSellersScroll', -1));
-document.getElementById('bestSellerNext').addEventListener('click', () => scrollCarousel('bestSellersScroll', 1));
+const bestSellerPrev = document.getElementById('bestSellerPrev');
+const bestSellerNext = document.getElementById('bestSellerNext');
+if(bestSellerPrev) bestSellerPrev.addEventListener('click', () => scrollCarousel('bestSellersScroll', -1));
+if(bestSellerNext) bestSellerNext.addEventListener('click', () => scrollCarousel('bestSellersScroll', 1));
 
 async function loadProductsFromFirebase(){
   if(configMissing || !db){
-    renderCarousel('newArrivalsScroll', []);
     renderCarousel('bestSellersScroll', []);
     return;
   }
@@ -1215,10 +1219,8 @@ async function loadProductsFromFirebase(){
       
       const allProducts = Object.entries(PRODUCTS).map(([code, p]) => ({ code, ...p }));
       
-      const newArrivals = allProducts.sort((a,b) => b.code.localeCompare(a.code)).slice(0, 6);
+      // Only render Best Sellers now
       const bestSellers = [...allProducts].sort(() => 0.5 - Math.random()).slice(0, 6);
-
-      renderCarousel('newArrivalsScroll', newArrivals);
       renderCarousel('bestSellersScroll', bestSellers);
       updateCartUI();
     }, (err) => {
