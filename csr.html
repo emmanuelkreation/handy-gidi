@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Corporate Social Responsibility | Handy-Gidi</title>
+<meta name="description" content="Empowering Communities Through Practical Skills. Handy-Gidi's annual Children's Day CSR initiative." />
+
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-53CJKZXQ');</script>
+<!-- End Google Tag Manager -->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,340;0,9..144,460;0,9..144,560;0,9..144,650&family=Public+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://unpkg.com/lenis@1.0.42/dist/lenis.min.js"></script>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyA7khlO19sabspXwUhRRd4Bx_80IoJWcDc",
+  authDomain: "handy-gidi.firebaseapp.com",
+  projectId: "handy-gidi",
+  storageBucket: "handy-gidi.firebasestorage.app",
+  messagingSenderId: "841844135657",
+  appId: "1:841844135657:web:f55704c164ec935ef9c278"
+};
+
+let auth;
+try { const app = initializeApp(firebaseConfig); auth = getAuth(app); } catch(e){ console.error(e); }
+window.hgAuth = auth;
+window.hgOnAuthStateChanged = onAuthStateChanged;
+</script>
+
+<style>
+  :root{
+    --ink:#1A140F; --ink-soft:#3A2E24;
+    --paper:#F5EFE2; --paper-2:#ECE2CC; --paper-3:#FBF8F0;
+    --gold:#B0812E; --gold-deep:#8C6321; --gold-light:#E4C77E;
+    --rust:#A0492A; --rust-deep:#7C371F;
+    --plum:#3E2530;
+    --line:rgba(26,20,15,0.14); --line-soft:rgba(26,20,15,0.08);
+    --max:1280px;
+    --font-brand: 'Athery', 'Fraunces', serif;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{background:var(--paper); color:var(--ink); font-family:'Public Sans', sans-serif; font-size:16px; line-height:1.6; -webkit-font-smoothing:antialiased; overflow-x:hidden; padding-bottom:64px;}
+  body.no-scroll{overflow:hidden;}
+  img, video{max-width:100%; display:block;}
+  a{color:inherit; text-decoration:none;}
+  button{font-family:inherit; cursor:pointer; border:none; background:none; color:inherit;}
+  h1,h2,h3,h4{font-family:'Fraunces', serif; font-weight:560; letter-spacing:-0.02em; line-height:1.05;}
+  .wrap{max-width:var(--max); margin:0 auto; padding:0 32px;}
+  .eyebrow{font-size:12px; letter-spacing:0.2em; text-transform:uppercase; font-weight:600; color:var(--rust); display:inline-flex; align-items:center; gap:10px;}
+  .eyebrow::before{content:''; width:24px; height:1px; background:var(--rust);}
+  .grain{position:fixed; inset:0; z-index:9998; pointer-events:none; opacity:.06;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+    animation:grain 6s steps(6) infinite;}
+  @keyframes grain{0%,100%{transform:translate(0,0);}20%{transform:translate(-2%,2%);}40%{transform:translate(2%,-1%);}60%{transform:translate(-1%,-2%);}80%{transform:translate(1%,2%);}}
+
+  /* Header */
+  header{position:fixed; top:0; left:0; right:0; z-index:100; padding:18px 0;
+    background:rgba(245,239,226,0.94); backdrop-filter:blur(14px); border-bottom:1px solid var(--line);
+    transition:padding .3s ease;}
+  header.scrolled{padding:12px 0;}
+  .header-inner{max-width:var(--max); margin:0 auto; padding:0 32px; display:flex; align-items:center; justify-content:space-between; gap:32px;}
+  
+  /* Logo Image */
+  .brand-logo{display:flex; align-items:center;}
+  .brand-logo img{height:80px; width:auto; object-fit:contain;}
+
+  nav{display:flex; align-items:center; gap:36px;}
+  nav a{font-size:14px; font-weight:500; color:var(--ink-soft); position:relative; padding:6px 0; transition:color .25s;}
+  nav a.active{color:var(--gold-deep); font-weight:600;}
+  nav a::after{content:''; position:absolute; left:0; bottom:0; width:100%; height:1px; background:currentColor; transform:scaleX(0); transform-origin:right center; transition:transform .4s cubic-bezier(.77,0,.18,1);}
+  nav a:hover::after, nav a.active::after{transform:scaleX(1); transform-origin:left center;}
+  
+  .header-right{display:flex; align-items:center; gap:16px;}
+  .header-cta{display:inline-flex; align-items:center; gap:10px; padding:12px 22px; background:var(--gold); color:var(--ink); font-size:13.5px; font-weight:600; border-radius:2px; transition:all .3s;}
+  .header-cta:hover{background:var(--gold-deep); color:var(--paper);}
+  .menu-toggle{display:none; width:44px; height:44px; position:relative;}
+  .menu-toggle span{position:absolute; left:12px; width:20px; height:1.5px; background:var(--ink); transition:transform .3s, top .3s;}
+  .menu-toggle span:nth-child(1){top:18px;}
+  .menu-toggle span:nth-child(2){top:24px;}
+  .menu-toggle.open span:nth-child(1){top:21px; transform:rotate(45deg);}
+  .menu-toggle.open span:nth-child(2){top:21px; transform:rotate(-45deg);}
+
+  .nav-link-auth{display:none !important;}
+  .mobile-nav-close{display:none;}
+
+  /* Dropdown */
+  .dropdown { position: relative; display: inline-block; }
+  .dropdown-menu {
+    display: none; position: absolute; top: 100%; left: 0; background: var(--paper-3);
+    min-width: 240px; box-shadow: 0 8px 16px rgba(0,0,0,0.1); border: 1px solid var(--line);
+    border-radius: 4px; padding: 8px 0; z-index: 100;
+  }
+  .dropdown:hover .dropdown-menu { display: block; }
+  .dropdown-menu a { display: block; padding: 10px 20px; font-size: 13px; color: var(--ink-soft); font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em;}
+  .dropdown-menu a:hover { background: var(--paper-2); color: var(--gold-deep); }
+  .dropdown-menu a::after { display: none; }
+
+  /* ==================== PAGE HERO ==================== */
+  .page-hero{position:relative; height:75vh; min-height:600px; overflow:hidden; isolation:isolate; padding-top:80px;}
+  /* REPLACE THE URL BELOW WITH A HIGH-QUALITY CSR IMAGE */
+  .page-hero-bg{position:absolute; inset:-8%; background-image:url('https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=2400&q=85'); background-size:cover; background-position:center; z-index:0; will-change:transform;}
+  .page-hero-veil{position:absolute; inset:0; z-index:1; background:linear-gradient(180deg, rgba(26,20,15,0.65) 0%, rgba(26,20,15,0.4) 40%, rgba(26,20,15,0.9) 100%);}
+  .page-hero-content{position:relative; z-index:2; height:100%; max-width:var(--max); margin:0 auto; padding:60px 32px; display:flex; flex-direction:column; justify-content:flex-end; color:var(--paper);}
+  .page-hero-eyebrow{color:var(--gold-light); margin-bottom:24px;}
+  .page-hero-eyebrow::before{background:var(--gold-light);}
+  .page-hero-headline{font-size:clamp(42px, 7vw, 90px); line-height:0.96; font-weight:460; letter-spacing:-0.035em; color:var(--paper); max-width:16ch; margin-bottom:24px;}
+  .page-hero-headline em{font-style:italic; font-weight:340; color:var(--gold-light);}
+  .page-hero-sub{font-size:18px; color:rgba(245,239,226,0.85); max-width:48ch; margin-bottom:0;}
+  .breadcrumb{display:flex; gap:10px; font-size:12px; letter-spacing:0.12em; text-transform:uppercase; color:rgba(245,239,226,0.6); margin-bottom:20px;}
+  .breadcrumb a:hover{color:var(--gold-light);}
+  .breadcrumb span::before{content:'/'; margin-right:10px;}
+
+  section{position:relative;}
+  .section-head{max-width:720px; margin-bottom:64px;}
+  .section-head h2{font-size:clamp(36px, 5vw, 60px); line-height:1.02; margin:20px 0 0; letter-spacing:-0.03em;}
+  .section-head p{font-size:17px; color:var(--ink-soft); max-width:56ch; margin:22px 0 0;}
+  .reveal-mask{overflow:hidden; display:block;}
+  .reveal-mask > *{display:block; will-change:transform;}
+
+  /* ==================== INTRO SECTION ==================== */
+  .csr-intro{padding:140px 0; background:var(--paper);}
+  .csr-intro-grid{display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:center;}
+  .csr-intro-text h2{font-size:clamp(32px, 4vw, 48px); line-height:1.06; margin:20px 0 24px; letter-spacing:-0.02em;}
+  .csr-intro-text p{color:var(--ink-soft); font-size:16.5px; line-height:1.75; margin-bottom:24px; max-width:52ch;}
+  .csr-intro-text p:last-child{margin-bottom:0;}
+  .csr-intro-media{position:relative; aspect-ratio:4/5; border-radius:4px; overflow:hidden; background:#EDE4D2;}
+  /* REPLACE THE URL BELOW WITH A CSR IMAGE */
+  .csr-intro-media img{width:100%; height:100%; object-fit:cover;}
+  @media (max-width:900px){ .csr-intro-grid{grid-template-columns:1fr; gap:48px;} }
+
+  /* ==================== THE EVENT DETAILS ==================== */
+  .csr-event{padding:120px 0; background:var(--paper-2); position:relative; overflow:hidden;}
+  .csr-event-inner{max-width:840px; margin:0 auto; text-align:center; position:relative; z-index:2;}
+  .csr-event-inner h2{font-size:clamp(32px, 4.5vw, 56px); line-height:1.1; letter-spacing:-0.02em; margin-bottom:24px;}
+  .csr-event-inner p{font-size:18px; color:var(--ink-soft); line-height:1.8; margin-bottom:32px; max-width:64ch; margin-left:auto; margin-right:auto;}
+  .theme-badge{display:inline-block; padding:12px 28px; background:var(--ink); color:var(--gold-light); font-family:'Fraunces', serif; font-size:20px; font-style:italic; border-radius:50px; margin-bottom:32px; box-shadow:0 10px 30px rgba(26,20,15,0.15);}
+  .date-highlight{font-weight:700; color:var(--ink); border-bottom:2px solid var(--gold); padding-bottom:2px;}
+
+  /* ==================== MEDIA GALLERY ==================== */
+  .csr-gallery{padding:140px 0; background:var(--paper);}
+  .gallery-grid{display:grid; grid-template-columns:repeat(12, 1fr); gap:20px;}
+  
+  /* Grid item variations to make it look dynamic like a lookbook */
+  .g-item{position:relative; overflow:hidden; border-radius:4px; background:#EDE4D2;}
+  .g-item img, .g-item video{width:100%; height:100%; object-fit:cover; transition:transform .8s cubic-bezier(.2,.7,.2,1);}
+  .g-item:hover img, .g-item:hover video{transform:scale(1.05);}
+  
+  /* Specific sizes */
+  .g-item.span-4{grid-column:span 4; aspect-ratio:4/5;}
+  .g-item.span-8{grid-column:span 8; aspect-ratio:16/9;}
+  .g-item.span-6{grid-column:span 6; aspect-ratio:4/3;}
+  .g-item.span-3{grid-column:span 3; aspect-ratio:1/1;}
+
+  /* Video play button overlay */
+  .g-video{position:relative; cursor:pointer;}
+  .g-video::after{content:''; position:absolute; inset:0; background:rgba(26,20,15,0.3); transition:opacity .3s;}
+  .g-video:hover::after{opacity:0;}
+  .play-btn-overlay{position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); width:64px; height:64px; background:rgba(245,239,226,0.2); backdrop-filter:blur(8px); border:1px solid rgba(245,239,226,0.5); border-radius:50%; display:flex; align-items:center; justify-content:center; color:var(--paper); z-index:2; transition:all .3s;}
+  .g-video:hover .play-btn-overlay{background:var(--gold); border-color:var(--gold); color:var(--ink);}
+
+  @media (max-width:900px){
+    .gallery-grid{grid-template-columns:repeat(2, 1fr);}
+    .g-item.span-4, .g-item.span-8, .g-item.span-6, .g-item.span-3{grid-column:span 1; aspect-ratio:4/5;}
+  }
+  @media (max-width:600px){
+    .gallery-grid{grid-template-columns:1fr;}
+  }
+
+  /* ==================== CTA ==================== */
+  .cta-section{position:relative; padding:140px 0; overflow:hidden; color:var(--paper); text-align:center;}
+  .cta-bg{position:absolute; inset:-10%; background-image:url('https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=2400&q=85'); background-size:cover; background-position:center; z-index:0; will-change:transform; filter:brightness(0.35);}
+  .cta-veil{position:absolute; inset:0; background:linear-gradient(180deg, rgba(26,20,15,0.75) 0%, rgba(26,20,15,0.9) 100%); z-index:1;}
+  .cta-inner{position:relative; z-index:2; max-width:720px; margin:0 auto; padding:0 32px;}
+  .cta-inner h2{font-size:clamp(32px, 4.5vw, 60px); color:var(--paper); line-height:1.06; letter-spacing:-0.03em; margin-bottom:24px;}
+  .cta-inner h2 em{font-style:italic; color:var(--gold-light); font-weight:340;}
+  .cta-inner p{color:rgba(245,239,226,0.75); font-size:17px; max-width:52ch; margin:0 auto 44px;}
+  .btn{display:inline-flex; align-items:center; gap:12px; padding:18px 32px; font-size:14.5px; font-weight:600; border-radius:2px; position:relative; overflow:hidden; transition:transform .3s;}
+  .btn-primary{background:var(--gold); color:var(--ink);}
+  .btn-primary::before{content:''; position:absolute; inset:0; background:var(--rust-deep); transform:scaleY(0); transform-origin:bottom; transition:transform .45s cubic-bezier(.77,0,.18,1); z-index:0;}
+  .btn-primary:hover::before{transform:scaleY(1);}
+  .btn-primary:hover{color:var(--paper);}
+  .btn-primary > *{position:relative; z-index:1;}
+  .btn-ghost{background:transparent; color:var(--paper); border:1px solid rgba(245,239,226,0.4);}
+  .btn-ghost:hover{border-color:var(--paper);}
+
+  /* ==================== FOOTER ==================== */
+  footer{background:var(--plum); color:var(--paper); padding:96px 0 40px;}
+  .footer-top{display:grid; grid-template-columns:1.6fr 1fr 1fr 1fr; gap:56px; padding-bottom:72px; border-bottom:1px solid rgba(245,239,226,0.14);}
+  .footer-brand .footer-logo{height:80px; width:auto; margin-bottom:12px;}
+  .footer-brand .slogan{font-family:var(--font-brand); color:var(--gold-light); font-size:18px; font-style:italic; margin-bottom:16px; letter-spacing:0.05em;}
+  .footer-brand p{color:rgba(245,239,226,0.62); font-size:15px; line-height:1.7; max-width:36ch;}
+  .footer-col h4{font-family:'Public Sans', sans-serif; font-size:12px; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; color:rgba(245,239,226,0.55); margin-bottom:22px;}
+  .footer-col a, .footer-col p{display:block; font-size:14.5px; color:rgba(245,239,226,0.82); margin-bottom:12px; transition:color .25s;}
+  .footer-col a:hover{color:var(--gold-light);}
+  .social-link{display:flex; align-items:center; gap:10px; margin-bottom:12px; color:rgba(245,239,226,0.82); transition:color .2s;}
+  .social-link:hover{color:var(--gold-light);}
+  .social-link svg{flex-shrink:0;}
+  .footer-bottom{display:flex; align-items:center; justify-content:space-between; gap:20px; padding-top:32px; flex-wrap:wrap; font-size:12.5px; color:rgba(245,239,226,0.5);}
+  .footer-pay{display:flex; gap:18px; flex-wrap:wrap;}
+  .footer-pay span{font-size:11px; letter-spacing:0.08em; text-transform:uppercase; padding:6px 12px; border:1px solid rgba(245,239,226,0.18); border-radius:2px;}
+  @media (max-width:900px){.footer-top{grid-template-columns:1fr 1fr; gap:40px;}}
+  @media (max-width:600px){.footer-top{grid-template-columns:1fr;}}
+
+  /* WhatsApp Float */
+  .wa-float{position:fixed; bottom:84px; right:28px; z-index:200; width:58px; height:58px; border-radius:50%; background:#25D366; color:#fff; display:flex; align-items:center; justify-content:center; box-shadow:0 8px 28px rgba(37,211,102,0.4); transition:transform .3s;}
+  .wa-float:hover{transform:scale(1.08);}
+
+  /* ==================== MOBILE MENU ==================== */
+  @media (max-width:900px){
+    .header-inner{padding:0 20px;}
+    .header-cta{display:none;}
+    .menu-toggle{display:block;}
+    nav{display:none;}
+
+    nav.open{
+      display:flex; flex-direction:column; position:fixed; inset:0;
+      background:var(--ink); padding:100px 32px 48px; gap:12px; z-index:150;
+      overflow-y:auto; -webkit-overflow-scrolling:touch;
+    }
+
+    nav.open .mobile-nav-close{
+      display:flex; position:fixed; top:20px; right:20px;
+      width:48px; height:48px; align-items:center; justify-content:center;
+      color:var(--paper); background:rgba(245,239,226,0.08);
+      border:1px solid rgba(245,239,226,0.22); border-radius:50%;
+      cursor:pointer; transition:all .25s ease; z-index:160;
+    }
+    nav.open .mobile-nav-close:hover{background:rgba(245,239,226,0.18); border-color:rgba(245,239,226,0.5);}
+    nav.open .mobile-nav-close svg{pointer-events:none;}
+
+    nav.open a{
+      font-size:26px; font-family:'Fraunces', serif; font-weight:560;
+      color:var(--paper); padding:16px 0;
+      border-bottom:1px solid rgba(245,239,226,0.1);
+      display:block; letter-spacing:-0.01em; transition:color .2s;
+    }
+    nav.open a:hover{color:var(--gold-light);}
+
+    nav.open a.nav-link-auth{
+      display:flex !important; align-items:center; gap:14px;
+      font-size:20px; margin-top:20px; padding:20px 22px;
+      border:1px solid rgba(228,199,126,0.35); border-radius:3px;
+      color:var(--gold-light); background:rgba(176,129,46,0.12);
+      border-bottom:1px solid rgba(228,199,126,0.35); transition:all .25s ease;
+    }
+    nav.open a.nav-link-auth:hover{background:rgba(176,129,46,0.2); color:var(--gold-light);}
+    nav.open a.nav-link-auth.signed-in{background:rgba(45,106,79,0.2); border-color:rgba(45,106,79,0.5); color:#A8D8BA;}
+
+    /* Mobile Dropdown */
+    .dropdown-menu { position: static; display: block; box-shadow: none; border: none; background: transparent; padding: 0; margin-top: 10px; }
+    .dropdown-menu a { color: var(--paper); font-size: 20px; padding-left: 20px; border-bottom: none; opacity: 0.8; text-transform: none; font-weight: 400; }
+    .dropdown-menu a:hover { color: var(--gold-light); background: transparent; }
+
+    .brand-logo img{height:32px;}
+    .wrap{padding:0 20px;}
+    .csr-intro, .csr-event, .csr-gallery{padding:80px 0;}
+  }
+
+  /* ==================== MOBILE MENU FIX ==================== */
+  body.menu-open header{backdrop-filter:none !important; -webkit-backdrop-filter:none !important;}
+
+  /* ==================== MOBILE BOTTOM NAVIGATION ==================== */
+  .mobile-bottom-nav{display:none;}
+  @media (max-width:900px){
+    .mobile-bottom-nav{
+      display:flex;
+      position:fixed;
+      bottom:0; left:0; right:0;
+      height:60px;
+      background:rgba(251,248,240,0.96);
+      backdrop-filter:blur(16px);
+      border-top:1px solid var(--line);
+      z-index:900;
+      justify-content:space-around;
+      align-items:center;
+      padding:0 10px;
+      box-shadow:0 -4px 20px rgba(26,20,15,0.05);
+    }
+    .mobile-bottom-nav a{
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:4px;
+      font-size:10px;
+      font-weight:600;
+      letter-spacing:0.04em;
+      text-transform:uppercase;
+      color:var(--ink-soft);
+      transition:color .2s;
+      width:25%;
+      text-align:center;
+    }
+    .mobile-bottom-nav a.active{color:var(--gold-deep);}
+    .mobile-bottom-nav a svg{width:20px; height:20px;}
+    .mobile-bottom-nav .cart-badge-mini{position:absolute; top:-6px; right:-10px; background:var(--gold); color:var(--ink); font-size:9px; width:16px; height:16px; border-radius:50%; display:flex; align-items:center; justify-content:center; border:1px solid var(--paper-3);}
+    .mobile-bottom-nav a .icon-wrap{position:relative;}
+  }
+</style>
+</head>
+<body>
+
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-53CJKZXQ"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+<div class="grain"></div>
+
+<header id="header">
+  <div class="header-inner">
+    <a href="index.html" class="brand-logo">
+      <img src="image/Logo.jpeg" alt="Handy-Gidi Logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+      <span style="display:none; font-family:var(--font-brand); font-size:28px; font-weight:650; letter-spacing:-0.03em;">Handy<em style="font-style:italic; font-weight:460; color:var(--gold-deep);">·</em>Gidi</span>
+    </a>
+    
+    <nav id="nav">
+      <button class="mobile-nav-close" id="mobileNavClose" aria-label="Close menu" type="button">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+          <path d="M5 5L19 19M19 5L5 19" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+      </button>
+      
+      <div class="dropdown">
+        <a href="shop.html" class="nav-link" style="cursor: pointer;">Shop ▾</a>
+        <div class="dropdown-menu">
+          <a href="shop.html">All Furniture</a>
+          <a href="shop.html?category=doors">DOORS</a>
+          <a href="shop.html?category=kitchen">KITCHEN CABINETS</a>
+          <a href="shop.html?category=wardrobe">WARDROBE CABINETS</a>
+          <a href="shop.html?category=tv-media">TV MEDIA CONSOLES & PANELS</a>
+          <a href="shop.html?category=bedroom">BEDROOM SETS</a>
+          <a href="shop.html?category=sofa">SOFA SETS</a>
+          <a href="shop.html?category=dining">DINING CHAIRS & TABLES</a>
+          <a href="shop.html?category=office">OFFICE FURNITURES</a>
+          <a href="shop.html?category=wall-decor">WALL, ACCESSORIES & DECORATIONS</a>
+          <a href="shop.html?category=outdoor">OUTDOOR</a>
+        </div>
+      </div>
+      
+      <a href="about.html" class="nav-link">About</a>
+      <a href="modular.html" class="nav-link">Modular</a>
+      <a href="csr.html" class="nav-link active">CSR</a>
+      <a href="reviews.html" class="nav-link">Reviews</a>
+      <a href="contact.html" class="nav-link">Contact</a>
+      
+      <a href="login.html" class="nav-link-auth" id="authMobileLink">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+          <circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.5"/>
+          <path d="M4 21C4 17 7.5 14 12 14C16.5 14 20 17 20 21" stroke="currentColor" stroke-width="1.5"/>
+        </svg>
+        <span id="authMobileLabel">Sign In</span>
+      </a>
+    </nav>
+    <div class="header-right">
+      <a href="shop.html" class="header-cta">Shop the Collection</a>
+      <button class="menu-toggle" id="menuToggle" aria-label="Menu" type="button"><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<section class="page-hero">
+  <div class="page-hero-bg" id="heroBg"></div>
+  <div class="page-hero-veil"></div>
+  <div class="page-hero-content">
+    <div class="breadcrumb"><a href="index.html">Home</a><span>CSR</span></div>
+    <p class="eyebrow page-hero-eyebrow">Community Social Responsibility</p>
+    <h1 class="page-hero-headline" id="heroHeadline">Empowering Communities Through Practical Skills.</h1>
+    <p class="page-hero-sub">At Handy-Gidi Furnitures, we believe that no one is too young to learn a valuable skill or discover their creative potential.</p>
+  </div>
+</section>
+
+<!-- INTRO SECTION -->
+<section class="csr-intro">
+  <div class="wrap csr-intro-grid">
+    <div class="csr-intro-media">
+      <!-- REPLACE THIS WITH A CSR IMAGE -->
+      <img src="https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=1200&q=85" alt="Children learning practical skills">
+    </div>
+    <div class="csr-intro-text">
+      <p class="eyebrow reveal-mask"><span>Our Commitment</span></p>
+      <h2 class="reveal-mask"><span>Inspiring the next generation of creative minds.</span></h2>
+      <p>As part of our annual Corporate Social Responsibility (CSR) initiative, we organise a free, one-day practical training every <span class="date-highlight">27th of May</span> in celebration of Children’s Day.</p>
+      <p>With the theme <strong>“Not Too Young to Be a Furniture and Interior Decoration Expert,”</strong> the programme brings children and adults together to gain hands-on experience in furniture making, woodwork, decoration and interior design.</p>
+      <p>Beyond the training, our goal is to inspire creativity, encourage practical learning and introduce participants to skills that can create future opportunities.</p>
+    </div>
+  </div>
+</section>
+
+<!-- EVENT HIGHLIGHT SECTION -->
+<section class="csr-event">
+  <div class="wrap csr-event-inner">
+    <div class="reveal-mask" style="text-align:center;">
+      <span class="theme-badge reveal-mask">“Not Too Young to Be a Furniture and Interior Decoration Expert”</span>
+    </div>
+    <h2 class="reveal-mask" style="margin-top:24px;">Hands-on learning for a brighter future.</h2>
+    <p class="reveal-mask">Every 27th of May, our workshop opens its doors to the community. We believe that a successful future is built on practical skills, creativity, and the confidence to build something with your own hands.</p>
+  </div>
+</section>
+
+<!-- GALLERY SECTION -->
+<section class="csr-gallery">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow reveal-mask"><span>In Action</span></p>
+      <h2 class="reveal-mask"><span>Moments from our initiative.</span></h2>
+      <p style="margin-top:18px; color:var(--ink-soft); font-size:16px;">A look at the creativity, focus, and joy from our past Children's Day events.</p>
+    </div>
+    
+    <!-- 
+      INSTRUCTIONS: 
+      Replace the image/video URLs below with the actual assets from your Google Drive.
+      For videos, you can use a standard MP4 URL or an iframe embed (like YouTube/Vimeo) depending on how you host them. 
+      I have left placeholders for both images and videos.
+    -->
+    <div class="gallery-grid">
+      
+      <!-- Item 1: Standard Image -->
+      <div class="g-item span-4 reveal-mask">
+        <img src="https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=800&q=80" alt="Children learning woodworking">
+      </div>
+      
+      <!-- Item 2: Wide Image -->
+      <div class="g-item span-8 reveal-mask">
+        <img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=1200&q=80" alt="Children in a workshop">
+      </div>
+
+      <!-- Item 3: Video Placeholder (Replace with real video) -->
+      <div class="g-item span-6 reveal-mask g-video">
+        <video controls poster="https://images.unsplash.com/photo-1581092160562-40aa08e78837?auto=format&fit=crop&w=800&q=80">
+          <source src="https://cdn.coverr.co/videos/coverr-carpenter-working-in-a-workshop-1571/1080p.mp4" type="video/mp4">
+        </video>
+        <div class="play-btn-overlay">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5V19L19 12L8 5Z"/></svg>
+        </div>
+      </div>
+
+      <!-- Item 4: Tall Image -->
+      <div class="g-item span-3 reveal-mask">
+        <img src="https://images.unsplash.com/photo-1503454537195-1dc5e2c0a608?auto=format&fit=crop&w=800&q=80" alt="Child painting">
+      </div>
+
+      <!-- Item 5: Square Image -->
+      <div class="g-item span-3 reveal-mask">
+        <img src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&w=800&q=80" alt="Group of children learning">
+      </div>
+      
+      <!-- Item 6: Another Wide Image -->
+      <div class="g-item span-8 reveal-mask">
+        <img src="https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=1200&q=80" alt="Children collaborating">
+      </div>
+
+      <!-- Item 7: Square Image -->
+      <div class="g-item span-4 reveal-mask">
+        <img src="https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=800&q=80" alt="Tools and learning">
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CTA SECTION -->
+<section class="cta-section">
+  <div class="cta-bg" id="ctaBg"></div>
+  <div class="cta-veil"></div>
+  <div class="cta-inner">
+    <h2>Committed to giving <em>back.</em></h2>
+    <p>Through this initiative, we remain committed to empowering communities and inspiring the next generation of creative minds.</p>
+    <div class="cta-actions">
+      <a href="contact.html" class="btn btn-primary"><span>Partner With Us</span></a>
+      <a href="shop.html" class="btn btn-ghost">Shop the Collection</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <img src="image/PLogo.jpeg" alt="Handy-Gidi Logo" class="footer-logo" onerror="this.style.display='none'; document.getElementById('footer-logo-text').style.display='block';">
+        <h3 id="footer-logo-text" style="display:none; font-family:var(--font-brand); font-size:32px; font-weight:650; margin-bottom:12px;">Handy<em style="font-style:italic; font-weight:340; color:var(--gold-light);">·</em>Gidi</h3>
+        
+        <h3>Handygidi furnitures</h3>
+        <div class="slogan">Luxury redefined</div>
+        <p>Your space. Your style. Your way. Handy-Gidi International Ltd.</p>
+        <p style="margin-top:20px; font-size:13px; letter-spacing:0.08em; text-transform:uppercase; color:rgba(245,239,226,0.45);">Suite 7 &amp; 8, Okanga Plaza, Wuye, Abuja</p>
+      </div>
+      <div class="footer-col">
+        <h4>Shop</h4>
+        <a href="shop.html">All Furniture</a>
+        <a href="shop.html?category=living-room">Living Room</a>
+        <a href="shop.html?category=bedroom">Bedroom</a>
+        <a href="shop.html?category=dining">Dining</a>
+        <a href="shop.html?category=office">Office</a>
+      </div>
+      <div class="footer-col">
+        <h4>Our Company</h4>
+        <a href="about.html">About Us</a>
+        <a href="modular.html">Modular</a>
+        <a href="csr.html">CSR</a>
+        <a href="reviews.html">Reviews</a>
+        <a href="contact.html">Contact</a>
+      </div>
+      <div class="footer-col">
+        <h4>Connect With Us</h4>
+        <a href="https://www.instagram.com/handygidi/" target="_blank" class="social-link">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4.5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
+          @handygidi
+        </a>
+        <a href="https://www.facebook.com/handygidi" target="_blank" class="social-link">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+          Handy-GiDi
+        </a>
+        <a href="https://youtube.com/@handygidi?si=y8ShkqdwroXiZmoX" target="_blank" class="social-link">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"/></svg>
+          @handygidi
+        </a>
+        <a href="https://www.tiktok.com/@handygidi?_r=1&_t=ZS-9AzOfSWEUgI" target="_blank" class="social-link">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg>
+          @handygidi
+        </a>
+        <a href="https://wa.me/2347051094001" target="_blank" class="social-link">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17.6 6.32A8 8 0 0 0 4.2 14.1L3 19.6l5.6-1.2A8 8 0 0 0 17.6 6.32z"/></svg>
+          0705 109 4001
+        </a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Handy-Gidi International Ltd. All rights reserved. Terms &amp; Conditions apply.</span>
+      <div class="footer-pay"><span>Paystack</span><span>Verve</span><span>Mastercard</span><span>Visa</span></div>
+      <span>Built by Kreation Digitals</span>
+    </div>
+  </div>
+</footer>
+
+<!-- WhatsApp Float (Official Icon) -->
+<a href="https://wa.me/2347051094001" class="wa-float" aria-label="Chat on WhatsApp" target="_blank" rel="noopener">
+  <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
+</a>
+
+<!-- MOBILE BOTTOM NAVIGATION -->
+<nav class="mobile-bottom-nav">
+  <a href="index.html">
+    <svg viewBox="0 0 24 24" fill="none"><path d="M3 9L12 3L21 9V21H3V9Z" stroke="currentColor" stroke-width="1.5"/><path d="M9 21V13H15V21" stroke="currentColor" stroke-width="1.5"/></svg>
+    Home
+  </a>
+  <a href="shop.html">
+    <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="7" height="7" stroke="currentColor" stroke-width="1.5"/><rect x="14" y="3" width="7" height="7" stroke="currentColor" stroke-width="1.5"/><rect x="3" y="14" width="7" height="7" stroke="currentColor" stroke-width="1.5"/><rect x="14" y="14" width="7" height="7" stroke="currentColor" stroke-width="1.5"/></svg>
+    Shop
+  </a>
+  <a href="csr.html" class="active">
+    <svg viewBox="0 0 24 24" fill="none"><path d="M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21Z" stroke="currentColor" stroke-width="1.5"/><path d="M12 8V16M8 12H16" stroke="currentColor" stroke-width="1.5"/></svg>
+    CSR
+  </a>
+  <a href="contact.html">
+    <svg viewBox="0 0 24 24" fill="none"><path d="M22 16.92V19.92C22 20.92 21.11 21.75 20.11 21.7C17.14 21.55 14.27 20.76 11.63 19.42C9.18 18.18 6.98 16.45 5.19 14.35C3.42 12.28 2.16 9.87 1.47 7.28C1.25 6.32 1.99 5.45 2.97 5.4L5.97 5.25C6.75 5.21 7.42 5.75 7.56 6.52L8.1 9.52C8.22 10.2 7.91 10.88 7.32 11.23L6.24 11.85C7.66 14.47 9.53 16.34 12.15 17.76L12.77 16.68C13.12 16.09 13.8 15.78 14.48 15.9L17.48 16.44C18.25 16.58 18.79 17.24 18.75 18.02" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    Contact
+  </a>
+</nav>
+
+<script>
+const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const hasGSAP = typeof gsap !== 'undefined';
+
+/* ==================== MOBILE MENU ==================== */
+const menuToggle = document.getElementById('menuToggle');
+const navEl = document.getElementById('nav');
+const mobileNavClose = document.getElementById('mobileNavClose');
+
+function openMobileMenu(){
+  navEl.classList.add('open');
+  menuToggle.classList.add('open');
+  menuToggle.setAttribute('aria-expanded', 'true');
+  document.body.classList.add('no-scroll');
+  document.body.classList.add('menu-open');
+}
+function closeMobileMenu(){
+  navEl.classList.remove('open');
+  menuToggle.classList.remove('open');
+  menuToggle.setAttribute('aria-expanded', 'false');
+  document.body.classList.remove('no-scroll');
+  document.body.classList.remove('menu-open');
+}
+menuToggle.addEventListener('click', () => {
+  if(navEl.classList.contains('open')) closeMobileMenu();
+  else openMobileMenu();
+});
+if(mobileNavClose) mobileNavClose.addEventListener('click', closeMobileMenu);
+navEl.querySelectorAll('a').forEach(link => link.addEventListener('click', closeMobileMenu));
+document.addEventListener('keydown', (e) => {
+  if(e.key === 'Escape' && navEl.classList.contains('open')) closeMobileMenu();
+});
+
+/* ==================== AUTH STATE ==================== */
+(function initAuthState(){
+  const authMobileLink = document.getElementById('authMobileLink');
+  const authMobileLabel = document.getElementById('authMobileLabel');
+  if(!authMobileLink) return;
+  let attached = false;
+  const handleAuth = (user) => {
+    if(user){
+      const displayName = user.displayName || user.email || '';
+      const firstName = displayName.split(' ')[0].split('@')[0] || 'Account';
+      authMobileLink.href = 'account.html';
+      authMobileLink.classList.add('signed-in');
+      if(authMobileLabel) authMobileLabel.textContent = firstName;
+    } else {
+      authMobileLink.href = 'login.html';
+      authMobileLink.classList.remove('signed-in');
+      if(authMobileLabel) authMobileLabel.textContent = 'Sign In';
+    }
+  };
+  const tryAttach = () => {
+    if(attached) return;
+    const auth = window.hgAuth;
+    const onAuth = window.hgOnAuthStateChanged;
+    if(auth && onAuth){ attached = true; onAuth(auth, handleAuth); }
+    else setTimeout(tryAttach, 100);
+  };
+  tryAttach();
+})();
+
+/* ==================== SCROLL ANIMATIONS ==================== */
+if(!prefersReduced && hasGSAP){
+  try {
+    const lenis = new Lenis({ duration:1.15, easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)), smoothWheel:true, smoothTouch:false });
+    function raf(t){ lenis.raf(t); requestAnimationFrame(raf); }
+    requestAnimationFrame(raf);
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    const headline = document.getElementById('heroHeadline');
+    const words = headline.textContent.split(' ');
+    headline.innerHTML = words.map(w => `<span style="display:inline-block; overflow:hidden; padding:0 .04em .1em 0;"><span style="display:inline-block;" class="h-word">${w}</span></span>`).join(' ');
+    
+    gsap.from('.h-word', { yPercent:120, opacity:0, duration:.9, stagger:.06, ease:'power4.out', delay:.2 });
+    gsap.from('.page-hero-eyebrow', { opacity:0, y:16, duration:.7, delay:.1 });
+    gsap.from('.page-hero-sub', { opacity:0, y:16, duration:.7, delay:.4 });
+    gsap.from('.breadcrumb', { opacity:0, y:16, duration:.7, delay:.05 });
+
+    gsap.to('#heroBg', { yPercent:18, ease:'none', scrollTrigger:{ trigger:'.page-hero', start:'top top', end:'bottom top', scrub:.8 } });
+    gsap.fromTo('#ctaBg', { yPercent:-14 }, { yPercent:14, ease:'none', scrollTrigger:{ trigger:'.cta-section', start:'top bottom', end:'bottom top', scrub:.7 } });
+
+    document.querySelectorAll('.reveal-mask > *').forEach(el => {
+      gsap.from(el, { yPercent:120, duration:1, ease:'power4.out', scrollTrigger:{ trigger:el, start:'top 88%', toggleActions:'play none none none' } });
+    });
+
+    // Gallery stagger reveal
+    gsap.from('.g-item', {
+      opacity: 0,
+      y: 40,
+      duration: 0.8,
+      stagger: 0.1,
+      ease: 'power3.out',
+      scrollTrigger: {
+        trigger: '.gallery-grid',
+        start: 'top 80%',
+      }
+    });
+
+  } catch(e){ console.error(e); }
+}
+</script>
+</body>
+</html>

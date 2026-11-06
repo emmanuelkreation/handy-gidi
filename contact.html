@@ -172,6 +172,18 @@ window.hgOnAuthStateChanged = onAuthStateChanged;
   .map-embed{border-radius:4px; overflow:hidden; border:1px solid var(--line); box-shadow:0 12px 40px rgba(26,20,15,0.08);}
   .map-embed iframe{width:100%; height:460px; border:0; display:block;}
   
+  /* FAQ */
+  .faq-section{padding:140px 0; background:var(--paper-2);}
+  .faq-list{max-width:900px; margin:0 auto;}
+  .faq-item{border-bottom:1px solid var(--line);}
+  .faq-q{width:100%; padding:26px 0; display:flex; justify-content:space-between; align-items:center; gap:24px; text-align:left; cursor:pointer; font-family:'Fraunces', serif; font-size:19px; line-height:1.35; transition:color .3s;}
+  .faq-q:hover{color:var(--gold-deep);}
+  .faq-icon{width:32px; height:32px; border-radius:50%; border:1px solid var(--line); display:flex; align-items:center; justify-content:center; flex-shrink:0; transition:all .3s; color:var(--gold-deep);}
+  .faq-item.open .faq-icon{background:var(--gold); border-color:var(--gold); color:var(--ink); transform:rotate(45deg);}
+  .faq-a{max-height:0; overflow:hidden; transition:max-height .4s cubic-bezier(.2,.7,.2,1);}
+  .faq-a p{padding:0 0 26px; color:var(--ink-soft); font-size:15.5px; line-height:1.75; max-width:72ch;}
+
+  /* CTA */
   .cta-section{position:relative; padding:140px 0; overflow:hidden; color:var(--paper); text-align:center;}
   .cta-bg{position:absolute; inset:-10%; background-image:url('https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=2400&q=85'); background-size:cover; background-position:center; z-index:0; will-change:transform; filter:brightness(0.35);}
   .cta-veil{position:absolute; inset:0; background:linear-gradient(180deg,rgba(26,20,15,0.75) 0%,rgba(26,20,15,0.9) 100%); z-index:1;}
@@ -380,7 +392,7 @@ window.hgOnAuthStateChanged = onAuthStateChanged;
           </div>
           <div class="form-row full">
             <div class="field">
-              <label for="topic">What's this about?</label>
+              <label for="topic">Enquiries?</label>
               <select id="topic">
                 <option value="general">General enquiry</option>
                 <option value="consultation">Book a consultation</option>
@@ -420,6 +432,7 @@ window.hgOnAuthStateChanged = onAuthStateChanged;
         <div class="info-block">
           <h4>Showroom &amp; Factory</h4>
           <p>Suite 7 &amp; 8, Okanga Plaza,<br>Wuye, Abuja, Nigeria</p>
+          <p>Plot 462 Cadastral Zone New SiteLugbe Abuja</p>
         </div>
         <div class="info-block">
           <h4>Email</h4>
@@ -433,7 +446,7 @@ window.hgOnAuthStateChanged = onAuthStateChanged;
         <div class="info-block">
           <h4>Business hours</h4>
           <p>Mon – Fri: 8:00am – 6:00pm</p>
-          <p>Saturday: 8:00am – 6:00pm</p>
+          <p>Saturday: 9:00am – 4:00pm</p>
           <p>Closed Sundays</p>
         </div>
         <div class="info-block">
@@ -462,21 +475,57 @@ window.hgOnAuthStateChanged = onAuthStateChanged;
   </div>
 </section>
 
-<!--
-<section class="cta-section">
-  <div class="cta-bg" id="ctaBg"></div>
-  <div class="cta-veil"></div>
-  <div class="cta-inner">
-    <h2>Or just come see us in <em>person.</em></h2>
-    <p>The showroom is open six days a week. Come in, sit on the sofas, feel the craftsmanship. No pressure, no sales pitch.</p>
-    <div class="cta-actions">
-      <a href="https://www.google.com/maps/search/?api=1&query=Okanga+Plaza+Utako+Abuja" class="btn btn-primary" target="_blank" rel="noopener">
-        <span>Get Directions</span>
-      </a>
-      <a href="shop.html" class="btn btn-ghost">Browse Collection</a>
+<!-- FAQ INSERTED HERE -->
+<section class="faq-section" id="faq">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow reveal-mask"><span>FAQ</span></p>
+      <h2 class="reveal-mask"><span>Questions we get asked a lot.</span></h2>
+    </div>
+    <div class="faq-list" id="faqList">
+      <div class="faq-item">
+        <button class="faq-q"><span>Do you make custom furniture or only ready-made pieces?</span><span class="faq-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 5V19M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span></button>
+        <div class="faq-a"><p>Both. Our showroom features a curated collection of ready-to-ship pieces, but our true specialty is bespoke manufacturing. We design and build custom furniture tailored exactly to your space, dimensions, and style preferences.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q"><span>Do you handle full interior design and space planning?</span><span class="faq-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 5V19M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span></button>
+        <div class="faq-a"><p>Yes. We are a one-stop shop for interiors. We offer full interior design, construction, renovation, and turn-key execution for residential and commercial spaces. We handle everything from the first sketch to the final installation.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q"><span>How does delivery and installation work?</span><span class="faq-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 5V19M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span></button>
+        <div class="faq-a"><p>We offer same-day delivery and professional installation within Abuja Metropolis. For nationwide shipping, we coordinate with trusted logistics partners. All delivery costs are confirmed transparently on WhatsApp before dispatch.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q"><span>How long does it take to receive my order?</span><span class="faq-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 5V19M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span></button>
+        <div class="faq-a"><p>Ready-to-ship items are delivered within 24–72 hours. Custom or bulk orders require a manufacturing timeline, which we will agree on before you pay. We keep you updated on the progress of your build.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q"><span>How much do your pieces cost?</span><span class="faq-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 5V19M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span></button>
+        <div class="faq-a"><p>Prices vary widely based on the piece, materials, and finish. Our shop page lists current pricing for ready-made items. For custom projects or full interior fit-outs, we provide a tailored quote after understanding your needs.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q"><span>What payment methods do you accept? Can I pay on delivery?</span><span class="faq-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 5V19M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span></button>
+        <div class="faq-a"><p>We accept secure online payments via Paystack, as well as bank transfers. For deliveries within Abuja Metropolis, you can choose to pay on delivery via cash, transfer, or POS once the piece is delivered and installed.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q"><span>Can I customize the fabrics, colours, and finishes?</span><span class="faq-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 5V19M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span></button>
+        <div class="faq-a"><p>Absolutely. We offer a wide selection of premium fabrics, leathers, wood stains, and metal finishes. During your consultation, we can present material samples so you can feel the textures and choose the perfect combination for your space.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q"><span>Do you work with corporate clients, hotels, and developers?</span><span class="faq-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 5V19M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span></button>
+        <div class="faq-a"><p>Yes, a significant portion of our work is commercial. We furnish offices, hotels, restaurants, and residential developments. We have the capacity to manufacture and install identical pieces at scale while maintaining strict quality control.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q"><span>Can I visit your showroom to see the pieces in person?</span><span class="faq-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 5V19M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span></button>
+        <div class="faq-a"><p>Yes, we highly recommend it! Our showroom is located at Suite 7 &amp; 8, Okanga Plaza, Wuye, Abuja. Come in to sit on the sofas, feel the wood, and see the craftsmanship up close. We are open Monday to Saturday.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q"><span>How do I start a project or place an order?</span><span class="faq-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 5V19M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span></button>
+        <div class="faq-a"><p>You can browse our online shop to purchase ready-made pieces directly. For custom furniture or interior design, simply click "Book a Consultation" or message us on WhatsApp. We'll discuss your vision, take measurements if necessary, and provide a detailed quote.</p></div>
+      </div>
     </div>
   </div>
-</section> -->
+</section>
 
 <footer>
   <div class="wrap">
@@ -654,6 +703,23 @@ document.getElementById('contactForm').addEventListener('submit', function(e){
     document.getElementById('contactForm').style.display = 'none';
     document.getElementById('formSuccess').classList.add('show');
   }, 900);
+});
+
+/* ==================== FAQ ACCORDION ==================== */
+document.querySelectorAll('.faq-item').forEach(item => {
+  const q = item.querySelector('.faq-q');
+  const a = item.querySelector('.faq-a');
+  q.addEventListener('click', () => {
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item.open').forEach(o => {
+      o.classList.remove('open');
+      o.querySelector('.faq-a').style.maxHeight = null;
+    });
+    if(!isOpen){
+      item.classList.add('open');
+      a.style.maxHeight = a.scrollHeight + 'px';
+    }
+  });
 });
 
 /* ==================== SCROLL ANIMATIONS ==================== */
