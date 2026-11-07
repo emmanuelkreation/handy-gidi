@@ -169,12 +169,42 @@ window.hgOnAuthStateChanged = onAuthStateChanged;
     box-shadow: 0 24px 48px rgba(0,0,0,0.5);
     position: relative;
   }
-  .promo-media { position: relative; aspect-ratio: 16/9; width: 100%; }
-  .promo-media img { width: 100%; height: 100%; object-fit: cover; }
-  .promo-overlay { position: absolute; inset: 0; background: linear-gradient(0deg, rgba(26,20,15,0.9) 0%, transparent 100%); }
-  .promo-play-overlay { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; z-index: 2; cursor: pointer; }
-  .promo-play-overlay .icon { width: 56px; height: 56px; border-radius: 50%; background: rgba(245,239,226,0.2); backdrop-filter: blur(8px); border: 1px solid rgba(245,239,226,0.5); display: flex; align-items: center; justify-content: center; transition: all .3s; }
-  .promo-play-overlay:hover .icon { background: var(--gold); color: var(--ink); border-color: var(--gold); transform: scale(1.05); }
+
+  /* Portrait video block */
+  .promo-media {
+    position: relative;
+    aspect-ratio: 3 / 4;
+    width: 100%;
+    overflow: hidden;
+    background: #1A140F;
+  }
+  .promo-media video,
+  .promo-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .promo-overlay { position: absolute; inset: 0; background: linear-gradient(0deg, rgba(26,20,15,0.9) 0%, transparent 60%); pointer-events: none; }
+
+  /* Mute toggle */
+  .promo-mute{
+    position: absolute; bottom: 14px; right: 14px; z-index: 4;
+    width: 36px; height: 36px; border-radius: 50%;
+    background: rgba(26,20,15,0.65); backdrop-filter: blur(8px);
+    border: 1px solid rgba(245,239,226,0.3);
+    color: var(--paper); display: flex; align-items: center; justify-content: center;
+    transition: all .25s; cursor: pointer;
+  }
+  .promo-mute:hover{ background: var(--gold); color: var(--ink); border-color: var(--gold); }
+  .promo-mute .wave{ display: none; }
+  .promo-mute.on .wave{ display: block; }
+  .promo-mute.on .slash{ display: none; }
+
+  @media (max-width: 1023px) {
+    .promo-media { aspect-ratio: 4 / 5; max-height: 480px; }
+  }
+
   .promo-content { padding: 24px; position: relative; z-index: 3; }
   .promo-tag { font-size: 10.5px; font-weight: 700; letter-spacing: 0.15em; color: var(--gold-light); text-transform: uppercase; background: rgba(176,129,46,0.2); padding: 4px 10px; border-radius: 2px; }
   .promo-content h3 { font-size: 22px; margin: 14px 0 10px; line-height: 1.1; }
@@ -301,7 +331,7 @@ window.hgOnAuthStateChanged = onAuthStateChanged;
   .wa-float{position:fixed; bottom:84px; right:28px; z-index:200; width:58px; height:58px; border-radius:50%; background:#25D366; color:#fff; display:flex; align-items:center; justify-content:center; box-shadow:0 8px 28px rgba(37,211,102,0.4); transition:transform .3s;}
   .wa-float:hover{transform:scale(1.08);}
 
-  /* Modal & Cart (same as shop) */
+  /* Modal & Cart */
   .modal-backdrop{position:fixed; inset:0; background:rgba(26,20,15,0.7); backdrop-filter:blur(6px); z-index:1000; opacity:0; pointer-events:none; transition:opacity .4s;}
   .modal-backdrop.open{opacity:1; pointer-events:auto;}
   .product-modal{position:fixed; top:50%; left:50%; transform:translate(-50%, -50%) scale(0.94); width:calc(100% - 48px); max-width:1100px; max-height:88vh; background:var(--paper-3); border-radius:4px; z-index:1001; overflow:hidden; display:flex; opacity:0; pointer-events:none; transition:opacity .4s, transform .5s;}
@@ -550,18 +580,36 @@ window.hgOnAuthStateChanged = onAuthStateChanged;
       </div>
     </div>
 
-    <!-- RIGHT SIDE: Promo / News Flash -->
+    <!-- RIGHT SIDE: Promo / News Flash (portrait video) -->
     <div class="hero-right">
       <div class="promo-card">
         <div class="promo-media">
-          <!-- Replace with a high-quality promo image or video -->
-          <img src="https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=800&q=85" alt="Promo">
+          <video
+            id="promoVideo"
+            autoplay
+            loop
+            muted
+            playsinline
+            preload="metadata"
+            poster="https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=800&q=85">
+            <source
+              src="https://ik.imagekit.io/2pqi3dzrd/IMG_9788.MOV/ik-video.mp4?updatedAt=null&ik-s=37e3767ba8f2d971e649be20f492e328d4c2056e"
+              type="video/mp4">
+          </video>
           <div class="promo-overlay"></div>
-          <div class="promo-play-overlay">
-            <div class="icon">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5V19L19 12L8 5Z"/></svg>
-            </div>
-          </div>
+          <button class="promo-mute" id="promoMute" aria-label="Unmute video" type="button">
+            <!-- Slashed speaker (muted state) -->
+            <svg class="slash" width="16" height="16" viewBox="0 0 24 24" fill="none">
+              <path d="M11 5L6 9H3V15H6L11 19V5Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+              <path d="M16 9L22 15M22 9L16 15" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+            </svg>
+            <!-- Sound waves (unmuted state) -->
+            <svg class="wave" width="16" height="16" viewBox="0 0 24 24" fill="none">
+              <path d="M11 5L6 9H3V15H6L11 19V5Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+              <path d="M15.5 8.5C17 10 17 14 15.5 15.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+              <path d="M18.5 6C21 8.5 21 15.5 18.5 18" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+            </svg>
+          </button>
         </div>
         <div class="promo-content">
           <span class="promo-tag">News Flash</span>
@@ -626,7 +674,6 @@ window.hgOnAuthStateChanged = onAuthStateChanged;
       </div>
     </div>
     <div class="video-grid">
-      <!-- Placeholder Videos - Replace with actual project videos -->
       <div class="video-item"><video controls poster="https://ik.imagekit.io/2pqi3dzrd/Screenshot%202026-11-04%20113143.jpg?updatedAt=null&ik-s=5193318ad1ed48c19990712d72a1a86e7a1b3592?auto=format&fit=crop&w=800&q=85"><source src="https://ik.imagekit.io/2pqi3dzrd/IMG_0257.MP4?updatedAt=null&ik-s=530c0761c5eaf16142456a80061ecec41108aba6" type="video/mp4"></video></div>
       <div class="video-item"><video controls poster="https://ik.imagekit.io/2pqi3dzrd/Screenshot%202026-11-04%20110133.jpg?updatedAt=null&ik-s=4a336370807666db67336389eae7a8f2e7033020?auto=format&fit=crop&w=800&q=85"><source src="https://ik.imagekit.io/2pqi3dzrd/IMG_6110.MOV/ik-video.mp4?updatedAt=null&ik-s=bfb01c6b803c379e68491186e6710c5aee549f20" type="video/mp4"></video></div>
       <div class="video-item"><video controls poster="https://ik.imagekit.io/2pqi3dzrd/Screenshot%202026-11-04%20104838.jpg?updatedAt=null&ik-s=d3e48bc84dba5f592ad0355c1dcc748039afc05d?auto=format&fit=crop&w=800&q=85"><source src="https://ik.imagekit.io/2pqi3dzrd/IMG_6679.MOV/ik-video.mp4?updatedAt=null&ik-s=bcc339bf0d41f02c82beebe978dfaf3b8c3fd1bf" type="video/mp4"></video></div>
@@ -963,6 +1010,20 @@ if(auth && onAuth){
     else setTimeout(tryAttach, 100);
   };
   tryAttach();
+})();
+
+/* ==================== PROMO VIDEO MUTE TOGGLE ==================== */
+(function initPromoVideo(){
+  const muteBtn = document.getElementById('promoMute');
+  const promoVid = document.getElementById('promoVideo');
+  if(!muteBtn || !promoVid) return;
+  muteBtn.addEventListener('click', () => {
+    promoVid.muted = !promoVid.muted;
+    muteBtn.classList.toggle('on', !promoVid.muted);
+    muteBtn.setAttribute('aria-label', promoVid.muted ? 'Unmute video' : 'Mute video');
+  });
+  // Some browsers pause autoplay if the video is heavy; nudge it to play.
+  promoVid.play().catch(() => {});
 })();
 
 /* ==================== ANIMATIONS ==================== */
