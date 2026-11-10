@@ -1536,21 +1536,64 @@ document.getElementById('logoutBtn').addEventListener('click', async () => {
   await signOut(auth);
 });
 
+
 if(auth){
-  onAuthStateChanged(auth, (user) => {
-    if(user){
+  onAuthStateChanged(auth, async (user) => {
+
+    // If nobody is logged in, show the login screen
+    if(!user){
+      loginScreen.classList.remove('hidden');
+      dashboard.classList.remove('show');
+      return;
+    }
+
+    try {
+      // Get the user's Firebase authentication claims
+      const t = await user.getIdTokenResult(true);
+
+      // Check whether the user is an administrator
+      if(t.claims.admin !== true){
+
+        // Stop existing database listeners
+        if(unsubscribeOrders) unsubscribeOrders();
+        if(unsubscribeReviews) unsubscribeReviews();
+
+        // Sign out unauthorized users
+        await signOut(auth);
+
+        // Show login screen with an error message
+        loginScreen.classList.remove('hidden');
+        dashboard.classList.remove('show');
+
+        const err = document.getElementById('loginError');
+        err.textContent = "This area is for administrators only.";
+        err.classList.add('show');
+
+        return;
+      }
+
+      // Administrator is verified. Show dashboard.
       loginScreen.classList.add('hidden');
       dashboard.classList.add('show');
+
       document.getElementById('adminEmail').textContent = user.email;
+
       loadProducts();
       subscribeToOrders();
       subscribeToReviews();
-    } else {
+
+    } catch(error) {
+      console.error('Admin authentication failed:', error);
+
+      await signOut(auth);
+
       loginScreen.classList.remove('hidden');
       dashboard.classList.remove('show');
     }
+
   });
 }
+
 
 /* ==================== TABS ==================== */
 document.querySelectorAll('.nav-item').forEach(item => {
