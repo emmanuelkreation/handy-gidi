@@ -338,32 +338,16 @@ if(configMissing || !auth){
     document.getElementById('pPhone').value = currentProfile?.phone || '';
     document.getElementById('pEmail').value = user.email || '';
 
-    loadOrders(user.email, user.uid);
+    loadOrders(user.uid);
   });
 }
 
-async function loadOrders(email, uid){
+async function loadOrders(uid){
   try {
-    // Query by userId (new orders) AND by customer.email (fallback for older orders)
-    const promises = [];
-    if(uid){
-      promises.push(getDocs(query(collection(db, 'orders'), where('userId', '==', uid))));
-    }
-    if(email){
-      promises.push(getDocs(query(collection(db, 'orders'), where('customer.email', '==', email))));
-    }
-
-    const results = await Promise.all(promises);
-    const merged = new Map();
-    results.forEach(snap => {
-      snap.docs.forEach(d => {
-        if(!merged.has(d.id)){
-          merged.set(d.id, { id: d.id, ...d.data() });
-        }
-      });
-    });
-
-    userOrders = Array.from(merged.values());
+    // Query strictly by 'uid' so it perfectly matches the Firestore rule
+    const snap = await getDocs(query(collection(db, 'orders'), where('uid', '==', uid)));
+    
+    userOrders = snap.docs.map(d => ({ id: d.id, ...d.data() }));
     userOrders.sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
 
     renderOverview();
