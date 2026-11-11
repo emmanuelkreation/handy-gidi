@@ -1114,7 +1114,7 @@ async function submitOrder(paymentReference = ''){
 
   const order = {
     orderId,
-    userId: currentUser ? currentUser.uid : null,
+    uid: currentUser ? currentUser.uid : null,
     customer: {
       fullName: document.getElementById('fullName').value.trim(),
       phone: document.getElementById('phone').value.trim(),
