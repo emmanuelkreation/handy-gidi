@@ -827,9 +827,11 @@ import {
 import {
   getAuth, onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+// 1. NEW: Import Cloud Functions
+import { getFunctions, httpsCallable } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-functions.js";
 
 /* ═══════════════════════════════════════════════════════════
-   🔧 PASTE YOUR FIREBASE CONFIG HERE (same as other files)
+   🔧 PASTE YOUR FIREBASE CONFIG HERE
    ═══════════════════════════════════════════════════════════ */
 const firebaseConfig = {
   apiKey: "AIzaSyA7khlO19sabspXwUhRRd4Bx_80IoJWcDc",
@@ -844,15 +846,16 @@ const firebaseConfig = {
    PAYSTACK PUBLIC KEY
    ═══════════════════════════════════════════════════════════ */
 const PAYSTACK_PUBLIC_KEY = "pk_test_36b8443643dd385a1e532e4ab39363ad14f4faff";
-/* ═══════════════════════════════════════════════════════════ */
 
 const configMissing = firebaseConfig.apiKey.startsWith('PASTE_');
-let fbApp, db, auth;
+let fbApp, db, auth, functions; // 2. NEW: Add functions variable
+
 if(!configMissing){
   try {
     fbApp = initializeApp(firebaseConfig);
     db = getFirestore(fbApp);
     auth = getAuth(fbApp);
+    functions = getFunctions(fbApp); // 3. NEW: Initialize functions
   } catch(e){
     console.error('Firebase init failed', e);
   }
@@ -1100,117 +1103,80 @@ function validateForm(){
   return valid;
 }
 
-/* ==================== GENERATE ORDER ID ==================== */
-function generateOrderId(){
-  const ts = Date.now().toString(36).toUpperCase();
-  const rand = Math.random().toString(36).substring(2, 6).toUpperCase();
-  return 'HG-' + ts + '-' + rand;
-}
-
-/* ==================== SUBMIT ORDER ==================== */
-async function submitOrder(paymentReference = ''){
-  const orderId = generateOrderId();
-  const subtotal = cart.reduce((s, i) => s + ((PRODUCTS[i.code]?.price || 0) * i.qty), 0);
-
-  const order = {
-    orderId,
-    uid: currentUser ? currentUser.uid : null,
-    customer: {
-      fullName: document.getElementById('fullName').value.trim(),
-      phone: document.getElementById('phone').value.trim(),
-      email: document.getElementById('email').value.trim(),
-      altPhone: document.getElementById('altPhone').value.trim()
-    },
-    delivery: {
-      address: document.getElementById('address').value.trim(),
-      zone: selectedZone,
-      preferredTime: document.getElementById('deliveryTime').value.trim(),
-      notes: document.getElementById('notes').value.trim()
-    },
-    items: cart.map(i => {
-      const p = PRODUCTS[i.code];
-      return {
-        code: i.code,
-        name: p.name,
-        colour: i.colour,
-        price: p.price,
-        qty: i.qty
-      };
-    }),
-    subtotal,
-    deliveryFee: 0,
-    total: subtotal,
-    payment: {
-      method: selectedPayment,
-      status: selectedPayment === 'paystack' ? 'paid' : 'pending',
-      reference: paymentReference || ''
-    },
-    status: 'pending',
-    createdAt: serverTimestamp()
-  };
-
-  if(!configMissing && db){
-    const ref = await addDoc(collection(db, 'orders'), order);
-    return { ...order, id: ref.id };
-  }
-  return order;
-}
-
-/* ==================== PAYSTACK ==================== */
-function launchPaystack(onSuccess, onCancel){
-  const subtotal = cart.reduce((s, i) => s + ((PRODUCTS[i.code]?.price || 0) * i.qty), 0);
-  const email = document.getElementById('email').value.trim();
-  const name = document.getElementById('fullName').value.trim();
-
-  if(PAYSTACK_PUBLIC_KEY.startsWith('PASTE_')){
-    showToast('Paystack key not configured. Please use Pay on Delivery or contact us on WhatsApp.', true);
-    return;
-  }
-
-  const handler = PaystackPop.setup({
-    key: PAYSTACK_PUBLIC_KEY,
-    email: email,
-    amount: subtotal * 100,
-    currency: 'NGN',
-    ref: generateOrderId(),
-    metadata: {
-      custom_fields: [
-        { display_name: 'Customer', variable_name: 'customer_name', value: name }
-      ]
-    },
-    callback: function(response){
-      onSuccess(response.reference);
-    },
-    onClose: function(){
-      onCancel();
-    }
-  });
-  handler.openIframe();
-}
-
-/* ==================== PLACE ORDER HANDLER ==================== */
-document.getElementById('placeOrderBtn').addEventListener('click', async () => {
-  if(orderSubmitting) return;
-  if(!validateForm()){
+/* ==================== PAYSTACK CLOUD FUNCTION FLOW ==================== */
+async function processCheckout() {
+  if (orderSubmitting) return;
+  if (!validateForm()) {
     showToast('Please fill all required fields.', true);
     const invalid = document.querySelector('.field.invalid');
     if(invalid) invalid.scrollIntoView({ behavior:'smooth', block:'center' });
     return;
   }
 
-  if(selectedPayment === 'paystack'){
-    launchPaystack(
-      async (reference) => { await completeOrder(reference); },
-      () => { showToast('Payment cancelled.', true); }
-    );
-  } else {
-    await completeOrder('');
-  }
-});
+  orderSubmitting = true;
+  const btn = document.getElementById('placeOrderBtn');
+  const label = document.getElementById('placeOrderLabel');
+  label.innerHTML = '<span class="spinner-inline"></span> Preparing checkout…';
+  btn.disabled = true;
 
-/* ==================== COMPLETE ORDER ==================== */
-async function completeOrder(reference = ''){
-  if(orderSubmitting) return;
+  try {
+    // 1. Gather data for the backend
+    const checkoutPayload = {
+      cart: cart,
+      customer: {
+        fullName: document.getElementById('fullName').value.trim(),
+        phone: document.getElementById('phone').value.trim(),
+        email: document.getElementById('email').value.trim(),
+        altPhone: document.getElementById('altPhone').value.trim()
+      },
+      delivery: {
+        address: document.getElementById('address').value.trim(),
+        zone: selectedZone,
+        preferredTime: document.getElementById('deliveryTime').value.trim(),
+        notes: document.getElementById('notes').value.trim()
+      }
+    };
+
+    // 2. Call Cloud Function to create order and get Paystack Access Code
+    const createCheckout = httpsCallable(functions, 'createCheckout');
+    const result = await createCheckout(checkoutPayload);
+    const { access_code, orderId } = result.data;
+
+    // 3. Launch Paystack Inline with the Access Code
+    const handler = PaystackPop.setup({
+      key: PAYSTACK_PUBLIC_KEY,
+      access_code: access_code,
+      callback: function (response) {
+        // The webhook handles updating the database to 'paid'.
+        localStorage.removeItem('hg_cart');
+        showSuccessScreen(orderId, true);
+      },
+      onClose: function () {
+        showToast('Payment cancelled.', true);
+        label.innerHTML = 'Place Order';
+        btn.disabled = false;
+        orderSubmitting = false;
+      }
+    });
+    handler.openIframe();
+
+  } catch (error) {
+    console.error("Checkout error:", error);
+    showToast(error.message || 'Could not initialize checkout. Try again.', true);
+    label.innerHTML = 'Try Again';
+    btn.disabled = false;
+    orderSubmitting = false;
+  }
+}
+
+/* ==================== PAY ON DELIVERY FLOW ==================== */
+async function processPayOnDelivery() {
+  if (orderSubmitting) return;
+  if (!validateForm()) {
+    showToast('Please fill all required fields.', true);
+    return;
+  }
+
   orderSubmitting = true;
   const btn = document.getElementById('placeOrderBtn');
   const label = document.getElementById('placeOrderLabel');
@@ -1218,47 +1184,95 @@ async function completeOrder(reference = ''){
   btn.disabled = true;
 
   try {
-    const order = await submitOrder(reference);
+    const subtotal = cart.reduce((s, i) => s + ((PRODUCTS[i.code]?.price || 0) * i.qty), 0);
+    const orderId = `HG-${Date.now().toString(36).toUpperCase()}-${Math.random().toString(36).substring(2, 6).toUpperCase()}`;
+    
+    const orderData = {
+      orderId: orderId,
+      uid: currentUser ? currentUser.uid : null,
+      customer: {
+        fullName: document.getElementById('fullName').value.trim(),
+        phone: document.getElementById('phone').value.trim(),
+        email: document.getElementById('email').value.trim(),
+        altPhone: document.getElementById('altPhone').value.trim()
+      },
+      delivery: {
+        address: document.getElementById('address').value.trim(),
+        zone: selectedZone,
+        preferredTime: document.getElementById('deliveryTime').value.trim(),
+        notes: document.getElementById('notes').value.trim()
+      },
+      items: cart.map(i => ({
+        code: i.code,
+        name: PRODUCTS[i.code].name,
+        colour: i.colour,
+        price: PRODUCTS[i.code].price,
+        qty: i.qty
+      })),
+      subtotal: subtotal,
+      deliveryFee: 0,
+      total: subtotal,
+      payment: {
+        method: 'delivery',
+        status: 'pending',
+        reference: ''
+      },
+      status: 'pending',
+      createdAt: serverTimestamp()
+    };
+
+    await addDoc(collection(db, 'orders'), orderData);
     localStorage.removeItem('hg_cart');
+    showSuccessScreen(orderId, false);
 
-    document.getElementById('refOrder').textContent = order.orderId;
-    document.getElementById('refTotal').textContent = formatNaira(order.total);
-    document.getElementById('refPayment').textContent =
-      selectedPayment === 'paystack' ? 'Paid online' : 'Pay on delivery';
-
-    document.getElementById('successMessage').textContent =
-      selectedPayment === 'paystack'
-        ? 'Your payment was successful. Our team will reach out within the hour to confirm delivery details.'
-        : 'Your order is received. Our team will reach out to confirm delivery and payment details.';
-
-    const waLines = [
-      `New Order — Handy-Gidi`,
-      `Order: ${order.orderId}`,
-      `Name: ${order.customer.fullName}`,
-      `Phone: ${order.customer.phone}`,
-      `Delivery zone: ${order.delivery.zone}`,
-      `Address: ${order.delivery.address}`,
-      '',
-      'Items:',
-      ...order.items.map(i => `• ${i.name} (${i.colour}) × ${i.qty} — ${formatNaira(i.price * i.qty)}`),
-      '',
-      `Total: ${formatNaira(order.total)}`,
-      `Payment: ${selectedPayment === 'paystack' ? 'Paid online' : 'Pay on delivery'}`
-    ];
-    const waMsg = encodeURIComponent(waLines.join('\n'));
-    document.getElementById('waConfirmBtn').href = `https://wa.me/2347051094001?text=${waMsg}`;
-
-    document.getElementById('successOverlay').classList.add('show');
-    document.body.style.overflow = 'hidden';
-
-  } catch(e){
-    console.error('Order error', e);
+  } catch (error) {
+    console.error("POD error:", error);
     showToast('Could not place order. Please try again.', true);
-    label.textContent = 'Try Again';
+    label.innerHTML = 'Try Again';
     btn.disabled = false;
     orderSubmitting = false;
   }
 }
+
+/* ==================== SUCCESS SCREEN ==================== */
+function showSuccessScreen(orderId, isPaid) {
+  const subtotal = cart.reduce((s, i) => s + ((PRODUCTS[i.code]?.price || 0) * i.qty), 0);
+  
+  document.getElementById('refOrder').textContent = orderId;
+  document.getElementById('refTotal').textContent = formatNaira(subtotal);
+  document.getElementById('refPayment').textContent = isPaid ? 'Paid online' : 'Pay on delivery';
+
+  document.getElementById('successMessage').textContent = isPaid
+    ? 'Your payment was successful. Our team will reach out within the hour to confirm delivery details.'
+    : 'Your order is received. Our team will reach out to confirm delivery and payment details.';
+
+  const waLines = [
+    `New Order — Handy-Gidi`,
+    `Order: ${orderId}`,
+    `Name: ${document.getElementById('fullName').value.trim()}`,
+    `Delivery zone: ${selectedZone}`,
+    `Address: ${document.getElementById('address').value.trim()}`,
+    '',
+    'Items:',
+    ...cart.map(i => `• ${PRODUCTS[i.code].name} (${i.colour}) × ${i.qty} — ${formatNaira(PRODUCTS[i.code].price * i.qty)}`),
+    '',
+    `Total: ${formatNaira(subtotal)}`,
+    `Payment: ${isPaid ? 'Paid online' : 'Pay on delivery'}`
+  ];
+  
+  document.getElementById('waConfirmBtn').href = `https://wa.me/2347051094001?text=${encodeURIComponent(waLines.join('\n'))}`;
+  document.getElementById('successOverlay').classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+
+/* ==================== MAIN BUTTON HANDLER ==================== */
+document.getElementById('placeOrderBtn').addEventListener('click', () => {
+  if (selectedPayment === 'paystack') {
+    processCheckout();
+  } else {
+    processPayOnDelivery();
+  }
+});
 
 /* ==================== INIT WITH AUTH GATE ==================== */
 async function bootstrap(){
@@ -1271,17 +1285,12 @@ async function bootstrap(){
 
   onAuthStateChanged(auth, async (user) => {
     if(!user){
-      // Not signed in → redirect to login, then come back
       redirectToLogin();
       return;
     }
     currentUser = user;
-
-    // Pre-fill form from user + Firestore profile
     const profile = await fetchUserProfile(user.uid);
     prefillUserData(user, profile);
-
-    // Now safe to load cart
     loadCartAndProducts();
   });
 }
