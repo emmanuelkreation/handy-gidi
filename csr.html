@@ -73,8 +73,6 @@ window.hgOnAuthStateChanged = onAuthStateChanged;
     transition:padding .3s ease;}
   header.scrolled{padding:12px 0;}
   .header-inner{max-width:var(--max); margin:0 auto; padding:0 32px; display:flex; align-items:center; justify-content:space-between; gap:32px;}
-  
-  /* Logo Image */
   .brand-logo{display:flex; align-items:center;}
   .brand-logo img{height:80px; width:auto; object-fit:contain;}
 
@@ -83,7 +81,7 @@ window.hgOnAuthStateChanged = onAuthStateChanged;
   nav a.active{color:var(--gold-deep); font-weight:600;}
   nav a::after{content:''; position:absolute; left:0; bottom:0; width:100%; height:1px; background:currentColor; transform:scaleX(0); transform-origin:right center; transition:transform .4s cubic-bezier(.77,0,.18,1);}
   nav a:hover::after, nav a.active::after{transform:scaleX(1); transform-origin:left center;}
-  
+
   .header-right{display:flex; align-items:center; gap:16px;}
   .header-cta{display:inline-flex; align-items:center; gap:10px; padding:12px 22px; background:var(--gold); color:var(--ink); font-size:13.5px; font-weight:600; border-radius:2px; transition:all .3s;}
   .header-cta:hover{background:var(--gold-deep); color:var(--paper);}
@@ -111,7 +109,6 @@ window.hgOnAuthStateChanged = onAuthStateChanged;
 
   /* ==================== PAGE HERO ==================== */
   .page-hero{position:relative; height:75vh; min-height:600px; overflow:hidden; isolation:isolate; padding-top:80px;}
-  /* REPLACE THE URL BELOW WITH A HIGH-QUALITY CSR IMAGE */
   .page-hero-bg{position:absolute; inset:-8%; background-image:url('https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=2400&q=85'); background-size:cover; background-position:center; z-index:0; will-change:transform;}
   .page-hero-veil{position:absolute; inset:0; z-index:1; background:linear-gradient(180deg, rgba(26,20,15,0.65) 0%, rgba(26,20,15,0.4) 40%, rgba(26,20,15,0.9) 100%);}
   .page-hero-content{position:relative; z-index:2; height:100%; max-width:var(--max); margin:0 auto; padding:60px 32px; display:flex; flex-direction:column; justify-content:flex-end; color:var(--paper);}
@@ -138,7 +135,6 @@ window.hgOnAuthStateChanged = onAuthStateChanged;
   .csr-intro-text p{color:var(--ink-soft); font-size:16.5px; line-height:1.75; margin-bottom:24px; max-width:52ch;}
   .csr-intro-text p:last-child{margin-bottom:0;}
   .csr-intro-media{position:relative; aspect-ratio:4/5; border-radius:4px; overflow:hidden; background:#EDE4D2;}
-  /* REPLACE THE URL BELOW WITH A CSR IMAGE */
   .csr-intro-media img{width:100%; height:100%; object-fit:cover;}
   @media (max-width:900px){ .csr-intro-grid{grid-template-columns:1fr; gap:48px;} }
 
@@ -150,34 +146,295 @@ window.hgOnAuthStateChanged = onAuthStateChanged;
   .theme-badge{display:inline-block; padding:12px 28px; background:var(--ink); color:var(--gold-light); font-family:'Fraunces', serif; font-size:20px; font-style:italic; border-radius:50px; margin-bottom:32px; box-shadow:0 10px 30px rgba(26,20,15,0.15);}
   .date-highlight{font-weight:700; color:var(--ink); border-bottom:2px solid var(--gold); padding-bottom:2px;}
 
-  /* ==================== MEDIA GALLERY ==================== */
+  /* ==================== GALLERY ==================== */
   .csr-gallery{padding:140px 0; background:var(--paper);}
-  .gallery-grid{display:grid; grid-template-columns:repeat(12, 1fr); gap:20px;}
-  
-  /* Grid item variations to make it look dynamic like a lookbook */
-  .g-item{position:relative; overflow:hidden; border-radius:4px; background:#EDE4D2;}
-  .g-item img, .g-item video{width:100%; height:100%; object-fit:cover; transition:transform .8s cubic-bezier(.2,.7,.2,1);}
-  .g-item:hover img, .g-item:hover video{transform:scale(1.05);}
-  
-  /* Specific sizes */
-  .g-item.span-4{grid-column:span 4; aspect-ratio:4/5;}
-  .g-item.span-8{grid-column:span 8; aspect-ratio:16/9;}
-  .g-item.span-6{grid-column:span 6; aspect-ratio:4/3;}
-  .g-item.span-3{grid-column:span 3; aspect-ratio:1/1;}
 
-  /* Video play button overlay */
-  .g-video{position:relative; cursor:pointer;}
-  .g-video::after{content:''; position:absolute; inset:0; background:rgba(26,20,15,0.3); transition:opacity .3s;}
-  .g-video:hover::after{opacity:0;}
-  .play-btn-overlay{position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); width:64px; height:64px; background:rgba(245,239,226,0.2); backdrop-filter:blur(8px); border:1px solid rgba(245,239,226,0.5); border-radius:50%; display:flex; align-items:center; justify-content:center; color:var(--paper); z-index:2; transition:all .3s;}
-  .g-video:hover .play-btn-overlay{background:var(--gold); border-color:var(--gold); color:var(--ink);}
+  /* Year tabs */
+  .year-tabs{
+    display:flex; gap:10px; margin-bottom:48px; flex-wrap:wrap;
+    justify-content:center; align-items:center;
+  }
+  .year-tab{
+    padding:12px 26px;
+    font-size:12px; font-weight:600;
+    letter-spacing:0.12em; text-transform:uppercase;
+    color:var(--ink-soft);
+    background:transparent;
+    border:1px solid var(--line);
+    border-radius:50px;
+    cursor:pointer;
+    transition:all .3s cubic-bezier(.4,0,.2,1);
+    display:inline-flex; align-items:center; gap:8px;
+  }
+  .year-tab:hover{border-color:var(--gold); color:var(--gold-deep);}
+  .year-tab.active{background:var(--ink); color:var(--gold-light); border-color:var(--ink);}
+  .year-tab .count{
+    font-size:10px; opacity:0.55; letter-spacing:0.05em;
+    padding:2px 7px; border-radius:10px;
+    background:rgba(26,20,15,0.06); font-weight:600;
+  }
+  .year-tab.active .count{background:rgba(245,239,226,0.15); opacity:0.75;}
+
+  /* Uniform grid */
+  .gallery-grid{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:16px;
+  }
+  .g-item{
+    position:relative;
+    aspect-ratio:4/5;
+    overflow:hidden;
+    border-radius:4px;
+    background:#EDE4D2;
+    cursor:pointer;
+    isolation:isolate;
+  }
+  .g-item.hidden{display:none;}
+  .g-item img{
+    width:100%; height:100%; object-fit:cover;
+    transition:transform .8s cubic-bezier(.2,.7,.2,1);
+  }
+  .g-item:hover img{transform:scale(1.06);}
+
+  /* Hover veil */
+  .g-item::after{
+    content:''; position:absolute; inset:0; z-index:1;
+    background:rgba(26,20,15,0);
+    transition:background .4s ease;
+    pointer-events:none;
+  }
+  .g-item:hover::after{background:rgba(26,20,15,0.16);}
+
+  /* Zoom icon (images) */
+  .zoom-icon{
+    position:absolute; bottom:14px; right:14px; z-index:2;
+    width:38px; height:38px; border-radius:50%;
+    background:rgba(245,239,226,0.16);
+    backdrop-filter:blur(8px);
+    -webkit-backdrop-filter:blur(8px);
+    border:1px solid rgba(245,239,226,0.35);
+    display:flex; align-items:center; justify-content:center;
+    color:var(--paper);
+    opacity:0; transform:translateY(8px);
+    transition:all .35s cubic-bezier(.4,0,.2,1);
+  }
+  .g-item:hover .zoom-icon{opacity:1; transform:translateY(0);}
+
+  /* Play button (videos) */
+  .play-btn-overlay{
+    position:absolute; top:50%; left:50%; z-index:2;
+    transform:translate(-50%, -50%);
+    width:64px; height:64px;
+    background:rgba(245,239,226,0.2);
+    backdrop-filter:blur(8px);
+    -webkit-backdrop-filter:blur(8px);
+    border:1px solid rgba(245,239,226,0.5);
+    border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    color:var(--paper);
+    transition:all .3s cubic-bezier(.4,0,.2,1);
+    pointer-events:none;
+  }
+  .g-item:hover .play-btn-overlay{
+    background:var(--gold);
+    border-color:var(--gold);
+    color:var(--ink);
+    transform:translate(-50%, -50%) scale(1.08);
+  }
+
+  /* Video chip */
+  .video-chip{
+    position:absolute; top:14px; left:14px; z-index:2;
+    font-size:10px; font-weight:700; letter-spacing:0.14em;
+    text-transform:uppercase; color:var(--paper);
+    background:rgba(26,20,15,0.65);
+    backdrop-filter:blur(6px);
+    -webkit-backdrop-filter:blur(6px);
+    padding:5px 10px; border-radius:2px;
+    display:flex; align-items:center; gap:6px;
+  }
+  .video-chip .dot{
+    width:5px; height:5px; border-radius:50%; background:var(--gold-light);
+  }
 
   @media (max-width:900px){
-    .gallery-grid{grid-template-columns:repeat(2, 1fr);}
-    .g-item.span-4, .g-item.span-8, .g-item.span-6, .g-item.span-3{grid-column:span 1; aspect-ratio:4/5;}
+    .gallery-grid{grid-template-columns:repeat(2, 1fr); gap:12px;}
   }
-  @media (max-width:600px){
+  @media (max-width:520px){
     .gallery-grid{grid-template-columns:1fr;}
+    .year-tab{padding:10px 18px; font-size:11px;}
+  }
+
+  /* ==================== NTA SECTION ==================== */
+  .csr-nta{
+    padding:140px 0;
+    background:var(--ink);
+    color:var(--paper);
+    position:relative;
+    overflow:hidden;
+  }
+  .csr-nta::before{
+    content:''; position:absolute; inset:0;
+    background:radial-gradient(circle at 80% 20%, rgba(176,129,46,0.12), transparent 60%);
+    pointer-events:none;
+  }
+  .nta-inner{
+    display:grid;
+    grid-template-columns:1.35fr 1fr;
+    gap:70px;
+    align-items:center;
+    position:relative;
+    z-index:2;
+  }
+  .nta-video-wrap{position:relative;}
+  .nta-video-frame{
+    position:relative;
+    aspect-ratio:16/9;
+    border-radius:4px;
+    overflow:hidden;
+    background:#000;
+    box-shadow:0 30px 80px rgba(0,0,0,0.5);
+    border:1px solid rgba(228,199,126,0.18);
+  }
+  .nta-video-frame iframe,
+  .nta-video-frame video{
+    width:100%; height:100%; border:none; display:block;
+  }
+  .nta-video-label{
+    position:absolute; top:-16px; left:24px; z-index:2;
+    background:var(--gold);
+    color:var(--ink);
+    font-size:11px; font-weight:700;
+    letter-spacing:0.14em; text-transform:uppercase;
+    padding:8px 16px; border-radius:50px;
+    display:flex; align-items:center; gap:8px;
+    box-shadow:0 8px 24px rgba(176,129,46,0.35);
+  }
+  .live-dot{
+    width:6px; height:6px; border-radius:50%;
+    background:var(--rust);
+    animation:pulse 2s infinite;
+  }
+  @keyframes pulse{
+    0%,100%{opacity:1; transform:scale(1);}
+    50%{opacity:0.5; transform:scale(0.8);}
+  }
+  .nta-badge{
+    display:inline-flex; align-items:center; gap:10px;
+    padding:9px 18px;
+    background:rgba(176,129,46,0.12);
+    border:1px solid rgba(228,199,126,0.28);
+    border-radius:50px;
+    font-size:11px; font-weight:600;
+    letter-spacing:0.16em; text-transform:uppercase;
+    color:var(--gold-light);
+    margin-bottom:26px;
+  }
+  .nta-badge::before{content:''; width:18px; height:1px; background:var(--gold-light);}
+  .nta-text h2{
+    font-size:clamp(32px, 4vw, 52px);
+    line-height:1.08;
+    color:var(--paper);
+    margin-bottom:22px;
+    letter-spacing:-0.025em;
+  }
+  .nta-text h2 em{font-style:italic; color:var(--gold-light); font-weight:340;}
+  .nta-text p{
+    color:rgba(245,239,226,0.72);
+    font-size:16.5px;
+    line-height:1.75;
+    margin-bottom:20px;
+    max-width:48ch;
+  }
+  .nta-meta{
+    display:flex; gap:36px;
+    padding-top:26px; margin-top:14px;
+    border-top:1px solid rgba(245,239,226,0.14);
+  }
+  .nta-meta-item .label{
+    font-size:10px; letter-spacing:0.16em; text-transform:uppercase;
+    color:rgba(245,239,226,0.4); margin-bottom:6px; font-weight:600;
+  }
+  .nta-meta-item .value{
+    font-size:16px; color:var(--paper); font-weight:500;
+    font-family:'Fraunces', serif; letter-spacing:-0.01em;
+  }
+
+  @media (max-width:900px){
+    .csr-nta{padding:80px 0;}
+    .nta-inner{grid-template-columns:1fr; gap:48px;}
+    .nta-meta{gap:28px; flex-wrap:wrap;}
+  }
+
+  /* ==================== LIGHTBOX ==================== */
+  .lightbox{
+    position:fixed; inset:0; z-index:9999;
+    background:rgba(10,8,6,0.96);
+    display:none;
+    align-items:center; justify-content:center;
+    padding:60px 90px;
+    backdrop-filter:blur(6px);
+    -webkit-backdrop-filter:blur(6px);
+  }
+  .lightbox.open{display:flex;}
+  .lb-content{
+    max-width:90vw; max-height:85vh;
+    display:flex; align-items:center; justify-content:center;
+    width:100%; height:100%;
+  }
+  .lb-content img, .lb-content video{
+    max-width:100%; max-height:85vh;
+    object-fit:contain;
+    border-radius:4px;
+    box-shadow:0 30px 90px rgba(0,0,0,0.5);
+  }
+  .lb-btn{
+    position:fixed;
+    background:rgba(245,239,226,0.08);
+    border:1px solid rgba(245,239,226,0.2);
+    color:var(--paper);
+    border-radius:50%;
+    width:52px; height:52px;
+    cursor:pointer;
+    display:flex; align-items:center; justify-content:center;
+    transition:all .25s cubic-bezier(.4,0,.2,1);
+    z-index:10;
+    font-size:24px; line-height:1;
+  }
+  .lb-btn:hover{
+    background:var(--gold);
+    border-color:var(--gold);
+    color:var(--ink);
+    transform:scale(1.06);
+  }
+  .lb-close{top:24px; right:24px;}
+  .lb-prev{left:24px; top:50%; transform:translateY(-50%);}
+  .lb-next{right:24px; top:50%; transform:translateY(-50%);}
+  .lb-prev:hover, .lb-next:hover{transform:translateY(-50%) scale(1.06);}
+  .lb-caption{
+    position:fixed; bottom:26px; left:50%;
+    transform:translateX(-50%);
+    color:var(--paper);
+    font-size:14px; text-align:center;
+    max-width:70vw;
+    opacity:0.85;
+  }
+  .lb-counter{
+    position:fixed; top:32px; left:50%;
+    transform:translateX(-50%);
+    color:rgba(245,239,226,0.55);
+    font-size:11px; letter-spacing:0.2em;
+    font-weight:600;
+  }
+  @media (max-width:768px){
+    .lightbox{padding:40px 16px;}
+    .lb-btn{width:44px; height:44px; font-size:20px;}
+    .lb-close{top:14px; right:14px;}
+    .lb-prev{left:10px;}
+    .lb-next{right:10px;}
+    .lb-caption{bottom:20px; font-size:12px; max-width:85vw;}
+    .lb-counter{top:22px; font-size:10px;}
   }
 
   /* ==================== CTA ==================== */
@@ -260,7 +517,6 @@ window.hgOnAuthStateChanged = onAuthStateChanged;
     nav.open a.nav-link-auth:hover{background:rgba(176,129,46,0.2); color:var(--gold-light);}
     nav.open a.nav-link-auth.signed-in{background:rgba(45,106,79,0.2); border-color:rgba(45,106,79,0.5); color:#A8D8BA;}
 
-    /* Mobile Dropdown */
     .dropdown-menu { position: static; display: block; box-shadow: none; border: none; background: transparent; padding: 0; margin-top: 10px; }
     .dropdown-menu a { color: var(--paper); font-size: 20px; padding-left: 20px; border-bottom: none; opacity: 0.8; text-transform: none; font-weight: 400; }
     .dropdown-menu a:hover { color: var(--gold-light); background: transparent; }
@@ -270,7 +526,6 @@ window.hgOnAuthStateChanged = onAuthStateChanged;
     .csr-intro, .csr-event, .csr-gallery{padding:80px 0;}
   }
 
-  /* ==================== MOBILE MENU FIX ==================== */
   body.menu-open header{backdrop-filter:none !important; -webkit-backdrop-filter:none !important;}
 
   /* ==================== MOBILE BOTTOM NAVIGATION ==================== */
@@ -326,14 +581,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <img src="image/Logo.jpeg" alt="Handy-Gidi Logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
       <span style="display:none; font-family:var(--font-brand); font-size:28px; font-weight:650; letter-spacing:-0.03em;">Handy<em style="font-style:italic; font-weight:460; color:var(--gold-deep);">·</em>Gidi</span>
     </a>
-    
+
     <nav id="nav">
       <button class="mobile-nav-close" id="mobileNavClose" aria-label="Close menu" type="button">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
           <path d="M5 5L19 19M19 5L5 19" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
         </svg>
       </button>
-      
+
       <div class="dropdown">
         <a href="shop.html" class="nav-link" style="cursor: pointer;">Shop ▾</a>
         <div class="dropdown-menu">
@@ -350,13 +605,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <a href="shop.html?category=outdoor">OUTDOOR</a>
         </div>
       </div>
-      
+
       <a href="about.html" class="nav-link">About</a>
       <a href="modular.html" class="nav-link">Modular</a>
       <a href="csr.html" class="nav-link active">CSR</a>
       <a href="reviews.html" class="nav-link">Reviews</a>
       <a href="contact.html" class="nav-link">Contact</a>
-      
+
       <a href="login.html" class="nav-link-auth" id="authMobileLink">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
           <circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.5"/>
@@ -387,7 +642,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <section class="csr-intro">
   <div class="wrap csr-intro-grid">
     <div class="csr-intro-media">
-      <!-- REPLACE THIS WITH A CSR IMAGE -->
       <img src="https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=1200&q=85" alt="Children learning practical skills">
     </div>
     <div class="csr-intro-text">
@@ -411,61 +665,264 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 </section>
 
-<!-- GALLERY SECTION -->
-<section class="csr-gallery">
+<!-- ============================================================ -->
+<!-- GALLERY SECTION — Year-Filtered                               -->
+<!-- ============================================================ -->
+<section class="csr-gallery" id="gallery">
   <div class="wrap">
     <div class="section-head">
       <p class="eyebrow reveal-mask"><span>In Action</span></p>
       <h2 class="reveal-mask"><span>Moments from our initiative.</span></h2>
       <p style="margin-top:18px; color:var(--ink-soft); font-size:16px;">A look at the creativity, focus, and joy from our past Children's Day events.</p>
     </div>
-    
-    <!-- 
-      INSTRUCTIONS: 
-      Replace the image/video URLs below with the actual assets from your Google Drive.
-      For videos, you can use a standard MP4 URL or an iframe embed (like YouTube/Vimeo) depending on how you host them. 
-      I have left placeholders for both images and videos.
-    -->
-    <div class="gallery-grid">
-      
-      <!-- Item 1: Standard Image -->
-      <div class="g-item span-4 reveal-mask">
-        <img src="https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=800&q=80" alt="Children learning woodworking">
-      </div>
-      
-      <!-- Item 2: Wide Image -->
-      <div class="g-item span-8 reveal-mask">
-        <img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=1200&q=80" alt="Children in a workshop">
+
+    <!-- Year filter tabs -->
+    <div class="year-tabs" role="tablist" aria-label="Filter gallery by year">
+      <button class="year-tab active" data-year="all" role="tab" aria-selected="true">All Years <span class="count">33</span></button>
+      <button class="year-tab" data-year="2022" role="tab" aria-selected="false">2022 <span class="count">11</span></button>
+      <button class="year-tab" data-year="2023" role="tab" aria-selected="false">2023 <span class="count">11</span></button>
+      <button class="year-tab" data-year="2026" role="tab" aria-selected="false">2026 <span class="count">11</span></button>
+    </div>
+
+    <!-- Gallery grid — replace src / data-src with your real media -->
+    <div class="gallery-grid" id="galleryGrid">
+
+      <!-- ============ 2022 ============ -->
+      <div class="g-item" data-year="2022" data-type="image"
+           data-src="https://ik.imagekit.io/2pqi3dzrd/IMG_0612.jpg?updatedAt=null&ik-s=7a51d2456330db3e7b94fb88ff31dd79546505e8?auto=format&fit=crop&w=1600&q=85"
+           data-caption="Children learning woodworking basics — 2022">
+        <img src="https://ik.imagekit.io/2pqi3dzrd/IMG_0612.jpg?updatedAt=null&ik-s=7a51d2456330db3e7b94fb88ff31dd79546505e8?auto=format&fit=crop&w=800&q=80" alt="Children learning woodworking basics" loading="lazy">
+        <div class="zoom-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21L16.5 16.5M11 8V14M8 11H14" stroke-linecap="round"/></svg></div>
       </div>
 
-      <!-- Item 3: Video Placeholder (Replace with real video) -->
-      <div class="g-item span-6 reveal-mask g-video">
-        <video controls poster="https://images.unsplash.com/photo-1581092160562-40aa08e78837?auto=format&fit=crop&w=800&q=80">
-          <source src="https://cdn.coverr.co/videos/coverr-carpenter-working-in-a-workshop-1571/1080p.mp4" type="video/mp4">
-        </video>
-        <div class="play-btn-overlay">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5V19L19 12L8 5Z"/></svg>
+      <div class="g-item" data-year="2022" data-type="image"
+           data-src="https://ik.imagekit.io/2pqi3dzrd/IMG_0639.jpg?updatedAt=null&ik-s=b191143927e2f6be430fc6f1acb7d44696caabb9?auto=format&fit=crop&w=1600&q=85"
+           data-caption="Workshop session in progress — 2022">
+        <img src="https://ik.imagekit.io/2pqi3dzrd/IMG_0639.jpg?updatedAt=null&ik-s=b191143927e2f6be430fc6f1acb7d44696caabb9?auto=format&fit=crop&w=800&q=80" alt="Workshop session in progress" loading="lazy">
+        <div class="zoom-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21L16.5 16.5M11 8V14M8 11H14" stroke-linecap="round"/></svg></div>
+      </div>
+
+      <div class="g-item" data-year="2022" data-type="video"
+     data-src="https://ik.imagekit.io/2pqi3dzrd/c24940066c1f4d3aa2be9d4500d39549_284443048_539031207665245_1774109928197278142_n.mp4?updatedAt=null&ik-s=e85d7bfb3b20a4fc68869a69e29a0d5582f6b03f"
+     data-caption="Highlights from the 2022 Children's Day training">
+  <img src="https://ik.imagekit.io/2pqi3dzrd/IMG_0639.jpg?updatedAt=null&ik-s=b191143927e2f6be430fc6f1acb7d44696caabb9" alt="Video highlights of 2022 training" loading="lazy">
+  <div class="video-chip"><span class="dot"></span>Video</div>
+  <div class="play-btn-overlay"><svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5V19L19 12L8 5Z"/></svg></div>
+</div>
+
+      <div class="g-item" data-year="2022" data-type="image"
+           data-src="https://ik.imagekit.io/2pqi3dzrd/IMG_0603.jpg?updatedAt=null&ik-s=6edd52f2bbc2d0636549b2f2c6f4ae9aa82e8d7e?auto=format&fit=crop&w=1600&q=85"
+           data-caption="A young participant painting — 2022">
+        <img src="https://ik.imagekit.io/2pqi3dzrd/IMG_0603.jpg?updatedAt=null&ik-s=6edd52f2bbc2d0636549b2f2c6f4ae9aa82e8d7e?auto=format&fit=crop&w=800&q=80" alt="A young participant painting" loading="lazy">
+        <div class="zoom-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21L16.5 16.5M11 8V14M8 11H14" stroke-linecap="round"/></svg></div>
+      </div>
+
+      <div class="g-item" data-year="2022" data-type="image"
+           data-src="https://ik.imagekit.io/2pqi3dzrd/070A0841.jpg?updatedAt=null&ik-s=9744326be610cd27c799779149c9008a138fc60d?auto=format&fit=crop&w=1600&q=85"
+           data-caption="Group learning session — 2022">
+        <img src="https://ik.imagekit.io/2pqi3dzrd/070A0841.jpg?updatedAt=null&ik-s=9744326be610cd27c799779149c9008a138fc60d?auto=format&fit=crop&w=800&q=80" alt="Group learning session" loading="lazy">
+        <div class="zoom-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21L16.5 16.5M11 8V14M8 11H14" stroke-linecap="round"/></svg></div>
+      </div>
+
+      <div class="g-item" data-year="2022" data-type="image"
+           data-src="https://ik.imagekit.io/2pqi3dzrd/IMG_0600.jpg?updatedAt=null&ik-s=d958faa87f426aa1c2e15e4764ac635aca04f6a0?auto=format&fit=crop&w=1600&q=85"
+           data-caption="Children collaborating on a project — 2022">
+        <img src="https://ik.imagekit.io/2pqi3dzrd/IMG_0600.jpg?updatedAt=null&ik-s=d958faa87f426aa1c2e15e4764ac635aca04f6a0?auto=format&fit=crop&w=800&q=80" alt="Children collaborating" loading="lazy">
+        <div class="zoom-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21L16.5 16.5M11 8V14M8 11H14" stroke-linecap="round"/></svg></div>
+      </div>
+
+      
+      
+      <!-- ============ 2023 ============ -->
+      <div class="g-item" data-year="2023" data-type="image"
+           data-src="https://ik.imagekit.io/2pqi3dzrd/070A0833.jpg?updatedAt=null&ik-s=03eaf1232955c908195e5bb85929fa2a294db41d?auto=format&fit=crop&w=1600&q=85"
+           data-caption="Wood workshop, 2023">
+        <img src="https://ik.imagekit.io/2pqi3dzrd/070A0833.jpg?updatedAt=null&ik-s=03eaf1232955c908195e5bb85929fa2a294db41d?auto=format&fit=crop&w=800&q=80" alt="Wood workshop" loading="lazy">
+        <div class="zoom-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21L16.5 16.5M11 8V14M8 11H14" stroke-linecap="round"/></svg></div>
+      </div>
+
+      <div class="g-item" data-year="2023" data-type="image"
+           data-src="https://ik.imagekit.io/2pqi3dzrd/070A0719.jpg?updatedAt=null&ik-s=c91b621744c93980f3f695936b235d8457fcb216?auto=format&fit=crop&w=1600&q=85"
+           data-caption="Workshop atmosphere, 2023">
+        <img src="https://ik.imagekit.io/2pqi3dzrd/070A0719.jpg?updatedAt=null&ik-s=c91b621744c93980f3f695936b235d8457fcb216?auto=format&fit=crop&w=800&q=80" alt="Workshop atmosphere" loading="lazy">
+        <div class="zoom-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21L16.5 16.5M11 8V14M8 11H14" stroke-linecap="round"/></svg></div>
+      </div>
+
+      <div class="g-item" data-year="2023" data-type="image"
+           data-src="https://ik.imagekit.io/2pqi3dzrd/070A0915.jpg?updatedAt=null&ik-s=879ece377b6fa73559b47cfe434415dc67e10e0f?auto=format&fit=crop&w=1600&q=85"
+           data-caption="Child at work, 2023">
+        <img src="https://ik.imagekit.io/2pqi3dzrd/070A0915.jpg?updatedAt=null&ik-s=879ece377b6fa73559b47cfe434415dc67e10e0f?auto=format&fit=crop&w=800&q=80" alt="Child at work" loading="lazy">
+        <div class="zoom-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21L16.5 16.5M11 8V14M8 11H14" stroke-linecap="round"/></svg></div>
+      </div>
+
+      <div class="g-item" data-year="2023" data-type="image"
+           data-src="https://ik.imagekit.io/2pqi3dzrd/070A0698.jpg?updatedAt=null&ik-s=4cbc5fd9d4b7471249a714d291642b239c63ed63?auto=format&fit=crop&w=1600&q=85"
+           data-caption="Group project, 2023">
+        <img src="https://ik.imagekit.io/2pqi3dzrd/070A0698.jpg?updatedAt=null&ik-s=4cbc5fd9d4b7471249a714d291642b239c63ed63?auto=format&fit=crop&w=800&q=80" alt="Group project" loading="lazy">
+        <div class="zoom-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21L16.5 16.5M11 8V14M8 11H14" stroke-linecap="round"/></svg></div>
+      </div>
+
+      <div class="g-item" data-year="2023" data-type="image"
+           data-src="https://ik.imagekit.io/2pqi3dzrd/070A0789.jpg?updatedAt=null&ik-s=b626f6d747194d23fcd70b44a84fd1eeb63233b0?auto=format&fit=crop&w=1600&q=85"
+           data-caption="Craft work, 2023">
+        <img src="https://ik.imagekit.io/2pqi3dzrd/070A0789.jpg?updatedAt=null&ik-s=b626f6d747194d23fcd70b44a84fd1eeb63233b0?auto=format&fit=crop&w=800&q=80" alt="Craft work" loading="lazy">
+        <div class="zoom-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21L16.5 16.5M11 8V14M8 11H14" stroke-linecap="round"/></svg></div>
+      </div>
+
+      <div class="g-item" data-year="2023" data-type="video"
+           data-src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4"
+           data-caption="Behind the scenes at the 2023 training">
+        <img src="https://images.unsplash.com/photo-1607453998774-d533f65dac99?auto=format&fit=crop&w=800&q=80" alt="Video highlights of 2023 training" loading="lazy">
+        <div class="video-chip"><span class="dot"></span>Video</div>
+        <div class="play-btn-overlay"><svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5V19L19 12L8 5Z"/></svg></div>
+      </div>
+
+      <div class="g-item" data-year="2023" data-type="image"
+           data-src="https://ik.imagekit.io/2pqi3dzrd/070A0675.jpg?updatedAt=null&ik-s=eecf5edd99b1f446c8fc97762f05b885e4da2187?auto=format&fit=crop&w=1600&q=85"
+           data-caption="Kids together, 2023">
+        <img src="https://ik.imagekit.io/2pqi3dzrd/070A0675.jpg?updatedAt=null&ik-s=eecf5edd99b1f446c8fc97762f05b885e4da2187?auto=format&fit=crop&w=800&q=80" alt="Kids together" loading="lazy">
+        <div class="zoom-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21L16.5 16.5M11 8V14M8 11H14" stroke-linecap="round"/></svg></div>
+      </div>
+
+      <div class="g-item" data-year="2023" data-type="image"
+           data-src="https://ik.imagekit.io/2pqi3dzrd/070A0852.jpg?updatedAt=null&ik-s=6384a5076f67b6d474d06f81fcb11f8c9bfe422a?auto=format&fit=crop&w=1600&q=85"
+           data-caption="Young maker at work, 2023">
+        <img src="https://ik.imagekit.io/2pqi3dzrd/070A0852.jpg?updatedAt=null&ik-s=6384a5076f67b6d474d06f81fcb11f8c9bfe422a?auto=format&fit=crop&w=800&q=80" alt="Young maker at work" loading="lazy">
+        <div class="zoom-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21L16.5 16.5M11 8V14M8 11H14" stroke-linecap="round"/></svg></div>
+      </div>
+
+      <div class="g-item" data-year="2023" data-type="image"
+           data-src="https://ik.imagekit.io/2pqi3dzrd/070A0766.jpg?updatedAt=null&ik-s=b283320d98e405a1f9f14df89143f511fed36294?auto=format&fit=crop&w=1600&q=85"
+           data-caption="Workshop tools, 2023">
+        <img src="https://ik.imagekit.io/2pqi3dzrd/070A0766.jpg?updatedAt=null&ik-s=b283320d98e405a1f9f14df89143f511fed36294?auto=format&fit=crop&w=800&q=80" alt="Workshop tools" loading="lazy">
+        <div class="zoom-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21L16.5 16.5M11 8V14M8 11H14" stroke-linecap="round"/></svg></div>
+      </div>
+
+      <div class="g-item" data-year="2023" data-type="image"
+           data-src="https://ik.imagekit.io/2pqi3dzrd/070A0938.jpg?updatedAt=null&ik-s=e823450ff45e8c108251e87a7e4750553faacd4e?auto=format&fit=crop&w=1600&q=85"
+           data-caption="Learning together, 2023">
+        <img src="https://ik.imagekit.io/2pqi3dzrd/070A0938.jpg?updatedAt=null&ik-s=e823450ff45e8c108251e87a7e4750553faacd4e?auto=format&fit=crop&w=800&q=80" alt="Learning together" loading="lazy">
+        <div class="zoom-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21L16.5 16.5M11 8V14M8 11H14" stroke-linecap="round"/></svg></div>
+      </div>
+
+      <!-- ============ 2026 ============ -->
+      <div class="g-item" data-year="2026" data-type="image"
+           data-src="https://ik.imagekit.io/2pqi3dzrd/How%20yesterday%20went%20on%20our%20children_s%20day%20event%202026_handygidibestfinishing_handygidi_childrensda%20(4).jpg?updatedAt=null&ik-s=ff1639b81b5d4d80b99945f1a3c6c88926859f02?auto=format&fit=crop&w=1600&q=85"
+           data-caption="Woodworking in action — 2026">
+        <img src="https://ik.imagekit.io/2pqi3dzrd/How%20yesterday%20went%20on%20our%20children_s%20day%20event%202026_handygidibestfinishing_handygidi_childrensda%20(4).jpg?updatedAt=null&ik-s=ff1639b81b5d4d80b99945f1a3c6c88926859f02?auto=format&fit=crop&w=800&q=80" alt="Woodworking in action" loading="lazy">
+        <div class="zoom-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21L16.5 16.5M11 8V14M8 11H14" stroke-linecap="round"/></svg></div>
+      </div>
+
+      <div class="g-item" data-year="2026" data-type="image"
+           data-src="https://ik.imagekit.io/2pqi3dzrd/How%20yesterday%20went%20on%20our%20children_s%20day%20event%202026_handygidibestfinishing_handygidi_childrensda%20(5).jpg?updatedAt=null&ik-s=ce4a845f4da4848ea00307fa9000e3db2e301207?auto=format&fit=crop&w=1600&q=85"
+           data-caption="Craft workshop — 2026">
+        <img src="https://ik.imagekit.io/2pqi3dzrd/How%20yesterday%20went%20on%20our%20children_s%20day%20event%202026_handygidibestfinishing_handygidi_childrensda%20(5).jpg?updatedAt=null&ik-s=ce4a845f4da4848ea00307fa9000e3db2e301207?auto=format&fit=crop&w=800&q=80" alt="Craft workshop" loading="lazy">
+        <div class="zoom-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21L16.5 16.5M11 8V14M8 11H14" stroke-linecap="round"/></svg></div>
+      </div>
+
+      <div class="g-item" data-year="2026" data-type="image"
+           data-src="https://ik.imagekit.io/2pqi3dzrd/How%20yesterday%20went%20on%20our%20children_s%20day%20event%202026_handygidibestfinishing_handygidi_childrensda%20(2).jpg?updatedAt=null&ik-s=6c1f55c6d8a81ae7d447c2db88f25d27d5f7298a?auto=format&fit=crop&w=1600&q=85"
+           data-caption="A focused young maker — 2026">
+        <img src="https://ik.imagekit.io/2pqi3dzrd/How%20yesterday%20went%20on%20our%20children_s%20day%20event%202026_handygidibestfinishing_handygidi_childrensda%20(2).jpg?updatedAt=null&ik-s=6c1f55c6d8a81ae7d447c2db88f25d27d5f7298a?auto=format&fit=crop&w=800&q=80" alt="A focused young maker" loading="lazy">
+        <div class="zoom-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21L16.5 16.5M11 8V14M8 11H14" stroke-linecap="round"/></svg></div>
+      </div>
+
+      <div class="g-item" data-year="2026" data-type="video"
+     data-src="https://ik.imagekit.io/2pqi3dzrd/08b84967225548e2b4b2b7507ab804c1.MP4?updatedAt=null&ik-s=a7bbcb812aace66bb82742ca24658e251787afd3"
+     data-caption="Highlights from the 2026 training day">
+  <img src="https://ik.imagekit.io/2pqi3dzrd/IMG_5689.jpg?updatedAt=null&ik-s=5d58cab30894b656f1c86fc3c0c9994d32900c02"
+       alt="Video highlights of 2026 training" loading="lazy">
+  <div class="video-chip"><span class="dot"></span>Video</div>
+  <div class="play-btn-overlay">
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5V19L19 12L8 5Z"/></svg>
+  </div>
+</div>
+
+      <div class="g-item" data-year="2026" data-type="image"
+           data-src="https://ik.imagekit.io/2pqi3dzrd/IMG_5689.jpg?updatedAt=null&ik-s=5d58cab30894b656f1c86fc3c0c9994d32900c02?auto=format&fit=crop&w=1600&q=85"
+           data-caption="Learning session — 2026">
+        <img src="https://ik.imagekit.io/2pqi3dzrd/IMG_5689.jpg?updatedAt=null&ik-s=5d58cab30894b656f1c86fc3c0c9994d32900c02?auto=format&fit=crop&w=800&q=80" alt="Learning session" loading="lazy">
+        <div class="zoom-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21L16.5 16.5M11 8V14M8 11H14" stroke-linecap="round"/></svg></div>
+      </div>
+
+      <div class="g-item" data-year="2026" data-type="image"
+           data-src="https://ik.imagekit.io/2pqi3dzrd/How%20yesterday%20went%20on%20our%20children_s%20day%20event%202026_handygidibestfinishing_handygidi_childrensda%20(1).jpg?updatedAt=null&ik-s=405dcc1a8c5d0d2f9125d33357c16571dd2a71c0?auto=format&fit=crop&w=1600&q=85"
+           data-caption="Children's Day celebration — 2026">
+        <img src="https://ik.imagekit.io/2pqi3dzrd/How%20yesterday%20went%20on%20our%20children_s%20day%20event%202026_handygidibestfinishing_handygidi_childrensda%20(1).jpg?updatedAt=null&ik-s=405dcc1a8c5d0d2f9125d33357c16571dd2a71c0?auto=format&fit=crop&w=800&q=80" alt="Children's Day celebration" loading="lazy">
+        <div class="zoom-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21L16.5 16.5M11 8V14M8 11H14" stroke-linecap="round"/></svg></div>
+      </div>
+
+      <div class="g-item" data-year="2026" data-type="image"
+           data-src="https://ik.imagekit.io/2pqi3dzrd/IMG_5695.jpg?updatedAt=null&ik-s=d758af43a26dc0721be2dee191dcf0642abdc286?auto=format&fit=crop&w=1600&q=85"
+           data-caption="Group learning — 2026">
+        <img src="https://ik.imagekit.io/2pqi3dzrd/IMG_5695.jpg?updatedAt=null&ik-s=d758af43a26dc0721be2dee191dcf0642abdc286?auto=format&fit=crop&w=800&q=80" alt="Group learning" loading="lazy">
+        <div class="zoom-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21L16.5 16.5M11 8V14M8 11H14" stroke-linecap="round"/></svg></div>
+      </div>
+
+    
+
+      <div class="g-item" data-year="2026" data-type="video"
+     data-src="https://ik.imagekit.io/2pqi3dzrd/08b84967225548e2b4b2b7507ab804c1.MP4?updatedAt=null&ik-s=a7bbcb812aace66bb82742ca24658e251787afd3"
+     data-caption="Highlights from the 2026 training day">
+  <img src="https://ik.imagekit.io/2pqi3dzrd/1898bd2b41d94fbc8d08c0ff7321ec4d.MP4?updatedAt=null&ik-s=20dce35382312048149f53d78f17611a8fc26922?updatedAt=null&ik-s=5d58cab30894b656f1c86fc3c0c9994d32900c02"
+       alt="Video highlights of 2026 training" loading="lazy">
+  <div class="video-chip"><span class="dot"></span>Video</div>
+  <div class="play-btn-overlay">
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5V19L19 12L8 5Z"/></svg>
+  </div>
+</div>
+
+
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- NTA BROADCAST SECTION                                         -->
+<!-- ============================================================ -->
+<section class="csr-nta" id="nta">
+  <div class="wrap">
+    <div class="nta-inner">
+
+      <div class="nta-video-wrap">
+        <div class="nta-video-label">
+          <span class="live-dot"></span>
+          NTA Broadcast
+        </div>
+        <div class="nta-video-frame">
+          <!--
+            REPLACE "VIDEO_ID_HERE" WITH YOUR NTA BROADCAST YOUTUBE VIDEO ID.
+            Example: if your URL is https://www.youtube.com/watch?v=abc123XYZ
+            then use src="https://www.youtube.com/embed/abc123XYZ?rel=0&modestbranding=1"
+          -->
+          <iframe
+            src="https://www.youtube.com/embed/VIDEO_ID_HERE?rel=0&modestbranding=1"
+            title="NTA Coverage — Handy-Gidi Children's Day CSR Initiative"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen></iframe>
         </div>
       </div>
 
-      <!-- Item 4: Tall Image -->
-      <div class="g-item span-3 reveal-mask">
-        <img src="https://images.unsplash.com/photo-1503454537195-1dc5e2c0a608?auto=format&fit=crop&w=800&q=80" alt="Child painting">
-      </div>
-
-      <!-- Item 5: Square Image -->
-      <div class="g-item span-3 reveal-mask">
-        <img src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&w=800&q=80" alt="Group of children learning">
-      </div>
-      
-      <!-- Item 6: Another Wide Image -->
-      <div class="g-item span-8 reveal-mask">
-        <img src="https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=1200&q=80" alt="Children collaborating">
-      </div>
-
-      <!-- Item 7: Square Image -->
-      <div class="g-item span-4 reveal-mask">
-        <img src="https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=800&q=80" alt="Tools and learning">
+      <div class="nta-text">
+        <div class="nta-badge">Featured on National Television</div>
+        <h2>Our story, <em>broadcast.</em></h2>
+        <p>Our Children's Day training initiative was featured on the Nigerian Television Authority (NTA) — recognising the impact of practical skills education for young Nigerians.</p>
+        <p>The coverage highlights the hands-on learning, the energy of the participants, and our continued commitment to empowering the next generation of creative minds.</p>
+        <div class="nta-meta">
+          <div class="nta-meta-item">
+            <div class="label">Broadcaster</div>
+            <div class="value">NTA</div>
+          </div>
+          <div class="nta-meta-item">
+            <div class="label">Programme</div>
+            <div class="value">Children's Day Feature</div>
+          </div>
+          <div class="nta-meta-item">
+            <div class="label">Year</div>
+            <div class="value">2023</div>
+          </div>
+        </div>
       </div>
 
     </div>
@@ -492,7 +949,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div class="footer-brand">
         <img src="image/PLogo.jpeg" alt="Handy-Gidi Logo" class="footer-logo" onerror="this.style.display='none'; document.getElementById('footer-logo-text').style.display='block';">
         <h3 id="footer-logo-text" style="display:none; font-family:var(--font-brand); font-size:32px; font-weight:650; margin-bottom:12px;">Handy<em style="font-style:italic; font-weight:340; color:var(--gold-light);">·</em>Gidi</h3>
-        
         <h3>Handygidi furnitures</h3>
         <div class="slogan">Luxury redefined</div>
         <p>Your space. Your style. Your way. Handy-Gidi International Ltd.</p>
@@ -571,6 +1027,24 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </a>
 </nav>
 
+<!-- ============================================================ -->
+<!-- LIGHTBOX                                                      -->
+<!-- ============================================================ -->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-hidden="true" aria-label="Media viewer">
+  <button class="lb-btn lb-close" id="lbClose" aria-label="Close viewer">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 5L19 19M19 5L5 19"/></svg>
+  </button>
+  <button class="lb-btn lb-prev" id="lbPrev" aria-label="Previous item">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18L9 12L15 6"/></svg>
+  </button>
+  <button class="lb-btn lb-next" id="lbNext" aria-label="Next item">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18L15 12L9 6"/></svg>
+  </button>
+  <div class="lb-content" id="lbContent"></div>
+  <div class="lb-caption" id="lbCaption"></div>
+  <div class="lb-counter" id="lbCounter"></div>
+</div>
+
 <script>
 const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const hasGSAP = typeof gsap !== 'undefined';
@@ -645,7 +1119,7 @@ if(!prefersReduced && hasGSAP){
     const headline = document.getElementById('heroHeadline');
     const words = headline.textContent.split(' ');
     headline.innerHTML = words.map(w => `<span style="display:inline-block; overflow:hidden; padding:0 .04em .1em 0;"><span style="display:inline-block;" class="h-word">${w}</span></span>`).join(' ');
-    
+
     gsap.from('.h-word', { yPercent:120, opacity:0, duration:.9, stagger:.06, ease:'power4.out', delay:.2 });
     gsap.from('.page-hero-eyebrow', { opacity:0, y:16, duration:.7, delay:.1 });
     gsap.from('.page-hero-sub', { opacity:0, y:16, duration:.7, delay:.4 });
@@ -658,21 +1132,162 @@ if(!prefersReduced && hasGSAP){
       gsap.from(el, { yPercent:120, duration:1, ease:'power4.out', scrollTrigger:{ trigger:el, start:'top 88%', toggleActions:'play none none none' } });
     });
 
-    // Gallery stagger reveal
-    gsap.from('.g-item', {
-      opacity: 0,
-      y: 40,
-      duration: 0.8,
-      stagger: 0.1,
-      ease: 'power3.out',
-      scrollTrigger: {
-        trigger: '.gallery-grid',
-        start: 'top 80%',
-      }
+    // Gallery — batched reveal (works well with many items)
+    ScrollTrigger.batch('.g-item', {
+      onEnter: batch => gsap.from(batch, {
+        opacity: 0,
+        y: 30,
+        duration: 0.7,
+        stagger: 0.05,
+        ease: 'power3.out',
+        clearProps: 'all'
+      }),
+      start: 'top 88%',
+      once: true
+    });
+
+    // NTA video reveal
+    gsap.from('.nta-video-wrap', {
+      opacity: 0, y: 40, duration: 1, ease: 'power3.out',
+      scrollTrigger: { trigger: '.csr-nta', start: 'top 75%', toggleActions: 'play none none none' }
+    });
+    gsap.from('.nta-text > *', {
+      opacity: 0, y: 24, duration: 0.8, stagger: 0.1, ease: 'power3.out',
+      scrollTrigger: { trigger: '.csr-nta', start: 'top 70%', toggleActions: 'play none none none' }
     });
 
   } catch(e){ console.error(e); }
 }
+
+/* ============================================================ */
+/* YEAR FILTER + LIGHTBOX                                        */
+/* ============================================================ */
+(function initGallery(){
+  const grid = document.getElementById('galleryGrid');
+  if(!grid) return;
+
+  const items = Array.from(grid.querySelectorAll('.g-item'));
+  const tabs = document.querySelectorAll('.year-tab');
+  let currentFilter = 'all';
+  let currentIndex = 0;
+
+  // Returns only the items currently visible (not filtered out)
+  function getVisibleItems(){
+    return items.filter(item => !item.classList.contains('hidden'));
+  }
+
+  function filterGallery(year){
+    currentFilter = year;
+    items.forEach(item => {
+      const show = (year === 'all' || item.dataset.year === year);
+      item.classList.toggle('hidden', !show);
+    });
+
+    // Quick re-entrance animation on the newly visible items
+    if(!prefersReduced && hasGSAP){
+      const visible = getVisibleItems();
+      if(visible.length){
+        gsap.fromTo(visible,
+          { opacity: 0, y: 15 },
+          { opacity: 1, y: 0, duration: 0.45, stagger: 0.02, ease: 'power2.out', clearProps: 'all', overwrite: true }
+        );
+      }
+    }
+  }
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      tabs.forEach(t => {
+        t.classList.remove('active');
+        t.setAttribute('aria-selected', 'false');
+      });
+      tab.classList.add('active');
+      tab.setAttribute('aria-selected', 'true');
+      filterGallery(tab.dataset.year);
+    });
+  });
+
+  /* ---------------- LIGHTBOX ---------------- */
+  const lb = document.getElementById('lightbox');
+  const lbContent = document.getElementById('lbContent');
+  const lbCaption = document.getElementById('lbCaption');
+  const lbCounter = document.getElementById('lbCounter');
+  const lbClose = document.getElementById('lbClose');
+  const lbPrev = document.getElementById('lbPrev');
+  const lbNext = document.getElementById('lbNext');
+
+  function renderItem(item, index, total){
+    lbContent.innerHTML = '';
+
+    const type = item.dataset.type;
+    const src = item.dataset.src;
+    const cap = item.dataset.caption || '';
+
+    if(type === 'video'){
+      const video = document.createElement('video');
+      video.src = src;
+      video.controls = true;
+      video.playsInline = true;
+      video.preload = 'metadata';
+      lbContent.appendChild(video);
+    } else {
+      const img = document.createElement('img');
+      img.src = src;
+      img.alt = cap;
+      lbContent.appendChild(img);
+    }
+
+    lbCaption.textContent = cap;
+    lbCounter.textContent = (index + 1) + ' / ' + total;
+  }
+
+  function openLightbox(item){
+    const visible = getVisibleItems();
+    currentIndex = visible.indexOf(item);
+    if(currentIndex < 0) currentIndex = 0;
+    renderItem(visible[currentIndex], currentIndex, visible.length);
+    lb.classList.add('open');
+    lb.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('no-scroll');
+  }
+
+  function closeLightbox(){
+    lb.classList.remove('open');
+    lb.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('no-scroll');
+    // Stop any playing video
+    const v = lbContent.querySelector('video');
+    if(v){ v.pause(); v.currentTime = 0; }
+    setTimeout(() => { lbContent.innerHTML = ''; }, 200);
+  }
+
+  function navigate(dir){
+    const visible = getVisibleItems();
+    if(!visible.length) return;
+    currentIndex = (currentIndex + dir + visible.length) % visible.length;
+    renderItem(visible[currentIndex], currentIndex, visible.length);
+  }
+
+  items.forEach(item => {
+    item.addEventListener('click', () => openLightbox(item));
+  });
+
+  lbClose.addEventListener('click', closeLightbox);
+  lbPrev.addEventListener('click', () => navigate(-1));
+  lbNext.addEventListener('click', () => navigate(1));
+
+  // Click on backdrop closes (but not on content/buttons)
+  lb.addEventListener('click', (e) => {
+    if(e.target === lb) closeLightbox();
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if(!lb.classList.contains('open')) return;
+    if(e.key === 'Escape') closeLightbox();
+    else if(e.key === 'ArrowLeft') navigate(-1);
+    else if(e.key === 'ArrowRight') navigate(1);
+  });
+})();
 </script>
 </body>
 </html>
