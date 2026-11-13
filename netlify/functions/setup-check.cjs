@@ -1,7 +1,7 @@
 
 const admin = require("firebase-admin");
 
-module.exports.handler = async function (event, context) {
+exports.handler = async function () {
   try {
     const encodedCredentials =
       process.env.FIREBASE_SERVICE_ACCOUNT_BASE64;
@@ -23,8 +23,9 @@ module.exports.handler = async function (event, context) {
       });
     }
 
-    const paystackConfigured =
-      Boolean(process.env.PAYSTACK_SECRET_KEY);
+    // Test an actual connection to Firestore.
+    const db = admin.firestore();
+    const collections = await db.listCollections();
 
     return {
       statusCode: 200,
@@ -34,19 +35,23 @@ module.exports.handler = async function (event, context) {
       body: JSON.stringify({
         success: true,
         firebaseConnected: true,
-        firebaseProject: admin.app().options.projectId,
-        paystackSecretConfigured: paystackConfigured,
-        message: "Backend configuration check successful.",
+        firestoreConnected: true,
+        firebaseProject: serviceAccount.project_id,
+        collectionCount: collections.length,
+        paystackSecretConfigured:
+          Boolean(process.env.PAYSTACK_SECRET_KEY),
+        message: "Firebase and Firestore are connected.",
       }),
     };
+
   } catch (error) {
-    console.error("Setup check failed:", error);
+    console.error("Backend connection test failed:", error);
 
     return {
       statusCode: 500,
       body: JSON.stringify({
         success: false,
-        message: "Backend configuration check failed.",
+        message: "Backend connection test failed.",
       }),
     };
   }
