@@ -907,13 +907,15 @@
     transition:border-color .2s;
   }
   .image-preview-box.has-image{border-style:solid; border-color:transparent;}
-  .image-preview-box img{
+  .image-preview-box img,
+  .image-preview-box video{
     position:absolute; inset:0;
     width:100%; height:100%;
     object-fit:cover;
     display:none;
   }
-  .image-preview-box.has-image img{display:block;}
+  .image-preview-box.has-image img,
+  .image-preview-box.has-image video{display:block;}
   .image-preview-placeholder{
     display:flex;
     flex-direction:column;
@@ -943,6 +945,24 @@
     text-decoration:underline;
     text-decoration-color:rgba(176,129,46,0.4);
     text-underline-offset:2px;
+  }
+
+  /* Video preview row */
+  .video-preview-row{
+    display:flex;
+    gap:16px;
+    align-items:flex-start;
+    margin-top:12px;
+  }
+  .video-preview-row .image-preview-box{
+    width:260px;
+    flex-shrink:0;
+    aspect-ratio:16/9;
+  }
+  .video-preview-row .image-hint{flex:1; min-width:0;}
+  @media (max-width:640px){
+    .video-preview-row{flex-direction:column;}
+    .video-preview-row .image-preview-box{width:100%;}
   }
 
   /* ========== TOAST ========== */
@@ -1316,6 +1336,7 @@
                     <span>Paste a URL above to preview</span>
                   </div>
                   <img id="previewImg1" alt="" />
+                  <video id="previewVideo1" muted playsinline preload="metadata"></video>
                 </div>
               </div>
               <div class="image-url-field">
@@ -1327,11 +1348,31 @@
                     <span>Optional — shows when customers hover</span>
                   </div>
                   <img id="previewImg2" alt="" />
+                  <video id="previewVideo2" muted playsinline preload="metadata"></video>
                 </div>
               </div>
             </div>
             <div class="image-hint" style="margin-top:14px;">
               <strong style="color:var(--ink);">Where to host images:</strong> Use <a href="https://cloudinary.com" target="_blank" rel="noopener">Cloudinary</a> (free 25GB), <a href="https://imgur.com" target="_blank" rel="noopener">Imgur</a>, or any public image URL. Upload there first, then paste the direct link here.
+            </div>
+          </div>
+
+          <div class="field" style="grid-column:1 / -1;">
+            <label for="pVideo">Video URL (optional — paste an .mp4 / .webm / .mov link)</label>
+            <input type="url" id="pVideo" class="image-url-input" placeholder="https://ik.imagekit.io/.../video.mp4 or any direct video link" />
+            <div class="video-preview-row">
+              <div class="image-preview-box" id="previewBoxVideo">
+                <div class="image-preview-placeholder">
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M8 5V19L19 12L8 5Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+                  <span>Paste a video URL to preview</span>
+                </div>
+                <video id="previewVideo" muted playsinline preload="metadata" controls></video>
+              </div>
+              <div class="image-hint">
+                <strong style="color:var(--ink);">Video:</strong> Paste a direct link ending in <code style="background:var(--paper-2);padding:1px 5px;border-radius:2px;">.mp4</code>, <code style="background:var(--paper-2);padding:1px 5px;border-radius:2px;">.webm</code>, or <code style="background:var(--paper-2);padding:1px 5px;border-radius:2px;">.mov</code>.
+                When set, the shop grid shows a <strong>"▶ Video"</strong> badge on the card, and the product modal plays this video with full controls.
+                Leave blank to use the main image only.
+              </div>
             </div>
           </div>
 
@@ -1397,7 +1438,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import {
   getFirestore, collection, doc, getDocs, getDoc, setDoc, deleteDoc,
-  updateDoc, addDoc, onSnapshot, query, orderBy, serverTimestamp
+  updateDoc, addDoc, onSnapshot, query, orderBy, serverTimestamp, deleteField
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 import {
   getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged
@@ -1439,6 +1480,12 @@ let unsubscribeReviews = null;
 
 /* ==================== HELPERS ==================== */
 function formatNaira(n){ return '₦' + Number(n || 0).toLocaleString('en-NG'); }
+
+function isVideoUrl(url){
+  if(!url || typeof url !== 'string') return false;
+  const clean = url.split('?')[0].split('#')[0].toLowerCase();
+  return /\.(mp4|webm|ogg|ogv|mov|m4v|avi|mkv)$/.test(clean);
+}
 
 function formatDate(ts){
   if(!ts) return '—';
@@ -1649,25 +1696,37 @@ function renderProductsTable(){
         </tr>
       </thead>
       <tbody>
-        ${allProducts.map(p => `
-          <tr>
-            <td><img class="product-thumb" src="${p.img || ''}" alt="" onerror="this.style.opacity=0.3;"></td>
-            <td class="product-code">${p.code}</td>
-            <td class="product-name-cell">${p.name || '—'}</td>
-            <td><span class="category-badge">${p.categoryLabel || p.category || '—'}</span></td>
-            <td class="price-cell">${formatNaira(p.price)}</td>
-            <td>
-              <div class="action-buttons">
-                <button class="icon-btn" onclick="editProduct('${p.code}')" title="Edit">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 20H21M3 20L3 16L16 3L20 7L7 20L3 20Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
-                </button>
-                <button class="icon-btn delete" onclick="deleteProduct('${p.code}')" title="Delete">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M4 7H20M10 11V17M14 11V17M5 7L6 20H18L19 7M9 7V4H15V7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-                </button>
-              </div>
-            </td>
-          </tr>
-        `).join('')}
+        ${allProducts.map(p => {
+          const hasVideo = !!(p.video || (p.img && isVideoUrl(p.img)));
+          const imgIsVideo = p.img && isVideoUrl(p.img);
+          const thumbCell = (p.img && !imgIsVideo)
+            ? `<img class="product-thumb" src="${p.img}" alt="" onerror="this.style.opacity=0.3;">`
+            : `<div class="product-thumb" style="display:flex;align-items:center;justify-content:center;background:var(--ink);color:var(--gold-light);">
+                 <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5V19L19 12L8 5Z"/></svg>
+               </div>`;
+          const videoBadge = hasVideo
+            ? `<span style="display:inline-block;margin-left:8px;padding:2px 7px;font-size:9px;font-weight:700;background:var(--ink);color:var(--gold-light);border-radius:2px;letter-spacing:0.1em;vertical-align:middle;">▶ VIDEO</span>`
+            : '';
+          return `
+            <tr>
+              <td>${thumbCell}</td>
+              <td class="product-code">${p.code}${videoBadge}</td>
+              <td class="product-name-cell">${p.name || '—'}</td>
+              <td><span class="category-badge">${p.categoryLabel || p.category || '—'}</span></td>
+              <td class="price-cell">${formatNaira(p.price)}</td>
+              <td>
+                <div class="action-buttons">
+                  <button class="icon-btn" onclick="editProduct('${p.code}')" title="Edit">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 20H21M3 20L3 16L16 3L20 7L7 20L3 20Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+                  </button>
+                  <button class="icon-btn delete" onclick="deleteProduct('${p.code}')" title="Delete">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M4 7H20M10 11V17M14 11V17M5 7L6 20H18L19 7M9 7V4H15V7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          `;
+        }).join('')}
       </tbody>
     </table>
   `;
@@ -1693,11 +1752,21 @@ function openProductModal(product = null){
   document.getElementById('pCategory').value = product?.category || '';
   document.getElementById('pPrice').value = product?.price || '';
   document.getElementById('pReviews').value = product?.reviews || '';
-  document.getElementById('pImg').value = product?.img || '';
-  document.getElementById('pImg2').value = product?.img2 || '';
 
-  updatePreview(1, product?.img || '');
-  updatePreview(2, product?.img2 || '');
+  // If old products have a video URL sitting in `img`, treat it as a video
+  const imgVal  = (product?.img  && !isVideoUrl(product.img))  ? product.img  : '';
+  const img2Val = (product?.img2 && !isVideoUrl(product.img2)) ? product.img2 : '';
+  const videoVal = product?.video
+    || (product?.img && isVideoUrl(product.img) ? product.img : '')
+    || '';
+
+  document.getElementById('pImg').value   = imgVal;
+  document.getElementById('pImg2').value  = img2Val;
+  document.getElementById('pVideo').value = videoVal;
+
+  updatePreview(1, imgVal);
+  updatePreview(2, img2Val);
+  updateVideoPreview(videoVal);
 
   renderColours(product?.colours || ['']);
   renderSpecs(normalizeSpecs(product?.specs));
@@ -1712,24 +1781,69 @@ function closeProductModal(){
   editingCode = null;
 }
 
-/* Image previews */
+/* Image / video previews */
 function updatePreview(slotNum, url){
   const box = document.getElementById('previewBox' + slotNum);
   const img = document.getElementById('previewImg' + slotNum);
+  const vid = document.getElementById('previewVideo' + slotNum);
   if(!box || !img) return;
 
-  if(url && url.trim().length > 4){
-    img.src = url.trim();
-    img.onload = () => box.classList.add('has-image');
-    img.onerror = () => box.classList.remove('has-image');
+  img.style.display = 'none';
+  img.removeAttribute('src');
+  if(vid){ vid.style.display = 'none'; vid.removeAttribute('src'); }
+  box.classList.remove('has-image');
+
+  if(!url || url.trim().length < 5) return;
+
+  const trimmed = url.trim();
+  if(isVideoUrl(trimmed) && vid){
+    vid.src = trimmed;
+    vid.onloadedmetadata = () => {
+      vid.style.display = 'block';
+      box.classList.add('has-image');
+    };
+    vid.onerror = () => {
+      vid.style.display = 'none';
+      box.classList.remove('has-image');
+    };
   } else {
-    img.removeAttribute('src');
-    box.classList.remove('has-image');
+    img.src = trimmed;
+    img.onload = () => {
+      img.style.display = 'block';
+      box.classList.add('has-image');
+    };
+    img.onerror = () => {
+      img.style.display = 'none';
+      box.classList.remove('has-image');
+    };
   }
+}
+
+function updateVideoPreview(url){
+  const box = document.getElementById('previewBoxVideo');
+  const vid = document.getElementById('previewVideo');
+  if(!box || !vid) return;
+
+  vid.removeAttribute('src');
+  vid.style.display = 'none';
+  box.classList.remove('has-image');
+
+  if(!url || url.trim().length < 5) return;
+
+  vid.src = url.trim();
+  vid.onloadedmetadata = () => {
+    vid.style.display = 'block';
+    box.classList.add('has-image');
+  };
+  vid.onerror = () => {
+    vid.style.display = 'none';
+    box.classList.remove('has-image');
+  };
 }
 
 document.getElementById('pImg').addEventListener('input', (e) => updatePreview(1, e.target.value));
 document.getElementById('pImg2').addEventListener('input', (e) => updatePreview(2, e.target.value));
+document.getElementById('pVideo').addEventListener('input', (e) => updateVideoPreview(e.target.value));
 
 /* Colours */
 function renderColours(list){
@@ -1791,6 +1905,7 @@ document.getElementById('modalSave').addEventListener('click', async () => {
   const reviews = document.getElementById('pReviews').value.trim();
   const img = document.getElementById('pImg').value.trim();
   const img2 = document.getElementById('pImg2').value.trim();
+  const video = document.getElementById('pVideo').value.trim();
 
   if(!code || !name || !category || !price){
     showToast('Please fill in all required fields.', 'error');
@@ -1804,6 +1919,11 @@ document.getElementById('modalSave').addEventListener('click', async () => {
 
   if(!/^https?:\/\//.test(img)){
     showToast('Main image URL must start with http:// or https://', 'error');
+    return;
+  }
+
+  if(video && !/^https?:\/\//.test(video)){
+    showToast('Video URL must start with http:// or https://', 'error');
     return;
   }
 
@@ -1844,6 +1964,7 @@ document.getElementById('modalSave').addEventListener('click', async () => {
       img: img,
       img2: img2 || img,
       colours, specs,
+      video: video || deleteField(),
       updatedAt: serverTimestamp()
     };
 
