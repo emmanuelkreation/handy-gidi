@@ -769,13 +769,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div class="zoom-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21L16.5 16.5M11 8V14M8 11H14" stroke-linecap="round"/></svg></div>
       </div>
 
-      <div class="g-item" data-year="2023" data-type="video"
-           data-src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4"
-           data-caption="Behind the scenes at the 2023 training">
-        <img src="https://images.unsplash.com/photo-1607453998774-d533f65dac99?auto=format&fit=crop&w=800&q=80" alt="Video highlights of 2023 training" loading="lazy">
-        <div class="video-chip"><span class="dot"></span>Video</div>
-        <div class="play-btn-overlay"><svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5V19L19 12L8 5Z"/></svg></div>
-      </div>
+      
 
       <div class="g-item" data-year="2023" data-type="image"
            data-src="https://ik.imagekit.io/2pqi3dzrd/070A0675.jpg?updatedAt=null&ik-s=eecf5edd99b1f446c8fc97762f05b885e4da2187?auto=format&fit=crop&w=1600&q=85"
@@ -879,7 +873,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </section>
 
 <!-- ============================================================ -->
-<!-- NTA BROADCAST SECTION                                         -->
+<!-- AIT BROADCAST SECTION                                         -->
 <!-- ============================================================ -->
 <section class="csr-nta" id="nta">
   <div class="wrap">
@@ -888,7 +882,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div class="nta-video-wrap">
         <div class="nta-video-label">
           <span class="live-dot"></span>
-          NTA Broadcast
+          AIT Broadcast
         </div>
         <div class="nta-video-frame">
           <!--
@@ -898,7 +892,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           -->
           <iframe
             src="https://www.youtube.com/embed/Gv5yAWkYdQI?rel=0&modestbranding=1"
-            title="NTA Coverage — Handy-Gidi Children's Day CSR Initiative"
+            title="AIT Coverage — Handy-Gidi Children's Day CSR Initiative"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowfullscreen></iframe>
         </div>
@@ -912,7 +906,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div class="nta-meta">
           <div class="nta-meta-item">
             <div class="label">Broadcaster</div>
-            <div class="value">NTA</div>
+            <div class="value">AIT</div>
           </div>
           <div class="nta-meta-item">
             <div class="label">Programme</div>
@@ -1146,12 +1140,12 @@ if(!prefersReduced && hasGSAP){
       once: true
     });
 
-    // NTA video reveal
-    gsap.from('.nta-video-wrap', {
+    // AIT  video reveal
+    gsap.from('.ait-video-wrap', {
       opacity: 0, y: 40, duration: 1, ease: 'power3.out',
-      scrollTrigger: { trigger: '.csr-nta', start: 'top 75%', toggleActions: 'play none none none' }
+      scrollTrigger: { trigger: '.csr-ait', start: 'top 75%', toggleActions: 'play none none none' }
     });
-    gsap.from('.nta-text > *', {
+    gsap.from('.ait-text > *', {
       opacity: 0, y: 24, duration: 0.8, stagger: 0.1, ease: 'power3.out',
       scrollTrigger: { trigger: '.csr-nta', start: 'top 70%', toggleActions: 'play none none none' }
     });
