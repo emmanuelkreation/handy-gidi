@@ -19,7 +19,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,340;0,9..144,460;0,9..144,560;0,9..144,650;0,9..144,750&family=Public+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-<!-- Paystack Inline -->
+<!-- Paystack Inline (kept for future re-enable) -->
 <script src="https://js.paystack.co/v1/inline.js"></script>
 
 <style>
@@ -214,6 +214,36 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     color:var(--gold-deep);
     font-weight:600;
   }
+
+  /* Custom zone input */
+  .custom-zone-wrap{
+    margin-top:16px;
+    padding-top:16px;
+    border-top:1px dashed var(--line);
+  }
+  .custom-zone-label{
+    display:block;
+    font-size:12.5px;
+    color:var(--ink-soft);
+    margin-bottom:8px;
+    line-height:1.5;
+  }
+  .custom-zone-label strong{color:var(--ink); font-weight:600;}
+  .custom-zone-input{
+    width:100%;
+    padding:12px 14px;
+    border:1px solid var(--line);
+    background:var(--paper-3);
+    border-radius:3px;
+    color:var(--ink);
+    transition:border-color .2s, background .2s;
+    outline:none;
+  }
+  .custom-zone-input:focus{
+    border-color:var(--gold-deep);
+    background:var(--paper);
+  }
+
   .zone-hint{
     font-size:12.5px;
     color:var(--ink-soft);
@@ -222,14 +252,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   }
   .zone-hint strong{color:var(--ink);}
 
-  /* Payment options */
+  /* Payment options — Pay on Delivery is the only visible option */
   .payment-options{
     display:grid;
-    grid-template-columns:1fr 1fr;
+    grid-template-columns:1fr;
     gap:14px;
-  }
-  @media (max-width:640px){
-    .payment-options{grid-template-columns:1fr;}
   }
   .payment-option{
     position:relative;
@@ -251,6 +278,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     cursor:not-allowed;
     pointer-events:none;
   }
+  /* Hide Pay Online — re-enable by removing this rule */
+  #optPaystack{ display:none !important; }
+
   .payment-option .po-head{
     display:flex;
     align-items:center;
@@ -621,11 +651,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 </style>
 </head>
 <body>
-<!-- Google Tag Manager (noscript) -->
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-53CJKZXQ"
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
- 
+
 <header class="checkout-header">
   <div class="wrap">
     <a href="index.html" class="brand-mark">Handy<em>·</em>Gidi</a>
@@ -639,7 +667,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <main class="checkout-main">
   <div class="wrap">
 
-    <!-- Empty state (shown if cart is empty) -->
     <div class="empty-cart" id="emptyCart" style="display:none;">
       <div class="empty-cart-icon">
         <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M3 6H5L7 18H19L21 9H6" stroke="currentColor" stroke-width="1.6"/><circle cx="9" cy="21" r="1.4" fill="currentColor"/><circle cx="18" cy="21" r="1.4" fill="currentColor"/></svg>
@@ -649,7 +676,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <a href="shop.html" class="btn">Browse the Collection</a>
     </div>
 
-    <!-- Checkout grid -->
     <div class="checkout-grid" id="checkoutGrid">
 
       <!-- LEFT: form -->
@@ -702,14 +728,28 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <div class="form-row full">
             <div class="field" id="field-zone">
               <label>Delivery zone <span class="req">*</span></label>
-              <div class="zone-grid" id="zoneGrid">
-                <!-- Populated by JS -->
+              <div class="zone-grid" id="zoneGrid"></div>
+
+              <!-- Custom zone input for non-Abuja customers -->
+              <div class="custom-zone-wrap">
+                <span class="custom-zone-label">
+                  <strong>Not in the list above?</strong> Type your delivery area below.
+                </span>
+                <input
+                  type="text"
+                  id="customZone"
+                  class="custom-zone-input"
+                  placeholder="e.g. Kano, Port Harcourt, Ibadan, Kaduna…"
+                  autocomplete="address-level2"
+                  aria-label="Custom delivery area"
+                />
               </div>
+
               <p class="zone-hint">
                 <strong>Free delivery and installation within Abuja Metropolis.</strong>
                 Outside Abuja, we deliver nationwide and delivery cost is confirmed on WhatsApp before dispatch.
               </p>
-              <span class="err">Please select a delivery zone.</span>
+              <span class="err">Please select a zone or type your delivery area.</span>
             </div>
           </div>
           <div class="form-row">
@@ -731,6 +771,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <h3>Payment method</h3>
           </div>
           <div class="payment-options" id="paymentOptions">
+            <!-- Pay Online — hidden, but kept so it can be re-enabled -->
             <div class="payment-option" data-method="paystack" id="optPaystack">
               <div class="po-head">
                 <span class="po-radio"></span>
@@ -738,12 +779,17 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
               </div>
               <p>Secure payment with Paystack. Card, bank transfer or USSD. Order is dispatched immediately after payment confirms.</p>
             </div>
-            <div class="payment-option" data-method="delivery" id="optDelivery">
+
+            <div class="payment-option selected" data-method="delivery" id="optDelivery">
               <div class="po-head">
                 <span class="po-radio"></span>
                 <span class="po-title">Pay on Delivery</span>
               </div>
-              <p>Available within Abuja Metropolis only. Pay our team in cash, transfer or POS when your furniture arrives and is installed.</p>
+              <p>
+                Pay our team in cash, transfer or POS when your furniture arrives and is installed.
+                <strong style="color:var(--ink); font-weight:600;">Free</strong> delivery within Abuja Metropolis.
+                For deliveries outside Abuja, delivery cost is confirmed on WhatsApp before dispatch.
+              </p>
             </div>
           </div>
         </section>
@@ -789,7 +835,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 </footer>
 
-<!-- Success overlay -->
 <div class="success-overlay" id="successOverlay">
   <div class="success-card">
     <div class="success-icon">
@@ -812,7 +857,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 </div>
 
-<!-- Toast -->
 <div class="toast" id="toast">
   <span class="check">✓</span>
   <span id="toastText">Message</span>
@@ -827,11 +871,10 @@ import {
 import {
   getAuth, onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-// 1. NEW: Import Cloud Functions
 import { getFunctions, httpsCallable } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-functions.js";
 
 /* ═══════════════════════════════════════════════════════════
-   🔧 PASTE YOUR FIREBASE CONFIG HERE
+   🔧 FIREBASE CONFIG
    ═══════════════════════════════════════════════════════════ */
 const firebaseConfig = {
   apiKey: "AIzaSyA7khlO19sabspXwUhRRd4Bx_80IoJWcDc",
@@ -842,20 +885,17 @@ const firebaseConfig = {
   appId: "1:841844135657:web:f55704c164ec935ef9c278"
 };
 
-/* ═══════════════════════════════════════════════════════════
-   PAYSTACK PUBLIC KEY
-   ═══════════════════════════════════════════════════════════ */
 const PAYSTACK_PUBLIC_KEY = "pk_test_36b8443643dd385a1e532e4ab39363ad14f4faff";
 
 const configMissing = firebaseConfig.apiKey.startsWith('PASTE_');
-let fbApp, db, auth, functions; // 2. NEW: Add functions variable
+let fbApp, db, auth, functions;
 
 if(!configMissing){
   try {
     fbApp = initializeApp(firebaseConfig);
     db = getFirestore(fbApp);
     auth = getAuth(fbApp);
-    functions = getFunctions(fbApp); // 3. NEW: Initialize functions
+    functions = getFunctions(fbApp);
   } catch(e){
     console.error('Firebase init failed', e);
   }
@@ -870,14 +910,19 @@ const ABUJA_ZONES = [
 
 let cart = [];
 let PRODUCTS = {};
-let selectedZone = null;
-let selectedPayment = 'paystack';
+let selectedZone = null;    // chip selection
+let customZone = '';        // free-text zone
+let selectedPayment = 'delivery'; // forced — Pay Online is hidden
 let orderSubmitting = false;
 let currentUser = null;
 
 /* ==================== UTILS ==================== */
 function formatNaira(n){
   return '₦' + Number(n || 0).toLocaleString('en-NG');
+}
+
+function getActiveZone(){
+  return (customZone && customZone.trim()) || selectedZone || '';
 }
 
 let toastTimer;
@@ -902,33 +947,48 @@ function buildZoneGrid(){
       grid.querySelectorAll('.zone-chip').forEach(c => c.classList.remove('selected'));
       chip.classList.add('selected');
       selectedZone = chip.dataset.zone;
+      // Choosing a chip clears the free-text input
+      const customInput = document.getElementById('customZone');
+      if(customInput) customInput.value = '';
+      customZone = '';
       document.getElementById('field-zone').classList.remove('invalid');
       updatePaymentUI();
+      renderSummary();
       updatePlaceOrderBtn();
     });
   });
 }
 
-/* ==================== PAYMENT UI ==================== */
-function updatePaymentUI(){
-  document.querySelectorAll('.payment-option').forEach(opt => {
-    opt.classList.toggle('selected', opt.dataset.method === selectedPayment);
-  });
-  const zoneIsAbuja = selectedZone && ABUJA_ZONES.includes(selectedZone);
-  const delOpt = document.getElementById('optDelivery');
-  if(!zoneIsAbuja && selectedZone){
-    delOpt.classList.add('disabled');
-    if(selectedPayment === 'delivery'){
-      selectedPayment = 'paystack';
-      document.querySelectorAll('.payment-option').forEach(opt => {
-        opt.classList.toggle('selected', opt.dataset.method === 'paystack');
-      });
+/* ==================== CUSTOM ZONE INPUT ==================== */
+function bindCustomZoneInput(){
+  const input = document.getElementById('customZone');
+  if(!input) return;
+  input.addEventListener('input', (e) => {
+    customZone = e.target.value;
+    if(customZone.trim()){
+      // Typing in the free-text clears any chip selection
+      document.querySelectorAll('.zone-chip').forEach(c => c.classList.remove('selected'));
+      selectedZone = null;
     }
-  } else {
-    delOpt.classList.remove('disabled');
-  }
+    if(getActiveZone()){
+      document.getElementById('field-zone').classList.remove('invalid');
+    }
+    renderSummary();
+    updatePlaceOrderBtn();
+  });
 }
 
+/* ==================== PAYMENT UI ==================== */
+function updatePaymentUI(){
+  // Pay Online is hidden — Pay on Delivery is the only option.
+  selectedPayment = 'delivery';
+  document.querySelectorAll('.payment-option').forEach(opt => {
+    opt.classList.remove('disabled');
+    opt.classList.toggle('selected', opt.dataset.method === 'delivery');
+  });
+}
+
+// Pay option click listeners (delivery only responds since paystack is hidden)
 document.querySelectorAll('.payment-option').forEach(opt => {
   opt.addEventListener('click', () => {
     if(opt.classList.contains('disabled')) return;
@@ -1045,10 +1105,11 @@ function renderSummary(){
   const subtotal = cart.reduce((s, i) => s + ((PRODUCTS[i.code]?.price || 0) * i.qty), 0);
   document.getElementById('sumSubtotal').textContent = formatNaira(subtotal);
 
-  const zoneIsAbuja = selectedZone && ABUJA_ZONES.includes(selectedZone);
+  const activeZone = getActiveZone();
+  const zoneIsAbuja = activeZone && ABUJA_ZONES.includes(activeZone);
   const deliveryEl = document.getElementById('sumDelivery');
-  if(!selectedZone){
-    deliveryEl.innerHTML = '<span style="color:var(--ink-soft); font-size:12px;">Select a zone</span>';
+  if(!activeZone){
+    deliveryEl.innerHTML = '<span style="color:var(--ink-soft); font-size:12px;">Select or type a zone</span>';
   } else if(zoneIsAbuja){
     deliveryEl.innerHTML = '<span class="free-tag">Free (Abuja)</span>';
   } else {
@@ -1056,7 +1117,6 @@ function renderSummary(){
   }
 
   document.getElementById('sumTotal').textContent = formatNaira(subtotal);
-  updatePaymentUI();
   updatePlaceOrderBtn();
 }
 
@@ -1067,11 +1127,8 @@ function updatePlaceOrderBtn(){
   const label = document.getElementById('placeOrderLabel');
   if(!label) return;
 
-  if(selectedPayment === 'paystack'){
-    label.textContent = `Pay ${formatNaira(subtotal)} Securely`;
-  } else {
-    label.textContent = `Place Order · Pay ${formatNaira(subtotal)} on Delivery`;
-  }
+  // Only Pay on Delivery is available now — always show the delivery label.
+  label.textContent = `Place Order · Pay ${formatNaira(subtotal)} on Delivery`;
   btn.disabled = orderSubmitting;
 }
 
@@ -1093,17 +1150,18 @@ function validateForm(){
   const phone = document.getElementById('phone').value.trim();
   const email = document.getElementById('email').value.trim();
   const address = document.getElementById('address').value.trim();
+  const activeZone = getActiveZone();
 
   check('name', name.length >= 2);
   check('phone', phone.length >= 7);
   check('email', /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email));
   check('address', address.length >= 5);
-  check('zone', !!selectedZone);
+  check('zone', !!activeZone);
 
   return valid;
 }
 
-/* ==================== PAYSTACK CLOUD FUNCTION FLOW ==================== */
+/* ==================== PAYSTACK CLOUD FUNCTION FLOW (kept, currently unreachable) ==================== */
 async function processCheckout() {
   if (orderSubmitting) return;
   if (!validateForm()) {
@@ -1120,7 +1178,6 @@ async function processCheckout() {
   btn.disabled = true;
 
   try {
-    // 1. Gather data for the backend
     const checkoutPayload = {
       cart: cart,
       customer: {
@@ -1131,23 +1188,20 @@ async function processCheckout() {
       },
       delivery: {
         address: document.getElementById('address').value.trim(),
-        zone: selectedZone,
+        zone: getActiveZone(),
         preferredTime: document.getElementById('deliveryTime').value.trim(),
         notes: document.getElementById('notes').value.trim()
       }
     };
 
-    // 2. Call Cloud Function to create order and get Paystack Access Code
     const createCheckout = httpsCallable(functions, 'createCheckout');
     const result = await createCheckout(checkoutPayload);
     const { access_code, orderId } = result.data;
 
-    // 3. Launch Paystack Inline with the Access Code
     const handler = PaystackPop.setup({
       key: PAYSTACK_PUBLIC_KEY,
       access_code: access_code,
-      callback: function (response) {
-        // The webhook handles updating the database to 'paid'.
+      callback: function () {
         localStorage.removeItem('hg_cart');
         showSuccessScreen(orderId, true);
       },
@@ -1174,6 +1228,8 @@ async function processPayOnDelivery() {
   if (orderSubmitting) return;
   if (!validateForm()) {
     showToast('Please fill all required fields.', true);
+    const invalid = document.querySelector('.field.invalid');
+    if(invalid) invalid.scrollIntoView({ behavior:'smooth', block:'center' });
     return;
   }
 
@@ -1186,7 +1242,8 @@ async function processPayOnDelivery() {
   try {
     const subtotal = cart.reduce((s, i) => s + ((PRODUCTS[i.code]?.price || 0) * i.qty), 0);
     const orderId = `HG-${Date.now().toString(36).toUpperCase()}-${Math.random().toString(36).substring(2, 6).toUpperCase()}`;
-    
+    const activeZone = getActiveZone();
+
     const orderData = {
       orderId: orderId,
       uid: currentUser ? currentUser.uid : null,
@@ -1198,7 +1255,7 @@ async function processPayOnDelivery() {
       },
       delivery: {
         address: document.getElementById('address').value.trim(),
-        zone: selectedZone,
+        zone: activeZone,
         preferredTime: document.getElementById('deliveryTime').value.trim(),
         notes: document.getElementById('notes').value.trim()
       },
@@ -1237,7 +1294,8 @@ async function processPayOnDelivery() {
 /* ==================== SUCCESS SCREEN ==================== */
 function showSuccessScreen(orderId, isPaid) {
   const subtotal = cart.reduce((s, i) => s + ((PRODUCTS[i.code]?.price || 0) * i.qty), 0);
-  
+  const activeZone = getActiveZone();
+
   document.getElementById('refOrder').textContent = orderId;
   document.getElementById('refTotal').textContent = formatNaira(subtotal);
   document.getElementById('refPayment').textContent = isPaid ? 'Paid online' : 'Pay on delivery';
@@ -1250,7 +1308,7 @@ function showSuccessScreen(orderId, isPaid) {
     `New Order — Handy-Gidi`,
     `Order: ${orderId}`,
     `Name: ${document.getElementById('fullName').value.trim()}`,
-    `Delivery zone: ${selectedZone}`,
+    `Delivery zone: ${activeZone}`,
     `Address: ${document.getElementById('address').value.trim()}`,
     '',
     'Items:',
@@ -1259,7 +1317,7 @@ function showSuccessScreen(orderId, isPaid) {
     `Total: ${formatNaira(subtotal)}`,
     `Payment: ${isPaid ? 'Paid online' : 'Pay on delivery'}`
   ];
-  
+
   document.getElementById('waConfirmBtn').href = `https://wa.me/2347051094001?text=${encodeURIComponent(waLines.join('\n'))}`;
   document.getElementById('successOverlay').classList.add('show');
   document.body.style.overflow = 'hidden';
@@ -1267,16 +1325,15 @@ function showSuccessScreen(orderId, isPaid) {
 
 /* ==================== MAIN BUTTON HANDLER ==================== */
 document.getElementById('placeOrderBtn').addEventListener('click', () => {
-  if (selectedPayment === 'paystack') {
-    processCheckout();
-  } else {
-    processPayOnDelivery();
-  }
+  // Pay Online is hidden — always use Pay on Delivery
+  processPayOnDelivery();
 });
 
 /* ==================== INIT WITH AUTH GATE ==================== */
 async function bootstrap(){
   buildZoneGrid();
+  bindCustomZoneInput();
+  updatePaymentUI();
 
   if(configMissing || !auth){
     showToast('Firebase not configured. Contact support.', true);
